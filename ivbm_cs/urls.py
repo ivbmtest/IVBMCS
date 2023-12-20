@@ -19,5 +19,6 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('admin_panel.urls'))
+    # path('/', main_site,name="ivbm_main" )
+    path('',include('admin_panel.urls'),name='login')
 ]

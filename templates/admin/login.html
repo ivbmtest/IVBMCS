@@ -11,22 +11,23 @@
 </head>
 <body>
     
-
-
-
 <!-- saved from url=(0014)about:internet -->
 
-    <form action="" method="post">
+    <form action="{% url 'Login' %}"  method="post">
+        {% csrf_token %}
         <div class="logo">
             <img src="{% static 'img/logo.png' %}" alt="Logo" width="240">
         </div>
-		<p style="color:red">Invalid User</p>
-		                <label for="username">Username:</label>
+
+        {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+
+		<label for="username">Username:</label>
         <input type="text" id="username" name="username" required=""><br>
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required=""><br>
-
         <input type="submit" value="Login">
     </form>
 
