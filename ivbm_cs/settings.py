@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'admin_panel',
 ]
+
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -87,8 +92,8 @@ DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'ivbmcs_db',
-		'USER': 'admin',
-		'PASSWORD': 'admin',
+		'USER': 'root',
+		'PASSWORD': '1234',
 		'HOST':'localhost',
 		'PORT':'3306',
 	}
