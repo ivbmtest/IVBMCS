@@ -46,9 +46,10 @@
        
         <form action="https://asprid.in/demos/ivbmcs/admpanel/svcntry.php" method="post" class="mb-3">
             <h1><font color="gray">Documents Required</font></h1><br>
-            <label for="service">Service:</label>
+            {{ form.as_p }}
+            <!-- <label for="service">Service:</label>
             <select id="service" name="service">
-                    <option value="1">PAN Card</option>        <!-- Add more options as needed -->
+                    <option value="1">PAN Card</option>       
             </select><br>
             <label for="name">Document Name:</label>
             <input type="text" id="name" name="name" required=""><br>
@@ -58,14 +59,14 @@
             
             <label for="formt">Formats:</label>
             <select id="formt" name="formt" required="">
-                    <option value="2">PDF Only</option><option value="1">PDF/JPEG/PNG</option>        <!-- Add more options as needed -->
+                    <option value="2">PDF Only</option><option value="1">PDF/JPEG/PNG</option>      
             </select><br>
             <label for="flsz">Max File Size:</label>
             <input type="text" id="flsz" name="flsz"><br>
             
         
             <label for="status">Status:</label>
-            <input type="checkbox" id="status" name="status"> Active<br>
+            <input type="checkbox" id="status" name="status"> Active<br> -->
         
             <input type="submit" value="Submit">
             </form>

@@ -20,9 +20,10 @@
          <img src="{% static 'img/logo.png' %}" style="margin-left:10px;" class="logo">
         
         </div>
+        {% with request.resolver_match.url_name as url_name %}
         <ul class="nav-links">
           <li>
-            <a href="/" class="active" title="Dashboard">
+            <a href="/" class="{% if url_name == 'index' %}bg-success{% endif %}" title="Dashboard">
               <i class="bx bx-grid-alt"></i>
               <span class="links_name">Dashboard</span>
             </a>
@@ -34,31 +35,31 @@
             </a>
           </li>
           <li>
-            <a href="{% url 'currency' %}" title="Currency">
+            <a href="{% url 'currency' %}" title="Currency" class="{% if url_name == 'currency' %}bg-success{% endif %}">
               <i class='bx bx-dollar-circle'></i>
               <span class="links_name">Currency</span>
             </a>
           </li>
           <li>
-            <a href="{% url 'country' %}" title="Country">
+            <a href="{% url 'country' %}" title="Country" class="{% if url_name == 'country' %}bg-success{% endif %}">
               <i class="bx bx-flag"></i>
               <span class="links_name">Country</span>
             </a>
           </li>
           <li>
-            <a href="{% url 'category' %}" title="Category">
+            <a href="{% url 'category' %}" title="Category" class="{% if url_name == 'category' %}bg-success{% endif %}">
               <i class='bx bxs-category-alt'></i>
               <span class="links_name">Category</span>
             </a>
           </li>
           <li>
-            <a href="{% url 'services' %}" title="Services">
+            <a href="{% url 'services' %}" title="Services" class="{% if url_name == 'services' %}bg-success{% endif %}">
               <i class='bx bx-wrench'></i>
               <span class="links_name">Services</span>
             </a>
           </li>
           <li>
-            <a href="{% url 'document' %}" title="Documents">
+            <a href="{% url 'document' %}" title="Documents" class="{% if url_name == 'document' %}bg-success{% endif %}">
               <i class='bx bx-receipt'></i>
               <span class="links_name">Documents</span>
             </a>
@@ -83,6 +84,7 @@
           </li>
           
         </ul>
+        {% endwith %}
       </div>
 
      

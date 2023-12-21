@@ -46,24 +46,7 @@
        
         <form action="https://asprid.in/demos/ivbmcs/admpanel/svcntry.php" method="post" class="mb-3">
             <h1><font color="gray">Country</font></h1><br>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required=""><br>
-                
-                <label for="desc">Description:</label>
-                <input type="text" id="desc" name="desc"><br>
-                
-                <label for="curnc">Currency:</label>
-                <select id="curnc" name="curnc">
-                        <option value="2">Dollar</option><option value="1">INR</option>        <!-- Add more options as needed -->
-                </select><br>
-                <label for="curnc">Tax:</label>
-                <select id="curnc" name="curnc">
-                        <option value="0">None</option><option value="1">GST</option><option value="2">VAT 5%</option><option value="3">VAT 10%</option><option value="4">VAT 15%</option>        <!-- Add more options as needed -->
-                </select><br>
-            
-                <label for="status">Status:</label>
-                <input type="checkbox" id="status" name="status"> Active<br>
-            
+            {{ form.as_p }}
                 <input type="submit" value="Submit">
             </form>
 

@@ -44,7 +44,8 @@
        
         <form action="https://asprid.in/demos/ivbmcs/admpanel/svcntry.php" method="post" class="mb-3">
             <h1><font color="gray">Services</font></h1><br>
-            <label for="name">Code:</label>
+            {{ form.as_p }}
+            <!-- <label for="name">Code:</label>
             <input type="text" id="code" name="code" required=""><br>
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required=""><br>
@@ -54,12 +55,12 @@
             
             <label for="ctgry">Category:</label>
             <select id="ctgry" name="ctgry" required="">
-                    <option value="1">Accounting</option>        <!-- Add more options as needed -->
+                    <option value="1">Accounting</option>      
             </select><br>
            <label for="cntry">Country:</label>
             <select id="cntry" name="cntry" onchange="ldtx();" required="">
              <option value="0">Select</option>
-                    <option value="1">India</option>        <!-- Add more options as needed -->
+                    <option value="1">India</option>      
             </select><br>
             <label for="rate">Rate:</label>
             <input type="text" id="rate" name="rate"><br>
@@ -77,11 +78,7 @@
             <input type="text" id="agntrt" name="agntrt"><br>	
             <label for="discamt">Agent Commsn. Amt:</label>
             <input type="text" id="agntamt" name="agntamt"><br>	
-        <!--	   <label for="tax">Tax:</label>
-            <select id="tax" name="tax" required>
-                            
-            </select><br>
-        -->
+       
             <label for="txrt">Tax Rate:</label>
             <input type="text" id="txrt" name="txrt"><br>	
             <label for="txamt">Tax Amt:</label>
@@ -89,7 +86,7 @@
             <label for="netamt">Net Amt:</label>
             <input type="text" id="netamt" name="netamt"><br>		
             <label for="status">Status:</label>
-            <input type="checkbox" id="status" name="status"> Active<br>
+            <input type="checkbox" id="status" name="status"> Active<br> -->
         
             <input type="submit" value="Submit">
             </form>

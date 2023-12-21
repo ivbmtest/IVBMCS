@@ -10,7 +10,7 @@
   position: fixed;
   height: 100%;
   width: 240px;
-  background: #eaebee;
+  background: #242d6e;
   transition: all 0.5s ease;
 }
 
@@ -20,11 +20,13 @@
 
 .sidebar.active{
   width: 50px;
+  background: #242d6e;
 }
 .sidebar .logo-details{
   height: 80px;
   display: flex;
   align-items: center;
+  background-color: #cce5ff;
   
 }
 
@@ -35,7 +37,7 @@
 }
 .sidebar .nav-links{
   margin-top: 10px;
-  background: #081D45;
+  background: #242d6e;
 }
 .sidebar .nav-links li{
   position: relative;
@@ -399,3 +401,6 @@ nav .profile-details i{
     width: calc(100% - 60px);
   }
 }
+
+
+
