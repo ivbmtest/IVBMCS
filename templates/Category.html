@@ -1,0 +1,56 @@
+{% extends "main_layout.html" %}
+
+      {% block content %}
+      <div class="home-content">
+       
+        <form action="https://asprid.in/demos/ivbmcs/admpanel/svcntry.php" method="post" class="mb-3">
+            <h1><font color="gray">Category</font></h1><br>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required=""><br>
+        
+            <label for="code">Code:</label>
+            <input type="text" id="code" name="code" required=""><br>
+        
+            <label for="desc">Description:</label>
+            <input type="text" id="desc" name="desc"><br>
+        
+            <label for="status">Status:</label>
+            <input type="checkbox" id="status" name="status"> Active<br>
+        
+            <input type="submit" value="Submit">
+            </form>
+
+        <div class="sales-boxes">
+          <div class="recent-sales box">
+            <div class="title text-center"><h3 class=" font-weight-bold">Records</h3></div>
+         <!--  <div class="button mb-3">
+              <a href="#">Add User</a>
+            </div>--> 
+            <table class="m-auto">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Code</th>
+                        <th>Description</th>
+                        <th>Created By</th>
+                        <th>Created On</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Accounting</td><td>AC1</td><td></td><td>1</td><td>2023-11-24 18:27:13</td><td>
+                        <i class="fa fa-edit text-info"></i> | 
+                        <i class="fa fa-trash text-danger"></i>
+                              </td></tr>        </tbody>
+            </table>
+           
+          </div>
+          <div class="top-sales box">
+            <div class="title">More...</div>
+          
+          </div>
+        </div>
+      </div>
+      {% endblock content %}
+    </section>
+   

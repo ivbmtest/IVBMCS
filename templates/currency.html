@@ -1,0 +1,47 @@
+{% extends "main_layout.html" %}
+
+
+    {% block content %}
+      <div class="home-content">
+            <form action="{% url 'add_user' %}" method="post" class="mb-3">
+              {% csrf_token %}
+              {{ form.as_p }}            
+                <input type="submit" value="Submit" class="m-auto"> 
+                </form>
+    
+
+        <div class="sales-boxes">
+          <div class="recent-sales box">
+            <div class="title text-center"><h3 class=" font-weight-bold">Records</h3></div>
+         <!--  <div class="button mb-3">
+              <a href="#">Add User</a>
+            </div>--> 
+            <table class="m-auto">
+                <thead>
+                    <tr>
+                        <th>Currency</th>
+                        <th>Symbol</th>
+                        <th>Created By</th>
+                        <th>Created On</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>INR</td><td>₹</td><td>1</td><td>2023-11-23 04:00:07</td><td><i class="fa fa-edit text-info"></i> | 
+                        <i class="fa fa-trash text-danger"></i>
+                        </td></tr><tr><td>Dollar</td><td>$</td><td>1</td><td>2023-11-23 14:58:38</td><td><i class="fa fa-edit text-info"></i> | 
+                        <i class="fa fa-trash text-danger"></i>
+                        </td></tr>        </tbody>
+            </table>
+           
+          </div>
+          <div class="top-sales box">
+            <div class="title">More...</div>
+          
+          </div>
+        </div>
+      </div>
+      {% endblock content %}
+    
+    </section>
+
