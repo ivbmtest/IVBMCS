@@ -13,7 +13,7 @@
          
         
         <img src="https://www.pngitem.com/pimgs/m/516-5167304_transparent-background-white-user-icon-png-png-download.png" alt="" />
-        <span class="admin_name">demo user</span>
+        <span class="admin_name">{{request.user}}</span>
         
        
         </a>
@@ -21,7 +21,7 @@
         <a class="dropdown-item" href="#">Profile</a>
         <a class="dropdown-item" href="#">Update</a>
         <hr>
-        <a class="dropdown-item" href="#">Logout</a>
+        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
       </div>
       </div>
     </nav>
