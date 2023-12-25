@@ -149,3 +149,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or 'django.contrib.sessions.backends.cache', etc.
 SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds, adjust as needed
+
+# LOGIN_URL = ':login'  # Adjust this to match your login URL
+
+
+
+

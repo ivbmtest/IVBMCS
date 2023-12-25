@@ -14,6 +14,7 @@ urlpatterns = [
     path('dashboard/',views.dashboard,name='dashboard'),
     # path('add_user/',views.crncform,name='add_user'),
     path('logout/',views.logout,name='logout'),
+    path('country/success/', views.success, name='success_page')
 ]
 
 urlpatterns += static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

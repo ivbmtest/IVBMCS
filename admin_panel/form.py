@@ -11,7 +11,8 @@ class CountryForm(forms.ModelForm):
     class Meta():
         model = cntry
         fields = "__all__"
-
+        
+        
 class CategoryForm(forms.ModelForm):
     class Meta():
         model = ctgry
