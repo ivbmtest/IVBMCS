@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from .models import *
 from .form import *
 
@@ -54,17 +55,48 @@ def currency(request):
             frm = frm.save(commit=False)
             frm.user = request.user
             frm.save()
-            return redirect('currency.html')
+            return redirect('currency')
     else:
-        frm = crncForm()  
+        frm = crncForm()
         
     model_meta = crnc._meta
     field_names = [field.verbose_name for field in model_meta.fields]
         
     currency_info=crnc.objects.all()
-    
     return render(request,'currency.html',{'form': frm,'currency_info':currency_info,'field_names': field_names})
 
+
+#del currency
+def del_currency(request,id):
+    currency = crnc.objects.filter(pk=id)
+    currency.delete()
+    return redirect('currency')
+
+def update_currency(request,id):
+    currency=crnc.objects.get(pk=id)
+    if request.method=='POST':
+        frm=crncForm(request.POST,instance=currency)
+        if frm.is_valid:
+            frm.user = request.user
+            frm.save()
+            return redirect('currency')
+    else:
+        frm = crncForm(instance=currency)
+        
+    model_meta = crnc._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+        
+    currency_info=crnc.objects.all()
+    for i in currency_info:
+        print("======>>>>-----")
+    return render(request,'currency.html',{'form': frm,'currency_info':currency_info,'field_names': field_names})
+
+        
+    # return render(request,'currency.html',{'form': frm})
+
+
+            
+        
 
 
 def category(request):
@@ -93,7 +125,7 @@ def country(request):
             frm = frm.save(commit=False)
             frm.user = request.user
             frm.save()
-            return redirect('success_page')
+            return redirect('country')
     else:
         frm = CountryForm()
         
