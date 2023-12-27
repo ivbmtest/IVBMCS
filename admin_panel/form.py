@@ -7,18 +7,18 @@ class crncForm(forms.ModelForm):
         model = crnc
         fields = "__all__"
         
-class CountryForm(forms.ModelForm):
+class cntryForm(forms.ModelForm):
     class Meta():
         model = cntry
         fields = "__all__"
         
         
-class CategoryForm(forms.ModelForm):
+class ctgryForm(forms.ModelForm):
     class Meta():
         model = ctgry
         fields = "__all__" 
 
-class ServiceForm(forms.ModelForm):
+class srvcForm(forms.ModelForm):
     class Meta():
         model = srvc
         fields = "__all__"

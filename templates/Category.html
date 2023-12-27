@@ -34,7 +34,7 @@
                       </tr>
                   </thead>
                   <tbody>
-                    {% for val in currency_info %}
+                    {% for val in category_info %}
                       <tr>
                           <td>
                             <span class="custom-checkbox">
@@ -42,7 +42,7 @@
                               <label for="checkbox1"></label>
                             </span>
                           </td>
-                          <td>{{val.ctid}}</td>
+                          <td>{{forloop.counter }}</td>
                           <td>{{val.ctname}}</td>
                           <td>{{val.ctcode}}</td>
                           <td>{{val.ctdescription}}</td>
@@ -52,8 +52,8 @@
                           <td>{{val.dtupdatd}}</td>
                           
                           <td>
-                              <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                              <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class='bx bx-trash' data-toggle="tooltip" title="Delete"></i></a>
+                              <a href="#editCategoryModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                              <a href="#deleteCategoryModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class='bx bx-trash' data-toggle="tooltip" title="Delete"></i></a>
                           </td>
                       </tr>
                       {% endfor %}
@@ -82,11 +82,11 @@
       <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">						
-              <h4 class="modal-title">Add Employee</h4>
+              <h4 class="modal-title">Add Category</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-              <form method="post" action="{% url 'category' %}">
+              <form method="post" action="{% url 'category' %}" enctype="multipart/form-data">
               {% csrf_token %}
               {{ form.as_p }}	
             </div>
@@ -100,7 +100,8 @@
     </div>
 
     <!-- Edit Modal HTML -->
-    <div id="editEmployeeModal" class="modal fade">
+    {% for i in category_info %}
+    <div id="editCategoryModal-{{forloop.counter}}" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
           
@@ -110,7 +111,7 @@
             </div>
             
             <div class="modal-body">
-              <form method="post" action="{% url 'services' %}">
+              <form method="post" action="{% url 'update_category' id=i.ctid %}" enctype="multipart/form-data">
               {% csrf_token %}
               {{ form.as_p }}	
             </div>
@@ -122,8 +123,12 @@
         </div>
       </div>
     </div>
+    {% endfor %}
+
+
     <!-- Delete Modal HTML -->
-    <div id="deleteEmployeeModal" class="modal fade">
+    {% for i in category_info %}
+    <div id="deleteCategoryModal-{{forloop.counter}}" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
           
@@ -133,17 +138,19 @@
             </div>
             <div class="modal-body">
             <form>					
-              <p>Are you sure you want to delete these Records?</p>
+              <p>Are you sure you want to delete {{i.ctname}}?</p>
               <p class="text-warning"><small>This action cannot be undone.</small></p>
             </div>
             <div class="modal-footer">
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-              <input type="submit" class="btn btn-danger" value="Delete">
+              {% comment %} <input type="submit" class="btn btn-danger" value="Delete"> {% endcomment %}
+              <a href="{% url 'del_category' id=i.ctid %}" class="btn btn-danger" >Delete</a>
             </div>
           </form>
         </div>
       </div>
     </div>
+    {% endfor %}
   </body>
   </html>
 

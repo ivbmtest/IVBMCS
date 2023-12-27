@@ -43,7 +43,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                      {% for val in currency_info %}
+                      {% for val in country_info %}
                         <tr>
                             <td>
                               <span class="custom-checkbox">
@@ -51,7 +51,7 @@
                                 <label for="checkbox1"></label>
                               </span>
                             </td>
-                            <td>{{val.cnid}}</td>
+                            <td>{{forloop.counter}}</td>
                             <td>{{val.cnname}}</td>
                             <td>{{val.cndescription}}</td>
                             <td>{{val.cncrid}}</td>
@@ -61,8 +61,8 @@
                             <td>{{val.dtupdatd}}</td>
                             
                             <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class='bx bx-trash' data-toggle="tooltip" title="Delete"></i></a>
+                                <a href="#editCountryModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a href="#deleteCountryModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class='bx bx-trash' data-toggle="tooltip" title="Delete"></i></a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -88,7 +88,7 @@
 
 
       
-    <!-- Edit Modal HTML -->
+    <!-- Add Country Modal HTML -->
     <div id="addEmployeeModal" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -113,7 +113,8 @@
 
 
     <!-- Edit Modal HTML -->
-    <div id="editEmployeeModal" class="modal fade">
+    {% for i in country_info %}
+    <div id="editCountryModal-{{forloop.counter}}" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
           
@@ -123,7 +124,7 @@
             </div>
             
             <div class="modal-body">
-              <form method="post" action="{% url 'country' %}">
+              <form method="post" action="{% url 'update_country' id=i.cnid %}">
               {% csrf_token %}
               {{ form.as_p }}	
             </div>
@@ -135,11 +136,12 @@
         </div>
       </div>
     </div>
+    {% endfor %}
 
 
     <!-- Delete Modal HTML -->
-    {% for i in currency_info %}
-    <div id="deleteEmployeeModal-{{forloop.counter}}" class="modal fade">
+    {% for i in country_info %}
+    <div id="deleteCountryModal-{{forloop.counter}}" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
           
@@ -154,7 +156,7 @@
             </div>
             <div class="modal-footer">
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-              <a href="{% url 'del_currency' id=i.crid %}" class="btn btn-danger" >Delete</a>
+              <a href="{% url 'del_country' id=i.cnid %}" class="btn btn-danger" >Delete</a>
               {% comment %} <input type="submit" class="btn btn-danger" value="Delete"> {% endcomment %}
             </div>
           </form>

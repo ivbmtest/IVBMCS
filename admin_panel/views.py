@@ -22,14 +22,15 @@ def Login(request):
         user = get_object_or_404(User, username=username)
         
         if user.is_authenticated:
-            print("-------------",user)
             if user_det is not None:
+                login(request, user_det)
+                request.session.save()
                 if user.is_superuser:
-                    login(request, user_det)
-                    request.session.save()  # Explicitly set the session to save the changes
+                      # Explicitly set the session to save the changes
                     return redirect('admin:index')  # Redirect to the Django admin page after successful login
                 else:
-                    print("----------->>>>>>>--",user)
+                    # print(user.id)
+                    print("----------->>>>>>>--",user.id)
                     return render(request, 'admin.html',{'user':user})
             
         else:
@@ -38,22 +39,12 @@ def Login(request):
 
     return render(request, 'admin/login.html')
 
-# from django.shortcuts import render
-
-# Create your views here.
-
-
-# def index(request):
-#     #  return redirect('/admin/')
-#     return render(request,'admin.html')
 
 def currency(request):
     if request.method == 'POST':
         frm = crncForm(request.POST)
         
         if frm.is_valid:
-            frm = frm.save(commit=False)
-            frm.user = request.user
             frm.save()
             return redirect('currency')
     else:
@@ -66,12 +57,13 @@ def currency(request):
     return render(request,'currency.html',{'form': frm,'currency_info':currency_info,'field_names': field_names})
 
 
-#del currency
+#delete currency
 def del_currency(request,id):
     currency = crnc.objects.filter(pk=id)
     currency.delete()
     return redirect('currency')
 
+#update currency
 def update_currency(request,id):
     currency=crnc.objects.get(pk=id)
     if request.method=='POST':
@@ -90,50 +82,99 @@ def update_currency(request,id):
     for i in currency_info:
         print("======>>>>-----")
     return render(request,'currency.html',{'form': frm,'currency_info':currency_info,'field_names': field_names})
-
         
     # return render(request,'currency.html',{'form': frm})
-
-
-            
-        
-
+               
 
 def category(request):
     if request.method == 'POST':
-        frm = CategoryForm(request.POST)
+        ctrgy_frm = ctgryForm(request.POST,request.FILES)
         
-        if frm.is_valid:
-            frm.save()
-            return redirect('success_url')
-    else:
-        frm = CategoryForm()
+        if ctrgy_frm.is_valid:
+            ctrgy_frm.save()
+            return redirect('category')
+                    
+    else:        
+        ctrgy_frm = ctgryForm()
         
     model_meta = ctgry._meta
     field_names = [field.verbose_name for field in model_meta.fields]
         
-    currency_info=ctgry.objects.all()
-    return render(request,'category.html',{'form': frm,'currency_info':currency_info,'field_names': field_names})
+    category_info=ctgry.objects.all()
+    return render(request,'category.html',{'form': ctrgy_frm,'category_info':category_info,'field_names': field_names})
 
+#Delete Category
+def del_category(request,id):
+    category=ctgry.objects.filter(pk=id)
+    category.delete()
+    return redirect('category')
 
-# @login_required()
+# Update Category
+def update_category(request,id):
+    updt_category=ctgry.objects.get(pk=id)
+    
+    if request.method == 'POST':
+        ctgry_frm= ctgryForm(request.POST,request.FILES,instance=updt_category)
+        if ctgry_frm.is_valid:
+            instance=ctgry_frm.save(commit=False)
+            instance.usrid=request.user
+            instance.save()
+            return redirect('category')
+        else:
+            ctgry_frm= ctgryForm(instance=updt_category)
+            
+    model_meta = ctgry._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+        
+    category_info=ctgry.objects.all()
+    return render(request,'category.html',{'form': ctgry_frm,'category_info':category_info,'field_names': field_names})
+      
+            
 def country(request):
     if request.method == 'POST':
-        frm = CountryForm(request.POST)
+        cntry_frm = cntryForm(request.POST)
         
-        if frm.is_valid:
-            frm = frm.save(commit=False)
-            frm.user = request.user
-            frm.save()
+        if cntry_frm.is_valid:
+            instance = cntry_frm.save(commit=False)
+            instance.usrid = request.user
+            instance.save()
             return redirect('country')
     else:
-        frm = CountryForm()
+        cntry_frm = cntryForm()
         
     model_meta = cntry._meta
     field_names = [field.verbose_name for field in model_meta.fields]
         
-    currency_info=cntry.objects.all()
-    return render(request,'country.html',{'form': frm,'currency_info':currency_info,'field_names': field_names})
+    country_info=cntry.objects.all()
+    return render(request,'country.html',{'form': cntry_frm,'country_info':country_info,'field_names': field_names})
+
+# Delete Country
+def delete_country(request,id):
+    country=cntry.objects.filter(pk=id)
+    country.delete()
+    return redirect('country')
+
+#Update Country
+def update_country(request,id):
+    updt_country=cntry.objects.get(pk=id)
+    
+    if request.method =="POST":
+        cntry_frm = cntryForm(request.POST,instance=updt_country)
+        if cntry_frm.is_valid:
+            instance=cntry_frm.save(commit=False)
+            instance.usrid=request.user
+            instance.save()
+            return redirect('country')
+        else:
+            ctgry_frm= cntryForm(instance=updt_country)
+            
+    model_meta = cntry._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+        
+    country_info=cntry.objects.all()
+    return render(request,'country.html',{'form': cntry_frm,'country_info':country_info,'field_names': field_names})
+      
+            
 
 def document(request):
     return render(request,'document.html')
@@ -141,20 +182,49 @@ def document(request):
 
 def services(request):
     if request.method == 'POST':
-        frm = ServiceForm(request.POST)
+        srvc_frm = srvcForm(request.POST)
         
-        if frm.is_valid:
-            frm.save()
-            return redirect('services.html')
+        if srvc_frm.is_valid:
+            instance = srvc_frm.save(commit=False)
+            instance.usrid = request.user
+            instance.save()
+            return redirect('country')
     else:
-        frm = ServiceForm()
+        srvc_frm = srvcForm()
         
     model_meta = srvc._meta
     field_names = [field.verbose_name for field in model_meta.fields]
         
-    currency_info=srvc.objects.all()
-    return render(request,'services.html',{'form': frm,'currency_info':currency_info,'field_names': field_names}) 
+    service_info=srvc.objects.all()
+    return render(request,'services.html',{'form': srvc_frm,'service_info':service_info,'field_names': field_names})
 
+#Delete Service
+def delete_service(request,id):
+    service=srvc.objects.filter(pk=id)
+    service.delete()
+    return redirect('services')
+
+def Update_service(request,id):
+    updt_service=srvc.objects.get(pk=id)
+    
+    if request.method =="POST":
+        srvc_frm = srvcForm(request.POST,request.FILES,instance=updt_service)
+        if srvc_frm.is_valid:
+            instance=srvc_frm.save(commit=False)
+            instance.usrid=request.user
+            instance.save()
+            return redirect('servises')
+        else:
+            srvc_frm= srvcForm(instance=updt_service)
+        
+    model_meta = srvc._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+        
+    service_info=cntry.objects.all()
+    return render(request,'services.html',{'form': srvc_frm,'service_info':service_info,'field_names': field_names})
+
+            
+            
 
 def dashboard(request):
     return render(request,'main_layout.html')

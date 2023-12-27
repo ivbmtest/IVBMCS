@@ -34,7 +34,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                      {% for val in currency_info %}
+                      {% for val in service_info %}
                         <tr>
                             <td>
                               <span class="custom-checkbox">
@@ -42,7 +42,7 @@
                                 <label for="checkbox1"></label>
                               </span>
                             </td>
-                            <td>{{val.svid}}</td>
+                            <td>{{forloop.counter}}</td>
                             <td>{{val.svcode}}</td>
                             <td>{{val.svname}}</td>
                             <td>{{val.svdescription}}</td>
@@ -65,8 +65,8 @@
                             <td>{{val.dtupdatd}}</td>
                             
                             <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class='bx bx-trash' data-toggle="tooltip" title="Delete"></i></a>
+                                <a href="#editServiceModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a href="#deleteServiceModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class='bx bx-trash' data-toggle="tooltip" title="Delete"></i></a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -112,7 +112,8 @@
     </div>
 
     <!-- Edit Modal HTML -->
-    <div id="editEmployeeModal" class="modal fade">
+    {% for i in service_info %}
+    <div id="editServiceModal-{{forloop.counter}}" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
           
@@ -134,9 +135,11 @@
         </div>
       </div>
     </div>
+    {% endfor %}
     
     <!-- Delete Modal HTML -->
-    <div id="deleteEmployeeModal" class="modal fade">
+    {% for i in service_info %}
+    <div id="deleteServiceModal-{{forloop.counter}}" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
           
@@ -146,17 +149,18 @@
             </div>
             <div class="modal-body">
             <form>					
-              <p>Are you sure you want to delete these Records?</p>
+              <p>Are you sure you want to delete {{i.svname}}?</p>
               <p class="text-warning"><small>This action cannot be undone.</small></p>
             </div>
             <div class="modal-footer">
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-              <input type="submit" class="btn btn-danger" value="Delete">
+              <a href="{% url 'del_service' id=i.svid %}" class="btn btn-danger" >Delete</a>
             </div>
           </form>
         </div>
       </div>
     </div>
+    {% endfor %}
   </body>
   </html>
 
