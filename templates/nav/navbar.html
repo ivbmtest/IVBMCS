@@ -21,7 +21,26 @@
         <a class="dropdown-item" href="#">Profile</a>
         <a class="dropdown-item" href="#">Update</a>
         <hr>
-        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+        <a class="dropdown-item" href="{% url 'logout' %}" >Logout</a>
       </div>
       </div>
     </nav>
+    <script>
+      
+function clearCookies() {
+    // Get all cookies
+    var cookies = document.cookie.split(";");
+
+    // Loop through each cookie and set its expiration date to a past date
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+
+    // Optionally, reload the page to apply the changes
+    // window.location.reload();
+}
+
+    </script>

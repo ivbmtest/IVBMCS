@@ -13,7 +13,7 @@ urlpatterns = [
     path('services/',views.services,name='services'),
     path('dashboard/',views.dashboard,name='dashboard'),
     # path('add_user/',views.crncform,name='add_user'),
-    path('logout/',views.logout,name='logout'),
+    path('logout/',views.Logout,name='logout'),
     #add curre
     #path('add_curr/',views.add_currency,name='add_curr'),
     # del_currency
@@ -22,6 +22,12 @@ urlpatterns = [
 
 
     path('curr_ser/',views.curr_ser,name='ser'),
+    path('curr_ser2/',views.curr_ser2,name='curr_ser'),
+
+
+    #pagination
+    path('paginated_and_filtered_data/', views.paginated_and_filtered_data, name='paginated_and_filtered_data'),
+    path('sample/',views.sample,name='sample'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

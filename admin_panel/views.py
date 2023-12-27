@@ -6,12 +6,12 @@ from .models import *
 from .form import *
 from django.db.models.query_utils import Q
 from django.http import JsonResponse
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage
 from django.forms.models import model_to_dict
+from django.contrib.auth.decorators import login_required
 
 
-def Login(request):
-    
+def Login(request): 
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -20,13 +20,14 @@ def Login(request):
         
         if user_det is not None:
             user = get_object_or_404(User, username=username)
+            login(request, user_det)
             if user.is_superuser:
-                login(request, user_det)
                 # Explicitly set the session to save the changes
-                request.session.save()
+               # request.session.save()
                 # Redirect to the Django admin page after successful login
                 return redirect('admin:index')
             else:
+                
                 return render(request, 'main_layout.html',{'user':user})
             
         else:
@@ -43,7 +44,7 @@ def Login(request):
 # def index(request):
 #     #  return redirect('/admin/')
 #     return render(request,'admin.html')
-
+@login_required(login_url='/')
 def currency(request):
     if request.method == 'POST':
         form = crncForm(request.POST)
@@ -130,7 +131,12 @@ def curr_ser(request):
         frm = crncForm()   
         model_meta = crnc._meta
         field_names = [field.verbose_name for field in model_meta.fields]
-        return render(request,'currency.html',{'form': frm,'currency_info':results,'field_names': field_names})
+
+        page=Paginator(results,5)
+        page_list=request.GET.get('page')
+        page=page.get_page(page_list)
+        print(page)
+        return render(request,'currency.html',{'form': frm,'currency_info':page,'field_names': field_names})
 
 
 
@@ -195,9 +201,12 @@ def services(request):
 def dashboard(request):
     return render(request,'main_layout.html')
 
-def logout(request):
-    return render(request,'admin/login.html')
-
+def Logout(request):
+    logout(request)
+    print("logout")
+    request.session.flush()
+    request.session.clear()
+    return redirect('/')
 
 # def crncform(request):
 #     if request.method == 'POST':
@@ -216,4 +225,37 @@ def logout(request):
 # def db_details(request):
     
     
-    
+ 
+
+def sample(request):
+    return render(request,'page_js.html')
+
+from django.core.paginator import Paginator, EmptyPage
+from django.http import JsonResponse
+from django.shortcuts import render
+
+
+def paginated_and_filtered_data(request):
+    page_number = request.GET.get('page', 1)
+    items_per_page = 5  # Set the number of items per page
+
+    queryset = crnc.objects.all()
+
+    # Filter by name if a search term is provided
+    search_term = request.GET.get('search', '')
+    print(search_term)
+    if search_term:
+        print("if iiii")
+        queryset = queryset.filter(crname__icontains=search_term)
+
+    paginator = Paginator(queryset, items_per_page)
+
+    try:
+        current_page = paginator.page(page_number)
+    except EmptyPage:
+        return JsonResponse({'error': 'Invalid page number'})
+
+    data = [{'crid':item.crid,'name': item.crname, 'symbol': item.crsymbol, 'description': item.crdescription,'status':item.crstatus,'usrid':item.usrid,'date':item.dtupdatd } for item in current_page.object_list]
+
+    return JsonResponse({'data': data, 'total_pages': paginator.num_pages})
+

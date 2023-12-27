@@ -93,33 +93,19 @@
 </script>
 <!--end delete-->
 <!--checkbox-->
-<script>
-  $(document).ready(function() {
-      var selectAllCheckbox = $('#selectAll');
-      var checkboxes = $('.myCheckbox');
-      var getValuesButton = $('#getValues');
-  
-      selectAllCheckbox.on('click', function() {
-          checkboxes.prop('checked', selectAllCheckbox.prop('checked'));
-      });
-  
-      checkboxes.on('change', function() {
-          selectAllCheckbox.prop('checked', checkboxes.length === checkboxes.filter(':checked').length);
-      });
-  
-      getValuesButton.on('click', function() {
-          var selectedValues = checkboxes.filter(':checked').map(function() {
-              return $(this).val();
-          }).get();
-  
-          console.log(selectedValues);
-          $('#select_id').val(selectedValues);
-          // You can do whatever you want with the selected values here
-      });
-  });
-  </script>
-<!--js pagination search-->
 
+<!-- search-->
+<script>
+
+    $(function(){
+      $('#curr_input').autocomplete({
+        source: "{% url 'curr_ser' %}"
+      })
+    })
+    </script>
 <!--end-->
+
+
+
   </body>
 </html>

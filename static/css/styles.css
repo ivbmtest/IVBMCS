@@ -40,13 +40,13 @@ input {
 }
 
 input[type="submit"] {
-    background-color: #4caf50;
+   
     color: #fff;
     cursor: pointer;
 }
-input[type="submit"]:hover {
+/*input[type="submit"]:hover {
     background-color: #45a049;
-}
+}*/
 /* Dashboard Styles */
 header {
     background-color: #333;
