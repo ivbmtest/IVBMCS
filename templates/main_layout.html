@@ -9,7 +9,8 @@
     <!-- Boxicons CDN Link -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
-   
+   <!--search-->
+    <link rel = "stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   </head>
@@ -29,14 +30,13 @@
    
    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
    <script>
        $(document).ready(function () {
            $('#submitBtn').click(function () {
                // Serialize form data
-               var formData = $('#myForm').serialize();
-              
-              
-               
+               var formData = $('#myForm').serialize();  
                // Send AJAX request
                $.ajax({
                    type: 'POST',
@@ -45,22 +45,18 @@
                    dataType: 'json',
                    success: function (response) {
                        if (response.success) {
-                       
                         Swal.fire({
                 icon: "success",
                 title: response.message,
                 //text: "All fields must Fill",
-              
                 });
                 location.reload(true);
                 //$('#ta').load(location.href + "#ta");
-                       } else {
-                        
+                       } else { 
                         Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text:response.message,
-              
                 });
                            // Handle errors if needed
                        }
@@ -74,10 +70,9 @@
 <!--delete-->
 <script>
    $(document).ready(function (){
-
     $('.on_del').click(function (){
-      var id = $('.crid').val();
-     
+      var id=$(this).attr('data-item');
+     $('#del_name').text(name);
       $('#confi_del').click(function (){
         $.ajax({
                    type: 'POST',
@@ -86,23 +81,45 @@
                    csrfmiddlewaretoken: '{{ csrf_token }}'},
                    dataType: 'json',
                    success: function (response) {
-                       if (response.success) {
-                       
-                        location.reload(true);
-                
-               
+                       if (response.success) {                
+                        location.reload(true);          
                        } 
-                   },
-                  
-               });
-       
-      })
-      
+                   },              
+               });     
+      })     
     })
-
    })
 
 </script>
 <!--end delete-->
+<!--checkbox-->
+<script>
+  $(document).ready(function() {
+      var selectAllCheckbox = $('#selectAll');
+      var checkboxes = $('.myCheckbox');
+      var getValuesButton = $('#getValues');
+  
+      selectAllCheckbox.on('click', function() {
+          checkboxes.prop('checked', selectAllCheckbox.prop('checked'));
+      });
+  
+      checkboxes.on('change', function() {
+          selectAllCheckbox.prop('checked', checkboxes.length === checkboxes.filter(':checked').length);
+      });
+  
+      getValuesButton.on('click', function() {
+          var selectedValues = checkboxes.filter(':checked').map(function() {
+              return $(this).val();
+          }).get();
+  
+          console.log(selectedValues);
+          $('#select_id').val(selectedValues);
+          // You can do whatever you want with the selected values here
+      });
+  });
+  </script>
+<!--js pagination search-->
+
+<!--end-->
   </body>
 </html>

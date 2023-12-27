@@ -7,17 +7,34 @@
       <div class="container" >
           <div class="table-wrapper">
               <div class="table-title">
-                  <div class="row">
-                      <div class="col-sm-6">
-              <h2>Currency <b>Details</b></h2>
+                  <div class="row"> 
+                      <div class="col-sm-2">
+              <h3>Currency <b>Details</b></h3>
+              <p>{{page}}</p>
             </div>
+            
+              <form action="{% url 'ser' %}" method="post" style="width: 100%;" class="col-sm-4">
+                {% csrf_token %}
+              <div class="input-group ">
+                <div class="form-outline " data-mdb-input-init>
+                  <input name="ser_name" type="search" id="curr_input" class="form-control" placeholder="Search..." />
+                 
+                </div>
+                <button type="submit" class="btn btn-primary" data-mdb-ripple-init>
+                  <i class='bx bx-search-alt'></i>
+                </button>
+              </div>
+            </form>
+            
             <div class="col-sm-6">
               <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
-              <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+              <a href="#deleteEmployeeModal" class="btn btn-danger" id="getValues" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
             </div>
                   </div>
               </div>
-              <table class="table table-striped table-hover">
+             
+              <div class="scrollmenu" style="overflow: auto;">
+              <table class="table table-striped table-hover" id="myTable">
                   <thead>
                       <tr>
               <th>
@@ -44,49 +61,57 @@
                       <tr>
                           <td>
                             <span class="custom-checkbox">
-                              <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                              <input type="checkbox" id="checkbox1" name="options[]" value="{{val.crid}}" class="myCheckbox">
                               <label for="checkbox1"></label>
                             </span>
                           </td>
                           <td>{{val.crid}}</td>
-                          <td>{{val.crname}}</td>
+                          <td >{{val.crname}}</td>
                           <td>{{val.crsymbol}}</td>
                           <td>{{val.crdescription}}</td>
                           <td>{{val.crstatus}}</td>
                           <td>{{val.usrid}}</td>
-                          <td>{{val.dtupdatd}}</td>
-                          
+                          <td>{{val.dtupdatd}}</td> 
                           <td>
-                              <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                              <input type="hidden" value="{{val.crid}}" class="crid">
+                              <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                              <input type="hidden" value="{{val.crname}}" class="crnname">
                               {% csrf_token %}
-                              <a href="#deleteEmployeeModal" class="delete on_del" data-toggle="modal"  ><i class='bx bx-trash text-danger' data-toggle="tooltip" title="Delete" ></i></a>
+                              <a href="#deleteEmployeeModal" data-item="{{val.crid}}" class="delete on_del" data-toggle="modal"  ><i class='bx bx-trash text-danger' data-toggle="tooltip" title="Delete"></i></a>
                           </td>
                       </tr>
                       {% endfor %}
                       <tr>
                   </tbody>
               </table>
+            </div>
         <div class="clearfix">
-                  <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                  <div class="hint-text">Showing <b>{{currency_info.number}}</b> out of <b>{{currency_info.paginator.num_pages}}</b> entries</div>
                   <ul class="pagination">
-                      <li class="page-item disabled"><a href="#">Previous</a></li>
-                      <li class="page-item"><a href="#" class="page-link">1</a></li>
-                      <li class="page-item"><a href="#" class="page-link">2</a></li>
-                      <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                      <li class="page-item"><a href="#" class="page-link">4</a></li>
-                      <li class="page-item"><a href="#" class="page-link">5</a></li>
-                      <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                    {% if currency_info.has_previous %}
+                      <li class="page-item"><a class="page-link" href="{% url 'currency' %}?page={{currency_info.previous_page_number}}">Previous</a></li>
+                        {% endif %}
+              
+                        {% for i in currency_info.paginator.page_range %}
+                        {% if currency_info.number == i %}
+
+                      <li class="page-item active"><a class="page-link" href="{% url 'currency' %}?page={{i}}">{{i}}</a></li>
+                      {% else %}
+                      <li class="page-item "><a class="page-link" href="{% url 'currency' %}?page={{i}}">{{i}}</a></li>
+                        {% endif %}
+                        {% endfor %}
+
+                      {% if currency_info.has_next %}
+                      <li class="page-item"><a class="page-link" href="{% url 'currency' %}?page={{currency_info.next_page_number}}">Next</a></li>
+                      {% endif %}
                   </ul>
               </div>
           </div>
-      </div>
-      
+      </div>  
     <!-- Edit Modal HTML -->
     <div id="addEmployeeModal" class="modal fade ">
       <div class="modal-dialog" id="m">
         <div class="modal-content">
-          <form id="myForm" method="post">
+          <form id="myForm" method="post" action="{% url 'currency' %}">
             {% csrf_token %}
             <div class="modal-header">						
               <h4 class="modal-title">Add Employee</h4>
@@ -96,17 +121,15 @@
             <div class="modal-body">
               {% csrf_token %}
               {{ form.as_p }}	
-  
             </div>
             <div class="modal-footer">
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-              <input type="button" class="btn btn-success" value="Add" id="submitBtn">
+              <input type="submit" class="btn btn-success" value="Add" >
             </div>
           </form>
         </div>
       </div>
     </div>
-
     <!-- Edit Modal HTML -->
     <div id="editEmployeeModal" class="modal fade">
       <div class="modal-dialog">
@@ -149,18 +172,20 @@
     <div id="deleteEmployeeModal" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
-          <form>
+          <form action="{% url 'select_del' %}">
             <div class="modal-header">						
               <h4 class="modal-title">Delete Employee</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">					
-              <p>Are you sure you want to delete these Records?</p>
+              <p>Are you sure you want to delete these Records? </p>
+              
               <p class="text-warning"><small>This action cannot be undone.</small></p>
             </div>
             <div class="modal-footer">
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-              <input type="button" class="btn btn-danger" value="Delete" id="confi_del" >
+             <input type="hidden" value="" id="select_id" name="select">
+              <input type="submit" class="btn btn-danger" value="Delete">
             </div>
           </form>
         </div>
@@ -168,7 +193,6 @@
     </div>
   </body>
   </html>
-
   {% endblock content %}
     </section>
 
