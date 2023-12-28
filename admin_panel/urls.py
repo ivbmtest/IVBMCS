@@ -12,12 +12,15 @@ urlpatterns = [
     path('documemt/',views.document,name='document'),
     path('services/',views.services,name='services'),
     path('dashboard/',views.dashboard,name='dashboard'),
+    path('taxmaster/',views.taxmaster,name='taxmaster'),
+    path('taxdetails/',views.taxdetails,name='taxdetails'),
     # path('add_user/',views.crncform,name='add_user'),
     path('logout/',views.Logout,name='logout'),
     #add curre
     #path('add_curr/',views.add_currency,name='add_curr'),
     # del_currency
-    path('del_currency/',views.del_currency,name='del_currency'),
+    path('del_currency_js/',views.del_currency_js,name='del_currency'),
+    path('currency/del_currency/<int:id>/',views.del_currency,name='del_currency'),
     path('select_del/',views.select_del,name='select_del'),
 
 

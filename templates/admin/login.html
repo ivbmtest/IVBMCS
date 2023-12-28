@@ -10,12 +10,11 @@
     <title>Login Page</title>
    
 </head>
-<body style="background: rgb(82,205,58);
-background: linear-gradient(141deg, rgba(82,205,58,1) 0%, rgba(36,45,110,1) 50%);">
+<body >
     
 <!-- saved from url=(0014)about:internet -->
 
-    <form action="{% url 'Login' %}"  method="post" style="background-color: rgba(240, 248, 255, 0.555);">
+    <form action="{% url 'Login' %}"  method="post" >
         {% csrf_token %}
         <div class="logo">
             <img src="{% static 'img/logo.png' %}" alt="Logo" width="240">
@@ -30,7 +29,7 @@ background: linear-gradient(141deg, rgba(82,205,58,1) 0%, rgba(36,45,110,1) 50%)
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required=""><br>
-        <input type="submit" value="Login" class="btn mt-4 w-50 btn-primary">
+        <input type="submit" value="Login" class="btn btn-success mt-4 w-50">
     </form>
 
 

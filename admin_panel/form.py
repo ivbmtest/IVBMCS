@@ -24,7 +24,17 @@ class ServiceForm(forms.ModelForm):
         fields = "__all__"
  
  
-# class crncForm(forms.ModelForm):
-#     class Meta():
-#         model = crnc
-#         fields = "__all__"                           
+class DocumentForm(forms.ModelForm):
+    class Meta():
+        model = DocumentsRequired
+        fields = "__all__" 
+
+class Tax_masterForm(forms.ModelForm):
+    class Meta():
+        model = txmst
+        fields = "__all__"     
+
+class TaxdeailsForm(forms.ModelForm):
+    class Meta():
+        model = txdet
+        fields = "__all__"                     

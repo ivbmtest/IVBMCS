@@ -70,13 +70,20 @@ def currency(request):
 
 
 #del currency
-def del_currency(request):
+def del_currency_js(request):
     if request.method == 'POST':
         id = request.POST['crid']
         print(id)
         currency = crnc.objects.get(crid=id)
         currency.delete()
         return JsonResponse({'success': True, 'message': 'delete ok !'})
+
+#delete currency
+def del_currency(request,id):
+    currency = crnc.objects.filter(pk=id)
+    currency.delete()
+    return redirect('currency')
+
 
 #currency search
 def curr_ser2(request):
@@ -142,6 +149,8 @@ def curr_ser(request):
 
 
 
+
+
 def category(request):
     if request.method == 'POST':
         frm = CategoryForm(request.POST)  
@@ -181,8 +190,19 @@ def select_del(request):
 
 
 def document(request):
-    return render(request,'document.html')
-
+    if request.method == 'POST':
+        frm = DocumentForm(request.POST)
+        if frm.is_valid:
+            frm.save()
+            return redirect('document')
+    else:
+        frm = DocumentForm()
+    model_meta = DocumentsRequired._meta
+    field_names = [field.verbose_name for field in model_meta.fields]   
+    document_info=DocumentsRequired.objects.all()
+    print(document_info)
+    return render(request,'document.html',{'form': frm,'document_info':document_info,'field_names': field_names})
+    
 
 def services(request):
     if request.method == 'POST':
@@ -201,11 +221,38 @@ def services(request):
 def dashboard(request):
     return render(request,'main_layout.html')
 
+#taxmaster
+
+def taxmaster(request):
+    if request.method == 'POST':
+        frm = Tax_masterForm(request.POST)
+        if frm.is_valid:
+            frm.save()
+            return redirect('taxmaster')
+    else:
+        frm = Tax_masterForm()
+    model_meta = txmst._meta
+    field_names = [field.verbose_name for field in model_meta.fields]   
+    tax_info=txmst.objects.all()
+    return render(request,'taxmaster.html',{'form': frm,'tax_info':tax_info,'field_names': field_names})
+
+# Tax Details
+def taxdetails(request):
+    if request.method == 'POST':
+        frm = TaxdeailsForm(request.POST)
+        if frm.is_valid:
+            frm.save()
+            return redirect('taxdetails')
+    else:
+        frm = TaxdeailsForm()
+    model_meta = txdet._meta
+    field_names = [field.verbose_name for field in model_meta.fields]   
+    taxdetails=txdet.objects.all()
+    return render(request,'taxdetails.html',{'form': frm,'taxdetails':taxdetails,'field_names': field_names})
+
+
 def Logout(request):
     logout(request)
-    print("logout")
-    request.session.flush()
-    request.session.clear()
     return redirect('/')
 
 # def crncform(request):
@@ -222,7 +269,7 @@ def Logout(request):
 
 
 
-# def db_details(request):
+
     
     
  
@@ -247,7 +294,7 @@ def paginated_and_filtered_data(request):
     if search_term:
         print("if iiii")
         queryset = queryset.filter(crname__icontains=search_term)
-
+        print(queryset)
     paginator = Paginator(queryset, items_per_page)
 
     try:

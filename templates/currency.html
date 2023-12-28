@@ -129,6 +129,7 @@
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
+              <form method="post" action="{% url 'currency' %}">
               {% csrf_token %}
               {{ form.as_p }}	
             </div>
@@ -228,7 +229,6 @@
       });
       $('#select-all').prop('checked', false);
 }
-  
   function updateTable(data) {
       var tableBody = $('#table-body');
       tableBody.empty();
@@ -243,7 +243,7 @@
       paginationContainer.empty();
   
       // Previous button
-      paginationContainer.append('<button class="page-item pagination-button" onclick="fetchPage(' + (currentPage - 1) + ')" ' + (currentPage > 1 ? '' :'style="color:gray;"') + '>Previous</button>');
+      paginationContainer.append('<button class="page-item pagination-button" onclick="fetchPage(' + (currentPage - 1) + ')" ' + (currentPage > 1 ? '' :'onMouseOver="this.style.color=" disabled') + '>Previous</button>');
 
 // Page buttons
 for (var i = 1; i <= totalPages; i++) {
@@ -251,7 +251,7 @@ for (var i = 1; i <= totalPages; i++) {
 }
 
 // Next button
-paginationContainer.append('<button class="page-item pagination-button" onclick="fetchPage(' + (currentPage + 1) + ')" ' + (currentPage < totalPages ? '' : 'style="color:gray;"') + '>Next</button>');
+paginationContainer.append('<button class="page-item pagination-button" onclick="fetchPage(' + (currentPage + 1) + ')" ' + (currentPage < totalPages ? '' : 'style="color:gray;"disabled') + '>Next</button>');
 
 
 

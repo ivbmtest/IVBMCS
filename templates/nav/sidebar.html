@@ -65,13 +65,13 @@
             </a>
           </li>
           <li>
-            <a href="" title="Tax Master" class="{% if url_name == 'document' %}bg-success{% endif %}">
+            <a href="{% url 'taxmaster' %}" title="Tax Master" class="{% if url_name == 'taxmaster' %}bg-success{% endif %}">
               <i class='bx bx-briefcase-alt-2'></i>
               <span class="links_name">Tax Master</span>
             </a>
           </li>
           <li>
-            <a href="" title="Tax Details" class="{% if url_name == 'document' %}bg-success{% endif %}">
+            <a href="{% url 'taxdetails' %}" title="Tax Details" class="{% if url_name == 'taxdetails' %}bg-success{% endif %}">
               <i class='bx bxs-detail'></i>
               <span class="links_name">Tax Details</span>
             </a>
