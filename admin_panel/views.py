@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+import logging
 from .models import *
 from .form import *
 
@@ -185,11 +186,20 @@ def services(request):
         srvc_frm = srvcForm(request.POST)
         
         if srvc_frm.is_valid:
-            instance = srvc_frm.save(commit=False)
-            instance.usrid = request.user
-            instance.save()
-            return redirect('country')
+            print("--------valid svc")
+            # instance = srvc_frm.save(commit=False)
+            print('invalid svc===========>>>>>>>',srvc_frm.errors)
+            try:
+                srvc_frm.usrid = request.user
+                srvc_frm.save()
+                return redirect('services')
+            except ValueError as e:
+                print("----------------exception.............")
+                # logging.error(f"Error saving model: {e}")                     
+                          
+            
     else:
+        # print('invalid svc===========>>>>>>>',srvc_frm.errors)
         srvc_frm = srvcForm()
         
     model_meta = srvc._meta
@@ -208,12 +218,12 @@ def Update_service(request,id):
     updt_service=srvc.objects.get(pk=id)
     
     if request.method =="POST":
-        srvc_frm = srvcForm(request.POST,request.FILES,instance=updt_service)
+        srvc_frm = srvcForm(request.POST,instance=updt_service)
         if srvc_frm.is_valid:
             instance=srvc_frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
-            return redirect('servises')
+            return redirect('services')
         else:
             srvc_frm= srvcForm(instance=updt_service)
         

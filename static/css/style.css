@@ -36,6 +36,7 @@
 .sidebar .nav-links{
   margin-top: 10px;
   background: #081D45;
+  height: 100vh;
 }
 .sidebar .nav-links li{
   position: relative;
