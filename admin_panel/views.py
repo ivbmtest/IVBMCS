@@ -190,12 +190,17 @@ def services(request):
             # instance = srvc_frm.save(commit=False)
             print('invalid svc===========>>>>>>>',srvc_frm.errors)
             try:
-                srvc_frm.usrid = request.user
-                srvc_frm.save()
+                instance = srvc_frm.save(commit=False)
+                instance.usrid = request.user
+                instance.save()
                 return redirect('services')
             except ValueError as e:
-                print("----------------exception.............")
-                # logging.error(f"Error saving model: {e}")                     
+                print("----------------exception.................")
+                # logging.error(f"Error saving model: {e}")  
+                
+        else:
+             return render(request, "services.html", {'form':srvc_frm})
+                                   
                           
             
     else:
