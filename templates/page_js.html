@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paginated and Filtered Data</title>
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
         table {
@@ -81,9 +82,11 @@
     <thead>
         <tr>
             <th class="checkbox-col"><input type="checkbox" id="select-all"></th>
+            <th>id</th>
             <th>Name</th>
             <th>Price</th>
             <th>Description</th>
+            <th>Del</th>
         </tr>
     </thead>
     <tbody id="table-body">
@@ -127,12 +130,23 @@ function updateTable(data) {
     for (var i = 0; i < data.length; i++) {
         tableBody.append('<tr>' +
             '<td class="checkbox-col"><input type="checkbox" class="row-checkbox"></td>' +
+            '<td>' + data[i].id + '</td>' +
             '<td>' + data[i].name + '</td>' +
             '<td>' + data[i].price + '</td>' +
             '<td>' + data[i].description + '</td>' +
+            '<td><a href="#deleteEmployeeModal" data-item='+ data[i].crid +' class="delete on_del" data-toggle="modal" onclick="myFunction('+ data[i].id+ ')" ><i class="bx bx-trash text-danger" data-toggle="tooltip" title="Delete"></i></a></td>' +
             '</tr>');
     }
+
+    
 }
+//fetch del value and get modal delete
+
+function myFunction(e) {
+  console.log(e)
+  
+}
+
 
 function createPaginationButtons(totalPages, currentPage) {
     var paginationContainer = $('#pagination-container');

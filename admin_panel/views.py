@@ -71,12 +71,12 @@ def currency(request):
 
 #del currency
 def del_currency_js(request):
-    if request.method == 'POST':
-        id = request.POST['crid']
-        print(id)
-        currency = crnc.objects.get(crid=id)
-        currency.delete()
-        return JsonResponse({'success': True, 'message': 'delete ok !'})
+    
+    id = request.GET['crid']
+    print(id)
+    currency = crnc.objects.get(crid=id)
+    #currency.delete()
+    return JsonResponse({'success': True, 'message': 'delete ok !'})
 
 #delete currency
 def del_currency(request,id):
@@ -138,7 +138,7 @@ def curr_ser(request):
         frm = crncForm()   
         model_meta = crnc._meta
         field_names = [field.verbose_name for field in model_meta.fields]
-
+        
         page=Paginator(results,5)
         page_list=request.GET.get('page')
         page=page.get_page(page_list)
@@ -302,7 +302,7 @@ def paginated_and_filtered_data(request):
     except EmptyPage:
         return JsonResponse({'error': 'Invalid page number'})
 
-    data = [{'crid':item.crid,'name': item.crname, 'symbol': item.crsymbol, 'description': item.crdescription,'status':item.crstatus,'usrid':item.usrid,'date':item.dtupdatd } for item in current_page.object_list]
+    data = [{'id':item.crid,'name': item.crname, 'symbol': item.crsymbol, 'description': item.crdescription,'status':item.crstatus,'usrid':item.usrid,'date':item.dtupdatd } for item in current_page.object_list]
 
     return JsonResponse({'data': data, 'total_pages': paginator.num_pages})
 
