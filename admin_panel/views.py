@@ -79,13 +79,21 @@ def update_currency(request,id):
     model_meta = crnc._meta
     field_names = [field.verbose_name for field in model_meta.fields]
         
-    currency_info=crnc.objects.all()
-    for i in currency_info:
-        print("======>>>>-----")
-    return render(request,'currency.html',{'form': frm,'currency_info':currency_info,'field_names': field_names})
-        
+    # currency_info=crnc.objects.all()
+    # for i in currency_info:
+    #     print("======>>>>-----")
+    return render(request,'currency.html',{'form': frm,'currency_info':currency,'field_names': field_names})
+          
     # return render(request,'currency.html',{'form': frm})
-               
+def create_currency(request):
+    print("---------",request.method)
+    if request.method=='POST':
+        frm=crncForm(request.POST,instance=currency)
+        if frm.is_valid:
+            frm.user = request.user
+            frm.save()
+            return redirect('currency')
+    return render(request,'forms.html',{'form': frm})         
 
 def category(request):
     if request.method == 'POST':
@@ -235,8 +243,8 @@ def Update_service(request,id):
     model_meta = srvc._meta
     field_names = [field.verbose_name for field in model_meta.fields]
         
-    service_info=cntry.objects.all()
-    return render(request,'services.html',{'form': srvc_frm,'service_info':service_info,'field_names': field_names})
+    # service_info=cntry.objects.all()
+    return render(request,'services.html',{'form': srvc_frm,'service_info':updt_service,'field_names': field_names})
 
             
             

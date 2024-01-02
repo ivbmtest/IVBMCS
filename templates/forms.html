@@ -1,0 +1,11 @@
+{% extends "main_layout.html" %}
+
+    {% block content %}
+
+    <div class="modal-body">
+    <form method="post" action="{% url 'update_currency' id=i.crid %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+    </div>
+
+  {% endblock content %}
