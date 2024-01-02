@@ -64,22 +64,27 @@ class ServiceAdmin(admin.ModelAdmin):
             obj.usrid_id = request.user.id
         return super().save_model(request, obj, form, change)
     
+# class DocumentRequiredAdmin(admin.ModelAdmin):
+#     autocomplete_fields=['Service']
+#     search_fields = ('DocumentName',)
+#     list_editable = ['Status']
+#     list_display = ('Service','DocumentName','Description','Format','MaxFileSize','Status',
+#                     'CreatedBy','CreatedOn')
+    
+#     def save_model(self, request, obj, form, change):
+#         # Set the created_by field to the currently logged-in admin user ID
+#         if not obj.dtupdatd_id:
+#             obj.dtupdatd_id = request.user.id
+
+#         # Call the save_model method of the parent class
+#         super().save_model(request, obj, form, change)
+        
 class DocumentRequiredAdmin(admin.ModelAdmin):
     autocomplete_fields=['Service']
     search_fields = ('DocumentName',)
     list_editable = ['Status']
     list_display = ('Service','DocumentName','Description','Format','MaxFileSize','Status',
-                     'CreatedBy','CreatedOn')
-    
-    #def save_model(self, request, obj, form, change):
-        # Set the created_by field to the currently logged-in admin user ID
-        #if not obj.dtupdatd_id:
-            #obj.dtupdatd_id = request.user.id
-
-#         # Call the save_model method of the parent class
-        #super().save_model(request, obj, form, change)
-        
-        
+                     'CreatedBy','CreatedOn')       
         
 class TaxMasterAdmin(admin.ModelAdmin):
     list_display = ('txname','txdescription','txisgst','txstatus','usrid','dtupdatd')
@@ -124,5 +129,4 @@ admin.site.register(DocumentsRequired,DocumentRequiredAdmin)
 admin.site.register(txmst,TaxMasterAdmin)
 admin.site.register(txdet,TaxDetailsAdmin)
 admin.site.register(formt,FileFormatAdmin)
-
 

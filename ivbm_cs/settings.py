@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-*8+-90(p)j852f6w=2!sk7$op1nxh%ipkoxs@-l@^*8rj^gb^@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -88,6 +88,7 @@ WSGI_APPLICATION = 'ivbm_cs.wsgi.application'
 #     }
 # }
 
+
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.mysql',
@@ -124,12 +125,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LOGIN_URL = ''
-
-
-
-
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -137,6 +132,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -157,3 +153,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or 'django.contrib.sessions.backends.cache', etc.
 SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds, adjust as needed
+
+# LOGIN_URL = ':login'  # Adjust this to match your login URL
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
+MEDIA_URL = '/images/'
+
+

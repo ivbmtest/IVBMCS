@@ -12,7 +12,7 @@
               <h2>Tax <b>Details</b></h2>
             </div>
             <div class="col-sm-6">
-                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add New Tax</span></a>
+                <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add New TaxDetails</span></a>
                 <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class='bx bxs-trash'></i> <span>Delete</span></a>						
               </div>
                   </div>
@@ -34,7 +34,7 @@
                       </tr>
                   </thead>
                   <tbody>
-                    {% for val in taxdetails %}
+                    {% for val in taxdetail_info %}
                       <tr>
                           <td>
                             <span class="custom-checkbox">
@@ -50,15 +50,15 @@
                           <td>{{val.tdsgst}}</td>
                           <td>{{val.tdigst}}</td>
                           <td>{{val.tdvat}}</td>
-                          <td>{{val.tdcesst}}</td>
+                          <td>{{val.tdcess}}</td>
                           <td>{{val.tdstatus}}</td>
                           <td>{{val.usrid}}</td>
                           <td>{{val.dtupdatd}}</td>
                           
                           
                           <td>
-                              <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                              <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class='bx bx-trash text-danger' data-toggle="tooltip" title="Delete"></i></a>
+                            <a href="#editDocumentModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#deleteDocumentModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class='bx bx-trash text-danger' data-toggle="tooltip" title="Delete"></i></a>
                           </td>
                       </tr>
                       {% endfor %}
@@ -66,22 +66,31 @@
                   </tbody>
               </table>
             </div>
-        <div class="clearfix">
-                  <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                  <ul class="pagination">
-                      <li class="page-item disabled"><a href="#">Previous</a></li>
-                      <li class="page-item"><a href="#" class="page-link">1</a></li>
-                      <li class="page-item"><a href="#" class="page-link">2</a></li>
-                      <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                      <li class="page-item"><a href="#" class="page-link">4</a></li>
-                      <li class="page-item"><a href="#" class="page-link">5</a></li>
-                      <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                  </ul>
-              </div>
+            <div class="clearfix">
+              <div class="hint-text">Showing <b>{{taxdetail_info.number}}</b> out of <b>{{taxdetail_info.paginator.num_pages}}</b> entries</div>
+              <ul class="pagination">
+                {% if taxdetail_info.has_previous %}
+                  <li class="page-item"><a class="page-link" href="{% url 'taxdetails' %}?page={{taxdetail_info.previous_page_number}}">Previous</a></li>
+                    {% endif %}
+          
+                    {% for i in taxdetail_info.paginator.page_range %}
+                    {% if taxdetail_info.number == i %}
+
+                  <li class="page-item active"><a class="page-link" href="{% url 'taxdetails' %}?page={{i}}">{{i}}</a></li>
+                  {% else %}
+                  <li class="page-item "><a class="page-link" href="{% url 'taxdetails' %}?page={{i}}">{{i}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                  {% if taxdetail_info.has_next %}
+                  <li class="page-item"><a class="page-link" href="{% url 'taxdetails' %}?page={{taxdetail_info.next_page_number}}">Next</a></li>
+                  {% endif %}
+              </ul>
+          </div>
           </div>
       </div>
       
-    <!-- Edit Modal HTML -->
+    <!-- create Modal HTML -->
     <div id="addEmployeeModal" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -103,47 +112,59 @@
       </div>
     </div>
 
-    <!-- Edit Modal HTML -->
-    <div id="editEmployeeModal" class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <form>
-            <div class="modal-header">						
-              <h4 class="modal-title">Edit Employee</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            {% csrf_token %}
-            {{ form.as_p }}
-            
-            <div class="modal-footer">
-              <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-              <input type="submit" class="btn btn-info" value="Save">
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+   
+    <!-- update Modal HTML -->
+    {% for i in taxdetail_info %}
+       <div id="editDocumentModal-{{forloop.counter}}" class="modal fade">
+         <div class="modal-dialog">
+           <div class="modal-content">
+             
+               <div class="modal-header">						
+                 <h4 class="modal-title">Edit Employee</h4>
+                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+               </div>
+               
+               <div class="modal-body">
+                 <form method="post" action="{% url 'update_taxdetails' id=i.tdid %}">
+                 {% csrf_token %}
+                 {{error}}
+                 {{ form.as_p }}	
+                 
+               </div>
+               <div class="modal-footer">
+                 <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                 <input type="submit" class="btn btn-info" value="Save">
+               </div>
+             </form>
+           </div>
+         </div>
+       </div>
+       {% endfor %}
+
     <!-- Delete Modal HTML -->
-    <div id="deleteEmployeeModal" class="modal fade">
+    {% for i in taxdetail_info %}
+    <div id="deleteDocumentModal-{{forloop.counter}}" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
-          <form>
+          
             <div class="modal-header">						
               <h4 class="modal-title">Delete Employee</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
-            <div class="modal-body">					
-              <p>Are you sure you want to delete these Records?</p>
+            <div class="modal-body">
+            <form>					
+              <p>Are you sure you want to delete {{i.svname}}?</p>
               <p class="text-warning"><small>This action cannot be undone.</small></p>
             </div>
             <div class="modal-footer">
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-              <input type="submit" class="btn btn-danger" value="Delete">
+              <a href="{% url 'del_taxdetails' id=i.tdid %}" class="btn btn-danger" >Delete</a>
             </div>
           </form>
         </div>
       </div>
     </div>
+    {% endfor %}
   </body>
   </html>
 

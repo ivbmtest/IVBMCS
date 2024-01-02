@@ -9,8 +9,6 @@
     <!-- Boxicons CDN Link -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
-   <!--search-->
-    <link rel = "stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   </head>
@@ -23,88 +21,9 @@
 
     {% endblock content %}   
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src=" https://code.jquery.com/jquery-3.7.1.min.js" ></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
    <script src="{% static 'js/main.js' %}"></script>
-   <!--add currency-->
-   
-   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
-   <script>
-       $(document).ready(function () {
-           $('#submitBtn').click(function () {
-               // Serialize form data
-               var formData = $('#myForm').serialize();  
-               // Send AJAX request
-               $.ajax({
-                   type: 'POST',
-                   url: '{% url "currency" %}',
-                   data: formData,
-                   dataType: 'json',
-                   success: function (response) {
-                       if (response.success) {
-                        Swal.fire({
-                icon: "success",
-                title: response.message,
-                //text: "All fields must Fill",
-                });
-                location.reload(true);
-                //$('#ta').load(location.href + "#ta");
-                       } else { 
-                        Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text:response.message,
-                });
-                           // Handle errors if needed
-                       }
-                   },
-                  
-               });
-           });
-       });
-   </script>
-   <!--end currency-->
-<!--delete-->
-<script>
-   $(document).ready(function (){
-    $('.on_del').click(function (){
-      var id=$(this).attr('data-item');
-     $('#del_name').text(name);
-      $('#confi_del').click(function (){
-        $.ajax({
-                   type: 'POST',
-                   url: '{% url "del_currency" %}',
-                   data: {'crid':id,
-                   csrfmiddlewaretoken: '{{ csrf_token }}'},
-                   dataType: 'json',
-                   success: function (response) {
-                       if (response.success) {                
-                        location.reload(true);          
-                       } 
-                   },              
-               });     
-      })     
-    })
-   })
-
-</script>
-<!--end delete-->
-<!--checkbox-->
-
-<!-- search-->
-<script>
-
-    $(function(){
-      $('#curr_input').autocomplete({
-        source: "{% url 'curr_ser' %}"
-      })
-    })
-    </script>
-<!--end-->
-
 
 
   </body>
