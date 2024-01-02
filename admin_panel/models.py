@@ -152,17 +152,16 @@ class srvc(models.Model):
     def __str__(self):
         return self.svname
     
-# class DocumentsRequired(models.Model):
-#     tdid = models.AutoField(primary_key=True, db_column='tdid',verbose_name='Tax Detais Id')
-#     Service = models.ForeignKey(srvc, on_delete=models.CASCADE)
-#     DocumentName = models.CharField(max_length=50,verbose_name='Document Name')
-#     Description = models.TextField()
-#     # Format = models.CharField(max_length=50,choices=[('option1', 'PDF only'), ('option2', 'PDF/JPEG/PNG')])
-#     Format = models.ForeignKey(formt, on_delete=models.CASCADE)
-#     MaxFileSize = models.IntegerField(verbose_name= 'Max File Size')
-#     Status = models.BooleanField(default=True)
-#     CreatedBy = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
-#     CreatedOn = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
+class DocumentsRequired(models.Model):
+    tdid = models.AutoField(primary_key=True, db_column='tdid',verbose_name='Tax Detais Id')
+    Service = models.ForeignKey(srvc, on_delete=models.CASCADE)
+    DocumentName = models.CharField(max_length=50,verbose_name='Document Name')
+    Description = models.TextField() 
+    Format = models.ForeignKey(formt, on_delete=models.CASCADE)
+    MaxFileSize = models.IntegerField(verbose_name= 'Max File Size')
+    Status = models.BooleanField(default=True)
+    CreatedBy = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
+    CreatedOn = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
     
     
     

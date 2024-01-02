@@ -3,17 +3,29 @@
     {% block content %}
 
       <div class="home-content">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <body>
       <div class="container">
           <div class="table-wrapper">
               <div class="table-title">
                   <div class="row">
-                      <div class="col-sm-6">
+                      <div class="col-sm-4">
               <h2>Currency <b>Details</b></h2>
             </div>
-            <div class="col-sm-6">
-              <a href="{% url "create_currency" %}" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
-              <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+            <form action="" method="post" style="width: 100%;" class="col-sm-4" style="background-color:rgba(255, 255, 255, 0) ;">
+              {% csrf_token %}
+            <div class="input-group ">
+              <div class="form-outline " data-mdb-input-init>
+                <input name="ser_name" type="search" id="filter-input" class="form-control" placeholder="Search..." />
+              </div>
+              <button type="submit" class="btn btn-primary" data-mdb-ripple-init>
+                <i class='bx bx-search-alt'></i>
+              </button>
+            </div>
+          </form>
+            <div class="col-sm-4">
+              <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add Currency</span></a>
+              <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class='bx bxs-trash'></i> <span>Delete</span></a>						
             </div>
                   </div>
               </div>
@@ -35,7 +47,6 @@
                   </thead>
                   <tbody>
                     {% for val in currency_info %}
-                  
                       <tr>
                           <td>
                             <span class="custom-checkbox">
@@ -43,21 +54,16 @@
                               <label for="checkbox1"></label>
                             </span>
                           </td>
-                          <td>{{forloop.counter}}</td>
+                          <td>{{val.crid}}</td>
                           <td>{{val.crname}}</td>
                           <td>{{val.crsymbol}}</td>
                           <td>{{val.crdescription}}</td>
                           <td>{{val.crstatus}}</td>
                           <td>{{val.usrid}}</td>
-                          <td>{{val.dtupdatd}}</td>
-                          
-                          {% comment %} <td>
-                              <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                              <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class='bx bx-trash' data-toggle="tooltip" title="Delete"></i></a>
-                          </td> {% endcomment %}
+                          <td>{{val.dtupdatd}}</td>  
                           <td>
-                            <a href="#editEmployeeModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                            {% comment %} <a href="editEmployeeModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a> {% endcomment %}
+                            <a href="#editEmployeeModal-{{forloop.counter}}" class="edit update" data-item ="{{val.crid}}" data-toggle="modal"><i  class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            
                             {% comment %} <input type="hidden" value="{{val.crid}}" class="crid"> {% endcomment %}
                             {% comment %} {% csrf_token %} {% endcomment %}
                             <a href="#deleteEmployeeModal-{{forloop.counter}}" class="delete on_del" data-toggle="modal"  ><i class='bx bx-trash text-danger' data-toggle="tooltip" title="Delete" ></i></a>
@@ -69,18 +75,28 @@
               </table>
             </div>
           
-        <div class="clearfix">
-                  <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                  <ul class="pagination">
-                      <li class="page-item disabled"><a href="#">Previous</a></li>
-                      <li class="page-item"><a href="#" class="page-link">1</a></li>
-                      <li class="page-item"><a href="#" class="page-link">2</a></li>
-                      <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                      <li class="page-item"><a href="#" class="page-link">4</a></li>
-                      <li class="page-item"><a href="#" class="page-link">5</a></li>
-                      <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                  </ul>
-              </div>
+            <div class="clearfix">
+              <div class="hint-text">Showing <b>{{currency_info.number}}</b> out of <b>{{currency_info.paginator.num_pages}}</b> entries</div>
+              <ul class="pagination">
+                {% if currency_info.has_previous %}
+                  <li class="page-item"><a class="page-link" href="{% url 'currency' %}?page={{currency_info.previous_page_number}}">Previous</a></li>
+                    {% endif %}
+          
+                    {% for i in currency_info.paginator.page_range %}
+                    {% if currency_info.number == i %}
+
+                  <li class="page-item active"><a class="page-link" id="pa" href="{% url 'currency' %}?page={{i}}">{{i}}</a></li>
+                  {% else %}
+                  <li class="page-item "><a class="page-link" href="{% url 'currency' %}?page={{i}}">{{i}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                  {% if currency_info.has_next %}
+                  <li class="page-item"><a class="page-link" href="{% url 'currency' %}?page={{currency_info.next_page_number}}">Next</a></li>
+                  {% endif %}
+              </ul>
+          </div>
+
           </div>
       </div>
       
@@ -89,7 +105,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">						
-              <h4 class="modal-title" >Add Currency</h4>
+              <h4 class="modal-title">Add Currency</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
@@ -118,7 +134,8 @@
             <div class="modal-body">
               <form method="post" action="{% url 'update_currency' id=i.crid %}">
                 {% csrf_token %}
-                {{ form.as_p }}
+            <label class="ff">   {{ form.as_p }}</label> 
+                
             </div>
             <div class="modal-footer">
               <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
@@ -156,6 +173,45 @@
       </div>
     </div>
     {% endfor %}
+
+    <script>
+      $(document).ready(function(){
+        $(".update").click(function(){
+         console.log($(this).attr("data-item"))
+         var id = $(this).attr("data-item");
+         var data = {
+                'id': id,
+            }
+         $.ajax({
+                    url: "{% url 'update_currency' id=0 %}",
+                    method: 'GET',
+                    data: data,
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.success) {
+                           console.log(data.form)
+                           $(".ff").html(data.form);
+                        } 
+                    }
+                })
+        });
+      });  
+
+      </script>
+        <script>
+      document.getElementById('selectAll').addEventListener('change', function() {
+     
+      var mainCheckboxChecked = this.checked;
+
+      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(function(checkbox) {
+   
+        if (checkbox !== document.getElementById('selectAll')) {
+          checkbox.checked = mainCheckboxChecked;
+        }
+      });
+    });
+        </script>
   </body>
   </html>
 

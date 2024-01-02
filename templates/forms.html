@@ -1,11 +1,21 @@
-{% extends "main_layout.html" %}
+  {% extends "admin.html" %}
 
     {% block content %}
 
-    <div class="modal-body">
-    <form method="post" action="{% url 'update_currency' id=i.crid %}">
-      {% csrf_token %}
+    <form method="POST" class="post-form">  
+      {% csrf_token %}  
       {{ form.as_p }}
-    </div>
+      {{form.errors}}  
+      <button type="submit" class="save btn btn-default">Save</button>  
+</form>  
+    
 
   {% endblock content %}
+    </section>
+
+
+
+
+
+
+    

@@ -1,7 +1,7 @@
 {% extends "admin.html" %}
 
     {% block content %}
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
       <div class="home-content">
     <body>
@@ -13,8 +13,8 @@
               <h2>Country <b>Details</b></h2>
             </div>
             <div class="col-sm-6">
-              <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
-              <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						
+              <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add New Country</span></a>
+              <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class='bx bxs-trash'></i> <span>Delete</span></a>						
             </div>
                   </div>
               </div>
@@ -61,8 +61,8 @@
                             <td>{{val.dtupdatd}}</td>
                             
                             <td>
-                                <a href="#editCountryModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <a href="#deleteCountryModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class='bx bx-trash' data-toggle="tooltip" title="Delete"></i></a>
+                                <a href="#editCountryModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i id="up" class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a href="#deleteCountryModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class='bx bx-trash text-danger' data-toggle="tooltip" title="Delete"></i></a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -71,18 +71,27 @@
               </table>
             </div>
          
-        <div class="clearfix">
-                  <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                  <ul class="pagination">
-                      <li class="page-item disabled"><a href="#">Previous</a></li>
-                      <li class="page-item"><a href="#" class="page-link">1</a></li>
-                      <li class="page-item"><a href="#" class="page-link">2</a></li>
-                      <li class="page-item active"><a href="#" class="page-link">3</a></li>
-                      <li class="page-item"><a href="#" class="page-link">4</a></li>
-                      <li class="page-item"><a href="#" class="page-link">5</a></li>
-                      <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                  </ul>
-              </div>
+      <div class="clearfix">
+              <div class="hint-text">Showing <b>{{country_info.number}}</b> out of <b>{{country_info.paginator.num_pages}}</b> entries</div>
+              <ul class="pagination">
+                {% if country_info.has_previous %}
+                  <li class="page-item"><a class="page-link" href="{% url 'country' %}?page={{country_info.previous_page_number}}">Previous</a></li>
+                    {% endif %}
+          
+                    {% for i in country_info.paginator.page_range %}
+                    {% if country_info.number == i %}
+
+                  <li class="page-item active"><a class="page-link" href="{% url 'country' %}?page={{i}}">{{i}}</a></li>
+                  {% else %}
+                  <li class="page-item "><a class="page-link" href="{% url 'country' %}?page={{i}}">{{i}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                  {% if country_info.has_next %}
+                  <li class="page-item"><a class="page-link" href="{% url 'country' %}?page={{country_info.next_page_number}}">Next</a></li>
+                  {% endif %}
+              </ul>
+          </div>
           </div>
       </div>
 
@@ -164,6 +173,7 @@
       </div>
     </div>
     {% endfor %}
+    
   </body>
   </html>
 

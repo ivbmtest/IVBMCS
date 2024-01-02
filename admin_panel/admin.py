@@ -79,7 +79,12 @@ class ServiceAdmin(admin.ModelAdmin):
 #         # Call the save_model method of the parent class
 #         super().save_model(request, obj, form, change)
         
-        
+class DocumentRequiredAdmin(admin.ModelAdmin):
+    autocomplete_fields=['Service']
+    search_fields = ('DocumentName',)
+    list_editable = ['Status']
+    list_display = ('Service','DocumentName','Description','Format','MaxFileSize','Status',
+                     'CreatedBy','CreatedOn')       
         
 class TaxMasterAdmin(admin.ModelAdmin):
     list_display = ('txname','txdescription','txisgst','txstatus','usrid','dtupdatd')
@@ -120,7 +125,7 @@ admin.site.register(crnc,CurrencyAdmin)
 admin.site.register(cntry,CountryAdmin)
 admin.site.register(ctgry,CategoryAdmin)
 admin.site.register(srvc,ServiceAdmin)
-# admin.site.register(DocumentsRequired,DocumentRequiredAdmin)
+admin.site.register(DocumentsRequired,DocumentRequiredAdmin)
 admin.site.register(txmst,TaxMasterAdmin)
 admin.site.register(txdet,TaxDetailsAdmin)
 admin.site.register(formt,FileFormatAdmin)
