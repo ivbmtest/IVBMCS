@@ -3,16 +3,16 @@
     {% block content %}
 
       <div class="home-content">
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+       
     <body>
       <div class="container">
           <div class="table-wrapper">
               <div class="table-title">
                   <div class="row">
-                      <div class="col-sm-4">
+                      <div class="col-sm-6">
               <h2>Currency <b>Details</b></h2>
             </div>
-            <form action="" method="post" style="width: 100%;" class="col-sm-4" style="background-color:rgba(255, 255, 255, 0) ;">
+ {% comment %}           <form action="" method="post" style="width: 100%;" class="col-sm-4" style="background-color:rgba(255, 255, 255, 0) ;">
               {% csrf_token %}
             <div class="input-group ">
               <div class="form-outline " data-mdb-input-init>
@@ -23,7 +23,8 @@
               </button>
             </div>
           </form>
-            <div class="col-sm-4">
+          {% endcomment %}
+            <div class="col-sm-6">
               <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add Currency</span></a>
               <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class='bx bxs-trash'></i> <span>Delete</span></a>						
             </div>
@@ -62,7 +63,7 @@
                           <td>{{val.usrid}}</td>
                           <td>{{val.dtupdatd}}</td>  
                           <td>
-                            <a href="#editEmployeeModal-{{forloop.counter}}" class="edit update" data-item ="{{val.crid}}" data-toggle="modal"><i  class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#editEmployeeModal-{{forloop.counter}}" class="edit" data-item ="{{val.crid}}" data-toggle="modal"><i  class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                             
                             {% comment %} <input type="hidden" value="{{val.crid}}" class="crid"> {% endcomment %}
                             {% comment %} {% csrf_token %} {% endcomment %}
@@ -156,7 +157,7 @@
         <div class="modal-content">
           
             <div class="modal-header">						
-              <h4 class="modal-title">Delete Employee</h4>
+              <h4 class="modal-title">Delete Currency</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
@@ -176,7 +177,7 @@
 
     <script>
       $(document).ready(function(){
-        $(".update").click(function(){
+        $(".edit").click(function(){
          console.log($(this).attr("data-item"))
          var id = $(this).attr("data-item");
          var data = {

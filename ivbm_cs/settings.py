@@ -81,26 +81,26 @@ WSGI_APPLICATION = 'ivbm_cs.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
 DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'ivbmcs_db',
-		#'USER': 'admin',
-		#'PASSWORD': 'admin',
-		'USER': 'root',
-		'PASSWORD': '1234',
-		'HOST':'localhost',
-		'PORT':'3306',
-	}
-}
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': BASE_DIR / 'db.sqlite3',
+     }
+ }
+
+
+#DATABASES = {
+#	'default': {
+#		'ENGINE': 'django.db.backends.mysql',
+#		'NAME': 'ivbmcs_db',
+#		#'USER': 'admin',
+#		#'PASSWORD': 'admin',
+#		'USER': 'root',
+#		'PASSWORD': '1234',
+#		'HOST':'localhost',
+#		'PORT':'3306',
+#	}
+# }
 
 
 # Password validation
@@ -140,6 +140,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+STATIC_ROOT = os.path.join(BASE_DIR,'assets')
 
 
 # MEDIA_URL = 'media/'

@@ -114,21 +114,22 @@ def del_category(request,id):
 
 # Update Category
 def update_category(request,id):
-    updt_category=ctgry.objects.get(pk=id)
+    
     if request.method == 'POST':
+        updt_category=ctgry.objects.get(pk=id)
         ctgry_frm= ctgryForm(request.POST,request.FILES,instance=updt_category)
         if ctgry_frm.is_valid:
             instance=ctgry_frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
             return redirect('category')
-        else:
-            ctgry_frm= ctgryForm(instance=updt_category)
-    model_meta = ctgry._meta
-    field_names = [field.verbose_name for field in model_meta.fields]
-        
-    category_info=ctgry.objects.all()
-    return render(request,'category.html',{'form': ctgry_frm,'category_info':category_info,'field_names': field_names})
+    else:
+        id = request.GET['id']
+        print(id)
+        currency=ctgry.objects.get(pk=id)
+        frm = ctgryForm(instance=currency)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})
       
             
 def country(request):
@@ -159,21 +160,22 @@ def delete_country(request,id):
 
 #Update Country
 def update_country(request,id):
-    updt_country=cntry.objects.get(pk=id)
+    
     if request.method =="POST":
+        updt_country=cntry.objects.get(pk=id)
         cntry_frm = cntryForm(request.POST,instance=updt_country)
         if cntry_frm.is_valid:
             instance=cntry_frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
             return redirect('country')
-        else:
-            ctgry_frm= cntryForm(instance=updt_country)
-            
-    model_meta = cntry._meta
-    field_names = [field.verbose_name for field in model_meta.fields]     
-    country_info=cntry.objects.all()
-    return render(request,'country.html',{'form': cntry_frm,'country_info':country_info,'field_names': field_names})
+    else:
+        id = request.GET['id']
+        print(id)
+        currency=cntry.objects.get(pk=id)
+        frm =cntryForm(instance=currency)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})
       
             
 #document
@@ -202,21 +204,21 @@ def del_document(request,id):
 #update document
 
 def update_document(request,id):
-    updt_service=DocumentsRequired.objects.get(pk=id)
     if request.method =="POST":
+        updt_service=DocumentsRequired.objects.get(pk=id)
         srvc_frm = DocumentForm(request.POST,instance=updt_service)
         if srvc_frm.is_valid:
             instance=srvc_frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
             return redirect('document')
-        else:
-            srvc_frm= DocumentForm(instance=updt_service)
-    model_meta = DocumentsRequired._meta
-    field_names = [field.verbose_name for field in model_meta.fields]    
-    service_info=DocumentsRequired.objects.all()
-    return render(request,'document.html',{'form': srvc_frm,'service_info':service_info,'field_names': field_names})
-
+    else:
+        id = request.GET['id']
+        print(id)
+        currency=DocumentsRequired.objects.get(pk=id)
+        frm =DocumentForm(instance=currency)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})
 
 
 
@@ -253,22 +255,22 @@ def delete_service(request,id):
     return redirect('services')
 
 def Update_service(request,id):
-    updt_service=srvc.objects.get(pk=id)
     
     if request.method =="POST":
-        srvc_frm = srvcForm(request.POST,instance=updt_service)
+        updt_service=srvc.objects.get(pk=id)
         if srvc_frm.is_valid:
+            srvc_frm = srvcForm(request.POST,instance=updt_service)
             instance=srvc_frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
             return redirect('services')
-        else:
-            srvc_frm= srvcForm(instance=updt_service)
-    model_meta = srvc._meta
-    field_names = [field.verbose_name for field in model_meta.fields]    
-    service_info=cntry.objects.all()
-    return render(request,'services.html',{'form': srvc_frm,'service_info':service_info,'field_names': field_names})
-
+    else:
+        id = request.GET['id']
+        print(id)
+        currency=srvc.objects.get(pk=id)
+        frm =srvcForm(instance=currency)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})   
             
 # Tax Details
 def taxdetails(request):
@@ -295,21 +297,22 @@ def delete_taxdetails(request,id):
 
 #update taxdetails
 def update_taxdetails(request,id):
-    updt_service=txdet.objects.get(pk=id)
     if request.method =="POST":
+        updt_service=txdet.objects.get(pk=id)
         srvc_frm = TaxdeailsForm(request.POST,instance=updt_service)
         if srvc_frm.is_valid:
             instance=srvc_frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
             return redirect('taxdetails')
-        else:
-            srvc_frm= TaxdeailsForm(instance=updt_service)
-    model_meta = txdet._meta
-    field_names = [field.verbose_name for field in model_meta.fields]    
-    service_info=txdet.objects.all()
-    return render(request,'taxdetails.html',{'form': srvc_frm,'service_info':service_info,'field_names': field_names})
-
+    else:
+        id = request.GET['id']
+        print(id)
+        currency=txdet.objects.get(pk=id)
+        frm = TaxdeailsForm(instance=currency)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})   
+    
 
 # Tax Master
 def taxmaster(request):
@@ -336,21 +339,21 @@ def delete_taxmaster(request,id):
 
 #update taxdetails
 def update_taxmaster(request,id):
-    updt_service=txmst.objects.get(pk=id)
     if request.method =="POST":
+        updt_service=txmst.objects.get(pk=id)
         srvc_frm = Tax_masterForm(request.POST,instance=updt_service)
         if srvc_frm.is_valid:
             instance=srvc_frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
             return redirect('taxmaster')
-        else:
-            srvc_frm= Tax_masterForm(instance=updt_service)
-    model_meta = txmst._meta
-    field_names = [field.verbose_name for field in model_meta.fields]    
-    service_info=txmst.objects.all()
-    return render(request,'taxmaster.html',{'form': srvc_frm,'service_info':service_info,'field_names': field_names})
-
+    else:
+        id = request.GET['id']
+        print(id)
+        currency=txmst.objects.get(pk=id)
+        frm = Tax_masterForm(instance=currency)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})   
 
 def dashboard(request):
     return render(request,'main_layout.html')
