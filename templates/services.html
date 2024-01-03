@@ -108,7 +108,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <div class="modal-body">
-            <form method="post" action="{% url 'services' %}">
+            <form id="your-form" method="post" action="{% url 'services' %}">
               {% csrf_token %}
               {{ form.as_p }}
     
@@ -138,8 +138,7 @@
         </div>
       </div>
     </div>
-    
-    
+   
 
     <!-- update Modal HTML -->
     {% for i in service_info %}
@@ -155,7 +154,6 @@
             <div class="modal-body">
               <form method="post" action="{% url 'update_service' id=i.svid %}">
               {% csrf_token %}
-              {{error}}
               {{ form.as_p }}	
               
             </div>
@@ -168,9 +166,7 @@
       </div>
     </div>
     {% if error_msg %}
-
     <div id="editServiceModal-{{forloop.counter}}" class="modal fade">
-
       <div class="errorlist">
         <ul>
           {% for error in form.errors %}
@@ -186,11 +182,9 @@
         </ul>
       </div>
       <input id="editServiceModal-{{forloop.counter}}" type="submit" class="btn btn-info" value="Save">
-      
     </div>
-      
-{% endif %}
-    {% endfor %}
+    {% endif %}
+  {% endfor %}
     
     
     <!-- Delete Modal HTML -->
@@ -223,7 +217,27 @@
   {% endblock content %}
     </section>
 
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#your-form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        // Handle success if needed
+                        alert('Form submitted successfully!');
+                    },
+                    error: function (xhr, errmsg, err) {
+                        // Update the error container with error messages
+                        $('#error-container').html(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 
 
 

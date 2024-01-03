@@ -50,7 +50,9 @@ def currency(request):
     if request.method == 'POST':
         frm = crncForm(request.POST)  
         if frm.is_valid:
-            frm.save()
+            instance = frm.save(commit=False)
+            instance.usrid = request.user
+            instance.save()
             return redirect('currency')
     else:
         frm = crncForm()   
@@ -79,8 +81,9 @@ def update_currency(request,id):
         currency=crnc.objects.get(pk=id)
         frm=crncForm(request.POST,instance=currency)
         if frm.is_valid:
-            frm.user = request.user
-            frm.save()
+            instance = frm.save(commit=False)
+            instance.usrid = request.user
+            instance.save()
             return redirect('currency')
     else:
         id = request.GET['id']
@@ -95,18 +98,21 @@ def category(request):
     if request.method == 'POST':
         ctrgy_frm = ctgryForm(request.POST,request.FILES)
         if ctrgy_frm.is_valid:
-            ctrgy_frm.save()
+            instance = ctrgy_frm.save(commit=False)
+            instance.usrid = request.user
+            instance.save()
             return redirect('category')          
     else:        
         ctrgy_frm = ctgryForm() 
-        model_meta = ctgry._meta
-        field_names = [field.verbose_name for field in model_meta.fields]
-        y=ctgry.objects.all()
-        page=Paginator(y,5)
-        page_list=request.GET.get('page')
-        page=page.get_page(page_list)  
-        #category_info=ctgry.objects.all()
-        return render(request,'category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names})
+        
+    model_meta = ctgry._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    y=ctgry.objects.all()
+    page=Paginator(y,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)  
+    #category_info=ctgry.objects.all()
+    return render(request,'category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names})
 
 #Delete Category
 def del_category(request,id):
@@ -143,14 +149,14 @@ def country(request):
             return redirect('country')
     else:
         cntry_frm = cntryForm()
-        model_meta = cntry._meta
-        field_names = [field.verbose_name for field in model_meta.fields]
-        y=cntry.objects.all()
-        page=Paginator(y,5)
-        page_list=request.GET.get('page')
-        page=page.get_page(page_list)    
-        #country_info=cntry.objects.all()
-        return render(request,'country.html',{'form': cntry_frm,'country_info':page,'field_names': field_names})
+    model_meta = cntry._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    y=cntry.objects.all()
+    page=Paginator(y,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)    
+    #country_info=cntry.objects.all()
+    return render(request,'country.html',{'form': cntry_frm,'country_info':page,'field_names': field_names})
     
     
 # Delete Country
@@ -183,8 +189,9 @@ def document(request):
     if request.method == 'POST':
         frm = DocumentForm(request.POST)
         if frm.is_valid:
-            frm.save()
-            print("fs")
+            instance = frm.save(commit=False)
+            instance.usrid = request.user
+            instance.save()
             return redirect('document')
     else:
         frm = DocumentForm()
@@ -232,13 +239,17 @@ def services(request):
         if srvc_frm.is_valid:
             print('invalid svc===========>>>>>>>',srvc_frm.errors)
             try:
-                srvc_frm.usrid = request.user
-                srvc_frm.save()
+                instance = srvcForm.save(commit=False)
+                instance.usrid = request.user
+                instance.save()
                 return redirect('services')
             except ValueError as e:
                 print("----------------exception.............")
+                if request.is_ajax():
+                    errors = dict(srvcForm.errors.items())
+                    return JsonResponse({'errors': errors}, status=400)
                  
-                return render(request,'services.html',{'form': srvc_frm,'error_msg': error_message})
+                # return render(request,'services.html',{'form': srvc_frm,'error_msg':True})
                                  
     else:
        
@@ -250,7 +261,7 @@ def services(request):
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)     
-    return render(request,'services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names})
+    return render(request,'services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names,'error_msg':False})
 
 
 #Delete Service
@@ -287,13 +298,13 @@ def taxdetails(request):
             return redirect('taxdetails')
     else:
         frm = TaxdeailsForm()
-        model_meta = txdet._meta
-        field_names = [field.verbose_name for field in model_meta.fields]   
-        y=txdet.objects.all()
-        page=Paginator(y,5)
-        page_list=request.GET.get('page')
-        page=page.get_page(page_list)
-        return render(request,'taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names})
+    model_meta = txdet._meta
+    field_names = [field.verbose_name for field in model_meta.fields]   
+    y=txdet.objects.all()
+    page=Paginator(y,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)
+    return render(request,'taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names})
 
 # del taxdetails
 def delete_taxdetails(request,id):
@@ -328,13 +339,13 @@ def taxmaster(request):
             return redirect('taxmaster')
     else:
         frm = Tax_masterForm()
-        model_meta = txmst._meta
-        field_names = [field.verbose_name for field in model_meta.fields]   
-        y=txmst.objects.all()
-        page=Paginator(y,5)
-        page_list=request.GET.get('page')
-        page=page.get_page(page_list)  
-        return render(request,'taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names})
+    model_meta = txmst._meta
+    field_names = [field.verbose_name for field in model_meta.fields]   
+    y=txmst.objects.all()
+    page=Paginator(y,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)  
+    return render(request,'taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names})
 
 
 # del tax Master
