@@ -108,30 +108,35 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <div class="modal-body">
-            <form method="post" action="{% url 'services' %}">
+            <form method="post" id="addform">
               {% csrf_token %}
-              {{ form.as_p }}
+            <label id="add_data">  {{ form.as_p }}</label>
     
-              {% if form.errors %}
-                <div class="errorlist">
-                  <ul>
-                    {% for error in form.errors %}
-                      <li>{{ error }}</li>
-                      {% if form.errors.error_list %}
-                        <ul class="errorlist nonfield">
-                          {% for sub_error in form.errors.error_list %}
-                            <li>{{ sub_error }}</li>
-                          {% endfor %}
-                        </ul>
-                      {% endif %}
-                    {% endfor %}
-                  </ul>
-                </div>
-              {% endif %}
-    
+          
+           
+              <div class="errorlist">
+                <ul>
+                  {% for error in form.errors %}
+                    <li>{{ error }}</li>
+                    {% if form.errors.error_list %}
+                      <ul class="errorlist nonfield">
+                        {% for sub_error in form.errors.error_list %}
+                          <li>{{ sub_error }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+             
+             <div id="er">
+
+             </div>
+             
+
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <input type="submit" class="btn btn-success" value="Add">
+                <input type="submit" class="btn btn-success" value="Add" id="add">
               </div>
             </form>
           </div>
@@ -193,6 +198,29 @@
       </div>
     </div>
     {% endfor %}
+
+<script>
+  $(document).ready(function () {
+        $('#addform').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '{% url "services" %}',  // Replace with the actual URL of your view
+                data: $(this).serialize(),
+                success: function (data) {
+                    if (data.success) {
+                        alert('Form submitted successfully!');
+                    } else {
+                        alert('Form submission failed. Please check the errors.');
+                        console.log(data.error_msg);
+                        $("#er").html(data.error_msg);
+                    }
+                }
+            });
+        });
+    });
+</script>
+
 
     <script>
       $(document).ready(function(){

@@ -15,7 +15,7 @@
 }
 
 .logo{
-  width: 90%;
+  width: 32%;
 }
 
 .sidebar.active{
@@ -328,6 +328,10 @@ nav .profile-details i{
     width: 170px;
 
   }
+  .logo{
+    width: 91%;
+  }
+
   .sidebar.active{
     width: 220px;
   }
