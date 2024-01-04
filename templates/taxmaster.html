@@ -12,7 +12,7 @@
               <h2>Tax <b>Master</b></h2>
             </div>
             <div class="col-sm-6">
-                <a href="#addTaxMasterModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add New Tax</span></a>
+                <a href="#addTaxMasterModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add Tax</span></a>
                 <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class='bx bxs-trash'></i> <span>Delete</span></a>						
               </div>
                   </div>
@@ -52,7 +52,7 @@
                           
                           
                           <td>
-                            <a href="#editDocumentModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#editDocumentModal-{{forloop.counter}}" class="edit" data-item="{{val.txid}}" data-toggle="modal"><i class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                             <a href="#deleteDocumentModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class='bx bx-trash text-danger' data-toggle="tooltip" title="Delete"></i></a>
                           </td>
                       </tr>
@@ -90,7 +90,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">						
-              <h4 class="modal-title">Add Employee</h4>
+              <h4 class="modal-title">Add Tax</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
@@ -114,7 +114,7 @@
            <div class="modal-content">
              
                <div class="modal-header">						
-                 <h4 class="modal-title">Edit Employee</h4>
+                 <h4 class="modal-title">Edit Tax</h4>
                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                </div>
                
@@ -122,7 +122,7 @@
                  <form method="post" action="{% url 'update_taxmaster' id=i.txid %}">
                  {% csrf_token %}
                  {{error}}
-                 {{ form.as_p }}	
+                 <label class="ff">   {{ form.as_p }}</label> 
                  
                </div>
                <div class="modal-footer">
@@ -142,7 +142,7 @@
         <div class="modal-content">
           
             <div class="modal-header">						
-              <h4 class="modal-title">Delete Employee</h4>
+              <h4 class="modal-title">Delete Tax</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
@@ -159,6 +159,32 @@
       </div>
     </div>
     {% endfor %}
+
+    <script>
+      $(document).ready(function(){
+        $(".edit").click(function(){
+         console.log($(this).attr("data-item"))
+         var id = $(this).attr("data-item");
+         var data = {
+                'id': id,
+            }
+         $.ajax({
+                    url: "{% url 'update_taxmaster' id=0 %}",
+                    method: 'GET',
+                    data: data,
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.success) {
+                           console.log(data.success)
+                           $(".ff").html(data.form);
+                        } 
+                    }
+                })
+        });
+      });  
+
+      </script>
+
   </body>
   </html>
 

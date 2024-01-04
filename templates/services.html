@@ -12,7 +12,7 @@
               <h2>Services <b>Details</b></h2>
             </div>
             <div class="col-sm-6">
-              <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add New Services</span></a>
+              <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add Services</span></a>
               <a href="#deleteEmployeeModal" class="btn btn-danger"  data-toggle="modal"><i class='bx bxs-trash'></i> <span class="text-white">Delete</span></a>						
             </div>
                   </div>
@@ -65,7 +65,7 @@
                             <td>{{val.dtupdatd}}</td>
                             
                             <td>
-                                <a href="#editServiceModal-{{forloop.counter}}" class="edit" data-toggle="modal"><i class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                <a href="#editServiceModal-{{forloop.counter}}" class="edit" data-item="{{val.svid}}" data-toggle="modal"><i class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                                 <a href="#deleteServiceModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class='bx bx-trash text-danger' data-toggle="tooltip" title="Delete"></i></a>
                             </td>
                         </tr>
@@ -104,34 +104,39 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">						
-            <h4 class="modal-title">Add Employee</h4>
+            <h4 class="modal-title">Add Services</h4>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           </div>
           <div class="modal-body">
-            <form id="your-form" method="post" action="{% url 'services' %}">
+            <form method="post" id="addform">
               {% csrf_token %}
-              {{ form.as_p }}
+            <label id="add_data">  {{ form.as_p }}</label>
     
-              {% if form.errors %}
-                <div class="errorlist">
-                  <ul>
-                    {% for error in form.errors %}
-                      <li>{{ error }}</li>
-                      {% if form.errors.error_list %}
-                        <ul class="errorlist nonfield">
-                          {% for sub_error in form.errors.error_list %}
-                            <li>{{ sub_error }}</li>
-                          {% endfor %}
-                        </ul>
-                      {% endif %}
-                    {% endfor %}
-                  </ul>
-                </div>
-              {% endif %}
-    
+          
+           
+              <div class="errorlist">
+                <ul>
+                  {% for error in form.errors %}
+                    <li>{{ error }}</li>
+                    {% if form.errors.error_list %}
+                      <ul class="errorlist nonfield">
+                        {% for sub_error in form.errors.error_list %}
+                          <li>{{ sub_error }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+             
+             <div id="er" class="text-danger">
+
+             </div>
+             
+
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <input type="submit" class="btn btn-success" value="Add">
+                <input type="submit" class="btn btn-success" value="Add" id="add">
               </div>
             </form>
           </div>
@@ -147,14 +152,15 @@
         <div class="modal-content">
           
             <div class="modal-header">						
-              <h4 class="modal-title">Edit Employee</h4>
+              <h4 class="modal-title">Edit Services</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             
             <div class="modal-body">
               <form method="post" action="{% url 'update_service' id=i.svid %}">
               {% csrf_token %}
-              {{ form.as_p }}	
+              {{error}}
+              <label class="ff">   {{ form.as_p }}</label> 
               
             </div>
             <div class="modal-footer">
@@ -194,7 +200,7 @@
         <div class="modal-content">
           
             <div class="modal-header">						
-              <h4 class="modal-title">Delete Employee</h4>
+              <h4 class="modal-title">Delete Services</h4>
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
@@ -211,6 +217,55 @@
       </div>
     </div>
     {% endfor %}
+
+<script>
+  $(document).ready(function () {
+        $('#addform').submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '{% url "services" %}',  // Replace with the actual URL of your view
+                data: $(this).serialize(),
+                success: function (data) {
+                    if (data.success) {
+                        alert('Form submitted successfully!');
+                    } else {
+                        alert('Form submission failed. Please check the errors.');
+                        console.log(data.error_msg);
+                        $("#er").html(data.error_msg);
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+
+    <script>
+      $(document).ready(function(){
+        $(".edit").click(function(){
+         console.log($(this).attr("data-item"))
+         var id = $(this).attr("data-item");
+         var data = {
+                'id': id,
+            }
+         $.ajax({
+                    url: "{% url 'update_service' id=0 %}",
+                    method: 'GET',
+                    data: data,
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.success) {
+                           console.log(data.success)
+                           $(".ff").html(data.form);
+                        } 
+                    }
+                })
+        });
+      });  
+
+      </script>
+
   </body>
   </html>
 

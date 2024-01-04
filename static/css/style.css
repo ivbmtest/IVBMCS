@@ -9,22 +9,25 @@
 .sidebar{
   position: fixed;
   height: 100%;
-  width: 240px;
-  background: #eaebee;
+  width: 100vh;
+  background:#242d6e;
   transition: all 0.5s ease;
 }
 
 .logo{
-  width: 90%;
+  width: 32%;
 }
 
 .sidebar.active{
   width: 50px;
+  
+
 }
 .sidebar .logo-details{
   height: 80px;
   display: flex;
   align-items: center;
+  background-color: whitesmoke;
   
 }
 
@@ -34,9 +37,8 @@
   font-weight: 400;
 }
 .sidebar .nav-links{
-  margin-top: 10px;
-  background: #081D45;
-  height: 100vh;
+  
+  background: #242d6e;
 }
 .sidebar .nav-links li{
   position: relative;
@@ -52,10 +54,11 @@
   transition: all 0.4s ease;
 }
 .sidebar .nav-links li a.active{
-  background: #081D45;
+  background: #86c33f;
+  
 }
 .sidebar .nav-links li a:hover{
-  background:#24f346;
+  background:#54e237;
 }
 .sidebar .nav-links li i{
   min-width: 60px;
@@ -138,7 +141,7 @@ nav .search-box .bx-search{
   position: absolute;
   height: 40px;
   width: 40px;
-  background: #2697FF;
+  background:#54e237;
   right: 5px;
   top: 50%;
   transform: translateY(-50%);
@@ -158,6 +161,10 @@ nav .search-box .bx-search{
   height: 50px;
   min-width: 190px;
   padding: 0 15px 0 2px;
+}
+
+.home-section nav .profile-details:hover{
+background-color:#54e237;
 }
 nav .profile-details img{
   height: 40px;
@@ -199,6 +206,14 @@ nav .profile-details i{
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
+
+.overview-boxes .box:hover{
+ /* background-color: #86c33f;*/
+  background-color: #c4d8aa;
+  cursor: pointer;
+  transition: .5s;
+}
+
 .overview-boxes .box-topic{
   font-size: 20px;
   font-weight: 500;
@@ -310,8 +325,13 @@ nav .profile-details i{
 /* Responsive Media Query */
 @media (max-width: 1240px) {
   .sidebar{
-    width: 60px;
+    width: 170px;
+
   }
+  .logo{
+    width: 91%;
+  }
+
   .sidebar.active{
     width: 220px;
   }
@@ -332,6 +352,7 @@ nav .profile-details i{
   .sidebar.active ~ .home-section nav{
     width: calc(100% - 220px);
     left: 220px;
+    
   }
 }
 @media (max-width: 1150px) {
@@ -376,7 +397,7 @@ nav .profile-details i{
     display: none;
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 200px) {
   .sidebar{
     width: 0;
   }

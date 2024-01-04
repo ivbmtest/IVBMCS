@@ -164,11 +164,17 @@ class DocumentsRequired(models.Model):
     CreatedOn = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
     
     
-    
+# demo user model
 
-    
-
- 
+class UserProfile(models.Model):
+    name = models.CharField(max_length=255,verbose_name="Name")
+    phone_number = models.CharField(max_length=15,verbose_name="Phone number")
+    email = models.EmailField(verbose_name="Email")
+    service = models.ForeignKey(srvc, on_delete=models.CASCADE,verbose_name="Service")
+    document = models.FileField(upload_to='user_documents/',verbose_name="Upload Document(.pdf)")
+    image = models.ImageField(upload_to='user_images/',verbose_name="Upload Image(.jpg/.jpeg)")
+    payment = models.BooleanField(verbose_name="Payment")
+    created_at = models.DateTimeField(auto_now_add=True)
 
     
 

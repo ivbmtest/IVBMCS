@@ -22,7 +22,7 @@ def Login(request):
         if user_det is not None:
             user = get_object_or_404(User, username=username)
             if user.is_authenticated:
-            
+
                 login(request, user_det)
                 if user.is_superuser:
                       # Explicitly set the session to save the changes
@@ -31,7 +31,7 @@ def Login(request):
                     # print(user.id)
                     # print("----------->>>>>>>--",user.id)
                     #return render(request, 'admin.html',{'user':user})
-                    return redirect('/dashboard/')   
+                    return redirect('/dashboard/')
         else:
             # Handle invalid login credentials
             return render(request, 'admin/login.html', {'error_message': 'Invalid credentials'})
@@ -42,29 +42,26 @@ def Logout(request):
     logout(request)
     return redirect('/')
 
-def index(request):  
-    student = crncForm()  
-    return render(request,"forms.html",{'form':student})  
-
+@login_required(login_url="/")
 def currency(request):
     if request.method == 'POST':
-        frm = crncForm(request.POST)  
+        frm = crncForm(request.POST)
         if frm.is_valid:
             instance = frm.save(commit=False)
             instance.usrid = request.user
             instance.save()
             return redirect('currency')
     else:
-        frm = crncForm()   
-        model_meta = crnc._meta
-        field_names = [field.verbose_name for field in model_meta.fields]
-        y=crnc.objects.all()
-        page=Paginator(y,5)
-        page_list=request.GET.get('page')
-        page=page.get_page(page_list)
-        print(page)
-        #currency_info=crnc.objects.all()
-        return render(request,'currency.html',{'form': frm,'currency_info':page,'field_names': field_names})
+        frm = crncForm()
+    model_meta = crnc._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    y=crnc.objects.all()
+    page=Paginator(y,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)
+    print(page)
+    #currency_info=crnc.objects.all()
+    return render(request,'currency.html',{'form': frm,'currency_info':page,'field_names': field_names})
 
 
 #delete currency
@@ -76,7 +73,7 @@ def del_currency(request,id):
 
 #update currency
 def update_currency(request,id):
-    
+
     if request.method=='POST':
         currency=crnc.objects.get(pk=id)
         frm=crncForm(request.POST,instance=currency)
@@ -94,6 +91,7 @@ def update_currency(request,id):
         return JsonResponse({'success': True, 'form':frm})
 
 # category
+@login_required(login_url="/")
 def category(request):
     if request.method == 'POST':
         ctrgy_frm = ctgryForm(request.POST,request.FILES)
@@ -122,23 +120,24 @@ def del_category(request,id):
 
 # Update Category
 def update_category(request,id):
-    updt_category=ctgry.objects.get(pk=id)
+
     if request.method == 'POST':
+        updt_category=ctgry.objects.get(pk=id)
         ctgry_frm= ctgryForm(request.POST,request.FILES,instance=updt_category)
         if ctgry_frm.is_valid:
             instance=ctgry_frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
             return redirect('category')
-        else:
-            ctgry_frm= ctgryForm(instance=updt_category)
-    model_meta = ctgry._meta
-    field_names = [field.verbose_name for field in model_meta.fields]
-        
-    category_info=ctgry.objects.all()
-    return render(request,'category.html',{'form': ctgry_frm,'category_info':category_info,'field_names': field_names})
-      
-            
+    else:
+        id = request.GET['id']
+        print(id)
+        currency=ctgry.objects.get(pk=id)
+        frm = ctgryForm(instance=currency)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})
+
+@login_required(login_url="/")
 def country(request):
     if request.method == 'POST':
         cntry_frm = cntryForm(request.POST)
@@ -167,24 +166,26 @@ def delete_country(request,id):
 
 #Update Country
 def update_country(request,id):
-    updt_country=cntry.objects.get(pk=id)
+
     if request.method =="POST":
+        updt_country=cntry.objects.get(pk=id)
         cntry_frm = cntryForm(request.POST,instance=updt_country)
         if cntry_frm.is_valid:
             instance=cntry_frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
             return redirect('country')
-        else:
-            ctgry_frm= cntryForm(instance=updt_country)
-            
-    model_meta = cntry._meta
-    field_names = [field.verbose_name for field in model_meta.fields]     
-    country_info=cntry.objects.all()
-    return render(request,'country.html',{'form': cntry_frm,'country_info':country_info,'field_names': field_names})
-      
-            
+    else:
+        id = request.GET['id']
+        print(id)
+        currency=cntry.objects.get(pk=id)
+        frm =cntryForm(instance=currency)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})
+
+
 #document
+@login_required(login_url="/")
 def document(request):
     if request.method == 'POST':
         frm = DocumentForm(request.POST)
@@ -195,13 +196,13 @@ def document(request):
             return redirect('document')
     else:
         frm = DocumentForm()
-        model_meta = DocumentsRequired._meta
-        field_names = [field.verbose_name for field in model_meta.fields] 
-        y=DocumentsRequired.objects.all()
-        page=Paginator(y,5)
-        page_list=request.GET.get('page')
-        page=page.get_page(page_list)  
-        return render(request,'document.html',{'form': frm,'document_info':page,'field_names': field_names})
+    model_meta = DocumentsRequired._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    y=DocumentsRequired.objects.all()
+    page=Paginator(y,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)
+    return render(request,'document.html',{'form': frm,'document_info':page,'field_names': field_names})
 
 
 #delete document
@@ -213,56 +214,58 @@ def del_document(request,id):
 
 #update document
 def update_document(request,id):
-    updt_service=DocumentsRequired.objects.get(pk=id)
     if request.method =="POST":
+        updt_service=DocumentsRequired.objects.get(pk=id)
         srvc_frm = DocumentForm(request.POST,instance=updt_service)
         if srvc_frm.is_valid:
             instance=srvc_frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
             return redirect('document')
-        else:
-            srvc_frm= DocumentForm(instance=updt_service)
-    model_meta = DocumentsRequired._meta
-    field_names = [field.verbose_name for field in model_meta.fields]    
-    service_info=DocumentsRequired.objects.all()
-    return render(request,'document.html',{'form': srvc_frm,'service_info':service_info,'field_names': field_names})
+    else:
+        id = request.GET['id']
+        print(id)
+        currency=DocumentsRequired.objects.get(pk=id)
+        frm =DocumentForm(instance=currency)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})
 
 
-
-
+@login_required(login_url="/")
 def services(request):
     error_message=""
     if request.method == 'POST':
         srvc_frm = srvcForm(request.POST)
-        
+
         if srvc_frm.is_valid:
             print('invalid svc===========>>>>>>>',srvc_frm.errors)
+            print('invalid svc===========>>>>>>>',srvc_frm.errors)
+            print("erorr data type ====>",type(srvc_frm.errors))
+            err =srvc_frm.errors
+
+        
+            err=str(err)
+            print("json type ======>",type(err))
             try:
-                instance = srvcForm.save(commit=False)
-                instance.usrid = request.user
-                instance.save()
+                srvc_frm.usrid = request.user
+                srvc_frm.save()
                 return redirect('services')
             except ValueError as e:
+               
                 print("----------------exception.............")
-                if request.is_ajax():
-                    errors = dict(srvcForm.errors.items())
-                    return JsonResponse({'errors': errors}, status=400)
-                 
-                # return render(request,'services.html',{'form': srvc_frm,'error_msg':True})
-                                 
+                return JsonResponse({'success': False,'error_msg': err})   
+                #return render(request,'services.html',{'form': srvc_frm,'error_msg': error_message})
+
     else:
-       
-        srvc_frm = srvcForm()  
-        
+
+        srvc_frm = srvcForm()
     model_meta = srvc._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y=srvc.objects.all()
     page=Paginator(y,5)
     page_list=request.GET.get('page')
-    page=page.get_page(page_list)     
-    return render(request,'services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names,'error_msg':False})
-
+    page=page.get_page(page_list)
+    return render(request,'services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names})
 
 #Delete Service
 def delete_service(request,id):
@@ -271,35 +274,37 @@ def delete_service(request,id):
     return redirect('services')
 
 def Update_service(request,id):
-    error_message=""
-    updt_service=srvc.objects.get(pk=id)
-    
+
     if request.method =="POST":
-        srvc_frm = srvcForm(request.POST,instance=updt_service)
+        updt_service=srvc.objects.get(pk=id)
         if srvc_frm.is_valid:
+            srvc_frm = srvcForm(request.POST,instance=updt_service)
             instance=srvc_frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
             return redirect('services')
-        else:
-            srvc_frm= srvcForm(instance=updt_service)
-    model_meta = srvc._meta
-    field_names = [field.verbose_name for field in model_meta.fields]    
-    service_info=cntry.objects.all()
-    return render(request,'services.html',{'form': srvc_frm,'service_info':service_info,'field_names': field_names})
+    else:
+        id = request.GET['id']
+        print(id)
+        currency=srvc.objects.get(pk=id)
+        frm =srvcForm(instance=currency)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})
 
-            
 # Tax Details
+@login_required(login_url="/")
 def taxdetails(request):
     if request.method == 'POST':
         frm = TaxdeailsForm(request.POST)
         if frm.is_valid:
-            frm.save()
+            instance=frm.save(commit=False)
+            instance.usrid=request.user
+            instance.save()
             return redirect('taxdetails')
     else:
         frm = TaxdeailsForm()
     model_meta = txdet._meta
-    field_names = [field.verbose_name for field in model_meta.fields]   
+    field_names = [field.verbose_name for field in model_meta.fields]
     y=txdet.objects.all()
     page=Paginator(y,5)
     page_list=request.GET.get('page')
@@ -314,37 +319,41 @@ def delete_taxdetails(request,id):
 
 #update taxdetails
 def update_taxdetails(request,id):
-    updt_service=txdet.objects.get(pk=id)
     if request.method =="POST":
+        updt_service=txdet.objects.get(pk=id)
         srvc_frm = TaxdeailsForm(request.POST,instance=updt_service)
         if srvc_frm.is_valid:
             instance=srvc_frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
             return redirect('taxdetails')
-        else:
-            srvc_frm= TaxdeailsForm(instance=updt_service)
-    model_meta = txdet._meta
-    field_names = [field.verbose_name for field in model_meta.fields]    
-    service_info=txdet.objects.all()
-    return render(request,'taxdetails.html',{'form': srvc_frm,'service_info':service_info,'field_names': field_names})
+    else:
+        id = request.GET['id']
+        print(id)
+        currency=txdet.objects.get(pk=id)
+        frm = TaxdeailsForm(instance=currency)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})
 
 
 # Tax Master
+@login_required(login_url="/")
 def taxmaster(request):
     if request.method == 'POST':
         frm = Tax_masterForm(request.POST)
         if frm.is_valid:
-            frm.save()
+            instance=frm.save(commit=False)
+            instance.usrid=request.user
+            instance.save()
             return redirect('taxmaster')
     else:
         frm = Tax_masterForm()
     model_meta = txmst._meta
-    field_names = [field.verbose_name for field in model_meta.fields]   
+    field_names = [field.verbose_name for field in model_meta.fields]
     y=txmst.objects.all()
     page=Paginator(y,5)
     page_list=request.GET.get('page')
-    page=page.get_page(page_list)  
+    page=page.get_page(page_list)
     return render(request,'taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names})
 
 
@@ -357,45 +366,60 @@ def delete_taxmaster(request,id):
 
 #update taxdetails
 def update_taxmaster(request,id):
-    updt_service=txmst.objects.get(pk=id)
     if request.method =="POST":
+        updt_service=txmst.objects.get(pk=id)
         srvc_frm = Tax_masterForm(request.POST,instance=updt_service)
         if srvc_frm.is_valid:
             instance=srvc_frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
             return redirect('taxmaster')
-        else:
-            srvc_frm= Tax_masterForm(instance=updt_service)
-    model_meta = txmst._meta
-    field_names = [field.verbose_name for field in model_meta.fields]    
-    service_info=txmst.objects.all()
-    return render(request,'taxmaster.html',{'form': srvc_frm,'service_info':service_info,'field_names': field_names})
+    else:
+        id = request.GET['id']
+        print(id)
+        currency=txmst.objects.get(pk=id)
+        frm = Tax_masterForm(instance=currency)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})
 
 
+@login_required(login_url="/")
 def dashboard(request):
     return render(request,'main_layout.html')
 
 
 
 def orders(request):
-    return render(request,'orders.html')
+    model_meta = UserProfile._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    y=UserProfile.objects.all()
+    page=Paginator(y,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)
+    return render(request,'orders.html',{'order_info':page,'field_names': field_names})
+
 
 # def crncform(request):
 #     if request.method == 'POST':
 #         frm = crncForm(request.POST)
-        
 #         if frm.is_valid:
 #             frm.save()
 #             return redirect('success_url')
 #     else:
 #         frm = crncForm()
-        
+
 #     return render(request, 'currency.html', {'form': frm})
 
-
-
 # def db_details(request):
-    
-    
-    
+
+#user demo
+def demo_user(request):
+    if request.method == 'POST':
+        frm = userForm(request.POST, request.FILES)
+        if frm.is_valid:
+            frm.save()
+            return redirect('demo_user')
+    else:
+        frm = userForm()
+   
+    return render(request,"user.html",{'form':frm})
