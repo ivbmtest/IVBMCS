@@ -190,7 +190,7 @@ def document(request):
     if request.method == 'POST':
         frm = DocumentForm(request.POST)
         if frm.is_valid:
-            ctrgy_frminstance=frm.save(commit=False)
+            instance=frm.save(commit=False)
             instance.usrid=request.user
             instance.save()
             return redirect('document')
@@ -235,15 +235,22 @@ def services(request):
         srvc_frm = srvcForm(request.POST)
 
         if srvc_frm.is_valid:
-
-
             print('invalid svc===========>>>>>>>',srvc_frm.errors)
+            print("erorr data type ====>",type(srvc_frm.errors))
+            err =srvc_frm.errors
+
+        
+            err=str(err)
+            print("json type ======>",type(err))
             try:
                 srvc_frm.usrid = request.user
                 srvc_frm.save()
                 return redirect('services')
             except ValueError as e:
+               
                 print("----------------exception.............")
+                return JsonResponse({'success': False,'error_msg': err})   
+                #return render(request,'services.html',{'form': srvc_frm,'error_msg': error_message})
 
     else:
 
@@ -392,4 +399,14 @@ def dashboard(request):
 
 # def db_details(request):
 
-
+#user demo
+def demo_user(request):
+    if request.method == 'POST':
+        frm = userForm(request.POST, request.FILES)
+        if frm.is_valid:
+            frm.save()
+            return redirect('demo_user')
+    else:
+        frm = userForm()
+   
+    return render(request,"user.html",{'form':frm})

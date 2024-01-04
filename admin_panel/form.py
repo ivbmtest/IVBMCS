@@ -8,21 +8,16 @@ class crncForm(forms.ModelForm):
         model = crnc
         fields = "__all__"
 
-
 class up_crncForm(forms.ModelForm):
     class Meta():
         model = crnc
         fields = "__all__"
-
-
-
-        
+       
 class cntryForm(forms.ModelForm):
     class Meta():
         model = cntry
         fields = "__all__"
-        
-        
+           
 class ctgryForm(forms.ModelForm):
     class Meta():
         model = ctgry
@@ -32,7 +27,6 @@ class srvcForm(forms.ModelForm):
     class Meta():
         model = srvc
         fields = "__all__"        
-
 
 class DocumentForm(forms.ModelForm):
     class Meta():
@@ -66,3 +60,9 @@ class TaxdeailsForm(forms.ModelForm):
 #     class Meta():
 #         model = crnc
 #         fields = "__all__"                           
+        
+
+class userForm(forms.ModelForm):
+    class Meta():
+        model = UserProfile
+        fields = "__all__"

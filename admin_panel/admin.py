@@ -129,4 +129,5 @@ admin.site.register(DocumentsRequired,DocumentRequiredAdmin)
 admin.site.register(txmst,TaxMasterAdmin)
 admin.site.register(txdet,TaxDetailsAdmin)
 admin.site.register(formt,FileFormatAdmin)
+admin.site.register(UserProfile)
 

@@ -44,6 +44,11 @@ urlpatterns = [
     path('taxmaster/',views.taxmaster,name='taxmaster'),
     path('taxmaster/update_taxmaster/<int:id>/',views.update_taxmaster,name="update_taxmaster"),
     path('taxmaster/del_taxmaster/<int:id>/',views.delete_taxmaster,name='del_taxmaster'),
+
+
+    #demo user
+    path('user/',views.demo_user,name='demo_user'),
+
   
     
     
