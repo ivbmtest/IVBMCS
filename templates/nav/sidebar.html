@@ -77,6 +77,13 @@
             </a>
           </li>
           <li>
+            <a href="{% url 'my_task' %}" title="Tasks" class="{% if url_name == 'my_task' %}bg-success{% endif %}">
+              <i class='bx bx-task'></i>
+              <span class="links_name">Mytask</span>
+            </a>
+          </li>
+
+          <li>
             <a href="{% url 'demo_user' %}" title="Users" class="{% if url_name == 'demo_user' %}bg-success{% endif %}">
               <i class='bx bx-group'></i>
               <span class="links_name">Users</span>
@@ -88,12 +95,15 @@
               <span class="links_name">Orders</span>
             </a>
           </li>
+        
           <li>
             <a href="#" title="Setting">
               <i class="bx bx-cog"></i>
               <span class="links_name">Setting</span>
             </a>
           </li>
+        
+          
           
         </ul>
         {% endwith %}

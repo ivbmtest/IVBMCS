@@ -25,7 +25,7 @@ select {
 }
 input[type="text"]:focus{
    
-   border: 2px solid rgb(214, 8, 8);
+   border: 2px solid rgb(15, 94, 22);
 }
 
 input[type="checkbox"] {
@@ -43,8 +43,7 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #0e21c9;
-   
-    
+ 
     transition: .5s;
 }
 

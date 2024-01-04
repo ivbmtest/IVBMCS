@@ -12,6 +12,7 @@
   width: 100vh;
   background:#242d6e;
   transition: all 0.5s ease;
+  overflow-y: auto;
 }
 
 .logo{

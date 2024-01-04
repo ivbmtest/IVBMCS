@@ -26,7 +26,7 @@ def Login(request):
 
                 login(request, user_det)
                 if user.is_superuser:
-                      # Explicitly set the session to save the changes
+                    
                     return redirect('admin:index')  # Redirect to the Django admin page after successful login
                 else:
                     # print(user.id)
@@ -233,27 +233,14 @@ def update_document(request,id):
 def services(request):
     if request.method == 'POST':
         srvc_frm = srvcForm(request.POST)
-
-        if srvc_frm.is_valid:
-            print('invalid svc===========>>>>>>>',srvc_frm.errors)
-            print("erorr data type ====>",type(srvc_frm.errors))
-            err =srvc_frm.errors
-
-        
-            err=str(err)
-            print("json type ======>",type(err))
-            try:
-                srvc_frm.usrid = request.user
-                srvc_frm.save()
-                return redirect('services')
-            except ValueError as e:
-               
-                print("----------------exception.............")
-                return JsonResponse({'success': False,'error_msg': err})   
-                #return render(request,'services.html',{'form': srvc_frm,'error_msg': error_message})
-
+        if srvc_frm.is_valid():
+            srvc_frm.save()
+            return JsonResponse({'message': 'User profile created successfully'})
+        else:
+            errors = srvc_frm.errors
+            return JsonResponse({'errors': errors}, status=400)
+            
     else:
-
         srvc_frm = srvcForm()
     model_meta = srvc._meta
     field_names = [field.verbose_name for field in model_meta.fields]
@@ -273,6 +260,7 @@ def Update_service(request,id):
 
     if request.method =="POST":
         updt_service=srvc.objects.get(pk=id)
+        srvc_frm = srvcForm(request.POST,instance=updt_service)
         if srvc_frm.is_valid:
             srvc_frm = srvcForm(request.POST,instance=updt_service)
             instance=srvc_frm.save(commit=False)
@@ -383,17 +371,6 @@ def dashboard(request):
 
 
 
-# def crncform(request):
-#     if request.method == 'POST':
-#         frm = crncForm(request.POST)
-
-#         if frm.is_valid:
-#             frm.save()
-#             return redirect('success_url')
-#     else:
-#         frm = crncForm()
-
-#     return render(request, 'currency.html', {'form': frm})
 
 
 
@@ -408,5 +385,8 @@ def demo_user(request):
             return redirect('demo_user')
     else:
         frm = userForm()
-   
     return render(request,"user.html",{'form':frm})
+
+
+def my_task(request):
+    return render(request,"task.html")

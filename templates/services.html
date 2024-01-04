@@ -111,10 +111,10 @@
             <form method="post" id="addform">
               {% csrf_token %}
             <label id="add_data">  {{ form.as_p }}</label>
-    
-          
+            
+              <div  class="error-message"></div>
            
-              <div class="errorlist">
+          {% comment %}    <div class="errorlist">
                 <ul>
                   {% for error in form.errors %}
                     <li>{{ error }}</li>
@@ -127,13 +127,11 @@
                     {% endif %}
                   {% endfor %}
                 </ul>
-              </div>
-             
-             <div id="er" class="text-danger">
+              </div>    {% endcomment %} 
+
+           
 
              </div>
-             
-
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <input type="submit" class="btn btn-success" value="Add" id="add">
@@ -199,28 +197,36 @@
     </div>
     {% endfor %}
 
-<script>
-  $(document).ready(function () {
-        $('#addform').submit(function (e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: '{% url "services" %}',  // Replace with the actual URL of your view
-                data: $(this).serialize(),
-                success: function (data) {
-                    if (data.success) {
-                        alert('Form submitted successfully!');
-                    } else {
-                        alert('Form submission failed. Please check the errors.');
-                        console.log(data.error_msg);
-                        $("#er").html(data.error_msg);
-                    }
-                }
-            });
-        });
-    });
-</script>
-
+    <script>
+      $(document).ready(function () {
+          $('#addform').submit(function (e) {
+              e.preventDefault();
+              $.ajax({
+                  type: 'POST',
+                  url: '{% url "services" %}',  // Adjust the URL based on your project's configuration
+                  data: new FormData(this),
+                  processData: false,
+                  contentType: false,
+                  success: function (data) {
+                      alert(data.message);
+                      window.location.href = '/services';
+                  },
+                  error: function (data) {
+                      var errors = JSON.parse(data.responseText).errors;
+                      // Clear previous error messages
+                      $('.error-message').remove();
+                      // Loop through each error and display it next to the corresponding input field
+                      for (var key in errors) {
+    if (errors.hasOwnProperty(key)) {
+        var errorMessage = errors[key].join(', ');
+        $('[name="' + key + '"]').after('<span class="error-message text-danger">' + errorMessage + '</span>');
+    }
+}
+                  }
+              });
+          });
+      });
+  </script>
 
     <script>
       $(document).ready(function(){

@@ -174,7 +174,12 @@ class UserProfile(models.Model):
     document = models.FileField(upload_to='user_documents/',verbose_name="Upload Document(.pdf)")
     image = models.ImageField(upload_to='user_images/',verbose_name="Upload Image(.jpg/.jpeg)")
     payment = models.BooleanField(verbose_name="Payment")
+    taken_by = models.CharField(max_length=255,verbose_name="Taken",blank=True)
+    status = models.CharField(max_length=255,verbose_name="Status",blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
 
     
 
