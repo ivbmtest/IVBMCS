@@ -12,6 +12,7 @@
   width: 100vh;
   background:#242d6e;
   transition: all 0.5s ease;
+  overflow-y: auto;
 }
 
 .logo{
@@ -164,7 +165,8 @@ nav .search-box .bx-search{
 }
 
 .home-section nav .profile-details:hover{
-background-color:#54e237;
+background-color:#b6eeab;
+transition: .5s;
 }
 nav .profile-details img{
   height: 40px;

@@ -51,6 +51,9 @@ urlpatterns = [
 #demo user
     path('user/',views.demo_user,name='demo_user'),
 
+    #my task
+    path('task/',views.my_task,name='my_task'),
+
   
     
     

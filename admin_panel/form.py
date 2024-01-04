@@ -65,4 +65,4 @@ class TaxdeailsForm(forms.ModelForm):
 class userForm(forms.ModelForm):
     class Meta():
         model = UserProfile
-        fields = "__all__"
+        fields = ['name', 'phone_number', 'email', 'service', 'document', 'image', 'payment']

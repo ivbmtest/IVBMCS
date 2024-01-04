@@ -62,13 +62,12 @@
                           <td>{{val.document}}</td>
                           <td>{{val.image}}</td>
                           <td>{{val.payment}}</td>
+                          <td>{{val.taken_by}}</td> 
+                          <td>{{val.status}}</td>
                           <td>{{val.created_at}}</td>   
                           <td>
-                            <a href="#editEmployeeModal-{{forloop.counter}}" class="edit update" data-item ="{{val.crid}}" data-toggle="modal"><i  class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                            <a href="#editEmployeeModal-{{forloop.counter}}" class="edit update" data-item ="{{val.crid}}" data-toggle="modal"><i  class='btn btn-success' class="material-icons " data-toggle="tooltip" title="Edit">Select</i></a>
                             
-                            {% comment %} <input type="hidden" value="{{val.crid}}" class="crid"> {% endcomment %}
-                            {% comment %} {% csrf_token %} {% endcomment %}
-                            <a href="#deleteEmployeeModal-{{forloop.counter}}" class="delete on_del" data-toggle="modal"  ><i class='bx bx-trash text-danger' data-toggle="tooltip" title="Delete" ></i></a>
                         </td>
                       </tr>
                       {% endfor %}

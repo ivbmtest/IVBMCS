@@ -25,7 +25,7 @@ def Login(request):
 
                 login(request, user_det)
                 if user.is_superuser:
-                      # Explicitly set the session to save the changes
+                    
                     return redirect('admin:index')  # Redirect to the Django admin page after successful login
                 else:
                     # print(user.id)
@@ -257,7 +257,6 @@ def services(request):
                 #return render(request,'services.html',{'form': srvc_frm,'error_msg': error_message})
 
     else:
-
         srvc_frm = srvcForm()
     model_meta = srvc._meta
     field_names = [field.verbose_name for field in model_meta.fields]
@@ -277,6 +276,7 @@ def Update_service(request,id):
 
     if request.method =="POST":
         updt_service=srvc.objects.get(pk=id)
+        srvc_frm = srvcForm(request.POST,instance=updt_service)
         if srvc_frm.is_valid:
             srvc_frm = srvcForm(request.POST,instance=updt_service)
             instance=srvc_frm.save(commit=False)
@@ -399,16 +399,8 @@ def orders(request):
     return render(request,'orders.html',{'order_info':page,'field_names': field_names})
 
 
-# def crncform(request):
-#     if request.method == 'POST':
-#         frm = crncForm(request.POST)
-#         if frm.is_valid:
-#             frm.save()
-#             return redirect('success_url')
-#     else:
-#         frm = crncForm()
 
-#     return render(request, 'currency.html', {'form': frm})
+
 
 # def db_details(request):
 
@@ -421,5 +413,8 @@ def demo_user(request):
             return redirect('demo_user')
     else:
         frm = userForm()
-   
     return render(request,"user.html",{'form':frm})
+
+
+def my_task(request):
+    return render(request,"task.html")
