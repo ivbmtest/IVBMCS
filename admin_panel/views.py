@@ -378,6 +378,9 @@ def dashboard(request):
 
 
 
+def orders(request):
+    return render(request,'orders.html')
+
 # def crncform(request):
 #     if request.method == 'POST':
 #         frm = crncForm(request.POST)

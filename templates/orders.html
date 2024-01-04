@@ -10,9 +10,9 @@
               <div class="table-title">
                   <div class="row">
                       <div class="col-sm-4">
-              <h2>Currency <b>Details</b></h2>
+              <h2>Order <b>Details</b></h2>
             </div>
-            <form action="" method="post" style="width: 100%;" class="col-sm-4" style="background-color:rgba(255, 255, 255, 0) ;">
+            {% comment %} <form action="" method="post" style="width: 100%;" class="col-sm-4" style="background-color:rgba(255, 255, 255, 0) ;">
               {% csrf_token %}
             <div class="input-group ">
               <div class="form-outline " data-mdb-input-init>
@@ -22,10 +22,10 @@
                 <i class='bx bx-search-alt'></i>
               </button>
             </div>
-          </form>
+          </form> {% endcomment %}
             <div class="col-sm-4">
-              <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add Currency</span></a>
-              <a href="#deleteEmployeeModal-{{forloop.counter}}" class="btn btn-danger" data-toggle="modal"><i class='bx bxs-trash'></i> <span>Delete</span></a>						
+              {% comment %} <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add Currency</span></a>
+              <a href="#deleteEmployeeModal-{{forloop.counter}}" class="btn btn-danger" data-toggle="modal"><i class='bx bxs-trash'></i> <span>Delete</span></a>						 {% endcomment %}
             </div>
                   </div>
               </div>
