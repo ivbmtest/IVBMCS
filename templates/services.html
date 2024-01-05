@@ -141,8 +141,7 @@
         </div>
       </div>
     </div>
-    
-    
+   
 
     <!-- update Modal HTML -->
     {% for i in service_info %}
@@ -170,7 +169,27 @@
         </div>
       </div>
     </div>
-    {% endfor %}
+    {% if error_msg %}
+    <div id="editServiceModal-{{forloop.counter}}" class="modal fade">
+      <div class="errorlist">
+        <ul>
+          {% for error in form.errors %}
+            <li>{{ error }}</li>
+            {% if form.errors.error_list %}
+              <ul class="errorlist nonfield">
+                {% for sub_error in form.errors.error_list %}
+                  <li>{{ sub_error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+      {% comment %} <input id="editServiceModal-{{forloop.counter}}" type="submit" class="btn btn-info" value="Save"> {% endcomment %}
+    </div>
+    {% endif %}
+  {% endfor %}
+    
     
     <!-- Delete Modal HTML -->
     {% for i in service_info %}
@@ -259,7 +278,27 @@
   {% endblock content %}
     </section>
 
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#your-form').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        // Handle success if needed
+                        alert('Form submitted successfully!');
+                    },
+                    error: function (xhr, errmsg, err) {
+                        // Update the error container with error messages
+                        $('#error-container').html(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 
 
 

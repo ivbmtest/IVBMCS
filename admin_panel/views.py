@@ -8,13 +8,13 @@ from django.core.paginator import Paginator, EmptyPage
 import logging
 from .models import *
 from .form import *
-
+from django.contrib import messages
 
 
 def success(request):
     return render(request, 'success_page.html')
 
-# @login_required(login_url="/login/")
+
 def Login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -30,7 +30,7 @@ def Login(request):
                     return redirect('admin:index')  # Redirect to the Django admin page after successful login
                 else:
                     # print(user.id)
-                    print("----------->>>>>>>--",user.id)
+                    # print("----------->>>>>>>--",user.id)
                     #return render(request, 'admin.html',{'user':user})
                     return redirect('/dashboard/')
         else:
@@ -48,8 +48,8 @@ def currency(request):
     if request.method == 'POST':
         frm = crncForm(request.POST)
         if frm.is_valid:
-            instance=frm.save(commit=False)
-            instance.usrid=request.user
+            instance = frm.save(commit=False)
+            instance.usrid = request.user
             instance.save()
             return redirect('currency')
     else:
@@ -60,9 +60,9 @@ def currency(request):
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    print(page)
+    cou=UserProfile.objects.filter(taken_by__exact='').count()
     #currency_info=crnc.objects.all()
-    return render(request,'currency.html',{'form': frm,'currency_info':page,'field_names': field_names})
+    return render(request,'currency.html',{'form': frm,'currency_info':page,'field_names': field_names,'cou':cou})
 
 
 #delete currency
@@ -79,8 +79,8 @@ def update_currency(request,id):
         currency=crnc.objects.get(pk=id)
         frm=crncForm(request.POST,instance=currency)
         if frm.is_valid:
-            instance=frm.save(commit=False)
-            instance.usrid=request.user
+            instance = frm.save(commit=False)
+            instance.usrid = request.user
             instance.save()
             return redirect('currency')
     else:
@@ -97,20 +97,22 @@ def category(request):
     if request.method == 'POST':
         ctrgy_frm = ctgryForm(request.POST,request.FILES)
         if ctrgy_frm.is_valid:
-            instance=ctrgy_frm.save(commit=False)
-            instance.usrid=request.user
+            instance = ctrgy_frm.save(commit=False)
+            instance.usrid = request.user
             instance.save()
-            return redirect('category')
-    else:
-        ctrgy_frm = ctgryForm()
+            return redirect('category')          
+    else:        
+        ctrgy_frm = ctgryForm() 
+        
     model_meta = ctgry._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y=ctgry.objects.all()
     page=Paginator(y,5)
     page_list=request.GET.get('page')
-    page=page.get_page(page_list)
+    page=page.get_page(page_list)  
+    cou=UserProfile.objects.filter(taken_by__exact='').count()
     #category_info=ctgry.objects.all()
-    return render(request,'Category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names})
+    return render(request,'category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names,'cou':cou})
 
 #Delete Category
 def del_category(request,id):
@@ -153,11 +155,12 @@ def country(request):
     y=cntry.objects.all()
     page=Paginator(y,5)
     page_list=request.GET.get('page')
-    page=page.get_page(page_list)
+    page=page.get_page(page_list)    
     #country_info=cntry.objects.all()
+    cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'country.html',{'form': cntry_frm,'country_info':page,'field_names': field_names})
-
-
+    
+    
 # Delete Country
 def delete_country(request,id):
     country=cntry.objects.filter(pk=id)
@@ -190,8 +193,8 @@ def document(request):
     if request.method == 'POST':
         frm = DocumentForm(request.POST)
         if frm.is_valid:
-            instance=frm.save(commit=False)
-            instance.usrid=request.user
+            instance = frm.save(commit=False)
+            instance.usrid = request.user
             instance.save()
             return redirect('document')
     else:
@@ -202,15 +205,18 @@ def document(request):
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    return render(request,'document.html',{'form': frm,'document_info':page,'field_names': field_names})
+    cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'document.html',{'form': frm,'document_info':page,'field_names': field_names,'cou':cou})
+
 
 #delete document
 def del_document(request,id):
     service=DocumentsRequired.objects.filter(pk=id)
     service.delete()
     return redirect('document')
-#update document
 
+
+#update document
 def update_document(request,id):
     if request.method =="POST":
         updt_service=DocumentsRequired.objects.get(pk=id)
@@ -231,15 +237,29 @@ def update_document(request,id):
 
 @login_required(login_url="/")
 def services(request):
+    error_message=""
     if request.method == 'POST':
         srvc_frm = srvcForm(request.POST)
-        if srvc_frm.is_valid():
-            srvc_frm.save()
-            return JsonResponse({'message': 'User profile created successfully'})
-        else:
-            errors = srvc_frm.errors
-            return JsonResponse({'errors': errors}, status=400)
-            
+
+        if srvc_frm.is_valid:
+            print('invalid svc===========>>>>>>>',srvc_frm.errors)
+            print('invalid svc===========>>>>>>>',srvc_frm.errors)
+            print("erorr data type ====>",type(srvc_frm.errors))
+            err =srvc_frm.errors
+
+        
+            err=str(err)
+            print("json type ======>",type(err))
+            try:
+                srvc_frm.usrid = request.user
+                srvc_frm.save()
+                return redirect('services')
+            except ValueError as e:
+               
+                print("----------------exception.............")
+                return JsonResponse({'success': False,'error_msg': err})   
+                #return render(request,'services.html',{'form': srvc_frm,'error_msg': error_message})
+
     else:
         srvc_frm = srvcForm()
     model_meta = srvc._meta
@@ -248,7 +268,8 @@ def services(request):
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    return render(request,'services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names})
+    cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names,'cou':cou})
 
 #Delete Service
 def delete_service(request,id):
@@ -293,7 +314,8 @@ def taxdetails(request):
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    return render(request,'taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names})
+    cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names,'cou':cou})
 
 # del taxdetails
 def delete_taxdetails(request,id):
@@ -338,13 +360,16 @@ def taxmaster(request):
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    return render(request,'taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names})
+    cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names,'cou':cou})
+
 
 # del tax Master
 def delete_taxmaster(request,id):
     service=txmst.objects.filter(pk=id)
     service.delete()
     return redirect('taxmaster')
+
 
 #update taxdetails
 def update_taxmaster(request,id):
@@ -367,8 +392,21 @@ def update_taxmaster(request,id):
 
 @login_required(login_url="/")
 def dashboard(request):
-    return render(request,'main_layout.html')
+    cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'main_layout.html',{'cou':cou})
 
+
+
+def orders(request,):
+    model_meta = UserProfile._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    # y=UserProfile.objects.all()
+    y=UserProfile.objects.filter(taken_by__exact='')
+    page=Paginator(y,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)
+    cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'orders.html',{'order_info':page,'field_names': field_names,'cou':cou})
 
 
 
@@ -381,6 +419,7 @@ def demo_user(request):
     if request.method == 'POST':
         frm = userForm(request.POST, request.FILES)
         if frm.is_valid:
+            print("-------------------",frm.errors)
             frm.save()
             return redirect('demo_user')
     else:
@@ -389,4 +428,36 @@ def demo_user(request):
 
 
 def my_task(request):
-    return render(request,"task.html")
+    model_meta = UserProfile._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    # y=UserProfile.objects.all()
+    y=UserProfile.objects.filter(taken_by=request.user)
+    page=Paginator(y,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)
+    print(messages)
+    cou=UserProfile.objects.filter(taken_by=request.user).count()
+    return render(request,'task.html',{'task_info':page,'field_names': field_names,'cou':cou})
+
+
+    # return render(request,"task.html")
+    
+def select_my_task(request,id):
+    print("----------------->>>>>>>>>>>>>>>",type(request.user))
+    model_meta = UserProfile._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    # y=UserProfile.objects.all()
+    # y=UserProfile.objects.filter(pk=id)
+    # y.taken_by=request.user
+   
+    instance = UserProfile.objects.get(pk=id)  # Replace 1 with the actual primary key value
+    instance.taken_by = request.user.username # Update the values of the fields
+    instance.save()   # Save the changes to the database
+    messages.success(request,"sucess")   
+    #y=UserProfile.objects.filter(pk=id)
+    #page=Paginator(y,5)
+    #page_list=request.GET.get('page')
+    #page=page.get_page(page_list)
+    return redirect("orders")
+
+

@@ -26,7 +26,7 @@
           {% endcomment %}
             <div class="col-sm-6">
               <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add Currency</span></a>
-              <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class='bx bxs-trash'></i> <span>Delete</span></a>						
+              <a href="#deleteEmployeeModal-{{forloop.counter}}" class="btn btn-danger" data-toggle="modal"><i class='bx bxs-trash'></i> <span>Delete</span></a>						
             </div>
                   </div>
               </div>
@@ -50,7 +50,7 @@
                     {% for val in currency_info %}
                       <tr>
                           <td>
-                            <span class="custom-checkbox">
+                            <span class="custom-checkbox-{{forloop.counter}}">
                               <input type="checkbox" id="checkbox1" name="options[]" value="1">
                               <label for="checkbox1"></label>
                             </span>
@@ -190,7 +190,7 @@
                     dataType: 'json',
                     success: function(data) {
                         if (data.success) {
-                           console.log(data.success)
+                           console.log(data.form)
                            $(".ff").html(data.form);
                         } 
                     }

@@ -57,6 +57,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ivbm_cs.urls'
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
+
+
+
 import os
 
 TEMPLATES = [
@@ -88,13 +92,10 @@ WSGI_APPLICATION = 'ivbm_cs.wsgi.application'
 #     }
 # }
 
-
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'ivbmcs_db',
-		#'USER': 'admin',
-		#'PASSWORD': 'admin',
 		'USER': 'root',
 		'PASSWORD': '1234',
 		'HOST':'localhost',
@@ -134,7 +135,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
@@ -153,10 +153,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or 'django.contrib.sessions.backends.cache', etc.
-SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds, adjust as needed
+SESSION_COOKIE_AGE = 1209600
 
 # LOGIN_URL = ':login'  # Adjust this to match your login URL
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 MEDIA_URL = '/images/'
+
+
 
 

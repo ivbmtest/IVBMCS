@@ -118,7 +118,11 @@ class FileFormatAdmin(admin.ModelAdmin):
             obj.usrid_id = request.user.id
         return super().save_model(request, obj, form, change)
        
-    
+
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('name','phone_number','email','service','document','image','payment','created_at')
+    search_fields = ('name',)
+    list_editable = ['payment']  
 
 # admin.site.register(Document,DocumentAdmin)
 admin.site.register(crnc,CurrencyAdmin)
@@ -129,5 +133,5 @@ admin.site.register(DocumentsRequired,DocumentRequiredAdmin)
 admin.site.register(txmst,TaxMasterAdmin)
 admin.site.register(txdet,TaxDetailsAdmin)
 admin.site.register(formt,FileFormatAdmin)
-admin.site.register(UserProfile)
+admin.site.register(UserProfile,UserProfileAdmin)
 

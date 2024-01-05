@@ -5,7 +5,17 @@
       <div class="home-content">
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <body>
-      <div class="container">
+    
+
+    <ul class="messages">
+      {% for message in messages %}
+          <li id="myDiv" {% if message.tags %} class="{{ message.tags }}"{% endif %}><div class="row m-auto w-25" style="position: absolute;height: 3rem;padding-top: 1rem;padding-left: 3rem;left: 26rem;background-color: rgba(10, 230, 10, 0.498);"><b>SuccessFully Added</b></div></li>
+      {% endfor %}
+  </ul>
+
+
+      <!--<div class="row m-auto bg-success w-25" style="position: absolute;height: 3rem;padding-top: 1rem;padding-left: 3rem;left: 26rem;"><b>SuccessFully Added</b></div>-->
+      <div class="container" style="height: 100vh;">
           <div class="table-wrapper">
               <div class="table-title">
                   <div class="row">
@@ -46,7 +56,7 @@
                       </tr>
                   </thead>
                   <tbody>
-                    {% for val in task_info %}
+                    {% for val in order_info %}
                       <tr>
                           <td>
                             <span class="custom-checkbox-{{forloop.counter}}">
@@ -66,7 +76,7 @@
                           <td>{{val.status}}</td>
                           <td>{{val.created_at}}</td>   
                           <td>
-                            {% comment %} <a href="{% url "task" id=val.id %}" ><i  class='btn btn-success' class="material-icons " data-toggle="tooltip" title="Edit">Select</i></a> {% endcomment %}
+                            <a href="{% url "select_task" id=val.id %}" id="msg"><i  class='btn btn-success' class="material-icons " data-toggle="tooltip" title="Edit">Select</i></a>
                             
                         </td>
                       </tr>
@@ -100,7 +110,18 @@
 
           </div>
       </div>
-   
+     
+      <script>
+        document.addEventListener("DOMContentLoaded", function() { 
+            var myDiv = document.getElementById("myDiv");
+            myDiv.style.display = "block";
+            setTimeout(function() {
+                $("#myDiv").fadeOut("slow");
+            }, 3000);
+        });
+    </script>
+     </body>
+    </html>
   {% endblock content %}
     </section>
 

@@ -13,6 +13,7 @@ urlpatterns = [
     path('currency/',views.currency,name='currency'),
     path('currency/del_currency/<int:id>/',views.del_currency,name='del_currency'),
     path('currency/update_currency/<int:id>/',views.update_currency,name='update_currency'),
+    # path('index/', views.index),
     
     #category
     path('category/',views.category,name='category'),
@@ -44,15 +45,18 @@ urlpatterns = [
     path('taxmaster/',views.taxmaster,name='taxmaster'),
     path('taxmaster/update_taxmaster/<int:id>/',views.update_taxmaster,name="update_taxmaster"),
     path('taxmaster/del_taxmaster/<int:id>/',views.delete_taxmaster,name='del_taxmaster'),
-
-
-    #demo user
+  
+#Order Details
+    path('orders',views.orders,name='orders'),
+#demo user
     path('user/',views.demo_user,name='demo_user'),
 
     #my task
-    path('task/',views.my_task,name='my_task'),
+    path('task/',views.my_task,name='task'),
+    path('select_task/<int:id>/',views.select_my_task,name='select_task'),
 
   
+ 
     
     
 ]
