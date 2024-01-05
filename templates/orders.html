@@ -66,8 +66,9 @@
                           <td>{{val.status}}</td>
                           <td>{{val.created_at}}</td>   
                           <td>
+                            {%if forloop.first%}
                             <a href="{% url "select_task" id=val.id %}" ><i  class='btn btn-success' class="material-icons " data-toggle="tooltip" title="Edit">Select</i></a>
-                            
+                            {% endif %}
                         </td>
                       </tr>
                       {% endfor %}
