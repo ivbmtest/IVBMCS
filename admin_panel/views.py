@@ -410,6 +410,7 @@ def demo_user(request):
     if request.method == 'POST':
         frm = userForm(request.POST, request.FILES)
         if frm.is_valid:
+            print("-------------------",frm.errors)
             frm.save()
             return redirect('demo_user')
     else:
@@ -439,15 +440,11 @@ def select_my_task(request,id):
     # y.taken_by=request.user
     
     instance = UserProfile.objects.get(pk=id)  # Replace 1 with the actual primary key value
-
-    # Update the values of the fields
-    instance.taken_by = request.user.username
-
-    # Save the changes to the database
-    instance.save()
+    instance.taken_by = request.user.username # Update the values of the fields
+    instance.save()   # Save the changes to the database
 
     y=UserProfile.objects.filter(pk=id)
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    return render(request,'task.html',{'task_info':page,'field_names': field_names})
+    return HttpResponse("Task added successfully")
