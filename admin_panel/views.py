@@ -389,10 +389,11 @@ def dashboard(request):
 
 
 
-def orders(request):
+def orders(request,):
     model_meta = UserProfile._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    y=UserProfile.objects.all()
+    # y=UserProfile.objects.all()
+    y=UserProfile.objects.filter(taken_by__exact='')
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
@@ -417,4 +418,36 @@ def demo_user(request):
 
 
 def my_task(request):
-    return render(request,"task.html")
+    model_meta = UserProfile._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    # y=UserProfile.objects.all()
+    y=UserProfile.objects.filter(taken_by=request.user)
+    page=Paginator(y,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)
+    return render(request,'task.html',{'task_info':page,'field_names': field_names})
+
+
+    # return render(request,"task.html")
+    
+def select_my_task(request,id):
+    print("----------------->>>>>>>>>>>>>>>",type(request.user))
+    model_meta = UserProfile._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    # y=UserProfile.objects.all()
+    # y=UserProfile.objects.filter(pk=id)
+    # y.taken_by=request.user
+    
+    instance = UserProfile.objects.get(pk=id)  # Replace 1 with the actual primary key value
+
+    # Update the values of the fields
+    instance.taken_by = request.user.username
+
+    # Save the changes to the database
+    instance.save()
+
+    y=UserProfile.objects.filter(pk=id)
+    page=Paginator(y,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)
+    return render(request,'task.html',{'task_info':page,'field_names': field_names})

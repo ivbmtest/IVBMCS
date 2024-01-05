@@ -23,7 +23,7 @@
                           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         </div>
                         <div class="modal-body">
-                          <form method="post" action="{% url 'country' %}">
+                          <form method="post" action="{% url 'demo_user' %}" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ form.as_p }}
                         </div>
