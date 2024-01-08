@@ -55,7 +55,7 @@
                             </span>
                           </td>
                           <td>{{forloop.counter}}</td>
-                          <td>{{val.name}}</td>
+                          <td><a href="{% url "task_detail" id=val.id %}">{{val.name}}</a></td>
                           <td>{{val.phone_number}}</td>
                           <td>{{val.email}}</td>
                           <td>{{val.service}}</td>
