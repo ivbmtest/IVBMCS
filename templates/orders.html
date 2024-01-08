@@ -81,7 +81,7 @@
               <div class="hint-text">Showing <b>{{order_info.number}}</b> out of <b>{{order_info.paginator.num_pages}}</b> entries</div>
               <ul class="pagination">
                 {% if order_info.has_previous %}
-                  <li class="page-item"><a class="page-link" href="{% url 'currency' %}?page={{order_info.previous_page_number}}">Previous</a></li>
+                  <li class="page-item"><a class="page-link" href="{% url 'orders' %}?page={{order_info.previous_page_number}}">Previous</a></li>
                     {% endif %}
           
                     {% for i in order_info.paginator.page_range %}
