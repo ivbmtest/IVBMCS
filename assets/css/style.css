@@ -165,7 +165,8 @@ nav .search-box .bx-search{
 }
 
 .home-section nav .profile-details:hover{
-background-color:#54e237;
+background-color:#b6eeab;
+transition: .5s;
 }
 nav .profile-details img{
   height: 40px;
@@ -329,10 +330,10 @@ nav .profile-details i{
     width: 170px;
 
   }
-
   .logo{
     width: 91%;
   }
+
   .sidebar.active{
     width: 220px;
   }
