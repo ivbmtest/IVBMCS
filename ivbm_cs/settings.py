@@ -124,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -154,7 +154,6 @@ SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds, adjust as needed
 # LOGIN_URL = ':login'  # Adjust this to match your login URL
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 MEDIA_URL = '/images/'
-
 
 
 

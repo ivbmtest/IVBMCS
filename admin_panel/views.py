@@ -448,3 +448,8 @@ def select_my_task(request,id):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     return HttpResponse("Task added successfully")
+
+def task_details(request,id):
+    task=UserProfile.objects.get(pk=id)
+    
+    return render(request,"task_details.html",{"task":task})
