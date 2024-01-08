@@ -461,3 +461,9 @@ def select_my_task(request,id):
     return redirect("orders")
 
 
+
+
+def task_details(request,id):
+    task=UserProfile.objects.get(pk=id)
+    
+    return render(request,"task_details.html",{"task":task})

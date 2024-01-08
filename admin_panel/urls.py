@@ -51,9 +51,10 @@ urlpatterns = [
 #demo user
     path('user/',views.demo_user,name='demo_user'),
 
-    #my task
+#my task
     path('task/',views.my_task,name='task'),
     path('select_task/<int:id>/',views.select_my_task,name='select_task'),
+    path('task_detail/<int:id>/',views.task_details,name='task_detail'),
 
   
  
