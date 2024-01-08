@@ -97,8 +97,8 @@ DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'ivbmcs_db',
-		'USER': 'root',
-		'PASSWORD': '1234',
+		'USER': 'admin',
+		'PASSWORD': 'admin',
 		'HOST':'localhost',
 		'PORT':'3306',
 	}
