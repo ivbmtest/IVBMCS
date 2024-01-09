@@ -11,6 +11,10 @@ from .form import *
 from django.contrib import messages
 
 
+from django.core.mail import EmailMultiAlternatives,get_connection
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
 def success(request):
     return render(request, 'success_page.html')
 
@@ -439,26 +443,44 @@ def my_task(request):
     cou=UserProfile.objects.filter(taken_by=request.user).count()
     return render(request,'task.html',{'task_info':page,'field_names': field_names,'cou':cou})
 
-
-    # return render(request,"task.html")
     
 def select_my_task(request,id):
-    print("----------------->>>>>>>>>>>>>>>",type(request.user))
+    # print("----------------->>>>>>>>>>>>>>>",type(request.user))
     model_meta = UserProfile._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    # y=UserProfile.objects.all()
-    # y=UserProfile.objects.filter(pk=id)
-    # y.taken_by=request.user
    
     instance = UserProfile.objects.get(pk=id)  # Replace 1 with the actual primary key value
     instance.taken_by = request.user.username # Update the values of the fields
     instance.save()   # Save the changes to the database
     messages.success(request,"sucess")   
+    
+    
+    # context={"user_name":instance.name}
+    # html_content = render_to_string('email_template.html', context)
+    # text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version
+
+   
+
+    try:        
+        context={"user_name":instance.name}
+        connection = get_connection() # uses SMTP server specified in settings.py
+        connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
+
+        html_content = render_to_string('email_template.html', context)               
+        text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version                  
+        msg = EmailMultiAlternatives("Approval", text_content, "ivbmittest@gmail.com",[instance.email],connection=connection)                                      
+        msg.attach_alternative(html_content, "text/html")                                                                                                                                                                               
+        msg.send() 
+
+        connection.close() # Cleanup
+        print("=======================>>>>>>>>>>success")
+    except:
+        print("================>>>>>>>>>>>not done")
     #y=UserProfile.objects.filter(pk=id)
     #page=Paginator(y,5)
     #page_list=request.GET.get('page')
     #page=page.get_page(page_list)
-    return redirect("orders")
+    return redirect("task")
 
 
 

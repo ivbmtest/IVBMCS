@@ -1,0 +1,20 @@
+<!-- templates/emails/request_accepted_template.html -->
+
+<html>
+<body>
+    <h1>Your Request Has Been Accepted!</h1>
+    <p>Dear {{ user_name }},</p>
+    <p>We are pleased to inform you that your request has been accepted. Here are the details:</p>
+    
+    {% comment %} <ul>
+        <li>Request ID: {{ request_id }}</li>
+        <li>Request Date: {{ request_date }}</li>
+        <!-- Add more details as needed -->
+    </ul> {% endcomment %}
+
+    <p>Thank you for choosing our services!</p>
+
+    <p>Best regards,<br>
+    IVBM</p>
+</body>
+</html>
