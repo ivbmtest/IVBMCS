@@ -210,6 +210,12 @@ admin.site.register(txmst,TaxMasterAdmin)
 admin.site.register(txdet,TaxDetailsAdmin)
 admin.site.register(formt,FileFormatAdmin)
 admin.site.register(UserProfile,UserProfileAdmin)
+admin.site.register(clnt)
+admin.site.register(states)
+admin.site.register(clsubsdet)
+admin.site.register(admcat)
+admin.site.register(admroles)
+
 
 class Media:
     css = {

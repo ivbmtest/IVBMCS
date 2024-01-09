@@ -10,7 +10,7 @@ class txmst(models.Model):
     txname=models.CharField(max_length=255,verbose_name='Tax Name',unique=True)
     txdescription = models.CharField(max_length=255,verbose_name='Tax Description')
     txisgst = models.BooleanField(default=True,verbose_name='GST')
-    txstatus = models.BooleanField(default=True,verbose_name='Status')
+    txstatus = models.IntegerField(verbose_name='Status')
     usrid = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
     dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
        
@@ -33,7 +33,7 @@ class txdet(models.Model):
     tdigst = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='IGST Rate')
     tdvat = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='VAT Rate')
     tdcess = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='CESS Rate')
-    tdstatus = models.BooleanField(default=True, verbose_name='Status')
+    tdstatus = models.IntegerField(verbose_name='Status')
     usrid = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
     dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
     
@@ -52,7 +52,7 @@ class formt(models.Model):
     frname = models.CharField(max_length=255,verbose_name='Name',unique=True)
     frdescription = models.CharField(max_length=255,verbose_name='Description')
     frfltr = models.CharField(max_length=255,verbose_name='Format Filter')
-    frstatus = models.BooleanField(default=True, verbose_name='Status')
+    frstatus = models.IntegerField(verbose_name='Status')
     usrid = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
     dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
     
@@ -70,7 +70,7 @@ class crnc(models.Model):
     crname = models.CharField(max_length=100,verbose_name='Name')
     crsymbol = models.CharField(max_length=10,verbose_name='Symbol')
     crdescription = models.TextField(verbose_name='Description')
-    crstatus = models.BooleanField(default=True,verbose_name='Status')
+    crstatus = models.IntegerField(verbose_name='Status')
     usrid = models.ForeignKey(User,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
     dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
     
@@ -90,7 +90,7 @@ class cntry(models.Model):
     cncrid =models.ForeignKey(crnc,  on_delete=models.CASCADE,verbose_name='Currency')
     cntxid = models.ForeignKey(txmst, on_delete=models.CASCADE,verbose_name='Tax')
     # Tax = models.TextField()
-    cnstatus = models.BooleanField(default=True,verbose_name='Status')
+    cnstatus = models.IntegerField(verbose_name='Status')
     usrid = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
     dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
     
@@ -109,7 +109,7 @@ class ctgry(models.Model):
     ctcode = models.CharField(max_length=50,verbose_name='Code')
     ctdescription = models.TextField(verbose_name='Description')
     ctimg = models.ImageField(upload_to='images/',verbose_name='Image')
-    ctstatus = models.BooleanField(default=True,verbose_name='Status')
+    ctstatus = models.IntegerField(verbose_name='Status')
     usrid = models.ForeignKey(User,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
     dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
     
@@ -140,7 +140,11 @@ class srvc(models.Model):
     svtxrt = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Tax Rate")
     svtxamt = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Tax Amt")
     svnetamt = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Net Amt")
-    svstatus = models.BooleanField(default=True,verbose_name='Status')
+
+    svdoccolltime =  models.DecimalField(max_digits=5, decimal_places=2,verbose_name="Doc Collection Time(hrs)",null=True,blank=False)
+    svproctime =  models.DecimalField(max_digits=5, decimal_places=2,verbose_name="Process request Time(hrs)",null=True,blank=False)
+    svprovtime =  models.DecimalField(max_digits=5, decimal_places=2,verbose_name="Service provider Time(hrs)",null=True,blank=False)
+    svstatus = models.IntegerField(verbose_name='Status')
     usrid = models.ForeignKey(User,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
     dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
     
@@ -159,7 +163,7 @@ class DocumentsRequired(models.Model):
     Description = models.TextField() 
     Format = models.ForeignKey(formt, on_delete=models.CASCADE)
     MaxFileSize = models.IntegerField(verbose_name= 'Max File Size')
-    Status = models.BooleanField(default=True)
+    Status = models.IntegerField(verbose_name='Status')
     CreatedBy = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
     CreatedOn = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
     
@@ -181,6 +185,92 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.name
 
+class states(models.Model):
+    stid  = models.AutoField(primary_key=True, db_column='stid',verbose_name='State Id')
+    stname  = models.CharField(max_length=255,verbose_name="Currency Name")
+    stdescription  = models.CharField(max_length=255,verbose_name="Description")
+    stcnid  = models.ForeignKey(cntry, on_delete=models.CASCADE,verbose_name='Country')
+    sttxcode  = models.CharField(max_length=255,verbose_name="Tax Code")
+    usrid  = models.IntegerField(verbose_name= 'Id of User Created')
+    dtupdatd  = models.DateTimeField(auto_now_add=True)
+    cnstatus  = models.IntegerField(verbose_name='Status')
+
+    def __str__(self):
+        return self.stname
+
+
+class clnt(models.Model):
+    clid = models.AutoField(primary_key=True, db_column='clid',verbose_name='Client Id')
+    clcode = models.CharField(max_length=255,verbose_name="Client code",unique=True)
+    clname = models.CharField(max_length=255,verbose_name="Client Name")
+    clagid = models.IntegerField(verbose_name= 'Agent ID')
+    claddress = models.CharField(max_length=255,verbose_name="Client Address")
+    clcnid = models.ForeignKey(cntry, on_delete=models.CASCADE,verbose_name='Country')
+    clstid =  models.ForeignKey(states, on_delete=models.CASCADE,verbose_name='States')
+    clmobno = models.CharField(max_length=255,verbose_name="Mob No: ")
+    clmobvrfd = models.IntegerField(verbose_name= 'Mobno verified')
+    clmobvrfcode =  models.CharField(max_length=255,verbose_name="Verification Code")
+    clemail = models.CharField(max_length=255,verbose_name="Email")
+    clemailvrfd = models.IntegerField(verbose_name= 'Email Verified')
+    clemailvrfcode = models.CharField(max_length=255,verbose_name="Verification Code")
+    usrid = models.IntegerField(verbose_name= 'Id of User Created')
+    dtupdatd = models.DateTimeField(auto_now_add=True)
+    clstatus = models.IntegerField(verbose_name='Status')
+
+    def __str__(self):
+        return self.clname
+  
+
+
+
+
+
+
+
+class clsubsdet(models.Model):
+    csid  = models.AutoField(primary_key=True, db_column='csid',verbose_name='Client sub ID')
+    csclid  = models.ForeignKey(clnt, on_delete=models.CASCADE,verbose_name='Client')
+    csslno  = models.IntegerField(verbose_name= 'Sl No')
+    cssvid  = models.ForeignKey(srvc, on_delete=models.CASCADE,verbose_name='Service')
+    cssubsdate  = models.DateTimeField(verbose_name= 'Sub date')
+    csvldprd  = models.IntegerField(verbose_name= 'Sub period')
+    csvldprdunt  = models.IntegerField(verbose_name= 'Sub unit')
+    cssubsexpdate  = models.DateTimeField(verbose_name='Sub Expiry Date')
+    csrate  = models.DecimalField(max_digits=18, decimal_places=3,verbose_name="Govt Rate")
+    cssrvchg  = models.DecimalField(max_digits=18, decimal_places=3,verbose_name="IVBMCS Ser Charge")
+    csdiscrt  = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Discount Rate")
+    csdiscamt  = models.DecimalField(max_digits=18, decimal_places=3,verbose_name="Discount Amt")
+    csagrt  = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Agent Rate")
+    csagamt  = models.DecimalField(max_digits=18, decimal_places=3,verbose_name="Agent Amt")
+    cstxrt  = models.DecimalField(max_digits=10, decimal_places=2,verbose_name="Tax Rate")
+    cstxamt  = models.DecimalField(max_digits=18, decimal_places=3,verbose_name="Tax Amt")
+    csnetamt  = models.DecimalField(max_digits=18, decimal_places=3,verbose_name="Net Rate")
+    usrid  =  models.IntegerField(verbose_name= 'Id of User Created')
+    dtupdatd  = models.DateTimeField(auto_now_add=True)
+    csstatus  = models.IntegerField(verbose_name='Status')
+
     
 
+class admcat(models.Model):
+    acid = models.AutoField(primary_key=True, db_column='acid',verbose_name='Admin Cat ID')
+    acname = models.CharField(max_length=255,verbose_name="Admin Cat Name",unique=True)
+    acdescription =  models.CharField(max_length=255,verbose_name="Description")
+    acisadm =  models.IntegerField(verbose_name= 'admin or user') #NA
+    usrid = models.IntegerField(verbose_name= 'Id of User Created')
+    dtupdatd = models.DateTimeField(auto_now_add=True)
+    acstatus = models.IntegerField(verbose_name='Status')
+
+    def __str__(self):
+        return self.acname
+
+class admroles(models.Model):
+    arid = models.AutoField(primary_key=True, db_column='arid',verbose_name='Admin role ID')
+    aracid = models.ForeignKey(admcat, on_delete=models.CASCADE,verbose_name='Admin Cat')
+    arsvid = models.IntegerField(verbose_name= 'Service Id')
+    usrid = models.IntegerField(verbose_name= 'Id of User Created')
+    dtupdatd = models.DateTimeField(auto_now_add=True)
+    arstatus = models.IntegerField(verbose_name='Status')
+
+
+    
 
