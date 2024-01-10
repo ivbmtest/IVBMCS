@@ -461,25 +461,28 @@ def select_my_task(request,id):
 
    
 
-    try:        
-        context={"user_name":instance.name}
-        connection = get_connection() # uses SMTP server specified in settings.py
-        connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
-
-        html_content = render_to_string('email_template.html', context)               
-        text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version                  
-        msg = EmailMultiAlternatives("Approval", text_content, "ivbmittest@gmail.com",[instance.email],connection=connection)                                      
-        msg.attach_alternative(html_content, "text/html")                                                                                                                                                                               
-        msg.send() 
-
-        connection.close() # Cleanup
-        print("=======================>>>>>>>>>>success")
-    except:
-        print("================>>>>>>>>>>>not done")
+    
     #y=UserProfile.objects.filter(pk=id)
     #page=Paginator(y,5)
     #page_list=request.GET.get('page')
     #page=page.get_page(page_list)
+    
+            
+    context={"user_name":instance.name}
+    connection = get_connection() # uses SMTP server specified in settings.py
+    connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
+
+    html_content = render_to_string('email_template.html', context)               
+    text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version                  
+    msg = EmailMultiAlternatives("Approval", text_content, "vasudevankarthik9@gmail.com",[instance.email],connection=connection)                                      
+    msg.attach_alternative(html_content, "text/html")  
+    try:    # msg.content_subtype="html"                                                                                                                                                                             
+        msg.send() 
+        print("=======================>>>>>>>>>>success::",msg.send())
+    except Exception as e:
+        print(f"==============>>>>>>>>>Error sending email: {e}")
+        
+    connection.close()
     return redirect("task")
 
 
