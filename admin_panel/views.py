@@ -467,3 +467,31 @@ def task_details(request,id):
     task=UserProfile.objects.get(pk=id)
     
     return render(request,"task_details.html",{"task":task})
+
+
+from twilio.rest import Client
+
+def sms(request):
+    if request.method == 'POST':
+        num = request.POST['num']
+        msg = request.POST['msg']
+        print(num,msg)
+       
+        account_sid = ''
+        auth_token = ''
+        client = Client(account_sid, auth_token)
+
+        message = client.messages.create(
+        from_='+12564745625',
+        body=msg,
+        to='+918848496707'
+        )
+        print(message.sid)
+    # Send SMS
+      
+        
+    return render(request,'sms.html')
+
+
+def profile(request):
+    return render(request,'profile.html')

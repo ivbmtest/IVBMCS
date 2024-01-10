@@ -200,6 +200,8 @@ class UserProfileAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_editable = ['payment']  
 
+
+
 # admin.site.register(Document,DocumentAdmin)
 admin.site.register(crnc,CurrencyAdmin)
 admin.site.register(cntry,CountryAdmin)

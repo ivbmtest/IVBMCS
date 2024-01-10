@@ -187,7 +187,7 @@ class UserProfile(models.Model):
 
 class states(models.Model):
     stid  = models.AutoField(primary_key=True, db_column='stid',verbose_name='State Id')
-    stname  = models.CharField(max_length=255,verbose_name="Currency Name")
+    stname  = models.CharField(max_length=255,verbose_name="State/Province Name",unique=True)
     stdescription  = models.CharField(max_length=255,verbose_name="Description")
     stcnid  = models.ForeignKey(cntry, on_delete=models.CASCADE,verbose_name='Country')
     sttxcode  = models.CharField(max_length=255,verbose_name="Tax Code")

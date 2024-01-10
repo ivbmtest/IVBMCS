@@ -17,7 +17,7 @@
         <span class="admin_name">{{request.user}}</span>  
         </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Profile</a>
+        <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
         <a class="dropdown-item" href="#">Update</a>
         <hr>
         <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>

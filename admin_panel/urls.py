@@ -56,9 +56,9 @@ urlpatterns = [
     path('select_task/<int:id>/',views.select_my_task,name='select_task'),
     path('task_detail/<int:id>/',views.task_details,name='task_detail'),
 
-  
- 
-    
+
+    path('sms/',views.sms,name='sms'),    
+    path('profile/',views.profile,name='profile'),    
     
 ]
 

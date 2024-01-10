@@ -152,6 +152,13 @@ STATIC_ROOT = os.path.join(BASE_DIR,'assets')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# settings.py
+
+TWILIO_ACCOUNT_SID = 'ACea07b1ac009276f9122f2b841e54145d'
+TWILIO_AUTH_TOKEN = '403ec04c5e46b98fc2b6a3e30b5b69fd'
+TWILIO_PHONE_NUMBER = '8848496707'
+
+
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or 'django.contrib.sessions.backends.cache', etc.
 SESSION_COOKIE_AGE = 1209600
