@@ -12,24 +12,14 @@
                       <div class="col-sm-4">
               <h2>Order <b>Details</b></h2>
             </div>
-            {% comment %} <form action="" method="post" style="width: 100%;" class="col-sm-4" style="background-color:rgba(255, 255, 255, 0) ;">
-              {% csrf_token %}
-            <div class="input-group ">
-              <div class="form-outline " data-mdb-input-init>
-                <input name="ser_name" type="search" id="filter-input" class="form-control" placeholder="Search..." />
-              </div>
-              <button type="submit" class="btn btn-primary" data-mdb-ripple-init>
-                <i class='bx bx-search-alt'></i>
-              </button>
-            </div>
-          </form> {% endcomment %}
+        
             <div class="col-sm-4">
               {% comment %} <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add Currency</span></a>
               <a href="#deleteEmployeeModal-{{forloop.counter}}" class="btn btn-danger" data-toggle="modal"><i class='bx bxs-trash'></i> <span>Delete</span></a>						 {% endcomment %}
             </div>
                   </div>
               </div>
-              <div id="table-container" style="overflow:auto;">
+            <div id="table-container" style="overflow:auto;">
               <table class="table table-striped table-hover">
                   <thead>
                       <tr>
@@ -78,16 +68,16 @@
           
             <div class="clearfix">
               <div class="hint-text">Showing <b>{{order_info.number}}</b> out of <b>{{order_info.paginator.num_pages}}</b> entries</div>
-              <ul class="pagination">
-                {% if order_info.has_previous %}
-                  <li class="page-item"><a class="page-link" href="{% url 'currency' %}?page={{order_info.previous_page_number}}">Previous</a></li>
-                    {% endif %}
-          
-                    {% for i in order_info.paginator.page_range %}
-                    {% if order_info.number == i %}
+                <ul class="pagination">
+                  {% if order_info.has_previous %}
+                    <li class="page-item"><a class="page-link" href="{% url 'currency' %}?page={{order_info.previous_page_number}}">Previous</a></li>
+                      {% endif %}
+            
+                      {% for i in order_info.paginator.page_range %}
+                      {% if order_info.number == i %}
 
-                  <li class="page-item active"><a class="page-link" id="pa" href="{% url 'orders' %}?page={{i}}">{{i}}</a></li>
-                  {% else %}
+                    <li class="page-item active"><a class="page-link" id="pa" href="{% url 'orders' %}?page={{i}}">{{i}}</a></li>
+                    {% else %}
                   <li class="page-item "><a class="page-link" href="{% url 'orders' %}?page={{i}}">{{i}}</a></li>
                     {% endif %}
                     {% endfor %}
@@ -95,11 +85,13 @@
                   {% if order_info.has_next %}
                   <li class="page-item"><a class="page-link" href="{% url 'orders' %}?page={{order_info.next_page_number}}">Next</a></li>
                   {% endif %}
-              </ul>
+              </ul> 
           </div>
 
           </div>
+        </div>
       </div>
+    </body>
    
   {% endblock content %}
     </section>

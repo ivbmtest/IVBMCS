@@ -58,7 +58,10 @@ urlpatterns = [
 
 
     path('sms/',views.sms,name='sms'),    
-    path('profile/',views.profile,name='profile'),    
+    path('profile/',views.profile,name='profile'),  
+
+
+    path('total_ord/',views.total_ord,name='total_ord'),    
     
 ]
 

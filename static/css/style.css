@@ -9,14 +9,14 @@
 .sidebar{
   position: fixed;
   height: 100%;
-  width: 100vh;
+  width: 16rem;
   background:#242d6e;
   transition: all 0.5s ease;
   overflow-y: auto;
 }
 
 .logo{
-  width: 32%;
+  width: 12rem;
 }
 
 .sidebar.active{

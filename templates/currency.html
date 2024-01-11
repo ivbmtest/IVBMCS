@@ -2,9 +2,9 @@
 
     {% block content %}
 
-      <div class="home-content">
+     
        
-    <body>
+  
       <div class="container">
           <div class="table-wrapper">
               <div class="table-title">
@@ -55,7 +55,7 @@
                               <label for="checkbox1"></label>
                             </span>
                           </td>
-                          <td>{{val.crid}}</td>
+                          <td>{{forloop.counter}}</td>
                           <td>{{val.crname}}</td>
                           <td>{{val.crsymbol}}</td>
                           <td>{{val.crdescription}}</td>
@@ -213,8 +213,8 @@
       });
     });
         </script>
-  </body>
-  </html>
+ 
+ 
 
   {% endblock content %}
     </section>
