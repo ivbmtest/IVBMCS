@@ -365,7 +365,6 @@ def taxmaster(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    
     return render(request,'taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names,'cou':cou})
 
 
@@ -398,11 +397,6 @@ def update_taxmaster(request,id):
 @login_required(login_url="/")
 def dashboard(request):
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    model_meta = UserProfile._meta
-    field_names = [field.verbose_name for field in model_meta.fields]
-    latest_record = UserProfile.objects.all().order_by('-created_at').first()
-    
-    # return render(request,"dashboard.html",{"data":latest_record,"field_names":field_names})
     total_order = UserProfile.objects.filter().count()
     return render(request,'main_layout.html',{'cou':cou,'total':total_order})
 
@@ -460,13 +454,22 @@ def select_my_task(request,id):
     instance.taken_by = request.user.username # Update the values of the fields
     instance.save()   # Save the changes to the database
     messages.success(request,"sucess")   
+    
+    
+    # context={"user_name":instance.name}
+    # html_content = render_to_string('email_template.html', context)
+    # text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version
+
+   
+
+    
     #y=UserProfile.objects.filter(pk=id)
     #page=Paginator(y,5)
     #page_list=request.GET.get('page')
     #page=page.get_page(page_list)
     
             
-    context={"user_name":instance.name,"details":instance}
+    context={"user_name":instance.name}
     connection = get_connection() # uses SMTP server specified in settings.py
     connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
 
@@ -487,5 +490,47 @@ def select_my_task(request,id):
 
 
 def task_details(request,id):
-    task=UserProfile.objects.get(pk=id)    
+    task=UserProfile.objects.get(pk=id)
+    
     return render(request,"task_details.html",{"task":task})
+
+
+from twilio.rest import Client
+
+def sms(request):
+    if request.method == 'POST':
+        num = request.POST['num']
+        msg = request.POST['msg']
+        print(num,msg)
+       
+        account_sid = ''
+        auth_token = ''
+        client = Client(account_sid, auth_token)
+
+        message = client.messages.create(
+        from_='+12564745625',
+        body=msg,
+        to='+918848496707'
+        )
+        print(message.sid)
+    # Send SMS
+      
+        
+    return render(request,'sms.html')
+
+
+def profile(request):
+    return render(request,'profile.html')
+
+def total_ord(request):
+    model_meta = UserProfile._meta
+    field_names = [field.verbose_name for field in model_meta.fields if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]
+    y=UserProfile.objects.filter()
+    print(y.count())
+    page=Paginator(y,8)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)
+    cou=UserProfile.objects.filter(taken_by__exact='').count()
+    acc=y.count() - cou
+    return render(request,'total_order.html',{'task_info':page,'field_names': field_names,'cou':cou,'acc':acc})
+    
