@@ -397,6 +397,11 @@ def update_taxmaster(request,id):
 @login_required(login_url="/")
 def dashboard(request):
     cou=UserProfile.objects.filter(taken_by__exact='').count()
+    model_meta = UserProfile._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    latest_record = UserProfile.objects.all().order_by('-created_at').first()
+    
+    # return render(request,"dashboard.html",{"data":latest_record,"field_names":field_names})
     return render(request,'main_layout.html',{'cou':cou})
 
 
@@ -453,22 +458,13 @@ def select_my_task(request,id):
     instance.taken_by = request.user.username # Update the values of the fields
     instance.save()   # Save the changes to the database
     messages.success(request,"sucess")   
-    
-    
-    # context={"user_name":instance.name}
-    # html_content = render_to_string('email_template.html', context)
-    # text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version
-
-   
-
-    
     #y=UserProfile.objects.filter(pk=id)
     #page=Paginator(y,5)
     #page_list=request.GET.get('page')
     #page=page.get_page(page_list)
     
             
-    context={"user_name":instance.name}
+    context={"user_name":instance.name,"details":instance}
     connection = get_connection() # uses SMTP server specified in settings.py
     connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
 
@@ -489,6 +485,13 @@ def select_my_task(request,id):
 
 
 def task_details(request,id):
-    task=UserProfile.objects.get(pk=id)
-    
+    task=UserProfile.objects.get(pk=id)    
     return render(request,"task_details.html",{"task":task})
+
+
+def get_order_details(request):
+    model_meta = UserProfile._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    latest_record = UserProfile.objects.all().order_by('-created_at').first(5)
+    
+    return render(request,"dashboard.html",{"latest_data":latest_record,"field_names":field_names})
