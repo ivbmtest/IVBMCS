@@ -98,8 +98,10 @@ DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'ivbmcs_db',
-		'USER': 'root',
-		'PASSWORD': '1234',
+		# 'USER': 'root',
+		# 'PASSWORD': '1234',
+        'USER': 'admin',
+		'PASSWORD': 'admin',
 		'HOST':'localhost',
 		'PORT':'3306',
 	}
@@ -180,8 +182,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587  # Use the appropriate port for your email server
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'vasudevankarthik9@gmail.com'
-# EMAIL_HOST_PASSWORD = 'jdaz ahrr xngs ozqa'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_PASSWORD = 'jdaz ahrr xngs ozqa'
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 # print(f'EMAIL_HOST_PASSWORD: {EMAIL_HOST_PASSWORD}')
 
 # for key, value in os.environ.items():

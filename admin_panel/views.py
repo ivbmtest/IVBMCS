@@ -398,7 +398,15 @@ def update_taxmaster(request,id):
 def dashboard(request):
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     total_order = UserProfile.objects.filter().count()
-    return render(request,'main_layout.html',{'cou':cou,'total':total_order})
+    
+    model_meta = UserProfile._meta
+    
+    field_names = [field.verbose_name for field in model_meta.fields 
+                   if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]
+    latest_record = UserProfile.objects.all().order_by('-created_at')
+    
+    return render(request,'main_layout.html',{'cou':cou,'total':total_order,
+                                              "latest_data":latest_record,"field_names":field_names})
 
 
 
@@ -479,7 +487,6 @@ def select_my_task(request,id):
     msg.attach_alternative(html_content, "text/html")  
     try:    # msg.content_subtype="html"                                                                                                                                                                             
         msg.send() 
-        print("=======================>>>>>>>>>>success::",msg.send())
     except Exception as e:
         print(f"==============>>>>>>>>>Error sending email: {e}")
         
@@ -534,3 +541,12 @@ def total_ord(request):
     acc=y.count() - cou
     return render(request,'total_order.html',{'task_info':page,'field_names': field_names,'cou':cou,'acc':acc})
     
+    
+    
+# def get_order_details(request):
+#     model_meta = UserProfile._meta
+#     field_names = [field.verbose_name for field in model_meta.fields]
+#     latest_record = UserProfile.objects.all().order_by('-created_at').first(5)
+#     print("------------------------>>>>>>>>>>>>>>",latest_record)
+    
+#     return render(request,"dashboard.html",{"latest_data":latest_record,"field_names":field_names})

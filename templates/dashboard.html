@@ -148,27 +148,28 @@
             
           </thead>
           <tbody>
-            {% comment %} {% for data in latest_data %} {% endcomment %}
+            {% for data in latest_data %}
             <tr>
+              <th scope="row">{{forloop.counter}}</th>
               <th scope="row">{{data.name}}</th>
               <td>{{data.phone_number}}</td>
               <td>{{data.email}}</td>
               <td>{{data.service}}</td>
               <td>{{data.payment}}</td>
               <td>{{data.taken_by}}</td>
-              <td>{{data.status}}</td>
+              {% comment %} <td>{{data.status}}</td> {% endcomment %}
               <td>{{data.created_at}}</td>
             </tr>
-            {% comment %} {% endfor %} {% endcomment %}
+            {% endfor %}
             
           </tbody>
         </table>
 
       </div>
-      <div class="top-sales box">
+      {% comment %} <div class="top-sales box">
         <div class="title">More...</div>
 
-      </div>
+      </div> {% endcomment %}
     </div>
   </div>
 <script>
