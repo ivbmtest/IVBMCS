@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -62,7 +63,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
 
 
 
-import os
+
 
 TEMPLATES = [
     {
@@ -179,4 +180,9 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587  # Use the appropriate port for your email server
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'vasudevankarthik9@gmail.com'
-EMAIL_HOST_PASSWORD = 'jdaz ahrr xngs ozqa'
+# EMAIL_HOST_PASSWORD = 'jdaz ahrr xngs ozqa'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+# print(f'EMAIL_HOST_PASSWORD: {EMAIL_HOST_PASSWORD}')
+
+# for key, value in os.environ.items():
+#     print(f'{key}: {value}')
