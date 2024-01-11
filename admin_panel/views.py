@@ -365,6 +365,7 @@ def taxmaster(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
+    
     return render(request,'taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names,'cou':cou})
 
 
