@@ -472,7 +472,12 @@ def select_my_task(request,id):
     context={"user_name":instance.name}
     connection = get_connection() # uses SMTP server specified in settings.py
     connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
-
+    print(instance.email)
+    print(instance.phone_number)
+    import os
+    print("pass : :",os.environ.get('EMAIL_HOST_PASSWORD'))
+    for key, value in os.environ.items():
+        print(f'{key}:=> {value}')
     html_content = render_to_string('email_template.html', context)               
     text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version                  
     msg = EmailMultiAlternatives("Approval", text_content, "vasudevankarthik9@gmail.com",[instance.email],connection=connection)                                      
@@ -532,5 +537,5 @@ def total_ord(request):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     acc=y.count() - cou
-    return render(request,'total_order.html',{'task_info':page,'field_names': field_names,'cou':cou,'acc':acc})
+    return render(request,'total_order.html',{'total_info':page,'field_names': field_names,'cou':cou,'acc':acc})
     
