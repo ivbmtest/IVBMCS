@@ -62,6 +62,7 @@ urlpatterns = [
 
 
     path('total_ord/',views.total_ord,name='total_ord'),    
+  
     
 ]
 

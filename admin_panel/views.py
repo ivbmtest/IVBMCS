@@ -480,16 +480,21 @@ def select_my_task(request,id):
     context={"user_name":instance.name}
     connection = get_connection() # uses SMTP server specified in settings.py
     connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
-
+    print(instance.email)
+    print(instance.phone_number)
+    import os
+    print("pass : :",os.environ.get('EMAIL_HOST_PASSWORD'))
+    for key, value in os.environ.items():
+        print(f'{key}:=> {value}')
     html_content = render_to_string('email_template.html', context)               
     text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version                  
     msg = EmailMultiAlternatives("Approval", text_content, "vasudevankarthik9@gmail.com",[instance.email],connection=connection)                                      
     msg.attach_alternative(html_content, "text/html")  
     try:    # msg.content_subtype="html"                                                                                                                                                                             
         msg.send() 
+       
     except Exception as e:
-        print(f"==============>>>>>>>>>Error sending email: {e}")
-        
+        print(f"==============>>>>>>>>>Error sending email: {e}")    
     connection.close()
     return redirect("task")
 
@@ -530,23 +535,31 @@ def profile(request):
     return render(request,'profile.html')
 
 def total_ord(request):
+    cou=UserProfile.objects.filter()
+    sel=''
+    if request.method == 'POST':
+        sel = request.POST['opt']
+        if sel == 'accept':
+            cou=UserProfile.objects.exclude(taken_by='')
+            print('Accepted')
+            sel='acc'
+            print(cou)
+        elif sel == 'pending':
+            print("Pending")
+            sel="pen"
+            cou=UserProfile.objects.filter(taken_by__exact='')
+        else:
+            sel='all'
+            cou=UserProfile.objects.filter()
+
     model_meta = UserProfile._meta
     field_names = [field.verbose_name for field in model_meta.fields if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]
-    y=UserProfile.objects.filter()
-    print(y.count())
-    page=Paginator(y,8)
+    page=Paginator(cou,8)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    acc=y.count() - cou
-    return render(request,'total_order.html',{'task_info':page,'field_names': field_names,'cou':cou,'acc':acc})
+    #acc=y.count() - cou
+    return render(request,'total_order.html',{'total_info':page,'field_names': field_names,'cou':cou,'sel':sel})
     
-    
-    
-# def get_order_details(request):
-#     model_meta = UserProfile._meta
-#     field_names = [field.verbose_name for field in model_meta.fields]
-#     latest_record = UserProfile.objects.all().order_by('-created_at').first(5)
-#     print("------------------------>>>>>>>>>>>>>>",latest_record)
-    
-#     return render(request,"dashboard.html",{"latest_data":latest_record,"field_names":field_names})
+
+

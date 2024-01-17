@@ -1,65 +1,7 @@
 {% extends "main_layout.html" %}
 
     {% block content %}
-    <style>
-    :root{
-      --spinner-size: 150px; /* change the size of the spinner */
-      --loading-screen-background: rgba(255, 255, 255, 0.345); /* change the background color of the loading screen */
-      --font-family: 'Red Hat Display', sans-serif; /* change the font used for the bottom text of the loading screen */
-      --text-color: white; /* change the color used for the bottom text of the loading screen */
-    }
-    
-    .loading-screen{
-      background-color: var(--loading-screen-background, #f6f3f3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      position: fixed;
-      top:0;
-      right:0;
-      left:0;
-      bottom:0;
-      z-index: 500;
-      cursor: none;
-    }
-    
-    .loader {
-      width: 68px;
-      height: 68px;
-      border-radius: 50%;
-      display: inline-block;
-      border-top: 6px solid #54e237;
-      border-right: 4px solid transparent;
-      box-sizing: border-box;
-      animation: rotation 1s linear infinite;
-    }
-    .loader::after {
-      content: '';  
-      box-sizing: border-box;
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 68px;
-      height: 68px;
-      border-radius: 50%;
-      border-left: 6px solid #242d6e;
-      border-bottom: 4px solid transparent;
-      animation: rotation 0.5s linear infinite reverse;
-    }
-    @keyframes rotation {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-    
-    
-    
-    
-        </style>
+
       
     <body>
       <div class="home-content">
@@ -78,6 +20,7 @@
   <span class="loader"></span>
 </div>
 <!--end loader-->
+
       <!--<div class="row m-auto bg-success w-25" style="position: absolute;height: 3rem;padding-top: 1rem;padding-left: 3rem;left: 26rem;"><b>SuccessFully Added</b></div>-->
       <div class="container" style="height: 100vh;">
           <div class="table-wrapper">
@@ -103,6 +46,7 @@
             </div>
                   </div>
               </div>
+              {% if order_info|length != 0 %}
               <div id="table-container" style="overflow:auto;">
               <table class="table table-striped table-hover">
                   <thead>
@@ -172,28 +116,15 @@
                   {% endif %}
               </ul>
           </div>
+          {% else%}
+            
+          <h3 class="text-danger text-center mt-5">No Records Found</h3>
+          {% endif %}
 
           </div>
       </div>
      
-      <script>
-        function simulatePageLoad() {
-        document.getElementById('loading-screen').style.display = '';
-
-        // Simulating a 3-second delay (you can adjust this value)
-        setTimeout(function () {
-            document.getElementById('loading-screen').style.display = 'none';
-        }, 1000);
-    }
-
-    // Call the function to simulate page load
-    simulatePageLoad();
-
-
-    function sndload(){
-      simulatePageLoad();
-    }
-    </script>
+   
      </body>
     </html>
  
