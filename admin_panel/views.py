@@ -403,7 +403,7 @@ def dashboard(request):
     
     field_names = [field.verbose_name for field in model_meta.fields 
                    if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]
-    latest_record = UserProfile.objects.all().order_by('-created_at')
+    latest_record = UserProfile.objects.all().order_by('-created_at')[:5]
     
     return render(request,'main_layout.html',{'cou':cou,'total':total_order,
                                               "latest_data":latest_record,"field_names":field_names})
