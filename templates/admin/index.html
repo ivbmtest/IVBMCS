@@ -1,0 +1,9 @@
+<!-- templates/admin/index.html -->
+
+{% extends 'admin/index.html' %}
+{% load static %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin_styles.css' %}">
+{% endblock %}
