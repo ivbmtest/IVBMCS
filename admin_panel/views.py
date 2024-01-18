@@ -399,11 +399,13 @@ def dashboard(request):
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     total_order = UserProfile.objects.filter().count()
     model_meta = UserProfile._meta
-    
+    taken_count = UserProfile.objects.exclude(taken_by='').count()
+    not_taken_count =cou
+    print("take :",taken_count,"Not taken :",not_taken_count)
     field_names = [field.verbose_name for field in model_meta.fields if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]
     latest_record = UserProfile.objects.all().order_by('-created_at')
     
-    return render(request,'main_layout.html',{'cou':cou,'total':total_order,"latest_data":latest_record,"field_names":field_names})
+    return render(request,'main_layout.html',{'cou':cou,'take':taken_count,'total':total_order,"latest_data":latest_record,"field_names":field_names})
     
 
 
