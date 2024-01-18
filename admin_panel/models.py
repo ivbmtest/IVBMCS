@@ -216,16 +216,12 @@ class clnt(models.Model):
     usrid = models.IntegerField(verbose_name= 'Id of User Created')
     dtupdatd = models.DateTimeField(auto_now_add=True)
     clstatus = models.IntegerField(verbose_name='Status')
+    
+    
 
     def __str__(self):
         return self.clname
   
-
-
-
-
-
-
 
 class clsubsdet(models.Model):
     csid  = models.AutoField(primary_key=True, db_column='csid',verbose_name='Client sub ID')
