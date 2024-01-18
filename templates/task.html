@@ -5,7 +5,7 @@
       <div class="home-content">
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <body>
-      <div class="container">
+      <div class="container-fluid">
           <div class="table-wrapper">
               <div class="table-title">
                   <div class="row">
@@ -60,7 +60,7 @@
                           <td>{{val.email}}</td>
                           <td>{{val.service}}</td>
                           <td>{{val.document.name|cut:"/" }}</td>
-                          <td><a href = "{{val.image.url}}" ><img src="{{ val.image.url }}" alt="{{ val.name }}" width="50" height="50"></a></td>
+                          <td><a href = "{{val.image.url}}" ><img src="{{ val.image.url }}" alt="{{ val.name }}" width="50" height="50"></a>{{val.image}}</td>
                           <td>{{val.payment}}</td>
                           <td>{{val.taken_by}}</td> 
                           <td>{{val.status}}</td>

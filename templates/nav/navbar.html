@@ -10,13 +10,13 @@
       </div> {% endcomment %}
       
       <div class="profile-details">
-        <i class="bi bi-gear"></i>
-        <a href="{% url "orders" %}"><i class='bx bxs-bell ' title="New Order">{{cou}}</i></a>
+        <div><a href="{% url "orders" %}"><i class='bx bxs-bell ' title="New Order">{{cou}}</i></a></div>
+        
         <a class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
          
         
         <img src="https://www.pngitem.com/pimgs/m/516-5167304_transparent-background-white-user-icon-png-png-download.png" alt="" />
-        <span class="admin_name">{{request.user}}</span>  
+        {% comment %} <span class="admin_name">{{request.user}}</span>   {% endcomment %}
         </a>
         <div class="dropdown-menu">
           <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
