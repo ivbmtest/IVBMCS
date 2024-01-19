@@ -70,7 +70,9 @@ canvas {
             font-size: 12px;
             height: 12rem;
         }
-
+body{
+  background-color: #f5f5f5;
+}
     </style>
     {% load static %}
   
@@ -136,16 +138,26 @@ canvas {
 <!--end loader-->
 
 
-<div class="row px-2">
-  <div class="col-sm-7">Months Base<canvas id="myBarChart"></canvas></div>
 
 
-  <div class="col-sm-5">
- 
-  <canvas id="multilineChart"></canvas>
-   
-  </div>
-</div>
+
+    <div class="row px-1">  
+      <div class="sales-boxes  col-sm-6 mt-sm-2" >
+        <div class="recent-sales w-100" >
+      Months Base<canvas id="myBarChart" style="height: 600px;width: 800px;" ></canvas></div></div>   
+      <div class="sales-boxes col-sm-6 mt-2" >
+        <div class="recent-sales w-100" >
+      <canvas id="multilineChart"style="height: 300px;width: 400px;" ></canvas>
+    </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
 
     <div class="sales-boxes mt-3">
       <div class="recent-sales box w-100" >
@@ -213,15 +225,22 @@ document.body.onload = ()=>{
 
 </script>
 <!--bar chart-->
+
+
+  
+
 <script>
+  
+  var dataArray = JSON.parse('{{data}}');
+
   var ctx = document.getElementById('myBarChart').getContext('2d');
     var myBarChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             datasets: [{
-                label: 'Service Level',
-                data: [10, 20, 15, 25, 30, 18, 22, 28, 14, 21, 27, 12],
+                label: 'Order Growth',
+                data: dataArray,
                 backgroundColor: 'rgba(153, 102, 255, 0.2)',
                 borderColor:  'rgba(153, 102, 255, 1)',
                 borderWidth: 1

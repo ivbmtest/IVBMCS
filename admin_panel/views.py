@@ -11,6 +11,12 @@ from .form import *
 from django.contrib import messages
 
 
+
+from django.db.models import Count
+from django.db.models.functions import TruncDay
+
+
+
 from django.core.mail import EmailMultiAlternatives,get_connection
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -400,12 +406,16 @@ def dashboard(request):
     total_order = UserProfile.objects.filter().count()
     model_meta = UserProfile._meta
     taken_count = UserProfile.objects.exclude(taken_by='').count()
-    not_taken_count =cou
-    print("take :",taken_count,"Not taken :",not_taken_count)
     field_names = [field.verbose_name for field in model_meta.fields if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]
     latest_record = UserProfile.objects.all().order_by('-created_at')
     
-    return render(request,'main_layout.html',{'cou':cou,'take':taken_count,'total':total_order,"latest_data":latest_record,"field_names":field_names})
+    data =[]
+    for i in range(1,13):
+        mon = UserProfile.objects.filter(created_at__month=i).count()
+        data.append(mon)
+    
+    
+    return render(request,'main_layout.html',{'cou':cou,'take':taken_count,'total':total_order,"latest_data":latest_record,"field_names":field_names,'data':data})
     
 
 
