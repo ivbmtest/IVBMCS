@@ -48,7 +48,7 @@
                                     {% comment %} <li><a href="{% url 'service' %}">Services</a></li>    {% endcomment %}
                                     <li><a href="#">Blog</a></li>
                                     <li><a href="{% url 'contact' %}" class="{% if url_name == 'contact' %}text-success{% endif %}">contacts</a></li>
-                                    <li class="active menu-item-has-children"><a href="#">Select Service</a>
+                                    <li class=" menu-item-has-children"><a href="#">Select Service</a>
                                         <ul class="sub-menu">
                                             {% for cat in category %}
                                                 {% if  cat.srvc_set.all%}
