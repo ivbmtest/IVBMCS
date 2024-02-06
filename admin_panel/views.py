@@ -38,8 +38,8 @@ def Login(request):
                     return redirect('/dashboard/')
         else:
             # Handle invalid login credentials
-            return render(request, 'admin/login.html', {'error_message': 'Invalid credentials'})
-    return render(request, 'admin/login.html')
+            return render(request, 'admin/main_app/login.html', {'error_message': 'Invalid credentials'})
+    return render(request, 'admin/main_app/login.html')
 
 
 def Logout(request):
@@ -64,7 +64,7 @@ def currency(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'currency.html',{'form': frm,'currency_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/super_user/currency.html',{'form': frm,'currency_info':page,'field_names': field_names,'cou':cou})
 
 
 #delete currency
@@ -113,7 +113,7 @@ def category(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)  
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/super_user/category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names,'cou':cou})
 
 #Delete Category
 def del_category(request,id):
@@ -159,7 +159,7 @@ def country(request):
     page=page.get_page(page_list)    
     #country_info=cntry.objects.all()
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'country.html',{'form': cntry_frm,'country_info':page,'field_names': field_names})
+    return render(request,'admin/super_user/country.html',{'form': cntry_frm,'country_info':page,'field_names': field_names})
     
     
 # Delete Country
@@ -207,7 +207,7 @@ def document(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'document.html',{'form': frm,'document_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/super_user/document.html',{'form': frm,'document_info':page,'field_names': field_names,'cou':cou})
 
 
 #delete document
@@ -262,7 +262,7 @@ def services(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/super_user/services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names,'cou':cou})
 
 #Delete Service
 def delete_service(request,id):
@@ -307,7 +307,7 @@ def taxdetails(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/super_user/taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names,'cou':cou})
 
 # del taxdetails
 def delete_taxdetails(request,id):
@@ -353,7 +353,7 @@ def taxmaster(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/super_user/taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names,'cou':cou})
 
 
 # del tax Master
@@ -382,7 +382,7 @@ def update_taxmaster(request,id):
         return JsonResponse({'success': True, 'form':frm})
 
 
-@login_required(login_url="/")
+# @login_required(login_url="/")
 def dashboard(request):
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     total_order = UserProfile.objects.filter().count()
@@ -392,7 +392,7 @@ def dashboard(request):
                    if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]
     latest_record = UserProfile.objects.all().order_by('-created_at')[:5]
     
-    return render(request,'main_layout.html',{'cou':cou,'total':total_order,
+    return render(request,'admin/main_app/main_layout.html',{'cou':cou,'total':total_order,
                                               "latest_data":latest_record,"field_names":field_names})
 
 
@@ -405,7 +405,7 @@ def orders(request,):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'orders.html',{'order_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/staff/orders.html',{'order_info':page,'field_names': field_names,'cou':cou})
 
 
 #user demo
@@ -417,7 +417,7 @@ def demo_user(request):
             return redirect('demo_user')
     else:
         frm = userForm()
-    return render(request,"user.html",{'form':frm})
+    return render(request,"admin/super_user/user.html",{'form':frm})
 
 
 """ function for listing the selected task """
@@ -430,7 +430,7 @@ def my_task(request):
     page=page.get_page(page_list)
     print(messages)
     cou=UserProfile.objects.filter(taken_by=request.user).count()
-    return render(request,'task.html',{'task_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/staff/task.html',{'task_info':page,'field_names': field_names,'cou':cou})
 
 
 """function to select task from order list"""
@@ -467,29 +467,7 @@ def select_my_task(request,id):
 def task_details(request,id):
     task=UserProfile.objects.get(pk=id)
     
-    return render(request,"task_details.html",{"task":task})
-
-
-def sms(request):
-    if request.method == 'POST':
-        num = request.POST['num']
-        msg = request.POST['msg']
-        print(num,msg)
-       
-        account_sid = ''
-        auth_token = ''
-        client = Client(account_sid, auth_token)
-
-        message = client.messages.create(
-        from_='+12564745625',
-        body=msg,
-        to='+918848496707'
-        )
-        print(message.sid)
-    # Send SMS
-      
-        
-    return render(request,'sms.html')
+    return render(request,"admin/staff/task_details.html",{"task":task})
 
 
 def profile(request):
@@ -518,7 +496,7 @@ def total_ord(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'total_order.html',{'total_info':page,'field_names': field_names,'cou':cou,'sel':sel})
+    return render(request,'admin/staff/total_order.html',{'total_info':page,'field_names': field_names,'cou':cou,'sel':sel})
     
 
 

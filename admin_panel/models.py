@@ -2,8 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
+# class CustomUser(AbstractUser):
+#     USER_TYPE=((1,"SUPER_USER"),(2,"STAFF"),(3,"USER"))
+    
+    
 
 class txmst(models.Model):
     txid = models.AutoField(primary_key=True, db_column='txid',verbose_name='Tax Id')

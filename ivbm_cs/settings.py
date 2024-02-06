@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'admin_panel',
+    'user_portal',
 ]
 
 
@@ -76,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'user_portal.context_processors.select_service',
             ],
         },
     },
@@ -176,15 +178,19 @@ MEDIA_URL = '/images/'
 
 
 # Email Configuration
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587  # Use the appropriate port for your email server
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'vasudevankarthik9@gmail.com'
-EMAIL_HOST_PASSWORD = 'jdaz ahrr xngs ozqa'
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-# print(f'EMAIL_HOST_PASSWORD: {EMAIL_HOST_PASSWORD}')
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587  # Use the appropriate port for your email server
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'vasudevankarthik9@gmail.com'
+# EMAIL_HOST_PASSWORD = 'jdaz ahrr xngs ozqa'
 
-# for key, value in os.environ.items():
-#     print(f'{key}: {value}')
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'testnft400@gmail.com'  # Replace with your Gmail email
+EMAIL_HOST_PASSWORD = 'trhx kweb jiia tkpb'

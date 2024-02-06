@@ -1,0 +1,58 @@
+
+/* Common styles for both desktop and mobile */
+.dropdown-menu li {
+    position: relative;
+}
+
+.dropdown-menu .dropdown-submenu,
+.dropdown-menu .dropdown-submenu-left {
+    visibility: hidden;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    margin-top: 0; /* Adjust the margin to control spacing */
+}
+
+.dropdown-menu .dropdown-submenu-left {
+    right: auto;
+    left: -100%;
+}
+
+.dropdown-menu .dropdown-submenu ul,
+.dropdown-menu .dropdown-submenu-left ul {
+    margin-top: 0; /* Adjust the margin to control spacing */
+    margin-left: -10px; /* Adjust as needed to bring multilevel menu closer */
+}
+
+.dropdown-menu > li:hover > .dropdown-submenu,
+.dropdown-menu > li:hover > .dropdown-submenu-left {
+    visibility: visible;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .dropdown-menu li {
+        display: block;
+        width: 100%;
+        margin-bottom: 5px; /* Adjust spacing between items for better readability */
+    }
+
+    .dropdown-menu .dropdown-submenu,
+    .dropdown-menu .dropdown-submenu-left {
+        position: static;
+        visibility: hidden; /* Hide submenu by default on small screens */
+        margin-top: 5px; /* Adjust spacing between items for better readability */
+    }
+
+    .dropdown-menu .dropdown-submenu ul,
+    .dropdown-menu .dropdown-submenu-left ul {
+        margin-top: 5px; /* Adjust spacing between items for better readability */
+        margin-left: 0; /* Remove negative margin on nested ul */
+    }
+
+    /* Show submenu when the parent item is tapped */
+    .dropdown-menu > li:active > .dropdown-submenu,
+    .dropdown-menu > li:active > .dropdown-submenu-left {
+        visibility: visible;
+    }
+}
