@@ -55,16 +55,35 @@
                             </span>
                           </td>
                           <td>{{forloop.counter}}</td>
-                          <td><a href="{% url "task_detail" id=val.id %}">{{val.name}}</a></td>
-                          <td>{{val.phone_number}}</td>
-                          <td>{{val.email}}</td>
+                          <td><a href="{% url "task_detail" id=val.id %}">{{val.user_id}}</a></td>
                           <td>{{val.service}}</td>
-                          <td>{{val.document.name|cut:"/" }}</td>
-                          <td><a href = "{{val.image.url}}" ><img src="{{ val.image.url }}" alt="{{ val.name }}" width="50" height="50"></a>{{val.image}}</td>
-                          <td>{{val.payment}}</td>
-                          <td>{{val.taken_by}}</td> 
-                          <td>{{val.status}}</td>
-                          <td>{{val.created_at}}</td>   
+                                {% if val.payment %}
+                                  <td><span class="badge badge-success">Paid</span></td>
+                                  {% else %}
+                                  <td><span class="badge badge-danger">Unpaid</span></td>
+                                {% endif %}
+                                {% comment %} <td>{{val.payment}}</td> {% endcomment %}
+                                <td>{{val.msg}}</td>
+                                <td>
+                                  {% if val.documents %}
+                                    <table>
+                                        <tbody>
+                                            {% for key, value in val.documents.items %}
+                                                <tr>
+                                                    <td><strong>{{ key }}:</strong></td>
+                                                    <td>{{ value }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    No documents available
+                                {% endif %}
+                                </td>
+                                {% comment %} <td><a href="{{val.image.url}}"><img src="{{ val.image.url }}" alt="{{ val.name }}" width="50" height="50"></a></td> {% endcomment %}
+                                <td>{{val.taken_by}}</td>
+                                <td>{{val.status}}</td> 
+                                <td>{{val.created_at}}</td> 
                           <td>
                             {% comment %} <a href="{% url "task" id=val.id %}" ><i  class='btn btn-success' class="material-icons " data-toggle="tooltip" title="Edit">Select</i></a> {% endcomment %}
                             

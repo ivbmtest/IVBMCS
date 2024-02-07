@@ -7,6 +7,9 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage
 import logging
 from .models import *
+from django.forms.models import model_to_dict
+
+# from user_portal.models import *
 from .form import *
 from django.contrib import messages
 import os
@@ -396,17 +399,19 @@ def dashboard(request):
                                               "latest_data":latest_record,"field_names":field_names})
 
 
-
-def orders(request,):
-    model_meta = UserProfile._meta
+from user_portal.models import *
+def orders(request,):    
+    model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    y=UserProfile.objects.filter(taken_by__exact='')
-    page=Paginator(y,5)
+    
+    # Get all objects where taken_by is blank
+    objects_with_blank_taken_by = user_service_details.objects.filter(taken_by='')
+    
+    page=Paginator(objects_with_blank_taken_by,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
+    cou=user_service_details.objects.filter(taken_by__exact='').count()
     return render(request,'admin/staff/orders.html',{'order_info':page,'field_names': field_names,'cou':cou})
-
 
 #user demo
 def demo_user(request):
@@ -422,36 +427,38 @@ def demo_user(request):
 
 """ function for listing the selected task """
 def my_task(request):
-    model_meta = UserProfile._meta
+    model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    y=UserProfile.objects.filter(taken_by=request.user)
+    y=user_service_details.objects.filter(taken_by=request.user)
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     print(messages)
-    cou=UserProfile.objects.filter(taken_by=request.user).count()
+    cou=user_service_details.objects.filter(taken_by=request.user).count()
     return render(request,'admin/staff/task.html',{'task_info':page,'field_names': field_names,'cou':cou})
 
 
 """function to select task from order list"""
 def select_my_task(request,id):
-    model_meta = UserProfile._meta
+    model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
    
-    instance = UserProfile.objects.get(pk=id)  # Replace 1 with the actual primary key value
+    instance = user_service_details.objects.get(pk=id)  # Replace 1 with the actual primary key value
+    print("----------->>>>>>>>>>",request.user.username)
     instance.taken_by = request.user.username # Update the values of the fields
     instance.save()   # Save the changes to the database
     messages.success(request,"sucess") 
     
     """code to send mail to user when staff select the particular task """
-    context={"user_name":instance.name}
+    context={"user_name":instance.user_id}
     connection = get_connection() # uses SMTP server specified in settings.py
     connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
-    print(instance.email)
-    print(instance.phone_number)
-    html_content = render_to_string('email_template.html', context)               
+    user_id = userdata.objects.get(name=instance.user_id)
+    print(user_id.email)
+    print(user_id.phone_number)
+    html_content = render_to_string('admin/main_app/email_template.html', context)               
     text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version                  
-    msg = EmailMultiAlternatives("Approval", text_content, "vasudevankarthik9@gmail.com",[instance.email],connection=connection)                                      
+    msg = EmailMultiAlternatives("Approval", text_content, "vasudevankarthik9@gmail.com",[user_id.email],connection=connection)                                      
     msg.attach_alternative(html_content, "text/html")  
     
     try:    # msg.content_subtype="html"                                                                                                                                                                             
@@ -464,10 +471,21 @@ def select_my_task(request,id):
 
 
 """function to view the tasks"""
+
 def task_details(request,id):
-    task=UserProfile.objects.get(pk=id)
-    
-    return render(request,"admin/staff/task_details.html",{"task":task})
+    model_meta = user_service_details._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    task_detail=user_service_details.objects.get(pk=id)
+    user_detail=userdata.objects.get(id=task_detail.user_id.id)
+    service_name=srvc.objects.get(pk=task_detail.service.svid)
+    user_data_dict = model_to_dict(task_detail)
+    user_data_dict['service']=service_name
+    user_data_dict['user_id']=user_detail
+    user_data_dict['Name']=user_data_dict.pop('user_id')
+    filter_key=['id','msg','taken_by','status']
+    filtered_user_data_dict = {key: value for key, value in user_data_dict.items() if key not in filter_key}
+          
+    return render(request,"admin/staff/task_details.html",{"task_detail":task_detail,'field_names':field_names,'user_detail':filtered_user_data_dict})
 
 
 def profile(request):
@@ -475,27 +493,27 @@ def profile(request):
 
 """ function to list the total number of orders """
 def total_ord(request):
-    cou=UserProfile.objects.filter()
+    cou=user_service_details.objects.filter()
     sel=''
     if request.method == 'POST':
         sel = request.POST['opt']
         if sel == 'accept':
-            cou=UserProfile.objects.exclude(taken_by='')
+            cou=user_service_details.objects.exclude(taken_by='')
             sel='acc'
             print(cou)
         elif sel == 'pending':
             sel="pen"
-            cou=UserProfile.objects.filter(taken_by__exact='')
+            cou=user_service_details.objects.filter(taken_by__exact='')
         else:
             sel='all'
-            cou=UserProfile.objects.filter()
+            cou=user_service_details.objects.filter()
 
-    model_meta = UserProfile._meta
+    model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]
     page=Paginator(cou,8)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
+    cou=user_service_details.objects.filter(taken_by__exact='').count()
     return render(request,'admin/staff/total_order.html',{'total_info':page,'field_names': field_names,'cou':cou,'sel':sel})
     
 

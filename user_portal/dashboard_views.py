@@ -5,6 +5,7 @@ from django.contrib import messages
 from .models import *
 from django.http import JsonResponse
 from datetime import datetime
+from django.core.paginator import Paginator, EmptyPage
 import pyotp
 from .utils import *
 from .common_functions import *
@@ -136,3 +137,6 @@ def upload_doc(request):
         # return render(request, 'your_template.html')
     # return HttpResponse(f"Key: {key}, Value: {value} received successfully.")
     # return HttpResponse('<center><h1>Thankyou</h1></center>')
+    
+    
+    
