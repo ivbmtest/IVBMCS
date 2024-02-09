@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path('',views.Login,name='Login'),
+    path('login/',views.Login,name='Login'),
     path('dashboard/',views.dashboard,name='dashboard'),
     path('logout/',views.Logout,name='logout'),
 
@@ -55,9 +55,7 @@ urlpatterns = [
     path('task/',views.my_task,name='task'),
     path('select_task/<int:id>/',views.select_my_task,name='select_task'),
     path('task_detail/<int:id>/',views.task_details,name='task_detail'),
-
-
-    path('sms/',views.sms,name='sms'),    
+  
     path('profile/',views.profile,name='profile'),  
 
 

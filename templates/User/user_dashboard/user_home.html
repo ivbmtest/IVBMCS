@@ -1,0 +1,299 @@
+{% extends "User/user_dashboard/main_layout.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+
+<style>
+
+body{
+  height: 100vh;
+}
+
+#body_header
+{
+
+    width:auto;
+    margin:0px auto;
+    text-align:left;
+   padding-left: 2rem;
+   
+}
+
+#body_header label{
+font-size: 18px;
+}
+
+
+.update{
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #242d6e;
+  width: 95%;
+  color: white;
+}
+
+.update li{
+  font-size: 12px;
+ margin-top: 1rem;
+}
+
+/* recomm */
+.main_recom{
+  background-color: #ceedf3;;
+ 
+  padding-top: 1rem;
+  width: 95%;
+  border-radius: 20px;
+}
+
+.recom{
+ display: flex;
+      overflow-x: scroll;
+      scroll-snap-type: x mandatory;
+      white-space: nowrap;
+      
+}
+
+
+.recom .card{
+  border-radius: 20px;
+  height: 90%;
+  width: 100%;
+ 
+}
+
+.scroll-dot-container {
+      position: absolute;
+     
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+    }
+
+    .scroll-dot {
+      width: 12px;
+      height: 12px;
+      margin: 0 5px;
+      background-color: #0a22d1;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .scroll-dot.active {
+      background-color: #158e07; /* Change to your preferred active color */
+    }
+    .card-container::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+
+
+  .header-container,h5{
+    font-size: 12px;
+    padding: 0;
+  }
+
+  .header-container p{
+    font-size: 8px;
+    color: black;
+   
+  }}
+/* .recom{ 
+
+width: 100%;
+}
+
+  .recom .card{
+  border-radius: 20px;
+  height: 150px;
+  font-size: 5px;
+  width: 7rem;
+ 
+ 
+  
+}
+.header-container {
+color: #158e07;
+}
+}
+
+@media (max-width:400px) {
+  .recom .card{
+  border-radius: 20px;
+  height: 150px;
+  font-size: 5px;
+  width: 7rem;
+}
+}
+
+@media (max-width:576px) {
+  .recom .card{
+  border-radius: 20px;
+  height: 150px;
+  font-size: 5px;
+  width: 7rem;
+}
+.main_recom{
+  height: 35vh;
+}
+}*/
+
+.header-container {   
+            padding: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        } 
+
+.recommended{
+  
+  height: 300px;
+
+  overflow-x: scroll;
+  background-color: #cfebcb;
+ 
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.recommended .card:hover{
+  background-color: white;
+  
+}
+</style> 
+
+<div class="home-content">
+        <div id="body_header">
+          <!--This is a division tag for body header-->
+          <h4><label>Welcome back ,</label> Casper</h4>  
+          <p style="margin-top: -.9rem;margin-left: 2rem;font-size: 14px;">See your Updates</p>
+        </div>
+    
+  <!-- Bootstrap 4 Tabs -->
+  <div class="container update">
+  <h5>  <i class='bx bxs-right-arrow text-warning'></i>  New Release</h5>
+  <ul>
+    <li>
+  PAN card will become inoperative from 01st July 2023 if PAN holders do not link it with their Aadhaar card. The IT department has mandated linking PAN-Aadhaar to regulate and curb tax evasion
+</li>
+<li>
+  In new passport regulations, the MEA has changed the rule of the requirement of the names of both parents.
+</li>
+</ul>  
+      </div> 
+
+
+
+
+
+
+      
+      <!--recomm-->
+<div class="container mt-4 main_recom" style="padding-left: 0;">
+  <div class="header-container">   <h5 class="ml-1"> <i class='bx bxs-down-arrow text-success'></i> Recommended for you </h5><a href="" >View all <i class='bx bxs-chevron-right'></i></a></div>
+ 
+<div class="row ml-2 recommended">
+  {% for i in 'abcdef'%}
+
+
+  <div class="card col-4" style="width: 15rem;">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
+  </div>
+ 
+ {% endfor %}
+
+
+</div>
+ 
+ 
+  <!-- <div class="container card-container recom mb-3">
+    {% for i in recommended %}
+      <div class="col-md-6 col-sm-6 pl-0">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{i.svname}}</h5>
+            <p class="card-text">{{i.svdescription}}</p>
+            <div class="header-container">
+              <p>{{i.svrate}}/-</p>
+            </div>
+            <p>Discount: {{i.discrt|floatformat}}%</p>
+            <a href="#" class="card-link">View <i class='bx bx-right-arrow-alt'></i></a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  
+        <div class="scroll-dot-container" id="scrollDots"></div> -->
+      </div>
+f
+     
+    </div>
+
+
+
+
+  
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const cardContainer = document.querySelector('.card-container');
+        const scrollDotContainer = document.getElementById('scrollDots');
+        let activeDotIndex = 0;
+    
+        // Calculate the number of pairs of cards
+        const numPairs = document.querySelectorAll('.card').length / 2;
+    
+        // Create dot buttons based on the number of pairs
+        for (let i = 0; i < numPairs; i++) {
+          const dotButton = document.createElement('div');
+          dotButton.classList.add('scroll-dot');
+          dotButton.onclick = function () {
+            scrollToPair(i + 1);
+          };
+          scrollDotContainer.appendChild(dotButton);
+        }
+    
+        function scrollToPair(pairIndex) {
+          const cardWidth = cardContainer.offsetWidth / 2; // Half of the container width
+          const targetScroll = (pairIndex - 1) * cardWidth * 2;
+          cardContainer.scroll({ left: targetScroll, behavior: 'smooth' });
+    
+          // Update active dot button
+          setActiveDot(pairIndex - 1);
+        }
+    
+        function setActiveDot(index) {
+          // Remove the active class from the current active dot
+          const currentActiveDot = document.querySelector('.scroll-dot.active');
+          if (currentActiveDot) {
+            currentActiveDot.classList.remove('active');
+          }
+    
+          // Add the active class to the new active dot
+          const newActiveDot = document.querySelectorAll('.scroll-dot')[index];
+          if (newActiveDot) {
+            newActiveDot.classList.add('active');
+          }
+        }
+      });
+    </script>          
+    
+ 
+
+
+
+
+{% endblock content %}
+</section>

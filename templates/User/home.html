@@ -1,0 +1,753 @@
+{% comment %} {% extends "User/user_layout.html" %} {% endcomment %}
+{% load static %}
+{% block content %}
+
+<!-- preloader -->
+{% include "User/features/preloader.html" %}
+<!-- preloader-end -->
+
+<main class="fix">
+
+    <!-- banner-area -->
+    <section class="banner-area-two banner-bg-two" data-background="{% static 'assets/img/banner/h2_banner_bg.jpg' %}">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="banner-content-two">
+                        <span class="sub-title" data-aos="fade-up" data-aos-delay="0">We Are Expert In This Field</span>
+                        <h2 class="title" data-aos="fade-up" data-aos-delay="300">Get a Smart Way For Your Business</h2>
+                        <p data-aos="fade-up" data-aos-delay="500" style="font-size: 1.5rem;">DELIVERING AND SATISFYING PROMISES</p>
+                        <div class="banner-btn">
+                            <a href="{% url 'service' %}" class="btn" data-aos="fade-right" data-aos-delay="700">Our Services</a>
+                            <!-- <a href="https://www.youtube.com/watch?v=6mkoGSqTqFI" class="play-btn popup-video" data-aos="fade-left" data-aos-delay="700"><i class="fas fa-play"></i> <span>Watch The Video</span></a> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="banner-img text-center">
+                        <img src="{% static 'assets/img/banner/h2_banner_img.png' %}" alt="" data-aos="fade-left" data-aos-delay="400">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="banner-shape-wrap">
+            <img src="{% static 'assets/img/banner/h2_banner_shape01.png' %}" alt="">
+            <img src="{% static 'assets/img/banner/h2_banner_shape02.png' %}" alt="">
+            <img src="{% static 'assets/img/banner/h2_banner_shape03.png' %}" alt="" data-aos="zoom-in-up" data-aos-delay="800">
+        </div>
+    </section>
+    <!-- banner-area-end -->
+
+    <!-- features-area -->
+    <section class="features-area-two pt-80">
+        <div class="container">
+            <div class="features-item-wrap">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="features-item-two">
+                            <div class="features-icon-two">
+                                <i class="flaticon-profit"></i>
+                            </div>
+                            <div class="features-content-two">
+                                <h4 class="title">Growing Business</h4>
+                                <p>Fueling Growth with Expert Business Solutions.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="features-item-two">
+                            <div class="features-icon-two">
+                                <i class="flaticon-budget"></i>
+                            </div>
+                            <div class="features-content-two">
+                                <h4 class="title">Finance Services</h4>
+                                <p>Strategic Financial Guidance for Sustainable Success.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="features-item-two">
+                            <div class="features-icon-two">
+                                <i class="flaticon-code"></i>
+                            </div>
+                            <div class="features-content-two">
+                                <h4 class="title">IT Services</h4>
+                                <p>Transforming Businesses with Cutting-Edge IT Solutions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- features-area-end -->
+
+    <!-- about-area -->
+    <section class="about-area-three">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-6 col-md-9">
+                    <div class="about-img-wrap-three">
+                        <img src="{% static 'assets/img/images/h2_about_img01.jpg' %}" alt="" data-aos="fade-down-right" data-aos-delay="0">
+                        <img src="{% static 'assets/img/images/h2_about_img02.jpg' %}" alt="" data-aos="fade-left" data-aos-delay="400">
+                        <div class="experience-wrap" data-aos="fade-up" data-aos-delay="300">
+                            <h2 class="title">4+ <span>Years</span></h2>
+                            <p>Of Experience in This Finance Advisory Company.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-content-three">
+                        <div class="section-title-two mb-20 tg-heading-subheading animation-style3">
+                            <span class="sub-title">Get To know US</span>
+                            <h2 class="title tg-element-title">Innovative Business Solutions for Your Company</h2>
+                        </div>
+                        <p class="info-one">IVBM (OPC) Pvt Ltd is more than a consultancy firm; we are your dedicated partner on the path to business excellence. we believe in results, not promises. Choose us as your partner for business, finance, and IT services, and let's embark on a journey to turn your aspirations into achievements.</p>
+                        <div class="about-list-two">
+                            <ul class="list-wrap">
+                                <li><i class="fas fa-arrow-right"></i>Proven Expertise</li>
+                                <li><i class="fas fa-arrow-right"></i>Tailored Solutions</li>
+                                <li><i class="fas fa-arrow-right"></i>Client-Centric Approach</li>
+                                <li><i class="fas fa-arrow-right"></i>Innovation-Driven Success</li>
+                            </ul>
+                        </div>
+                        <p>We all know that anything worth having takes time. When we fail, we have to stand up and try all over again. Always trust the process. We always end up where we’re meant to be.</p>
+                        <div class="about-author-info">
+                            <div class="thumb">
+                                <img src="{% static 'assets/img/images/about_author.png' %}" alt="">
+                            </div>
+                            <div class="content">
+                                <h2 class="title">Jafar Sadik</h2>
+                                <span>Managing Director & CEO</span>
+                            </div>
+                            <!-- <div class="signature">
+                                <img src="{% static assets/img/images/signature.png" alt="">
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="about-shape-wrap-two">
+            <img src="{% static 'assets/img/images/h2_about_shape01.png' %}" alt="">
+            <img src="{% static 'assets/img/images/h2_about_shape02.png' %}" alt="">
+            <img src="{% static 'assets/img/images/h2_about_shape03.png' %}" alt="" data-aos="fade-left" data-aos-delay="500">
+        </div>
+    </section>
+    <!-- about-area-end -->
+
+    <!-- brand-area -->
+    <div class="brand-aera-two pb-80">
+        <div class="container">
+            <div class="row brand-active">
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img01.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img02.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img03.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img04.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img05.png' %}" alt="">
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- brand-area-end -->
+
+    <!-- services-area -->
+    <section class="services-area-two services-bg-two" data-background="{% static 'assets/img/bg/services_bg02.jpg' %}">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="section-title-two mb-60 tg-heading-subheading animation-style3">
+                        <span class="sub-title">What We Do For You</span>
+                        <h2 class="title tg-element-title">We can inspire and Offer Different Services</h2>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-4">
+                    <div class="view-all-btn text-end mb-30">
+                        <a href="{% url 'service' %}" class="btn">See All Service</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                    <div class="services-item-two">
+                        <div class="services-thumb-two">
+                            <img src="{% static 'assets/img/services/h2_services_img01.jpg' %}" alt="">
+                            <div class="item-shape">
+                                <img src="{% static 'assets/img/services/services_item_shape.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="services-content-two">
+                            <div class="icon">
+                                <i class="flaticon-briefcase"></i>
+                            </div>
+                            <h2 class="title"><a href="#">Business setup & Corporate PRO Services</a></h2>
+                            <p>Empowering Your Business Setup Journey.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                    <div class="services-item-two">
+                        <div class="services-thumb-two">
+                            <img src="{% static 'assets/img/services/h2_services_img02.jpg' %}" alt="">
+                            <div class="item-shape">
+                                <img src="{% static 'assets/img/services/services_item_shape.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="services-content-two">
+                            <div class="icon">
+                                <i class="flaticon-calculator"></i>
+                            </div>
+                            <h2 class="title"><a href="#">Auditing, Tax & Regulatory</a></h2>
+                            <p>Auditing Excellence for Financial Confidence.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                    <div class="services-item-two">
+                        <div class="services-thumb-two">
+                            <img src="{% static 'assets/img/services/h2_services_img03.jpg' %}" alt="">
+                            <div class="item-shape">
+                                <img src="{% static 'assets/img/services/services_item_shape.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="services-content-two">
+                            <div class="icon">
+                                <i class="flaticon-budget"></i>
+                            </div>
+                            <h2 class="title"><a href="#">Accounting & Book Keeping Services</a></h2>
+                            <p>Precision Accounting for Financial Clarity.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                    <div class="services-item-two">
+                        <div class="services-thumb-two">
+                            <img src="{% static 'assets/img/services/h2_services_img04.jpg' %}" alt="">
+                            <div class="item-shape">
+                                <img src="{% static 'assets/img/services/services_item_shape.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="services-content-two">
+                            <div class="icon">
+                                <i class="flaticon-mouse-cursor"></i>
+                            </div>
+                            <h2 class="title"><a href="#">Technology & Digital</a></h2>
+                            <p>Digital Transformation, Your Competitive Edge.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- services-area-end -->
+
+    <!-- overview-area -->
+    <section class="overview-area pt-120 pb-120">
+        <div class="overview-shape" data-aos="fade-left" data-aos-delay="200" data-background="{% static 'assets/img/images/overview_shape.png' %}"></div>
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-6 col-md-10">
+                    <div class="overview-img-wrap">
+                        <img src="{% static 'assets/img/images/overview_img01.jpg' %}" alt="">
+                        <img src="{% static 'assets/img/images/overview_img02.jpg' %}" alt="" data-parallax='{"x" : 50 }'>
+                        <img src="{% static 'assets/img/images/overview_img_shape.png' %}" alt="">
+                        <div class="icon">
+                            <i class="flaticon-report-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="overview-content">
+                        <div class="section-title-two mb-20 tg-heading-subheading animation-style3">
+                            <span class="sub-title">Company Overview</span>
+                            <h2 class="title tg-element-title">Plan your business strategy with Our Experts</h2>
+                        </div>
+                        <p class="info-one">IVBM [OPC] PVT LTD is one of the top business consultancy firms in Cochin, India founded by Mr. Jafar Sadik. We embarked our journey with MULTIPLE PORTFOLIO COMPANY LIMITED a consultancy firm located at Kingdom of Saudi Arabia, Dammam. By putting together the exceptional knowledge and extensive experience in this field we aim to provide our clients highly professional services pertaining to personalized management, legal and technological support. </p>
+                        <p class="info-two">We believe that continuous and consistent evolution is the key to maintaining a systematic business environment around us. By identifying right people at the right place and training them to achieve objectives, we create success stories in organizations and our focus is on designing integrated solutions to compete with the developing world.</p>
+                        <div class="content-bottom">
+                            <ul class="list-wrap">
+                                <li>
+                                    <div class="icon">
+                                        <i class="flaticon-trophy"></i>
+                                    </div>
+                                    <div class="content">
+                                        <h2 class="count"><span class="odometer" data-count="5"></span>+</h2>
+                                        <p>Best Award</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon">
+                                        <i class="flaticon-rating"></i>
+                                    </div>
+                                    <div class="content">
+                                        <h2 class="count"><span class="odometer" data-count="100"></span>+</h2>
+                                        <p>Happy Clients</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- overview-area-end -->
+
+    <!-- choose-area -->
+    <section class="choose-area jarallax choose-bg" data-background="{% static 'assets/img/bg/choose_bg.jpg' %}">
+        <div class="choose-shape">
+            <img src="{% static 'assets/img/images/choose_shape.png' %}" alt="" data-aos="fade-right" data-aos-delay="0">
+        </div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="choose-content">
+                        <div class="section-title-two white-title mb-20 tg-heading-subheading animation-style3">
+                            <h2 class="title tg-element-title">We’ll Ensure You Always Get the Best Guidance.</h2>
+                        </div>
+                        <p>Guiding You to Excellence: Your Trusted Partner for Expert Consultation and Support in All Endeavors.</p>
+                        <!-- <a href="https://www.youtube.com/watch?v=6mkoGSqTqFI" class="play-btn popup-video"><i class="fas fa-play"></i>Watch Video</a> -->
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="skill-wrap wow fadeInRight" data-wow-delay=".2s">
+                        <div class="section-title-two mb-15">
+                            <span class="sub-title">Why We are The Best</span>
+                            <h2 class="title">Simple and Professional Solutions for Your Business.</h2>
+                        </div>
+                        <p>We have a dedicated team to cater your requirements of efficient talents to work for the progress of your organization.</p>
+                        <div class="progress-wrap">
+                            <div class="progress-item">
+                                <h6 class="title">Consulting</h6>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar wow slideInLeft" data-wow-delay=".1s" style="width: 99%"><span>99%</span></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <h6 class="title">IT Services</h6>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="96" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar wow slideInLeft" data-wow-delay=".2s" style="width: 96%"><span>96%</span></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <h6 class="title">Business</h6>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar wow slideInLeft" data-wow-delay=".3s" style="width: 95%"><span>95%</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- choose-area-end --></br></br></br></br></br></br></br></br></br>
+
+    <!-- cta-area -->
+    <section class="cta-area">
+        <div class="container">
+            <div class="cta-inner-wrap" data-background="{% static 'assets/img/bg/cta_bg.jpg' %}">
+                <div class="row align-items-center">
+                    <div class="col-lg-9">
+                        <div class="cta-content">
+                            <div class="cta-info-wrap">
+                                <div class="icon">
+                                    <i class="flaticon-phone-call"></i>
+                                </div>
+                                <div class="content">
+                                    <span>Call For More Info</span>
+                                    <a href="tel:+917012986300">+91&nbsp;&nbsp;70129 86300</a>
+                                </div>
+                            </div>
+                            <h2 class="title">Let’s Request a Schedule For Free Consultation</h2>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="cta-btn text-end">
+                            <a href="contact.html" class="btn">Contact Us</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- cta-area-end --></br></br></br></br></br>
+
+    <!-- testimonial-area -->
+    <section class="testimonial-area-two testimonial-bg-two" data-background="{% static 'assets/img/bg/h2_testimonial_bg.jpg' %}">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
+                    <div class="section-title-two white-title text-center mb-50 tg-heading-subheading animation-style3">
+                        <span class="sub-title">Our Testimonials</span>
+                        <h2 class="title tg-element-title">What Customers Say’s About Our Gerow Services</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-item-wrap-two">
+                <div class="row testimonial-active-two">
+                    <div class="col-lg-6">
+                        <div class="testimonial-item-two">
+                            <div class="testimonial-content-two">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p>“ They have been a trusted partner in the success and growth of my business, and I am grateful for their outstanding work."</p>
+                                <div class="testimonial-avatar">
+                                    <div class="avatar-thumb">
+                                        <img src="{% static 'assets/img/images/testi_avatar01.png' %}" alt="">
+                                    </div>
+                                    <div class="avatar-info">
+                                        <h2 class="title">Shabhas Valappil</h2>
+                                        <span>Director, Al Anud Arabia Trading Company</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="testimonial-item-two">
+                            <div class="testimonial-content-two">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p>“Their attention to detail and commitment to ensuring compliance with all regulations and standards is truly commendable.”</p>
+                                <div class="testimonial-avatar">
+                                    <div class="avatar-thumb">
+                                        <img src="{% static 'assets/img/images/testi_avatar02.png' %}" alt="">
+                                    </div>
+                                    <div class="avatar-info">
+                                        <h2 class="title">Hilal</h2>
+                                        <span>General Manager, Hilal Al Sharqiya Trading Company</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="testimonial-item-two">
+                            <div class="testimonial-content-two">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p>“IVBM [OPC] PVT LTD is a team of highly skilled professionals who have a deep understanding of the complexities of accounting and tax regulations.”</p>
+                                <div class="testimonial-avatar">
+                                    <div class="avatar-thumb">
+                                        <img src="{% static 'assets/img/images/testi_avatar03.png' %}" alt="">
+                                    </div>
+                                    <div class="avatar-info">
+                                        <h2 class="title">Rasheed</h2>
+                                        <span>General Manager, Ultimate Spark Trading Company</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="testimonial-item-two">
+                            <div class="testimonial-content-two">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p>“Their professionalism, reliability, and expertise have been instrumental in our success.”<br><br></p>
+                                <div class="testimonial-avatar">
+                                    <div class="avatar-thumb">
+                                        <img src="{% static 'assets/img/images/testi_avatar04.png' %}" alt="">
+                                    </div>
+                                    <div class="avatar-info">
+                                        <h2 class="title">Abdul Rahman Valappil</h2>
+                                        <span>Chairman, Layan Super Market</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="testimonial-nav-two"></div>
+            </div>
+        </div>
+    </section>
+    <!-- testimonial-area-end -->
+
+    <!-- pricing-area -->
+    <!-- <section class="pricing-area-two">
+        <div class="pricing-shape">
+            <img src="{% static assets/img/images/pricing_shape.png" alt="" data-aos="fade-left" data-aos-delay="200">
+        </div>
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-6">
+                    <div class="section-title-two mb-50 tg-heading-subheading animation-style3">
+                        <span class="sub-title">Flexible Pricing Plan</span>
+                        <h2 class="title tg-element-title">We’ve offered the best <br> pricing for you</h2>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-10">
+                    <div class="section-top-content mb-30">
+                        <p>Ever find yourself staring at your computer screen a good consulting slogan to come to mind? Oftentimes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="pricing-item-wrap">
+                <div class="pricing-tab">
+                    <span class="tab-btn monthly_tab_title">Monthly</span>
+                    <span class="pricing-tab-switcher"></span>
+                    <span class="tab-btn annual_tab_title">Yearly</span>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6 col-sm-10">
+                        <div class="pricing-box-two">
+                            <div class="pricing-head-two">
+                                <h4 class="title">Basic Plan</h4>
+                                <div class="pricing-price-two">
+                                    <h2 class="price monthly_price"><strong>$</strong>19.00<span>/month</span></h2>
+                                    <h2 class="price annual_price"><strong>$</strong>119.00<span>/year</span></h2>
+                                </div>
+                            </div>
+                            <div class="pricing-bottom">
+                                <div class="pricing-list">
+                                    <ul class="list-wrap">
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">5000 User Activities</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">Unlimited Access</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">No Hidden Charge</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">03 Time Updates</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">Figma Source File</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">Many More Facilities</li>
+                                    </ul>
+                                </div>
+                                <div class="pricing-btn-two">
+                                    <a href="contact.html" class="btn">Get The Plan Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-10">
+                        <div class="pricing-box-two">
+                            <span class="popular">Popular</span>
+                            <div class="pricing-head-two">
+                                <h4 class="title">Team Plan</h4>
+                                <div class="pricing-price-two">
+                                    <h2 class="price monthly_price"><strong>$</strong>49.00<span>/month</span></h2>
+                                    <h2 class="price annual_price"><strong>$</strong>499.00<span>/year</span></h2>
+                                </div>
+                            </div>
+                            <div class="pricing-bottom">
+                                <div class="pricing-list">
+                                    <ul class="list-wrap">
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">5000 User Activities</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">Unlimited Access</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">No Hidden Charge</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">03 Time Updates</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">Figma Source File</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">Many More Facilities</li>
+                                    </ul>
+                                </div>
+                                <div class="pricing-btn-two">
+                                    <a href="contact.html" class="btn">Get The Plan Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-10">
+                        <div class="pricing-box-two">
+                            <div class="pricing-head-two">
+                                <h4 class="title">Enterprise Plan</h4>
+                                <div class="pricing-price-two">
+                                    <h2 class="price monthly_price"><strong>$</strong>99.00<span>/month</span></h2>
+                                    <h2 class="price annual_price"><strong>$</strong>999.00<span>/year</span></h2>
+                                </div>
+                            </div>
+                            <div class="pricing-bottom">
+                                <div class="pricing-list">
+                                    <ul class="list-wrap">
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">5000 User Activities</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">Unlimited Access</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">No Hidden Charge</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">03 Time Updates</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">Figma Source File</li>
+                                        <li><img src="{% static assets/img/icons/check_icon02.svg" alt="">Many More Facilities</li>
+                                    </ul>
+                                </div>
+                                <div class="pricing-btn-two">
+                                    <a href="contact.html" class="btn">Get The Plan Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    <!-- pricing-area-end -->
+
+    <!-- blog-area -->
+    <!-- <section class="blog-area-two blog-bg-two" data-background="{% static assets/img/bg/h2_blog_bg.jpg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="section-title-two text-center mb-50 tg-heading-subheading animation-style3">
+                        <span class="sub-title">News & Blogs</span>
+                        <h2 class="title tg-element-title">Read Our Latest Updates</h2>
+                        <p>Ever find yourself staring at your computer screen a good consulting slogan to come to mind? Oftentimes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <div class="blog-post-item-two">
+                        <div class="blog-post-thumb-two">
+                            <a href="blog-details.html"><img src="{% static assets/img/blog/h2_blog_img01.jpg" alt=""></a>
+                            <a href="blog.html" class="tag">Development</a>
+                        </div>
+                        <div class="blog-post-content-two">
+                            <h2 class="title"><a href="blog-details.html">Meet AutoManage, the best AI management tools</a></h2>
+                            <p>Everything you need to start building area atching presence for your business.</p>
+                            <div class="blog-meta">
+                                <ul class="list-wrap">
+                                    <li>
+                                        <a href="blog-details.html"><img src="{% static assets/img/blog/blog_avatar01.png" alt="">Kat Doven</a>
+                                    </li>
+                                    <li><i class="far fa-calendar"></i>22 Jan, 2023</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <div class="blog-post-item-two">
+                        <div class="blog-post-thumb-two">
+                            <a href="blog-details.html"><img src="{% static assets/img/blog/h2_blog_img02.jpg" alt=""></a>
+                            <a href="blog.html" class="tag">Business</a>
+                        </div>
+                        <div class="blog-post-content-two">
+                            <h2 class="title"><a href="blog-details.html">Meet AutoManage, the best AI management tools</a></h2>
+                            <p>Everything you need to start building area atching presence for your business.</p>
+                            <div class="blog-meta">
+                                <ul class="list-wrap">
+                                    <li>
+                                        <a href="blog-details.html"><img src="{% static assets/img/blog/blog_avatar01.png" alt="">Kat Doven</a>
+                                    </li>
+                                    <li><i class="far fa-calendar"></i>22 Jan, 2023</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-10">
+                    <div class="blog-post-item-two">
+                        <div class="blog-post-thumb-two">
+                            <a href="blog-details.html"><img src="{% static assets/img/blog/h2_blog_img03.jpg" alt=""></a>
+                            <a href="blog.html" class="tag">Tax Advisory</a>
+                        </div>
+                        <div class="blog-post-content-two">
+                            <h2 class="title"><a href="blog-details.html">Meet AutoManage, the best AI management tools</a></h2>
+                            <p>Everything you need to start building area atching presence for your business.</p>
+                            <div class="blog-meta">
+                                <ul class="list-wrap">
+                                    <li>
+                                        <a href="blog-details.html"><img src="{% static assets/img/blog/blog_avatar01.png" alt="">Kat Doven</a>
+                                    </li>
+                                    <li><i class="far fa-calendar"></i>22 Jan, 2023</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    <!-- blog-area-end -->
+    </br></br></br></br></br>
+    <!-- request-area -->
+    <section class="request-area-two">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="request-content-two">
+                        <div class="section-title-two white-title mb-15 tg-heading-subheading animation-style3">
+                            <h2 class="title tg-element-title">Request a Call Back</h2>
+                        </div>
+                        <p>Request a Call Back and Discover Tailored Solutions for Your Business, Finance, and IT Needs. Your Success Awaits!.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="request-form-wrap">
+                        <form action="callback.php" method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-grp">
+                                        <input type="text" name="name" value="" placeholder="Name *" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-grp">
+                                        <input type="number" name="phone" value="" placeholder="Phone *" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-grp">
+                                        <input type="text" name="subj" value="" placeholder="Subject *">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- <script src="https://www.google.com/recaptcha/api.js" async defer ></script>
+                    <div class="form-grp col-md-6 column">
+                                <div class="g-recaptcha" data-sitekey="6LfqPsooAAAAAD2gIlrjvhQGnAZdKSoFqvBdP9Qu"></div>
+                                   
+                            </div><br> -->
+                                    <button type="submit">Send Now</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="request-shape-wrap">
+            <img src="{% static 'assets/img/images/h2_request_shape01.png' %}" alt="">
+            <img src="{% static 'assets/img/images/h2_request_shape02.png' %}" alt="" data-aos="fade-left" data-aos-delay="200">
+        </div>
+    </section>
+    <!-- request-area-end -->
+    </br></br></br>
+</main>
+
+    {% endblock content %}

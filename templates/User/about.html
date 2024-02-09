@@ -1,0 +1,483 @@
+{% extends "User/user_layout.html"%} 
+{% load static %}
+
+{% block content %}
+
+<!-- preloader -->
+{% include "User/features/preloader.html" %}
+<!-- preloader-end -->
+
+<!-- main-area -->
+<main class="fix">
+
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg" data-background="{% static 'assets/img/bg/breadcrumb_bg.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-content"><br><br>
+                        <h2 class="title">About us</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">About</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="breadcrumb-shape-wrap">
+            <img src="{% static 'assets/img/images/breadcrumb_shape01.png' %}" alt="">
+            <img src="{% static 'assets/img/images/breadcrumb_shape02.png' %}" alt="">
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+
+    <!-- about-area -->
+    <section class="about-area-eight pt-120 pb-120">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-6 col-md-9">
+                    <div class="about-img-eight">
+                        <img src="{% static 'assets/img/images/inner_about_img03.jpg' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-content-eight">
+                        <div class="section-title-two mb-30">
+                            <span class="sub-title">Get To Know More</span>
+                            <h2 class="title">Over 4+ Years of Proven Business Excellence and Client Satisfaction.</h2>
+                        </div>
+                        <p>IVBM [OPC] PVT LTD is one of the top business consultancy firms in Cochin, India founded by Mr. Jafar Sadik. We embarked our journey with MULTIPLE PORTFOLIO COMPANY LIMITED a consultancy firm located at Kingdom of Saudi Arabia, Dammam. By putting together the exceptional knowledge and extensive experience in this field we aim to provide our clients highly professional services pertaining to personalized management, legal and technological support. We believe that continuous and consistent evolution is the key to maintaining a systematic business environment around us. By identifying right people at the right place and training them to achieve objectives, we create success stories in organizations and our focus is on designing integrated solutions to compete with the developing world.</p>
+                        <div class="about-content-inner">
+                            <ul class="list-wrap">
+                                <li>
+                                    <div class="icon">
+                                        <i class="flaticon-code"></i>
+                                    </div>
+                                    <div class="content">
+                                        <h4 class="title">IT Services</h4>
+                                        <p>Fueling Business Growth Through Innovation, Efficiency, and Exceptional Digital Solutions.</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="icon">
+                                        <i class="flaticon-budget"></i>
+                                    </div>
+                                    <div class="content">
+                                        <h4 class="title">Finance Services</h4>
+                                        <p>Tailored Strategies, Financial Expertise, and Personalized Solutions for Your Success.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="right-slide-img">
+                                <img src="{% static 'assets/img/images/inner_about_img04.jpg' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="about-content-bottom">
+                            <div class="services-btn">
+                                <a href="{% url 'service' %}" class="btn">Our Services</a>
+                            </div>
+                            <div class="about-author-info">
+                                <div class="thumb">
+                                    <img src="{% static 'assets/img/images/about_author.png' %}" alt="">
+                                </div>
+                                <div class="content">
+                                    <h2 class="title">Jafar Sadik</h2>
+                                    <span>Managing Director & CEO</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+
+            <div class="pd-optimized-wrap">
+                <h3 class="title-two"><center>Delivering and Satisfying Promises</center></h3><br>
+                <p>"Delivering and Satisfying Promises" is a call to action, inspiring individuals and businesses to embrace transparency, accountability, and excellence in their dealings. It signifies a commitment to not only meeting expectations but consistently exceeding them, leaving behind a trail of delighted and loyal customers.</p>
+                <br><p>We have a dedicated team to cater your requirements of efficient talents to work for the progress of your organization.</p>
+            </div>
+        </div>
+    </section>
+    <!-- about-area-end -->
+
+    <!-- choose-area -->
+    <section class="choose-area-three">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="choose-content-three">
+                        <div class="section-title-two white-title mb-30">
+                            <span class="sub-title">ADVISORY</span>
+                            <h2 class="title">Keep Your Business Safe & Ensure High Availability.</h2>
+                        </div>
+                        <p>Your Business Safety Is Our Priority: Rely on Our Expertise for Unwavering Reliability and Success.</p>
+                        <div class="accordion-wrap-two">
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                           Finance & Organisation
+                                        </button>
+                                    </h2>
+                                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>We believe financial planning has the power to improve the quality of life and the way we think about our future hence it is essential to maintain a favorable balance between the finance and organization.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                            Internal Audit
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>Performed by professionals with an in-depth understanding of business culture, systems and processes our internal audit activities provides assurance on mitigation of financial risks, effective and efficient governance processes and achieving the business objectives.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                            Virtual CFO
+                                        </button>
+                                    </h2>
+                                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>Providing highly skilled assistance in the financial requirements of an organization on varied financial duties including budgeting, identifying marketing trends, obtaining money and preparing financial forecasts.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                            Accounting Consultancy
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>We deliver efficient services that help the clients to analyze financial situations while taking important business decisions. Creating financial documents, stabilizing financial balance, optimizing accounting procedures and forecasting future profits are the most important operations we perform.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                            Performance Audits
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>Evaluating the economy, efficiency and effectiveness with a dedicated team of performance auditors to implement performance culture within the organization so as to progress with innovative solutions in a more profitable manner.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                            Organization Design
+                                        </button>
+                                    </h2>
+                                    <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>The most important process in an organization is decision making, it needs a deep understanding and knowledge about the status of various departments of the organization. We deliver expert services to make your decision making precise and thus yielding the best and better results.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                            Cost Audits
+                                        </button>
+                                    </h2>
+                                    <div id="collapseSeven" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>Verification of the cost records, statements and data to ensure the balance within the prescribed cost accounting procedures and plans. By fostering a continuous follow up to avoid any kind of mistakes and malpractices.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                            Performance Management Systems [KPIS]
+                                        </button>
+                                    </h2>
+                                    <div id="collapseEight" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>We deliver a systematic approach in measuring the performance in all levels and with this process an organization aligns its mission, goals and objectives with available resources.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                                            Zakah Audits Consultancy
+                                        </button>
+                                    </h2>
+                                    <div id="collapseNine" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>We provide reliable and full-fledged zakah and tax accounting services and our aim is to assure reasonable quality in preparing accounting research and consulting. In the present global economy there is an immediate need for effective zakah and tax advice which gives your business a competitive advantage.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="choose-img-three">
+                        <img src="{% static 'assets/img/images/inner_choose_img.jpg' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- choose-area-end -->
+
+
+    <!-- team-area -->
+    <!-- <section class="team-area team-bg" data-background="{% static 'assets/img/bg/team_bg.jpg' %}">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-lg-8">
+                    <div class="section-title text-center mb-50">
+                        <span class="sub-title">Skilled Team Members</span>
+                        <h2 class="title">Meet Our Dedicated Team</h2>
+                        <p>Ever find yourself staring at your computer screen a good consulting slogan to come to mind? Oftentimes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-9">
+                    <div class="team-item">
+                        <div class="team-thumb">
+                            <img src="{% static 'assets/img/team/team_img01.jpg' %}" alt="">
+                            <div class="team-social">
+                                <ul class="list-wrap">
+                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="team-content">
+                            <h2 class="title"><a href="team-details.html">Brooklyn Simmons</a></h2>
+                            <span>Finance Advisor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-9">
+                    <div class="team-item">
+                        <div class="team-thumb">
+                            <img src="{% static 'assets/img/team/team_img02.jpg' %}" alt="">
+                            <div class="team-social">
+                                <ul class="list-wrap">
+                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="team-content">
+                            <h2 class="title"><a href="team-details.html">Guy Hawkins</a></h2>
+                            <span>Investment Department</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-9">
+                    <div class="team-item">
+                        <div class="team-thumb">
+                            <img src="{% static 'assets/img/team/team_img03.jpg' %}" alt="">
+                            <div class="team-social">
+                                <ul class="list-wrap">
+                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="team-content">
+                            <h2 class="title"><a href="team-details.html">Savannah Nguyen</a></h2>
+                            <span>Business Consulting</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-9">
+                    <div class="team-item">
+                        <div class="team-thumb">
+                            <img src="{% static 'assets/img/team/team_img04.jpg' %}" alt="">
+                            <div class="team-social">
+                                <ul class="list-wrap">
+                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="team-content">
+                            <h2 class="title"><a href="team-details.html">Kristin Watson</a></h2>
+                            <span>Marketing Head</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    <!-- team-area-end -->
+
+
+    <!-- testimonial-area -->
+    <section class="testimonial-area-three testimonial-area-six pt-120">
+        <div class="container">
+            <div class="row g-0 align-items-end">
+                <div class="col-37">
+                    <div class="testimonial-img-three">
+                        <img src="{% static 'assets/img/images/h3_testimonial_img1.jpg' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-63">
+                    <div class="testimonial-item-wrap-three" data-background="{% static 'assets/img/bg/h3_testimonial_bg.png' %}">
+                        <div class="testimonial-active-three">
+                            <div class="testimonial-item-three">
+                                <div class="testimonial-content-three">
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <p>"Their professionalism, reliability, and expertise have been instrumental in our success."</p>
+                                    <div class="testimonial-info">
+                                        <h2 class="title">Abdul Rahman Valappil</h2>
+                                        <span>Chairman, Layan Super Market</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="testimonial-item-three">
+                                <div class="testimonial-content-three">
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <p>“They have been a trusted partner in the success and growth of my business, and I am grateful for their outstanding work."</p>
+                                    <div class="testimonial-info">
+                                        <h2 class="title">Shabhas Valappil</h2>
+                                        <span>Director, Al Anud Arabia Trading Company</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="testimonial-item-three">
+                                <div class="testimonial-content-three">
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <p>“IVBM [OPC] PVT LTD is a team of highly skilled professionals who have a deep understanding of the complexities of accounting and tax regulations.”</p>
+                                    <div class="testimonial-info">
+                                        <h2 class="title">Rasheed</h2>
+                                        <span>General Manager, Ultimate Spark Trading Company</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="testimonial-item-three">
+                                <div class="testimonial-content-three">
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <p>“Their attention to detail and commitment to ensuring compliance with all regulations and standards is truly commendable.”</p>
+                                    <div class="testimonial-info">
+                                        <h2 class="title">Hilal</h2>
+                                        <span>General Manager, Hilal Al Sharqiya Trading Company</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="testimonial-nav-three"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- testimonial-area-end -->
+
+    <!-- brand-area -->
+    <div class="brand-area-six pt-80 pb-80">
+        <div class="container">
+            <div class="row brand-active">
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img01.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img02.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img03.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img04.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img05.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img03.png' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- brand-area-end -->
+
+
+</main>
+<!-- main-area-end -->
+
+
+{% endblock content %}
