@@ -34,6 +34,8 @@ font-size: 18px;
   background-color: #242d6e;
   width: 95%;
   color: white;
+  height: 150px;
+  overflow: hidden;
 }
 
 .update li{
@@ -43,49 +45,17 @@ font-size: 18px;
 
 /* recomm */
 .main_recom{
-  background-color: #ceedf3;;
- 
+ background-color: white;
+ padding-bottom: 1rem;
   padding-top: 1rem;
   width: 95%;
   border-radius: 20px;
-}
-
-.recom{
- display: flex;
-      overflow-x: scroll;
-      scroll-snap-type: x mandatory;
-      white-space: nowrap;
-      
+  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.3);
 }
 
 
-.recom .card{
-  border-radius: 20px;
-  height: 90%;
-  width: 100%;
- 
-}
 
-.scroll-dot-container {
-      position: absolute;
-     
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-    }
 
-    .scroll-dot {
-      width: 12px;
-      height: 12px;
-      margin: 0 5px;
-      background-color: #0a22d1;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    .scroll-dot.active {
-      background-color: #158e07; /* Change to your preferred active color */
-    }
     .card-container::-webkit-scrollbar {
   display: none;
 }
@@ -103,45 +73,6 @@ font-size: 18px;
     color: black;
    
   }}
-/* .recom{ 
-
-width: 100%;
-}
-
-  .recom .card{
-  border-radius: 20px;
-  height: 150px;
-  font-size: 5px;
-  width: 7rem;
- 
- 
-  
-}
-.header-container {
-color: #158e07;
-}
-}
-
-@media (max-width:400px) {
-  .recom .card{
-  border-radius: 20px;
-  height: 150px;
-  font-size: 5px;
-  width: 7rem;
-}
-}
-
-@media (max-width:576px) {
-  .recom .card{
-  border-radius: 20px;
-  height: 150px;
-  font-size: 5px;
-  width: 7rem;
-}
-.main_recom{
-  height: 35vh;
-}
-}*/
 
 .header-container {   
             padding: 2px;
@@ -153,31 +84,80 @@ color: #158e07;
 .recommended{
   
   height: 300px;
-
   overflow-x: scroll;
-  background-color: #cfebcb;
- 
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-wrap: nowrap;
+width: 97%;
+
+
 }
 
-.recommended .card:hover{
-  background-color: white;
+.recard{
+  padding: 1.2rem;
+ 
+  margin: .5rem .4rem;
+  border-radius: 12px;
+  background-color: rgba(155, 155, 155, 0.261);
+
+ 
+}
+
+
+.recard:hover > hr{
+ background-color: #147804;
+  transition: .2s;
+  display: block;
+  cursor: pointer;
+ height: .2rem;
   
 }
+
+
+.recommended::-webkit-scrollbar {
+  display: none;
+}
+
+.left{
+position: absolute;
+right: 1rem;
+  bottom:18%;
+font-size: 3rem;
+cursor: pointer;
+
+}
+
+.right{
+  
+  position: absolute;
+ left: 1rem;
+  bottom:18%;
+  font-size: 3rem;
+  cursor: pointer;
+}
+
+
+
+
+@media (max-width:576px) {
+
+  .left,.right{
+    display: none;
+  }
+}
+
 </style> 
 
 <div class="home-content">
         <div id="body_header">
           <!--This is a division tag for body header-->
+         
           <h4><label>Welcome back ,</label> Casper</h4>  
           <p style="margin-top: -.9rem;margin-left: 2rem;font-size: 14px;">See your Updates</p>
         </div>
     
   <!-- Bootstrap 4 Tabs -->
   <div class="container update">
-  <h5>  <i class='bx bxs-right-arrow text-warning'></i>  New Release</h5>
+    <h5>  <i class='bx bxs-right-arrow text-warning'></i>  New Release</h5>
+    <marquee direction="left" scrollamount="4">
   <ul>
     <li>
   PAN card will become inoperative from 01st July 2023 if PAN holders do not link it with their Aadhaar card. The IT department has mandated linking PAN-Aadhaar to regulate and curb tax evasion
@@ -185,110 +165,92 @@ color: #158e07;
 <li>
   In new passport regulations, the MEA has changed the rule of the requirement of the names of both parents.
 </li>
+<li>
+  Section 2(61) & Section 20: 1) Inclusion of Reverse Charge (RCM) Invoice/ITC under ISD mechanism for distributing ITC. 2) Making ISD mechanism compulsory for distributing ITC by Head Offices
+</li>
 </ul>  
+
+</marquee>
       </div> 
-
-
-
-
-
-
-      
+   
       <!--recomm-->
 <div class="container mt-4 main_recom" style="padding-left: 0;">
-  <div class="header-container">   <h5 class="ml-1"> <i class='bx bxs-down-arrow text-success'></i> Recommended for you </h5><a href="" >View all <i class='bx bxs-chevron-right'></i></a></div>
- 
-<div class="row ml-2 recommended">
-  {% for i in 'abcdef'%}
+  <div class="header-container ml-2">   <h5 class="ml-1"> <i class='bx bxs-down-arrow text-success'></i> Recommended for you </h5><a href="" >View all <i class='bx bxs-chevron-right'></i></a></div>
+  
 
-
-  <div class="card col-4" style="width: 15rem;">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a href="#" class="card-link">Card link</a>
-      <a href="#" class="card-link">Another link</a>
+  <div class="scroll-button right" onclick="scrollContainer(-1)"><i class='bx bx-chevron-left text-primary'></i></div>
+  
+  <div class="row ml-2 recommended m-auto" id="recomm">
+    {% for i in recommended %}
+    
+    
+    <div class="recard col-10 col-md-6" >
+      <p style="float: right;">{{i.svcountry.cnname}}</p> <h4 class="rehead">{{i.svname}}</h4>
+      <hr>
+      <p style="overflow-y: auto;height: 50%;">{{i.svdescription}} Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+        molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+       </p>
+      <p style="float: right;" class="text-success">Discount: {{i.discrt|floatformat}}%</p>
+      <p>{{i.svcountry.cncrid.crsymbol}} {{i.svrate}}/-</p>
     </div>
+    
+    {% endfor %}
+    
+    
   </div>
- 
- {% endfor %}
+  
+  <div class="scroll-button left" onclick="scrollContainer(1)"><i class='bx bx-chevron-right text-primary'></i></div>
+
+
 
 
 </div>
- 
- 
-  <!-- <div class="container card-container recom mb-3">
-    {% for i in recommended %}
-      <div class="col-md-6 col-sm-6 pl-0">
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title">{{i.svname}}</h5>
-            <p class="card-text">{{i.svdescription}}</p>
-            <div class="header-container">
-              <p>{{i.svrate}}/-</p>
-            </div>
-            <p>Discount: {{i.discrt|floatformat}}%</p>
-            <a href="#" class="card-link">View <i class='bx bx-right-arrow-alt'></i></a>
-          </div>
-        </div>
-      </div>
-    {% endfor %}
+
   </div>
-  
-        <div class="scroll-dot-container" id="scrollDots"></div> -->
-      </div>
-f
+ 
+ 
+
      
-    </div>
+   
 
 
 
 
   
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const cardContainer = document.querySelector('.card-container');
-        const scrollDotContainer = document.getElementById('scrollDots');
-        let activeDotIndex = 0;
-    
-        // Calculate the number of pairs of cards
-        const numPairs = document.querySelectorAll('.card').length / 2;
-    
-        // Create dot buttons based on the number of pairs
-        for (let i = 0; i < numPairs; i++) {
-          const dotButton = document.createElement('div');
-          dotButton.classList.add('scroll-dot');
-          dotButton.onclick = function () {
-            scrollToPair(i + 1);
-          };
-          scrollDotContainer.appendChild(dotButton);
+     function scrollContainer(direction) {
+        const container = document.getElementById('recomm');
+        const scrollAmount = 400;
+        const targetScrollLeft = container.scrollLeft + direction * scrollAmount;
+        smoothScroll(container, targetScrollLeft, 800); 
+    }
+
+    function smoothScroll(element, to, duration) {
+        const start = element.scrollLeft;
+        const change = to - start;
+        let currentTime = 0;
+        const increment = 20;
+
+        function animateScroll() {
+            currentTime += increment;
+            const val = Math.easeInOutQuad(currentTime, start, change, duration);
+            element.scrollLeft = val;
+            if (currentTime < duration) {
+                requestAnimationFrame(animateScroll);
+            }
         }
-    
-        function scrollToPair(pairIndex) {
-          const cardWidth = cardContainer.offsetWidth / 2; // Half of the container width
-          const targetScroll = (pairIndex - 1) * cardWidth * 2;
-          cardContainer.scroll({ left: targetScroll, behavior: 'smooth' });
-    
-          // Update active dot button
-          setActiveDot(pairIndex - 1);
-        }
-    
-        function setActiveDot(index) {
-          // Remove the active class from the current active dot
-          const currentActiveDot = document.querySelector('.scroll-dot.active');
-          if (currentActiveDot) {
-            currentActiveDot.classList.remove('active');
-          }
-    
-          // Add the active class to the new active dot
-          const newActiveDot = document.querySelectorAll('.scroll-dot')[index];
-          if (newActiveDot) {
-            newActiveDot.classList.add('active');
-          }
-        }
-      });
-    </script>          
+
+        animateScroll();
+    }
+
+
+    Math.easeInOutQuad = function (t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t + b;
+        t--;
+        return -c / 2 * (t * (t - 2) - 1) + b;
+    };
+  </script>        
     
  
 
