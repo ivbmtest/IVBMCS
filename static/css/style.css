@@ -156,29 +156,29 @@ nav .search-box .bx-search{
 .home-section nav .profile-details{
   display: flex;
   align-items: center;
-  background: #F5F6FA;
-  border: 2px solid #EFEEF1;
-  border-radius: 6px;
+  background: #fcfdfd;
+  /* border: 2px solid #EFEEF1;
+  border-radius: 6px; */
   height: 50px;
   min-width: 190px;
   padding: 0 15px 0 2px;
 }
 
-.home-section nav .profile-details:hover{
+/* .home-section nav .profile-details:hover{
 background-color:#b6eeab;
 transition: .5s;
-}
+} */
 nav .profile-details img{
   height: 40px;
   width: 40px;
-  border-radius: 6px;
+  /* border-radius: 6px; */
   object-fit: cover;
 }
 nav .profile-details .admin_name{
   font-size: 15px;
   font-weight: 500;
   color: #333;
-  margin: 0 10px;
+  /* margin: 0 10px; */
   white-space: nowrap;
 }
 nav .profile-details i{
@@ -203,7 +203,7 @@ nav .profile-details i{
   align-items: center;
   justify-content: center;
   width: calc(100% / 4 - 15px);
- 
+  background: #fff;
   padding: 15px 14px;
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.1);
@@ -284,7 +284,7 @@ nav .profile-details i{
 
 /* left box */
 .home-content .sales-boxes .recent-sales{
-  width: 65%;
+  width: 10%;
   background: #fff;
   padding: 20px 30px;
   margin: 0 20px;
@@ -312,14 +312,14 @@ nav .profile-details i{
 }
 
 /* Right box */
-.home-content .sales-boxes .top-sales{
+/* .home-content .sales-boxes .top-sales{
   width: 35%;
   background: #fff;
   padding: 20px 30px;
   margin: 0 20px 0 0;
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
+} */
 
 
 
@@ -366,9 +366,9 @@ nav .profile-details i{
     overflow-x: scroll;
     margin-bottom: 30px;
   }
-  .home-content .sales-boxes .top-sales{
+  /* .home-content .sales-boxes .top-sales{
     margin: 0;
-  }
+  } */
 }
 @media (max-width: 1000px) {
   .overview-boxes .box{
@@ -480,3 +480,5 @@ nav .profile-details i{
     transform: rotate(360deg);
   }
 }
+
+

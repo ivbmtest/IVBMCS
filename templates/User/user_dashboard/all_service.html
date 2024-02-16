@@ -1,0 +1,77 @@
+{% extends "User/user_dashboard/main_layout.html" %}
+{% load static %}   
+    
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+
+
+    <body>
+        <div class="home-content">
+            <div class="container-fluid">
+                <div class="table-wrapper">
+                    <!--loader-->
+                    <!-- <div class="loading-screen" id="loading-screen">
+                    <span class="loader"></span>
+                    </div> -->
+                    <!--end loader-->
+
+                    <div class="container m-auto">
+                        <h2 class="ser_head">All Services</h2>                            
+                    <div class="row m-auto ">       
+                        {% for i in category %}
+                            <div class="card-con col-md-3">
+                                <a  data-bs-toggle="offcanvas" href="#offcanvasExample-{{i.ctid}}" style="text-decoration: none;">
+                                    <div class="card">
+                                        <div class="card-body sercard">
+                                            <h5 class="card-title text-center mt-2">{{i.ctname}}</h5>
+                                            <center> <i class='{{i.cticon}} m-auto'></i></center>
+                                           
+                                            <p class="card-text text-center mt-2" >{{i.ctdescription}}</p>
+                                        </div>
+            
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div> 
+
+                    {% for i in category %}
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample-{{i.ctid}}" aria-labelledby="offcanvasExampleLabel">
+                            <div class="offcanvas-header">
+                                <h4 class="offcanvas-title" id="offcanvasExampleLabel">{{i.ctname}} {{i.id}}</h4>
+                                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <div>
+                                    <div id="listContainer">
+                                        {% for j in i.srvc_set.all %}
+                                            <a href="{% url "consult" j.svname%}"><div class="listItem">{{j.svname}}s</div></a>
+                                        {% endfor %}
+                                    </div>        
+        
+                                </div>
+                            </div>
+                        </div>
+                        
+                    {% endfor %}
+                </div>          
+            </div>
+        </div>
+    </body>        
+{% endblock content %}
+</section>
+    
+    
+    
+    
+    
+    
+        
+    
+
+
+
+
+
+
+    

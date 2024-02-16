@@ -1,0 +1,47 @@
+{% extends "User/user_layout.html" %}
+{% load static %}
+
+{% block content %}
+<!-- preloader -->
+{% include "User/features/preloader.html" %}
+<!-- preloader-end -->
+
+<!-- main-area -->
+<main class="fix">
+
+    <!-- banner-area -->
+    <section class="banner-area-three">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-7 col-md-9 order-0 order-lg-2">
+                    <div class="banner-img-three" data-aos="fade-left" data-aos-delay="300">
+                        <img src="{% static 'assets/img/banner/h3_banner_img01.jpg' %}" alt="" class="main-img">
+                        <img src="{% static 'assets/img/banner/h3_banner_img02.jpg' %}" alt="" class="img-two" data-parallax='{"y" : 100 }'>
+                        <img src="{% static 'assets/img/banner/h3_banner_img03.jpg' %}" alt="" class="img-three" data-parallax='{"x" : -100 }'>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="banner-content-three">
+                        <h2 class="title" data-aos="fade-right" data-aos-delay="0">Need Business Consultation Today</h2>
+                        <p data-aos="fade-right" data-aos-delay="300">Agilos helps you to convert your data into a strategic asset and get top-notch business insights.</p>
+                        <form action="#" class="banner-form" data-aos="fade-right" data-aos-delay="600">
+                            <input type="text" placeholder="E-mail Address">
+                            <button type="submit"><i class="flaticon-right-arrow"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="banner-shape-wrap-three">
+            <img src="{% static 'assets/img/banner/h3_banner_shape01.png' %}" alt="">
+            <img src="{% static 'assets/img/banner/h3_banner_shape02.png' %}" alt="">
+        </div>
+    </section>
+    <!-- banner-area-end -->
+
+   
+
+
+</main>
+<!-- main-area-end -->
+{% endblock content %}

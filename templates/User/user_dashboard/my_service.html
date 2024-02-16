@@ -1,0 +1,241 @@
+{% extends "User/user_dashboard/main_layout.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+
+<style>
+
+body{
+  height: 100vh;
+}
+
+#body_header
+{
+
+    width:auto;
+    margin:0px auto;
+    text-align:center;
+    font-size:20px;
+   
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+}
+
+
+#myTabs a  {
+  color: rgb(9, 160, 52);
+}
+
+#myTabContent h4{
+color: rgb(8, 109, 196);
+}
+
+#myTabContent table{
+  background-color: #f0f3f5;
+  font-size: .8rem;
+}
+
+</style> 
+
+<div class="home-content">
+    <div class="container-fluid">
+        <div id="body_header">
+          <!--This is a division tag for body header-->
+          <h1>Your Services</h1>
+          
+        </div>
+    
+
+
+
+
+  
+  <!-- Bootstrap 4 Tabs -->
+  <div class="container mt-4" style="padding: 1rem;border-radius: 10px;background-color: #FFFFFF;">
+    <ul class="nav nav-tabs" id="myTabs">
+      <li class="nav-item">
+        <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1">All</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2">Processing</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3">Completed</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4">Pending</a>
+      </li>
+    </ul>
+
+    <div class="tab-content mt-2"  id="myTabContent">
+      <div class="tab-pane fade show active" id="tab1"><br>
+        <h5>All Services</h5>
+        <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+   <th>No.</th>
+   <th>Service Name</th>
+   <th>Payment</th>
+   <th>Status</th>
+   <th>Apply Date</th>
+   <th>Complete Date</th>
+    
+               
+            </tr>
+        </thead>
+        <tbody>
+          {% for val in my_service %}
+            <tr>
+             
+                <td>{{forloop.counter}}</td>
+                <td>{{val.service}}</td>
+                
+                <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
+                <!-- <td>{{val.msg}}</td> -->
+                <!-- <td>{{val.documents}}</td> -->
+                <!-- <td>{{val.taken_by}}</td> -->
+                <td>{{val.status}}<i class='bx bx-loader'></i>Process</td>
+                <td>{{val.created_at}}</td>
+                <td>-- -- ----</td>
+                
+                
+            </tr>
+            {% endfor %}
+            <tr>
+              </tbody>
+        </table>
+      </div>
+      </div>
+
+
+      <div class="tab-pane fade" id="tab2"><br>
+        <h5>Processing Services</h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <div class="tab-pane fade" id="tab3"><br>
+        <h5>Completed</h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+
+      <div class="tab-pane fade" id="tab4"><br>
+        <h5>Pending</h5>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+      
+
+        
+       
+    </div>
+</div>   
+
+  <!-- Bootstrap 4 JavaScript -->
+
+
+
+{% endblock content %}
+</section>

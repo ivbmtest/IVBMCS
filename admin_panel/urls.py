@@ -2,12 +2,31 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-
+from .agent_views import *
 
 urlpatterns = [
-    path('',views.Login,name='Login'),
+    path('login/',views.Login,name='Login'),
     path('dashboard/',views.dashboard,name='dashboard'),
     path('logout/',views.Logout,name='logout'),
+    
+    #user management
+    # staff
+    # path('staff/',views.staff,name='staff'),
+    # path('staff/del_staff/<int:id>/',views.del_staff,name='del_staff'),
+    # path('staff/update_staff/<int:id>/',views.update_staff,name='update_staff'),
+    # agent
+    path('agent/',agent,name='agent'),
+    path('agent/del_agent/<int:id>/',del_agent,name='del_agent'),
+    path('agent/update_agent/<int:id>/',update_agent,name='update_agent'),
+    # user
+    # path('user/',views.user,name='user'),
+    # path('user/del_user/<int:id>/',views.del_user,name='del_user'),
+    # path('user/update_user/<int:id>/',views.update_user,name='update_user'),
+    # # admin
+    # path('admin/',views.admin,name='admin'),
+    # path('admin/del_admin/<int:id>/',views.del_admin,name='del_admin'),
+    # path('admin/update_admin/<int:id>/',views.update_admin,name='update_admin'),
+    
 
     #currency
     path('currency/',views.currency,name='currency'),
@@ -55,9 +74,7 @@ urlpatterns = [
     path('task/',views.my_task,name='task'),
     path('select_task/<int:id>/',views.select_my_task,name='select_task'),
     path('task_detail/<int:id>/',views.task_details,name='task_detail'),
-
-
-    path('sms/',views.sms,name='sms'),    
+  
     path('profile/',views.profile,name='profile'),  
 
 

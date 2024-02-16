@@ -1,9 +1,105 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,UserManager
 from django.dispatch import receiver
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save,post_save
+from django.contrib.auth.models import AbstractUser,BaseUserManager, Permission, Group
+from django.contrib.auth.hashers import make_password
+from django.db import models
+
 # Create your models here.
 
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self.create_user(email, password, **extra_fields)
+
+
+class CustomUser(AbstractUser):
+    USER_TYPE = ((1, "Admin"), (2, "Staff"), (3, "Agent"), (4, "User"))
+    GENDER = [("M", "Male"), ("F", "Female")]
+    
+    username = None  # Removed username, using email instead
+    email = models.EmailField(unique=True)
+    user_type = models.CharField(default=1, choices=USER_TYPE, max_length=1)
+    gender = models.CharField(max_length=1, choices=GENDER)
+    profile_pic = models.ImageField(upload_to='images/')
+    address = models.TextField()
+    fcm_token = models.TextField(default="")  # For firebase notifications
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []  # Set to an empty list since 'username' is not used
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return f"{self.last_name}, {self.first_name}"
+
+ # Add or change related_name to avoid clashes
+    groups = models.ManyToManyField(Group, related_name='customuser_set', blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name='customuser_set', blank=True)
+   
+class Admin(models.Model):
+    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+
+
+class Agent(models.Model):
+    agent_id=models.TextField(default='')
+    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE, default=' ')
+
+    def __str__(self):
+        # return self.admin.id
+        return self.admin.last_name + ", " + self.admin.first_name
+    
+class ctgry(models.Model):
+    ctid = models.AutoField(primary_key=True, db_column='tdid',verbose_name='Id')
+    ctname = models.CharField(max_length=50,verbose_name='Name')
+    ctcode = models.CharField(max_length=50,verbose_name='Code')
+    ctdescription = models.TextField(verbose_name='Description')
+    ctimg = models.ImageField(upload_to='images/',verbose_name='Image')
+    ctstatus = models.IntegerField(verbose_name='Status')
+    usrid = models.ForeignKey(User,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
+    dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
+    
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Category"
+        db_table = 'ctgry'
+        
+    def __str__(self):
+        return self.ctname
+    
+    
+class Staff(models.Model):
+    category = models.ForeignKey(ctgry, on_delete=models.DO_NOTHING, null=True, blank=False)
+    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.admin.last_name + " " + self.admin.first_name
+
+class Users(models.Model):
+    # course = models.ForeignKey(Course, on_delete=models.DO_NOTHING, null=True, blank=False)
+    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.admin.last_name + " " + self.admin.first_name
+    
+    
 
 class txmst(models.Model):
     txid = models.AutoField(primary_key=True, db_column='txid',verbose_name='Tax Id')
@@ -103,23 +199,7 @@ class cntry(models.Model):
         return self.cnname
     
 
-class ctgry(models.Model):
-    ctid = models.AutoField(primary_key=True, db_column='tdid',verbose_name='Id')
-    ctname = models.CharField(max_length=50,verbose_name='Name')
-    ctcode = models.CharField(max_length=50,verbose_name='Code')
-    ctdescription = models.TextField(verbose_name='Description')
-    ctimg = models.ImageField(upload_to='images/',verbose_name='Image')
-    ctstatus = models.IntegerField(verbose_name='Status')
-    usrid = models.ForeignKey(User,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
-    dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
-    
-    class Meta:
-        verbose_name = "Category"
-        verbose_name_plural = "Category"
-        db_table = 'ctgry'
-        
-    def __str__(self):
-        return self.ctname
+
     
 class srvc(models.Model):
     svid = models.AutoField(primary_key=True, db_column='tdid',verbose_name='Tax Detais Id')
@@ -216,16 +296,12 @@ class clnt(models.Model):
     usrid = models.IntegerField(verbose_name= 'Id of User Created')
     dtupdatd = models.DateTimeField(auto_now_add=True)
     clstatus = models.IntegerField(verbose_name='Status')
+    
+    
 
     def __str__(self):
         return self.clname
   
-
-
-
-
-
-
 
 class clsubsdet(models.Model):
     csid  = models.AutoField(primary_key=True, db_column='csid',verbose_name='Client sub ID')
@@ -274,3 +350,28 @@ class admroles(models.Model):
 
     
 
+@receiver(post_save, sender=CustomUser)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        if instance.user_type == 1:
+            Admin.objects.create(admin=instance)
+        if instance.user_type == 2:
+            Staff.objects.create(admin=instance)
+        if instance.user_type == 3:
+            Agent.objects.create(admin=instance)
+        if instance.user_type == 4:
+            Users.objects.create(admin=instance)
+
+
+@receiver(post_save, sender=CustomUser)
+def save_user_profile(sender, instance, **kwargs):
+    if instance.user_type == 1:
+        instance.admin.save()
+    if instance.user_type == 2:
+        instance.staff.save()
+    if instance.user_type == 3:
+        instance.agent.save()
+    if instance.user_type == 4:
+        instance.users.save()
+    
+    
