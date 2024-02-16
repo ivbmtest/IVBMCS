@@ -16,7 +16,7 @@
 </head>
 
 <body>
-  {% if request.user.is_staff|stringformat:"s" == 'True' %}
+ {% if request.user.is_staff|stringformat:"s" == 'True' %} 
     <div class="sidebar">
         <div class="logo-details">
         <img src="{% static 'img/logo.png' %}" style="margin-left:10px;" class="logo">
@@ -48,6 +48,14 @@
               <span class="links_name">Country</span>
             </a>
           </li>
+
+          <li>
+            <a href="{% url 'state' %}" title="State" class="{% if url_name == 'state' %}bg-success{% endif %}">
+              <i class='bx bx-tag'></i>
+              <span class="links_name">States</span>
+            </a>
+          </li>
+
           <li>
             <a href="{% url 'category' %}" title="Category" class="{% if url_name == 'category' %}bg-success{% endif %}">
               <i class='bx bxs-category-alt'></i>
@@ -66,6 +74,16 @@
               <span class="links_name">Documents</span>
             </a>
           </li>
+
+<!-- format -->
+<li>
+  <a href="{% url 'format' %}" title="Documents" class="{% if url_name == 'format' %}bg-success{% endif %}">
+    <i class='bx bxs-file-export'></i>
+    <span class="links_name">Format</span>
+  </a>
+</li>
+
+
           <li>
             <a href="{% url 'taxmaster' %}" title="Tax Master" class="{% if url_name == 'taxmaster' %}bg-success{% endif %}">
               <i class='bx bx-briefcase-alt-2'></i>
@@ -92,7 +110,7 @@
             </a>
           </li>
           <li>
-            <a href="{% url "orders" %}" title="Orders" class="{% if url_name == 'orders' %}bg-success{% endif %}">
+            <a href="{% url 'orders' %}" title="Orders" class="{% if url_name == 'orders' %}bg-success{% endif %}">
               <i class='bx bx-message-square-edit'></i>
               <span class="links_name">Orders</span>
             </a>
@@ -111,6 +129,8 @@
         {% endwith %}
       </div>
 
+
+    
   {% elif request.user.is_staff|stringformat:"s" == 'False' %}
       <div class="sidebar">
         <div class="logo-details">
@@ -119,10 +139,10 @@
         </div>
         {% with request.resolver_match.url_name as url_name %}
         <ul class="nav-links">
-          <li>
+      
             <a href="{% url 'dashboard' %}" class="{% if url_name == 'dashboard' %}bg-success{% endif %}" title="Dashboard">
               <i class="bx bx-grid-alt"></i>
-              <span class="links_name">Dashboard{{request.user}}</span>
+              <span class="links_name">Dashboard</span>
             </a>
           </li>
           <li>
@@ -145,7 +165,7 @@
             </a>
           </li>
           <li>
-            <a href="{% url "orders" %}" title="Orders" class="{% if url_name == 'orders' %}bg-success{% endif %}">
+            <a href="{% url 'orders' %}" title="Orders" class="{% if url_name == 'orders' %}bg-success{% endif %}">
               <i class='bx bx-message-square-edit'></i>
               <span class="links_name">Orders</span>
             </a>
@@ -198,13 +218,11 @@
               <span class="links_name">All Services</span>
             </a>
           </li>
-          {% comment %} <li>
-            <a href="{% url "orders" %}" title="Orders" class="{% if url_name == 'orders' %}bg-success{% endif %}">
-              <i class='bx bx-message-square-edit'></i>
-              <span class="links_name">Orders</span>
-            </a>
-          </li> {% endcomment %}
-        
+         <!--oreder area-->
+
+<!--oredre area commented-->
+
+        <!--end-->
           <li>
             <a href="#" title="Setting">
               <i class="bx bx-cog"></i>
@@ -216,6 +234,8 @@
       </div>
 
   {% endif %} 
+
+  
 </body>
 
 </html> 

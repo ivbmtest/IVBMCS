@@ -97,7 +97,7 @@ width: 97%;
   margin: .5rem .4rem;
   border-radius: 12px;
   background-color: rgba(155, 155, 155, 0.261);
-
+height: 80%;
  
 }
 
@@ -150,14 +150,14 @@ cursor: pointer;
         <div id="body_header">
           <!--This is a division tag for body header-->
          
-          <h4><label>Welcome back ,</label> Casper</h4>  
+          <h4><label>Welcome back ,</label> {{request.user}}</h4>  
           <p style="margin-top: -.9rem;margin-left: 2rem;font-size: 14px;">See your Updates</p>
         </div>
     
   <!-- Bootstrap 4 Tabs -->
   <div class="container update">
     <h5>  <i class='bx bxs-right-arrow text-warning'></i>  New Release</h5>
-    <marquee direction="left" scrollamount="4">
+    <marquee direction="up" scrollamount="4">
   <ul>
     <li>
   PAN card will become inoperative from 01st July 2023 if PAN holders do not link it with their Aadhaar card. The IT department has mandated linking PAN-Aadhaar to regulate and curb tax evasion
@@ -184,10 +184,10 @@ cursor: pointer;
     {% for i in recommended %}
     
     
-    <div class="recard col-10 col-md-6" >
-      <p style="float: right;">{{i.svcountry.cnname}}</p> <h4 class="rehead">{{i.svname}}</h4>
+    <div class="recard col-10 col-md-4" >
+      <p style="float: right;">{{i.svcountry.cnname}}</p> <h4 style="font-size: 1.2rem;">{{i.svname|slice:":15"}}...</h4>
       <hr>
-      <p style="overflow-y: auto;height: 50%;">{{i.svdescription}} Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+      <p style="overflow-y: auto;height: 50%; font-size: .8rem;">{{i.svdescription}} Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
         molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
        </p>
       <p style="float: right;" class="text-success">Discount: {{i.discrt|floatformat}}%</p>
@@ -195,14 +195,10 @@ cursor: pointer;
     </div>
     
     {% endfor %}
-    
-    
+       
   </div>
   
   <div class="scroll-button left" onclick="scrollContainer(1)"><i class='bx bx-chevron-right text-primary'></i></div>
-
-
-
 
 </div>
 

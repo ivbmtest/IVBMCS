@@ -21,6 +21,7 @@
                                 <li><a href="https://www.facebook.com/ivbmofficial"><i class="fab fa-facebook-f"></i></a></li>
                                 <li><a href="https://twitter.com/ivbm_opc_pvtltd"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="https://www.instagram.com/ivbm_opc_privatelimited/"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="https://www.linkedin.com/company/91025022/admin/feed/posts/"><i class="fab fa-linkedin-in"></i></a></li>
                                 <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
                             </ul>
                         </div>
@@ -43,7 +44,7 @@
                             <div class="navbar-wrap main-menu d-none d-lg-flex">
                                 {% with request.resolver_match.url_name as url_name %}
                                 <ul class="navigation">
-                                    <li><a href="{% url 'index' %}" class="{% if url_name == 'index' %}text-success{% endif %}">Homess</a></li>
+                                    <li><a href="{% url 'index' %}" class="{% if url_name == 'index' %}text-success{% endif %}">Home</a></li>
                                     <li class=""><a href="{% url 'about' %}" class="{% if url_name == 'about' %}text-success{% endif %}">About Us</a></li>
                                     {% comment %} <li><a href="{% url 'service' %}">Services</a></li>    {% endcomment %}
                                     <li><a href="#">Blog</a></li>
@@ -346,7 +347,7 @@
                    success: function(data) {
                        if (data.success) {
                         $("#Invalid").html(data.result);
-                            alert("login success")
+                           
                             window.location.href = data.template_name;
                             //location.reload(true);                          
                           

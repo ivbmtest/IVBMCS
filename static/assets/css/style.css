@@ -1353,7 +1353,7 @@ label {
 	position: relative;
 	z-index: 1;
 	overflow: hidden;
-	cursor: grab;
+	
 }
 .slider-content .sub-title {
 	letter-spacing: 0.06em;
@@ -1386,6 +1386,8 @@ label {
 	color: var(--tg-paragraph-color);
 	margin-bottom: 45px;
 	width: 79%;
+	font-size: 1.2rem;
+	font-weight: bold;
 }
 .slider-shape {
 	position: absolute;
@@ -1488,7 +1490,7 @@ label {
   }
 
   50% {
-    transform: translateX(-10px);
+    transform: translateX(20px);
   }
 
   100% {

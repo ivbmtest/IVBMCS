@@ -13,20 +13,21 @@ def user_login(request):
 
 
 def my_service(request):
-    current_user = request.session['username']
-    current_user = get_user_details(current_user) 
+    current_user = request.user
+    # current_user = get_user_details(current_user) 
     my_ser = user_service_details.objects.filter(user_id=current_user.id)
     print(current_user.email)
-    user_det = authenticate(request, email=current_user.email)
-    print(user_det)
-
+    
     return render(request,'User/user_dashboard/my_service.html',{'my_service':my_ser,})
 
 
 def user_dash_home(request):
-    a=srvc.objects.filter(svcategory=3)
-    print(a)
-    return render(request,'User/user_dashboard/user_home.html',{'recommended':a})
+    try:
+        user_last = user_service_details.objects.filter(user_id=request.user.id).order_by('-created_at')[0]
+        recom = srvc.objects.filter(svcategory = user_last.service.svcategory)
+    except:
+        recom = srvc.objects.all()
+    return render(request,'User/user_dashboard/user_home.html',{'recommended':recom})
 
 
 
@@ -44,9 +45,9 @@ def appointment(request):
 
 
 def select_service(request,value=''):
-    current_user =request.session['username']
+    current_user =request.user
 
-    print("session stroe : ",current_user)
+    print("session store : ",current_user)
     try:
         current_user = get_user_details(current_user)
         print("ok test data",current_user)        
@@ -66,11 +67,11 @@ def booking(request):
         serv = request.POST['ser']
         msg = request.POST['msg']
         print(name,email,num,serv,msg)
-        u = request.session['username']
+        u = request.user
         service = srvc.objects.get(svname=serv)
         print("booikng session",service)
         user_instance,user_created = userdata.objects.get_or_create(email=email,defaults={'name':name,'email':email,'phone_number':num })
-     
+        print(user_created,"user instance : : ",user_instance)
         if userdata.objects.filter(email=u).exists() and userdata.objects.filter(phone_number='').exists():
             user_up = userdata.objects.get(email=u)
             user_up.name = name

@@ -10,10 +10,9 @@
       </div> {% endcomment %}
       
       <div class="profile-details">
-        <div><a href="{% url 'orders' %}"><i class='bx bxs-bell ' title="New Order">{{cou}}</i></a></div>
+        <div class="me-2"><a href="{% url 'orders' %}"><i class='bx bxs-bell ' title="New Order">{{cou}}</i></a></div>
         
-        <a class="btn dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-         
+        <a class="btn border-primary" type="button" data-toggle="dropdown" aria-expanded="false">
         
         <img src="https://www.pngitem.com/pimgs/m/516-5167304_transparent-background-white-user-icon-png-png-download.png" alt="" />
         {% comment %} <span class="admin_name">{{request.user}}</span>   {% endcomment %}

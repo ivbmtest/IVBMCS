@@ -19,7 +19,7 @@ class userdata(models.Model):
     
     
 class user_service_details(models.Model):
-    user_id = models.ForeignKey(userdata,on_delete = models.CASCADE,verbose_name = "user_id")
+    user_id = models.ForeignKey(User,on_delete = models.CASCADE,verbose_name = "user_id")
     service = models.ForeignKey(srvc, verbose_name="Service", on_delete=models.CASCADE)
     payment = models.BooleanField(verbose_name="Payment",default=False,blank=True)
     msg = models.TextField(verbose_name="user Query",blank=True)
@@ -29,4 +29,4 @@ class user_service_details(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f'{self.user_id.name} - {self.service}'
+        return f'{self.user_id.username} - {self.service}'

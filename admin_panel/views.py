@@ -35,7 +35,7 @@ def Login(request):
                     
                     return redirect('admin:index')  # Redirect to the Django admin page after successful login
                 else:
-                    return redirect('/dashboard/')
+                    return redirect('dashboard')
         else:
             # Handle invalid login credentials
             return render(request, 'admin/main_app/login.html', {'error_message': 'Invalid credentials'})
@@ -500,3 +500,104 @@ def total_ord(request):
     
 
 
+# State
+@login_required(login_url="/")
+def state(request):
+    if request.method == 'POST':
+        sta_frm = stateForm(request.POST)
+        if sta_frm.is_valid:
+            instance = sta_frm.save(commit=False)
+            # instance.usrid = request.user
+            instance.save()
+            return redirect('state')
+        else:
+            print(sta_frm.errors)
+    else:
+        sta_frm = stateForm()
+        
+    model_meta = states._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    y=states.objects.all()
+    page=Paginator(y,5) 
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)    
+    #country_info=cntry.objects.all()
+    #cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'admin/super_user/state.html',{'form': sta_frm,'state_info':page,'field_names': field_names})
+
+
+#update state
+def update_state(request,id):
+    if request.method=='POST':
+        state=states.objects.get(pk=id)
+        frm=stateForm(request.POST,instance=state)
+        if frm.is_valid:
+            instance = frm.save(commit=False)
+            # instance.usrid = request.user
+            instance.save()
+            return redirect('state')
+    else:
+        id = request.GET['id']
+        print(id)
+        state=states.objects.get(pk=id)
+        frm = stateForm(instance=state)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})
+    
+#delete state
+def del_state(request,id):
+    state = states.objects.filter(pk=id)
+    state.delete()
+    return redirect('state')
+
+
+
+# Format
+@login_required(login_url="/")
+def format(request):
+    if request.method == 'POST':
+        format_frm = Format_Form(request.POST)
+        if format_frm.is_valid:
+            instance = format_frm.save(commit=False)
+            # instance.usrid = request.user
+            instance.save()
+            return redirect('format')
+        else:
+            print(format_frm.errors)
+    else:
+        format_frm = Format_Form()
+        
+    model_meta = formt._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    y=formt.objects.all()
+    page=Paginator(y,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)    
+    #country_info=cntry.objects.all()
+    #cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'admin/super_user/format.html',{'form': format_frm,'format_info':page,'field_names': field_names})
+
+
+#update currency
+def update_format(request,id):
+    if request.method=='POST':
+        state=formt.objects.get(pk=id)
+        frm=Format_Form(request.POST,instance=state)
+        if frm.is_valid:
+            instance = frm.save(commit=False)
+            # instance.usrid = request.user
+            instance.save()
+            return redirect('format')
+    else:
+        id = request.GET['id']
+        print(id)
+        state=formt.objects.get(pk=id)
+        frm = Format_Form(instance=state)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})
+    
+#delete currency
+def del_format(request,id):
+    state = formt.objects.filter(pk=id)
+    state.delete()
+    return redirect('format')
