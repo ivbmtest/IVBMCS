@@ -10,6 +10,13 @@ from django.contrib.auth import authenticate, login, logout
 def user_login(request):
     return render(request,'User/user_dashboard/main_layout.html')
 
+def user_dash_home(request):
+    try:
+        user_last = user_service_details.objects.filter(user_id=request.user.id).order_by('-created_at')[0]
+        recom = srvc.objects.filter(svcategory = user_last.service.svcategory)
+    except:
+        recom = srvc.objects.all()
+    return render(request,'User/user_dashboard/user_home.html',{'recommended':recom})
 
 
 def my_service(request):

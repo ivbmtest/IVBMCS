@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .agent_views import *
 from .staff_views import *
+from . import admin_views
 
 urlpatterns = [
     path('login/',views.Login,name='Login'),
@@ -24,9 +25,9 @@ urlpatterns = [
     # path('user/del_user/<int:id>/',views.del_user,name='del_user'),
     # path('user/update_user/<int:id>/',views.update_user,name='update_user'),
     # # admin
-    # path('admin/',views.admin,name='admin'),
-    # path('admin/del_admin/<int:id>/',views.del_admin,name='del_admin'),
-    # path('admin/update_admin/<int:id>/',views.update_admin,name='update_admin'),
+    path('admin_dashboard/',admin_views.admin,name='admin_dashboard'),
+    path('admin_dashboard/del_admin/<int:id>/',admin_views.del_admin,name='del_admin'),
+    path('admin_dashboard/update_admin/<int:id>/',admin_views.update_admin,name='update_admin'),
     
 
     #currency
@@ -45,6 +46,11 @@ urlpatterns = [
     path('country/update_country/<int:id>/',views.update_country,name="update_country"),
     path('country/del_country/<int:id>/',views.delete_country,name='del_country'),
     # path('add_user/',views.crncform,name='add_user'),
+
+    #State
+    path('state/',views.state,name='state'),
+    path('state/update_state/<int:id>/',views.update_state,name="update_state"),
+    path('state/del_state/<int:id>/',views.del_state,name='del_state'),
     
     #services
     path('services/',views.services,name='services'),
@@ -56,6 +62,13 @@ urlpatterns = [
     path('document/del_document/<int:id>/',views.del_document,name='del_document'),
     path('document/update_document/<int:id>/',views.update_document,name="update_document"),
 
+
+    
+    #Format
+    path('format/',views.format,name='format'),
+    path('format/update_format/<int:id>/',views.update_format,name="update_format"),
+    path('format/del_format/<int:id>/',views.del_format,name='del_format'),
+
     #TaxDetails
     path('taxdetails/',views.taxdetails,name='taxdetails'),
     path('taxdetails/update_taxdetails/<int:id>/',views.update_taxdetails,name="update_taxdetails"),
@@ -64,7 +77,8 @@ urlpatterns = [
     #Taxmaster
     path('taxmaster/',views.taxmaster,name='taxmaster'),
     path('taxmaster/update_taxmaster/<int:id>/',views.update_taxmaster,name="update_taxmaster"),
-    path('taxmaster/del_taxmaster/<int:id>/',views.delete_taxmaster,name='del_taxmaster'),
+    path('taxmaster/del_taxmaster/<int:id>/',views.delete_taxmaster,name='del_taxmaster'),  
+
   
 #Order Details
     path('orders',views.orders,name='orders'),

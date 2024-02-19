@@ -103,6 +103,13 @@ class cntryForm(forms.ModelForm):
     class Meta():
         model = cntry
         fields = "__all__"
+
+#state form
+class stateForm(forms.ModelForm):
+    class Meta():
+        model = states
+        fields = "__all__"
+
            
 class ctgryForm(forms.ModelForm):
     class Meta():
@@ -118,6 +125,14 @@ class DocumentForm(forms.ModelForm):
     class Meta():
         model = DocumentsRequired
         fields = "__all__" 
+
+#format
+       
+class Format_Form(forms.ModelForm):
+    class Meta():
+        model = formt
+        fields = "__all__"
+
 
 class Tax_masterForm(forms.ModelForm):
     class Meta():

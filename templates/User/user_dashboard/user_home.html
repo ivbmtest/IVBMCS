@@ -1,0 +1,257 @@
+{% extends "User/user_dashboard/main_layout.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+
+<style>
+
+body{
+  height: 100vh;
+}
+
+#body_header
+{
+
+    width:auto;
+    margin:0px auto;
+    text-align:left;
+   padding-left: 2rem;
+   
+}
+
+#body_header label{
+font-size: 18px;
+}
+
+
+.update{
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #242d6e;
+  width: 95%;
+  color: white;
+  height: 150px;
+  overflow: hidden;
+}
+
+.update li{
+  font-size: 12px;
+ margin-top: 1rem;
+}
+
+/* recomm */
+.main_recom{
+ background-color: white;
+ padding-bottom: 1rem;
+  padding-top: 1rem;
+  width: 95%;
+  border-radius: 20px;
+  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+
+
+    .card-container::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+
+
+  .header-container,h5{
+    font-size: 12px;
+    padding: 0;
+  }
+
+  .header-container p{
+    font-size: 8px;
+    color: black;
+   
+  }}
+
+.header-container {   
+            padding: 2px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        } 
+
+.recommended{
+  
+  height: 300px;
+  overflow-x: scroll;
+  flex-wrap: nowrap;
+width: 97%;
+
+
+}
+
+.recard{
+  padding: 1.2rem;
+ 
+  margin: .5rem .4rem;
+  border-radius: 12px;
+  background-color: rgba(155, 155, 155, 0.261);
+height: 80%;
+ 
+}
+
+
+.recard:hover > hr{
+ background-color: #147804;
+  transition: .2s;
+  display: block;
+  cursor: pointer;
+ height: .2rem;
+  
+}
+
+
+.recommended::-webkit-scrollbar {
+  display: none;
+}
+
+.left{
+position: absolute;
+right: 1rem;
+  bottom:18%;
+font-size: 3rem;
+cursor: pointer;
+
+}
+
+.right{
+  
+  position: absolute;
+ left: 1rem;
+  bottom:18%;
+  font-size: 3rem;
+  cursor: pointer;
+}
+
+
+
+
+@media (max-width:576px) {
+
+  .left,.right{
+    display: none;
+  }
+}
+
+</style> 
+
+<div class="home-content">
+        <div id="body_header">
+          <!--This is a division tag for body header-->
+         
+          <h4><label>Welcome back ,</label> {{request.user}}</h4>  
+          <p style="margin-top: -.9rem;margin-left: 2rem;font-size: 14px;">See your Updates</p>
+        </div>
+    
+  <!-- Bootstrap 4 Tabs -->
+  <div class="container update">
+    <h5>  <i class='bx bxs-right-arrow text-warning'></i>  New Release</h5>
+    <marquee direction="up" scrollamount="4">
+  <ul>
+    <li>
+  PAN card will become inoperative from 01st July 2023 if PAN holders do not link it with their Aadhaar card. The IT department has mandated linking PAN-Aadhaar to regulate and curb tax evasion
+</li>
+<li>
+  In new passport regulations, the MEA has changed the rule of the requirement of the names of both parents.
+</li>
+<li>
+  Section 2(61) & Section 20: 1) Inclusion of Reverse Charge (RCM) Invoice/ITC under ISD mechanism for distributing ITC. 2) Making ISD mechanism compulsory for distributing ITC by Head Offices
+</li>
+</ul>  
+
+</marquee>
+      </div> 
+   
+      <!--recomm-->
+<div class="container mt-4 main_recom" style="padding-left: 0;">
+  <div class="header-container ml-2">   <h5 class="ml-1"> <i class='bx bxs-down-arrow text-success'></i> Recommended for you </h5><a href="" >View all <i class='bx bxs-chevron-right'></i></a></div>
+  
+
+  <div class="scroll-button right" onclick="scrollContainer(-1)"><i class='bx bx-chevron-left text-primary'></i></div>
+  
+  <div class="row ml-2 recommended m-auto" id="recomm">
+    {% for i in recommended %}
+    
+    
+    <div class="recard col-10 col-md-4" >
+      <p style="float: right;">{{i.svcountry.cnname}}</p> <h4 style="font-size: 1.2rem;">{{i.svname|slice:":15"}}...</h4>
+      <hr>
+      <p style="overflow-y: auto;height: 50%; font-size: .8rem;">{{i.svdescription}} Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+        molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+       </p>
+      <p style="float: right;" class="text-success">Discount: {{i.discrt|floatformat}}%</p>
+      <p>{{i.svcountry.cncrid.crsymbol}} {{i.svrate}}/-</p>
+    </div>
+    
+    {% endfor %}
+       
+  </div>
+  
+  <div class="scroll-button left" onclick="scrollContainer(1)"><i class='bx bx-chevron-right text-primary'></i></div>
+
+</div>
+
+  </div>
+ 
+ 
+
+     
+   
+
+
+
+
+  
+    <script>
+     function scrollContainer(direction) {
+        const container = document.getElementById('recomm');
+        const scrollAmount = 400;
+        const targetScrollLeft = container.scrollLeft + direction * scrollAmount;
+        smoothScroll(container, targetScrollLeft, 800); 
+    }
+
+    function smoothScroll(element, to, duration) {
+        const start = element.scrollLeft;
+        const change = to - start;
+        let currentTime = 0;
+        const increment = 20;
+
+        function animateScroll() {
+            currentTime += increment;
+            const val = Math.easeInOutQuad(currentTime, start, change, duration);
+            element.scrollLeft = val;
+            if (currentTime < duration) {
+                requestAnimationFrame(animateScroll);
+            }
+        }
+
+        animateScroll();
+    }
+
+
+    Math.easeInOutQuad = function (t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t + b;
+        t--;
+        return -c / 2 * (t * (t - 2) - 1) + b;
+    };
+  </script>        
+    
+ 
+
+
+
+
+{% endblock content %}
+</section>

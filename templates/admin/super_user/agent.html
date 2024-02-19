@@ -59,10 +59,10 @@
                           <td>{{val.email}}</td>
                           <td>{{val.user_type}}</td>                         
                           <td>{{val.gender}}</td>                                       
-                          <td><a href = "{{val.ctimg.url}}"><img src="{{val.ctimg.url}}" alt="{{val.ctname}}" width="50" height="50" ></a></td>
+                          <td><a href = "{{val.profile_pic.url}}"><img src="{{val.profile_pic.url}}" alt="{{val.first_name}}" width="50" height="50" ></a></td>
                           <td>{{val.address}}</td>
                           <td>{{val.created_at}}</td>
-                          <td>{{val.dtupdatd}}</td>
+                          <td>{{val.updated_at}}</td>
                           
                           <td>
                               <a href="#editCategoryModal-{{forloop.counter}}" class="edit" data-item ="{{val.id}}" data-toggle="modal"><i class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>

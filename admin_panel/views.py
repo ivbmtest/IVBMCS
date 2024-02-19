@@ -24,11 +24,14 @@ def success(request):
 
 def Login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('username')
+        print(email,'0----------')
         password = request.POST.get('password')
-        user_det = authenticate(request, username=username, password=password)
+        print(password,'0----------')
+        user_det = authenticate(request, email=email, password=password)
+        print(user_det,'----user_det----------')
         if user_det is not None:
-            user = get_object_or_404(User, username=username)
+            user = get_object_or_404(CustomUser, email=email)
             if user.is_authenticated:
 
                 login(request, user_det)
@@ -68,6 +71,7 @@ def currency(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'admin/super_user/currency.html',{'form': frm,'currency_info':page,'field_names': field_names,'cou':cou})
     return render(request,'admin/super_user/currency.html',{'form': frm,'currency_info':page,'field_names': field_names,'cou':cou})
 
 
@@ -118,6 +122,7 @@ def category(request):
     page=page.get_page(page_list)  
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/super_user/category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/super_user/category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names,'cou':cou})
 
 #Delete Category
 def del_category(request,id):
@@ -155,6 +160,7 @@ def country(request):
     else:
         cntry_frm = cntryForm()
         
+        
     model_meta = cntry._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y=cntry.objects.all()
@@ -163,6 +169,7 @@ def country(request):
     page=page.get_page(page_list)    
     #country_info=cntry.objects.all()
     cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'admin/super_user/country.html',{'form': cntry_frm,'country_info':page,'field_names': field_names})
     return render(request,'admin/super_user/country.html',{'form': cntry_frm,'country_info':page,'field_names': field_names})
     
     
@@ -212,6 +219,7 @@ def document(request):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/super_user/document.html',{'form': frm,'document_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/super_user/document.html',{'form': frm,'document_info':page,'field_names': field_names,'cou':cou})
 
 
 #delete document
@@ -250,11 +258,13 @@ def services(request):
             err =srvc_frm.errors
             err=str(err)
             
+            
             try:
                 srvc_frm.usrid = request.user
                 srvc_frm.save()
                 return redirect('services')
             except ValueError as e:
+                return JsonResponse({'success': False,'error_msg': err}) 
                 return JsonResponse({'success': False,'error_msg': err}) 
 
     else:
@@ -266,6 +276,7 @@ def services(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'admin/super_user/services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names,'cou':cou})
     return render(request,'admin/super_user/services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names,'cou':cou})
 
 #Delete Service
@@ -311,6 +322,7 @@ def taxdetails(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'admin/super_user/taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names,'cou':cou})
     return render(request,'admin/super_user/taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names,'cou':cou})
 
 # del taxdetails
@@ -358,6 +370,7 @@ def taxmaster(request):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/super_user/taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/super_user/taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names,'cou':cou})
 
 
 # del tax Master
@@ -387,9 +400,18 @@ def update_taxmaster(request,id):
 
 
 # @login_required(login_url="/")
+# @login_required(login_url="/")
 def dashboard(request):
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     total_order = UserProfile.objects.filter().count()
+    
+    model_meta = UserProfile._meta    
+    field_names = [field.verbose_name for field in model_meta.fields 
+                   if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]
+    latest_record = UserProfile.objects.all().order_by('-created_at')[:5]
+    
+    return render(request,'admin/main_app/main_layout.html',{'cou':cou,'total':total_order,
+                                              "latest_data":latest_record,"field_names":field_names})
     
     model_meta = UserProfile._meta    
     field_names = [field.verbose_name for field in model_meta.fields 
@@ -410,6 +432,7 @@ def orders(request,):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/staff/orders.html',{'order_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/staff/orders.html',{'order_info':page,'field_names': field_names,'cou':cou})
 
 
 #user demo
@@ -422,8 +445,10 @@ def demo_user(request):
     else:
         frm = userForm()
     return render(request,"admin/super_user/user.html",{'form':frm})
+    return render(request,"admin/super_user/user.html",{'form':frm})
 
 
+""" function for listing the selected task """
 """ function for listing the selected task """
 def my_task(request):
     model_meta = UserProfile._meta
@@ -435,7 +460,10 @@ def my_task(request):
     print(messages)
     cou=UserProfile.objects.filter(taken_by=request.user).count()
     return render(request,'admin/staff/task.html',{'task_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/staff/task.html',{'task_info':page,'field_names': field_names,'cou':cou})
 
+
+"""function to select task from order list"""
 
 """function to select task from order list"""
 def select_my_task(request,id):
@@ -445,6 +473,9 @@ def select_my_task(request,id):
     instance = UserProfile.objects.get(pk=id)  # Replace 1 with the actual primary key value
     instance.taken_by = request.user.username # Update the values of the fields
     instance.save()   # Save the changes to the database
+    messages.success(request,"sucess") 
+    
+    """code to send mail to user when staff select the particular task """
     messages.success(request,"sucess") 
     
     """code to send mail to user when staff select the particular task """
@@ -458,9 +489,13 @@ def select_my_task(request,id):
     msg = EmailMultiAlternatives("Approval", text_content, "vasudevankarthik9@gmail.com",[instance.email],connection=connection)                                      
     msg.attach_alternative(html_content, "text/html")  
     
+    
     try:    # msg.content_subtype="html"                                                                                                                                                                             
         msg.send()        
+        msg.send()        
     except Exception as e:
+        print(f"==============>>>>>>>>>Error sending email: {e}")   
+         
         print(f"==============>>>>>>>>>Error sending email: {e}")   
          
     connection.close()
@@ -468,15 +503,18 @@ def select_my_task(request,id):
 
 
 """function to view the tasks"""
+"""function to view the tasks"""
 def task_details(request,id):
     task=UserProfile.objects.get(pk=id)
     
+    return render(request,"admin/staff/task_details.html",{"task":task})
     return render(request,"admin/staff/task_details.html",{"task":task})
 
 
 def profile(request):
     return render(request,'profile.html')
 
+""" function to list the total number of orders """
 """ function to list the total number of orders """
 def total_ord(request):
     cou=UserProfile.objects.filter()
@@ -504,3 +542,109 @@ def total_ord(request):
     
 
 
+
+    return render(request,'admin/staff/total_order.html',{'total_info':page,'field_names': field_names,'cou':cou,'sel':sel})
+    
+
+
+# State
+@login_required(login_url="/")
+def state(request):
+    if request.method == 'POST':
+        sta_frm = stateForm(request.POST)
+        if sta_frm.is_valid:
+            instance = sta_frm.save(commit=False)
+            # instance.usrid = request.user
+            instance.save()
+            return redirect('state')
+        else:
+            print(sta_frm.errors)
+    else:
+        sta_frm = stateForm()
+        
+    model_meta = states._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    y=states.objects.all()
+    page=Paginator(y,5) 
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)    
+    #country_info=cntry.objects.all()
+    #cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'admin/super_user/state.html',{'form': sta_frm,'state_info':page,'field_names': field_names})
+
+
+#update state
+def update_state(request,id):
+    if request.method=='POST':
+        state=states.objects.get(pk=id)
+        frm=stateForm(request.POST,instance=state)
+        if frm.is_valid:
+            instance = frm.save(commit=False)
+            # instance.usrid = request.user
+            instance.save()
+            return redirect('state')
+    else:
+        id = request.GET['id']
+        print(id)
+        state=states.objects.get(pk=id)
+        frm = stateForm(instance=state)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})
+    
+#delete state
+def del_state(request,id):
+    state = states.objects.filter(pk=id)
+    state.delete()
+    return redirect('state')
+
+
+
+# Format
+@login_required(login_url="/")
+def format(request):
+    if request.method == 'POST':
+        format_frm = Format_Form(request.POST)
+        if format_frm.is_valid:
+            instance = format_frm.save(commit=False)
+            # instance.usrid = request.user
+            instance.save()
+            return redirect('format')
+        else:
+            print(format_frm.errors)
+    else:
+        format_frm = Format_Form()
+        
+    model_meta = formt._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    y=formt.objects.all()
+    page=Paginator(y,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)    
+    #country_info=cntry.objects.all()
+    #cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'admin/super_user/format.html',{'form': format_frm,'format_info':page,'field_names': field_names})
+
+
+#update currency
+def update_format(request,id):
+    if request.method=='POST':
+        state=formt.objects.get(pk=id)
+        frm=Format_Form(request.POST,instance=state)
+        if frm.is_valid:
+            instance = frm.save(commit=False)
+            # instance.usrid = request.user
+            instance.save()
+            return redirect('format')
+    else:
+        id = request.GET['id']
+        print(id)
+        state=formt.objects.get(pk=id)
+        frm = Format_Form(instance=state)
+        frm = str(frm)
+        return JsonResponse({'success': True, 'form':frm})
+    
+#delete currency
+def del_format(request,id):
+    state = formt.objects.filter(pk=id)
+    state.delete()
+    return redirect('format')

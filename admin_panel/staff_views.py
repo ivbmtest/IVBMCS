@@ -31,18 +31,20 @@ def staff(request):
             password = staff_form.cleaned_data.get('password')
             category = staff_form.cleaned_data.get('category')
             passport = request.FILES['profile_pic']
-            fs = FileSystemStorage()
-            filename = fs.save(passport.name, passport)
-            passport_url = fs.url(filename)
+            print('-------------------',passport)
+            # fs = FileSystemStorage()
+            # filename = fs.save(passport.name, passport)
+            # passport_url = fs.url(filename)
             print('----------before try')
             try:
                 print('--------entered')
                 user = CustomUser.objects.create_user(
-                    email=email, password=password, user_type=2, first_name=first_name, last_name=last_name, profile_pic=passport_url)
+                    email=email, password=password, user_type=2, first_name=first_name, last_name=last_name, profile_pic=passport)
                 user.gender = gender
                 user.address = address
                 user.staff.category = category
                 user.updated_at = datetime.datetime.now()
+                user.is_staff=1
                 user.save()
                 messages.success(request, "Successfully Added")
                 print('-------------exit')
@@ -82,9 +84,9 @@ def update_staff(request,id):
         if staff_form.is_valid:
             instance = staff_form.save(commit=False)
             # instance.usrid = request.user
-            staff.updated_at = datetime.datetime.now()
+            instance.updated_at = datetime.datetime.now()
             instance.save()
-            return redirect('agent')
+            return redirect('staff')
     else:
         id = request.GET['id']
         staff=CustomUser.objects.get(pk=id)

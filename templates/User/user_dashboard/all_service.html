@@ -45,7 +45,7 @@
                                 <div>
                                     <div id="listContainer">
                                         {% for j in i.srvc_set.all %}
-                                            <a href="{% url "consult" j.svname%}"><div class="listItem">{{j.svname}}s</div></a>
+                                            <a href="{% url 'consult' j.svname%}"><div class="listItem">{{j.svname}}</div></a>
                                         {% endfor %}
                                     </div>        
         

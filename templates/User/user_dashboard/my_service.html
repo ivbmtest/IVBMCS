@@ -31,6 +31,7 @@ h1 {
 
 #myTabs a  {
   color: rgb(9, 160, 52);
+  font-size: 14px;
 }
 
 #myTabContent h4{
@@ -38,8 +39,20 @@ color: rgb(8, 109, 196);
 }
 
 #myTabContent table{
-  background-color: #f0f3f5;
+  background-color: #f4f7f8;
   font-size: .8rem;
+}
+
+@media (max-width: 767.98px) {
+  #myTabs a{
+    font-size: 12px;
+  }
+}
+
+@media (max-width:576px) {
+  #myTabs a{
+    font-size: 7px;
+  }
 }
 
 </style> 
@@ -52,19 +65,14 @@ color: rgb(8, 109, 196);
           
         </div>
     
-
-
-
-
-  
   <!-- Bootstrap 4 Tabs -->
-  <div class="container mt-4" style="padding: 1rem;border-radius: 10px;background-color: #FFFFFF;">
-    <ul class="nav nav-tabs" id="myTabs">
+  <div class="container mt-4" style="padding: 1rem;border-radius: 10px;background-color: #e8eeef;">
+    <ul class="nav nav-tabs w-100" id="myTabs">
       <li class="nav-item">
         <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1">All</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2">Processing</a>
+        <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2">Process</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3">Completed</a>
@@ -76,8 +84,8 @@ color: rgb(8, 109, 196);
     </ul>
 
     <div class="tab-content mt-2"  id="myTabContent">
-      <div class="tab-pane fade show active" id="tab1"><br>
-        <h5>All Services</h5>
+      <div class="tab-pane fade show active" id="tab1">
+        <h4>All Services</h4>
         <div class="table-responsive">
         <table class="table">
           <thead>
@@ -87,9 +95,7 @@ color: rgb(8, 109, 196);
    <th>Payment</th>
    <th>Status</th>
    <th>Apply Date</th>
-   <th>Complete Date</th>
-    
-               
+   <th>Complete Date</th>          
             </tr>
         </thead>
         <tbody>
@@ -102,12 +108,10 @@ color: rgb(8, 109, 196);
                 <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
                 <!-- <td>{{val.msg}}</td> -->
                 <!-- <td>{{val.documents}}</td> -->
-                <!-- <td>{{val.taken_by}}</td> -->
-                <td>{{val.status}}<i class='bx bx-loader'></i>Process</td>
+                <!-- <td>{{val.taken_by}}</td>  <i class='bx bx-x-circle'>x</i> <i class='bx bxs-check-circle'></i>-->
+                <td>{% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}</td>
                 <td>{{val.created_at}}</td>
-                <td>-- -- ----</td>
-                
-                
+                <td>-- -- ----</td>                
             </tr>
             {% endfor %}
             <tr>
@@ -117,123 +121,138 @@ color: rgb(8, 109, 196);
       </div>
 
 
-      <div class="tab-pane fade" id="tab2"><br>
-        <h5>Processing Services</h5>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
-            </tr>
+      <div class="tab-pane fade" id="tab2">
+        <h4>Processing Services</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+     <th>No.</th>
+     <th>Service Name</th>
+     <th>Payment</th>
+   
+     <th>Apply Date</th>
+     <th>Complete Date</th>          
+              </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
+
+            {% for val in my_service %}
+            {% if val.status == '1' %}
+              <tr>
+               
+                  <td>{{forloop.counter}}</td>
+                  <td>{{val.service}}</td>
+                  
+                  <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
+                  <!-- <td>{{val.msg}}</td> -->
+                  <!-- <td>{{val.documents}}</td> -->
+                  <!-- <td>{{val.taken_by}}</td> -->
+                
+                  <td>{{val.created_at}}</td>
+                  <td>-- -- ----</td>
+                  
+                  
+              </tr>
+              {% endif %}
+              {% endfor %}
+              <tr>
+                </tbody>
+          </table>
+        </div>
       </div>
 
 
-      <div class="tab-pane fade" id="tab3"><br>
-        <h5>Completed</h5>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
-            </tr>
+      <div class="tab-pane fade" id="tab3">
+        <h4>Completed</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+     <th>No.</th>
+     <th>Service Name</th>
+     <th>Payment</th>
+   
+     <th>Apply Date</th>
+     <th>Complete Date</th>          
+              </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
+            {% for val in my_service %}
+            {% if val.status == '2' %}
+              <tr>
+               
+                  <td>{{forloop.counter}}</td>
+                  <td>{{val.service}}</td>
+                  
+                  <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
+                  <!-- <td>{{val.msg}}</td> -->
+                  <!-- <td>{{val.documents}}</td> -->
+                  <!-- <td>{{val.taken_by}}</td> -->
+                
+                  <td>{{val.created_at}}</td>
+                  <td>-- -- ----</td>
+                  
+                  
+              </tr>
+              {% endif %}
+              {% endfor %}
+              <tr>
+                </tbody>
+          </table>
+        </div>
       </div>
 
 
 
-      <div class="tab-pane fade" id="tab4"><br>
-        <h5>Pending</h5>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
-            </tr>
+      <div class="tab-pane fade" id="tab4">
+        <h4>Pending</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+     <th>No.</th>
+     <th>Service Name</th>
+     <th>Payment</th>
+     <th>Apply Date</th>
+     <th>Complete Date</th>          
+              </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table>
+            {% for val in my_service %}
+
+            {% if val.status == '0' or val.payment == false %}
+              <tr>
+               
+                  <td>{{forloop.counter}}</td>
+                  <td>{{val.service}}</td>
+                  
+                  <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
+                  <!-- <td>{{val.msg}}</td> -->
+                  <!-- <td>{{val.documents}}</td> -->
+                  <!-- <td>{{val.taken_by}}</td> -->
+                 
+                  <td>{{val.created_at}}</td>
+                  <td>-- -- ----</td>
+                  
+                  
+              </tr>
+              {% endif %}
+              {% endfor %}
+              <tr>
+                </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 
 
 
-      
-
-        
-       
+           
     </div>
 </div>   
 
-  <!-- Bootstrap 4 JavaScript -->
 
 
 
