@@ -34,16 +34,20 @@ def agent(request):
             fs = FileSystemStorage()
             filename = fs.save(passport.name, passport)
             passport_url = fs.url(filename)
+            print('----------before try')
             try:
+                print('--------entered')
                 user = CustomUser.objects.create_user(
                     email=email, password=password, user_type=3, first_name=first_name, last_name=last_name, profile_pic=passport_url)
                 user.gender = gender
                 user.address = address
-                user.student.course = agent_id
+                user.agent.agent_id = agent_id
                 user.updated_at = datetime.datetime.now()
                 user.save()
                 messages.success(request, "Successfully Added")
-                return redirect(reverse('add_student'))
+                print('-------------exit')
+                # return redirect(reverse('add_student'))
+            
             except Exception as e:
                 messages.error(request, "Could Not Add: " + str(e))
         else:
@@ -63,7 +67,7 @@ def agent(request):
     page=page.get_page(page_list)
     print("--------------y",page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/super_user/agent.html',{'form': student_form,'category_info':y,'field_names': filtered_field_names,'cou':cou})
+    return render(request,'admin/super_user/agent.html',{'form': student_form,'agent_info':y,'field_names': filtered_field_names,'cou':cou})
 
 #delete agent
 def del_agent(request,id):

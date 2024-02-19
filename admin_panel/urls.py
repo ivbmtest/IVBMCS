@@ -3,6 +3,7 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from .agent_views import *
+from .staff_views import *
 
 urlpatterns = [
     path('login/',views.Login,name='Login'),
@@ -11,9 +12,9 @@ urlpatterns = [
     
     #user management
     # staff
-    # path('staff/',views.staff,name='staff'),
-    # path('staff/del_staff/<int:id>/',views.del_staff,name='del_staff'),
-    # path('staff/update_staff/<int:id>/',views.update_staff,name='update_staff'),
+    path('staff/',staff,name='staff'),
+    path('staff/del_staff/<int:id>/',del_staff,name='del_staff'),
+    path('staff/update_staff/<int:id>/',update_staff,name='update_staff'),
     # agent
     path('agent/',agent,name='agent'),
     path('agent/del_agent/<int:id>/',del_agent,name='del_agent'),

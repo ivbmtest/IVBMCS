@@ -12,7 +12,7 @@
               <h2>Agent <b>Details</b></h2>
             </div>
             <div class="col-sm-6">
-              <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add Agent</span></a>
+              <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add Staff</span></a>
               <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class='bx bxs-trash'></i> <span>Delete</span></a>						
             </div>
                   </div>
@@ -25,7 +25,7 @@
 </div>
 <!--end loader-->
 
-              {% if agent_info|length != 0 %}
+              {% if staff_info|length != 0 %}
               <div id="table-container" style="overflow:auto;">
               <table class="table table-striped table-hover">
                   <thead>
@@ -43,7 +43,7 @@
                       </tr>
                   </thead>
                   <tbody>
-                    {% for val in agent_info %}
+                    {% for val in staff_info %}
                       <tr>
                           <td>
                             <span class="custom-checkbox">
@@ -59,7 +59,7 @@
                           <td>{{val.email}}</td>
                           <td>{{val.user_type}}</td>                         
                           <td>{{val.gender}}</td>                                       
-                          <td><a href = "{{val.ctimg.url}}"><img src="{{val.ctimg.url}}" alt="{{val.ctname}}" width="50" height="50" ></a></td>
+                          <td><a href = "{{val.profile_pic.url}}"><img src="{{val.profile_pic.url}}" alt="{{val.first_name}}" width="50" height="50" ></a></td>
                           <td>{{val.address}}</td>
                           <td>{{val.created_at}}</td>
                           <td>{{val.dtupdatd}}</td>
@@ -76,14 +76,14 @@
             </div>
           
             <div class="clearfix">
-              <div class="hint-text">Showing <b>{{agent_info.number}}</b> out of <b>{{agent_info.paginator.num_pages}}</b> entries</div>
+              <div class="hint-text">Showing <b>{{staff_info.number}}</b> out of <b>{{staff_info.paginator.num_pages}}</b> entries</div>
               <ul class="pagination">
-                {% if agent_info.has_previous %}
-                  <li class="page-item"><a class="page-link" href="{% url 'category' %}?page={{agent_info.previous_page_number}}">Previous</a></li>
+                {% if staff_info.has_previous %}
+                  <li class="page-item"><a class="page-link" href="{% url 'category' %}?page={{staff_info.previous_page_number}}">Previous</a></li>
                     {% endif %}
           
-                    {% for i in agent_info.paginator.page_range %}
-                    {% if agent_info.number == i %}
+                    {% for i in staff_info.paginator.page_range %}
+                    {% if staff_info.number == i %}
 
                   <li class="page-item active"><a class="page-link" href="{% url 'category' %}?page={{i}}">{{i}}</a></li>
                   {% else %}
@@ -91,8 +91,8 @@
                     {% endif %}
                     {% endfor %}
 
-                  {% if agent_info.has_next %}
-                  <li class="page-item"><a class="page-link" href="{% url 'category' %}?page={{agent_info.next_page_number}}">Next</a></li>
+                  {% if staff_info.has_next %}
+                  <li class="page-item"><a class="page-link" href="{% url 'category' %}?page={{staff_info.next_page_number}}">Next</a></li>
                   {% endif %}
               </ul>
           </div>
@@ -126,7 +126,7 @@
     </div>
 
     <!-- Edit Modal HTML -->
-    {% for i in agent_info %}
+    {% for i in staff_info %}
     <div id="editCategoryModal-{{forloop.counter}}" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -137,7 +137,7 @@
             </div>
             
             <div class="modal-body">
-              <form method="post" action="{% url 'update_agent' id=i.id %}" enctype="multipart/form-data">
+              <form method="post" action="{% url 'update_staff' id=i.id %}" enctype="multipart/form-data">
               {% csrf_token %}
               <label class="ff">   {{ form.as_p }}</label> 
             </div>
@@ -153,7 +153,7 @@
 
 
     <!-- Delete Modal HTML -->
-    {% for i in agent_info %}
+    {% for i in staff_info %}
     <div id="deleteCategoryModal-{{forloop.counter}}" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -189,7 +189,7 @@
             }
           alert(data)
          $.ajax({
-                    url: "{% url 'update_agent' id=0 %}",
+                    url: "{% url 'update_staff' id=0 %}",
                     method: 'GET',
                     data: data,
                     dataType: 'json',
