@@ -29,9 +29,6 @@ urlpatterns = [
     path('payment/',dashboard_views.payment,name='payment'),
     path('upload_doc/',dashboard_views.upload_doc,name='upload_doc'),
 
-
-
-
     path('login_otp/',views.login_otp, name = "login_otp"),
     path('otp_ver/',views.otp_ver, name = "otp_ver"),
     path('user_dashboard/',dashboard_views.user_login, name = "user_dashboard"),

@@ -129,8 +129,7 @@ def otp_ver(request):
         val_otp = request.session['otp']
         validate_until = datetime.fromisoformat(validate_otp)
         if validate_until > datetime.now():
-            if otp == val_otp:
-                
+            if otp == val_otp:                
                 if CustomUser.objects.filter(email=request.session['user_data']).exists():
                     print("User alredy exits ")
                     user = CustomUser.objects.get(username = user_name)
@@ -158,40 +157,7 @@ def otp_ver(request):
         else:
             # del request.session['otp_secret_key']
             del request.session['validate_otp']
-            return JsonResponse({'success': False, 'result':"OTP Expired"}) 
-        # if otp_secret_key and validate_otp is not None:
-        #     validate_until = datetime.fromisoformat(validate_otp)
-        #     if validate_until > datetime.now():
-        #         totp = pyotp.TOTP(otp_secret_key,interval = 60)
-        #         print("=======totp",totp.verify(otp))
-        #         if totp.verify(otp):
-        #             #user = get_object_or_404(User,username=username)
-        #             del request.session['otp_secret_key']
-        #             del request.session['validate_otp']
-
-        #             if userdata.objects.filter(email=username).exists() or userdata.objects.filter(phone_number=username):
-        #                 print("user alredy exits ")
-        #                 pass
-        #             else:
-        #                 print("new user")
-        #                 try:
-        #                     new = userdata(email=username)
-        #                 except:
-        #                     new = userdata(phone_number = username)
-        #                 new.save()
-        #                 request.session['username'] = new.id
-        #             return JsonResponse({'success': True, 'result':"otp verified",'template_name': '/user_dashboard'})
-        #             # return render(request,'admin/main_app/main_layout.html')
-        #         else:
-        #             print('----------->>>>>>invalid otp')
-        #             return JsonResponse({'success': False, 'result':"Invalid OTP"})
-        #             # return render(request,'admin/main_app/main_layout.html')
-        #     else:
-        #         del request.session['otp_secret_key']
-        #         del request.session['validate_otp']
-        #         return JsonResponse({'success': False, 'result':"OTP Expired"})    
-        # else:
-        #     pass    
+            return JsonResponse({'success': False, 'result':"OTP Expired"})    
     else:
         pass    
     return render(request,'otp.html') 

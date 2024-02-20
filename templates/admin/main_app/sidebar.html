@@ -18,7 +18,7 @@
 
 
 <body>
-  {% comment %} {% if request.user.is_staff|stringformat:"s" == 'True' %} {% endcomment %}
+  {% if request.user.user_type|stringformat:"s" == '1' %}
     <div class="sidebar">
         <div class="logo-details">
         <img src="{% static 'img/logo.png' %}" style="margin-left:10px;" class="logo">
@@ -141,7 +141,7 @@
         {% endwith %}
       </div>
 
-  {% comment %} {% elif request.user.is_staff|stringformat:"s" == 'False' %}
+  {% elif request.user.user_type|stringformat:"s" == '2' %}
       <div class="sidebar">
         <div class="logo-details">
         <img src="{% static 'img/logo.png' %}" style="margin-left:10px;" class="logo">
@@ -152,7 +152,7 @@
           <li>
             <a href="{% url 'dashboard' %}" class="{% if url_name == 'dashboard' %}bg-success{% endif %}" title="Dashboard">
               <i class="bx bx-grid-alt"></i>
-              <span class="links_name">Dashboard{{request.user}}</span>
+              <span class="links_name">Dashboard</span>
             </a>
           </li>
           <li>
@@ -194,7 +194,7 @@
         {% endwith %}
       </div>
 
-  {% comment %} {% elif request.user.is_staff|stringformat:"s" == 'False' %}
+ {% comment %} {% elif request.user.user_type|stringformat:"s" == '3' %}
       <div class="sidebar">
         <div class="logo-details">
         <img src="{% static 'img/logo.png' %}" style="margin-left:10px;" class="logo">
@@ -245,54 +245,60 @@
           
         </ul>
         {% endwith %}
-      </div>
+      </div>{% endcomment %}
 
 
-  {% else %}
-      <div class="sidebar">
-        <div class="logo-details">
-          <img src="{% static 'img/logo.png' %}" style="margin-left:10px;" class="logo">        
-        </div>
+  {% elif request.user.user_type|stringformat:"s" == '4' %}
+  <div class="sidebar">
+    <div class="logo-details">
+      <img src="{% static 'img/logo.png' %}" style="margin-left:10px;" class="logo">        
+    </div>
 
-        {% with request.resolver_match.url_name as url_name %}
-        <ul class="nav-links">
-          <li>
-            <a href="{% url 'dashboard' %}" class="{% if url_name == 'dashboard' %}bg-success{% endif %}" title="Dashboard">
-              <i class="bx bx-grid-alt"></i>
-              <span class="links_name">My Service</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" title="Clients">
-              <i class='bx bx-user-voice'></i>
-              <span class="links_name">Notifications</span>
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'task' %}" title="Tasks" class="{% if url_name == 'task' %}bg-success{% endif %}">
-              <i class='bx bx-task'></i>
-              <span class="links_name">Payments</span>
-            </a>
-          </li>
+    {% with request.resolver_match.url_name as url_name %}
+    <ul class="nav-links" style="padding-left: 0;">
+      <li>
+        <a href="{% url 'myservice' %}" class="{% if url_name == 'myservice' %}bg-success{% endif %}" title="Dashboard">
+          <i class='bx bx-home-smile'></i>
+          <span class="links_name">My Service</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'notifications' %}" title="Clients" class="{% if url_name == 'notifications' %}bg-success{% endif %}">
+          <i class='bx bxs-bell'></i>
+          <span class="links_name">Notifications</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'payments' %}" title="Tasks" class="{% if url_name == 'payments' %}bg-success{% endif %}">
+          <i class='bx bx-money'></i>
+          <span class="links_name">Payments</span>
+        </a>
+      </li>
 
-          <li>
-            <a href="{% url 'demo_user' %}" title="Users" class="{% if url_name == 'demo_user' %}bg-success{% endif %}">
-              <i class='bx bx-group'></i>
-              <span class="links_name">All Services</span>
-            </a>
-          </li>
-        
-          <li>
-            <a href="#" title="Setting">
-              <i class="bx bx-cog"></i>
-              <span class="links_name">Setting</span>
-            </a>
-          </li>               
-        </ul>
-        {% endwith %}
-      </div>
+      <li>
+        <a href="{% url 'allservice' %}" title="Users" class="{% if url_name == 'allservice' %}bg-success{% endif %}">
+          <i class='bx bx-layer-plus'></i>
+          <span class="links_name">All Services</span>
+        </a>
+      </li>
+      {% comment %} <li>
+        <a href="{% url "orders" %}" title="Orders" class="{% if url_name == 'orders' %}bg-success{% endif %}">
+          <i class='bx bx-message-square-edit'></i>
+          <span class="links_name">Orders</span>
+        </a>
+      </li> {% endcomment %}
+    
+      <li>
+        <a href="#" title="Setting">
+          <i class="bx bx-cog"></i>
+          <span class="links_name">Setting</span>
+        </a>
+      </li>               
+    </ul>
+    {% endwith %}
+  </div> 
 
-  {% endif %}  {% endcomment %}
+  {% endif %} 
 </body>
 
 

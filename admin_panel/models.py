@@ -130,7 +130,7 @@ class txdet(models.Model):
     tdvat = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='VAT Rate')
     tdcess = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='CESS Rate')
     tdstatus = models.IntegerField(verbose_name='Status')
-    usrid = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
+    usrid = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
     dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
     
     
