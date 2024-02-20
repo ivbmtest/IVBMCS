@@ -2,12 +2,33 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-
+from .agent_views import *
+from .staff_views import *
+from . import admin_views
 
 urlpatterns = [
-    path('',views.Login,name='Login'),
+    path('login/',views.Login,name='Login'),
     path('dashboard/',views.dashboard,name='dashboard'),
     path('logout/',views.Logout,name='logout'),
+    
+    #user management
+    # staff
+    path('staff/',staff,name='staff'),
+    path('staff/del_staff/<int:id>/',del_staff,name='del_staff'),
+    path('staff/update_staff/<int:id>/',update_staff,name='update_staff'),
+    # agent
+    path('agent/',agent,name='agent'),
+    path('agent/del_agent/<int:id>/',del_agent,name='del_agent'),
+    path('agent/update_agent/<int:id>/',update_agent,name='update_agent'),
+    # user
+    # path('user/',views.user,name='user'),
+    # path('user/del_user/<int:id>/',views.del_user,name='del_user'),
+    # path('user/update_user/<int:id>/',views.update_user,name='update_user'),
+    # # admin
+    path('admin_dashboard/',admin_views.admin,name='admin_dashboard'),
+    path('admin_dashboard/del_admin/<int:id>/',admin_views.del_admin,name='del_admin'),
+    path('admin_dashboard/update_admin/<int:id>/',admin_views.update_admin,name='update_admin'),
+    
 
     #currency
     path('currency/',views.currency,name='currency'),

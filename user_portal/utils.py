@@ -16,15 +16,15 @@ def send_otp_number(request,data):
     totp = pyotp.TOTP(pyotp.random_base32(),interval = 60)
     otp = totp.now()
     print(data)
-    # account_sid = 'ACea07b1ac009276f9122f2b841e54145d'
-    # auth_token = '1350b9e7e96c56e0e1ec3de66f834c1f'
-    # client = Client(account_sid, auth_token)
-    # message = client.messages.create(
-    # from_='+12564745625',
-    # body=str(otp),
-    # to=data
-    # )
-    # print(message.sid)
+    account_sid = 'ACea07b1ac009276f9122f2b841e54145d'
+    auth_token = '1350b9e7e96c56e0e1ec3de66f834c1f'
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+    from_='+12564745625',
+    body=str(otp),
+    to=data
+    )
+    print(message.sid)
     #request.session['otp_secret_key'] = totp.secret
     validate_otp = datetime.now() + timedelta(minutes=1)
     request.session['validate_otp'] = str(validate_otp)

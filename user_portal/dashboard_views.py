@@ -1,4 +1,4 @@
-from django.shortcuts import render,HttpResponse,redirect
+from django.shortcuts import render,HttpResponse,redirect,get_object_or_404
 from admin_panel.models import *
 from .models import *
 from .utils import *
@@ -10,17 +10,6 @@ from django.contrib.auth import authenticate, login, logout
 def user_login(request):
     return render(request,'User/user_dashboard/main_layout.html')
 
-
-
-def my_service(request):
-    current_user = request.user
-    # current_user = get_user_details(current_user) 
-    my_ser = user_service_details.objects.filter(user_id=current_user.id)
-    print(current_user.email)
-    
-    return render(request,'User/user_dashboard/my_service.html',{'my_service':my_ser,})
-
-
 def user_dash_home(request):
     try:
         user_last = user_service_details.objects.filter(user_id=request.user.id).order_by('-created_at')[0]
@@ -30,9 +19,30 @@ def user_dash_home(request):
     return render(request,'User/user_dashboard/user_home.html',{'recommended':recom})
 
 
+def my_service(request):
+    current_user = request.session['username']
+    current_user = get_user_details(current_user) 
+    my_ser = user_service_details.objects.filter(user_id=current_user.id)
+    print(current_user.email)
+    user_det = authenticate(request, email=current_user.email)
+    print(user_det)
+
+    return render(request,'User/user_dashboard/my_service.html',{'my_service':my_ser,})
+
+  
 
 def notification(request):
-    return render(request,'User/user_dashboard/notification.html')
+    # notification_data = user_notification.objects.all()
+    print('=================',request.session['username'])
+    user_detail=get_object_or_404(userdata, email=request.session['username'])
+    service_details =  user_service_details.objects.filter(user_id=user_detail)
+    user_notifications = user_notification.objects.filter(recepient=user_detail).order_by('-timestamp')
+    # notification_detail = 
+    print("------------",user_notifications)
+    for val in service_details:
+        print("------------",val.service)
+    service_details={'notification_details':user_notifications}
+    return render(request,'User/user_dashboard/notification.html',service_details)
 
 def all_service(request):
     return render(request,'User/user_dashboard/all_service.html')
@@ -45,9 +55,9 @@ def appointment(request):
 
 
 def select_service(request,value=''):
-    current_user =request.user
+    current_user =request.session['username']
 
-    print("session store : ",current_user)
+    print("session stroe : ",current_user)
     try:
         current_user = get_user_details(current_user)
         print("ok test data",current_user)        
@@ -67,11 +77,11 @@ def booking(request):
         serv = request.POST['ser']
         msg = request.POST['msg']
         print(name,email,num,serv,msg)
-        u = request.user
+        u = request.session['username']
         service = srvc.objects.get(svname=serv)
         print("booikng session",service)
         user_instance,user_created = userdata.objects.get_or_create(email=email,defaults={'name':name,'email':email,'phone_number':num })
-        print(user_created,"user instance : : ",user_instance)
+     
         if userdata.objects.filter(email=u).exists() and userdata.objects.filter(phone_number='').exists():
             user_up = userdata.objects.get(email=u)
             user_up.name = name

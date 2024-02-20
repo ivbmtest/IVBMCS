@@ -50,6 +50,7 @@ def login_otp(request):
     err = None
     if request.method == 'POST':
         user_data = request.POST['user']
+        print('-------------user_data------>>>>>>>>>>>>>>',user_data)
         request.session['user_data'] = user_data
         global msg
         if check_phone_number(user_data):
@@ -68,7 +69,52 @@ def login_otp(request):
         return JsonResponse({'success': True, 'result':msg})
     else:
         return render(request,'login.html',{'err':err})
-    
+
+# def otp_ver(request):
+#     err = None
+#     if request.method == 'POST':
+#         otp = request.POST['code']
+#         print("user enter otp :",otp)
+#         user_name = request.session['username']
+#         # otp_secret_key = request.session['otp_secret_key']
+#         validate_otp = request.session['validate_otp']
+#         val_otp = request.session['otp']
+#         validate_until = datetime.fromisoformat(validate_otp)
+#         if validate_until > datetime.now():
+#             if otp == val_otp:
+                
+#                 if CustomUser.objects.filter(username=user_name).exists() and User.objects.filter(email=request.session['user_data']).exists():
+#                     print("User alredy exits ")
+#                     user = User.objects.get(username = user_name)
+#                     user.set_password(val_otp)
+#                     user.save()
+#                     del request.session['username']
+#                     del request.session['otp']
+#                     del request.session['validate_otp'] 
+#                 else:
+#                     print("new user")
+#                     if '@' in request.session['user_data']:
+#                         user = CustomUser.objects.create_user(username = user_name,password=val_otp,email=request.session['user_data'])
+#                     else:
+#                         user = CustomUser.objects.create_user(username = user_name,password=val_otp)
+#                     user.save()
+#                     del request.session['username']
+#                     del request.session['otp']
+#                     del request.session['validate_otp']
+#                 login(request,user)
+                   
+#                 return JsonResponse({'success': True, 'result':"otp verified",'template_name': '/user_home'})
+#             else:
+#                 print('----------->>>>>>invalid otp')
+#                 return JsonResponse({'success': False, 'result':"Invalid OTP"})
+#         else:
+#             # del request.session['otp_secret_key']
+#             del request.session['validate_otp']
+#             return JsonResponse({'success': False, 'result':"OTP Expired"})   
+#     else:
+#         pass    
+#     return render(request,'otp.html') 
+        
 # otp verify
 
 def otp_ver(request):
@@ -76,7 +122,8 @@ def otp_ver(request):
     if request.method == 'POST':
         otp = request.POST['code']
         print("user enter otp :",otp)
-        user_name = request.session['username']
+        user_name = request.session['user_data']
+        print('---------------user_data',request.session['user_data'])
         # otp_secret_key = request.session['otp_secret_key']
         validate_otp = request.session['validate_otp']
         val_otp = request.session['otp']
@@ -84,9 +131,9 @@ def otp_ver(request):
         if validate_until > datetime.now():
             if otp == val_otp:
                 
-                if User.objects.filter(username=user_name).exists() and User.objects.filter(email=request.session['user_data']).exists():
+                if CustomUser.objects.filter(email=request.session['user_data']).exists():
                     print("User alredy exits ")
-                    user = User.objects.get(username = user_name)
+                    user = CustomUser.objects.get(username = user_name)
                     user.set_password(val_otp)
                     user.save()
                     del request.session['username']
@@ -95,9 +142,9 @@ def otp_ver(request):
                 else:
                     print("new user")
                     if '@' in request.session['user_data']:
-                        user = User.objects.create_user(username = user_name,password=val_otp,email=request.session['user_data'])
+                        user = CustomUser.objects.create_user(email=request.session['user_data'],password=val_otp,user_type=4)
                     else:
-                        user = User.objects.create_user(username = user_name,password=val_otp)
+                        user = CustomUser.objects.create_user(password=val_otp)
                     user.save()
                     del request.session['username']
                     del request.session['otp']

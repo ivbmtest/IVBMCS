@@ -1,20 +1,18 @@
 from django.contrib import admin
 from typing import Any
-from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+
 from django.utils.html import format_html
 from django import forms
 from .models import *
 # Register your models here.
-# class DocumentAdmin(admin.ModelAdmin):
-#     list_display = ('title', 'file')  # Fields to display in the list view
-#     search_fields = ('title',)  # Add a search box for the specified fields
-#     # list_filter = ('created_at',)  # Add filters based on the specified fields
+class UserModel(UserAdmin):
+    ordering = ('email',)
 
-#     def display_file_link(self, obj):
-#         return format_html('<a href="{}" target="_blank">{}</a>', obj.file.url, obj.file.name)
-
-#     display_file_link.short_description = 'file'
-
+admin.site.register(CustomUser,UserModel)
+admin.site.register(Staff)
+admin.site.register(Agent)
+admin.site.register(Users)
 admin.site.site_header = 'SuperAdmin Dashboard'
 admin.site.site_title = 'Admin'
 
@@ -215,8 +213,8 @@ admin.site.register(UserProfile,UserProfileAdmin)
 admin.site.register(clnt)
 admin.site.register(states)
 admin.site.register(clsubsdet)
-admin.site.register(admcat)
-admin.site.register(admroles)
+# admin.site.register(admcat)
+# admin.site.register(admroles)
 
 
 class Media:

@@ -13,10 +13,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title>Document</title>
+    
 </head>
 
+
 <body>
- {% if request.user.is_staff|stringformat:"s" == 'True' %} 
+  {% comment %} {% if request.user.is_staff|stringformat:"s" == 'True' %} {% endcomment %}
     <div class="sidebar">
         <div class="logo-details">
         <img src="{% static 'img/logo.png' %}" style="margin-left:10px;" class="logo">
@@ -30,22 +32,16 @@
               <span class="links_name">Dashboard</span>
             </a>
           </li>
-
-          <div class="dropdown dropright">
-          <li class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-            <a href="" title="Country" class="" title="User Management">
-            
-              <i class='bx bx-book-reader'></i>
-              <span class="links_name">User management</span>
-            </a>
+          <li  data-toggle="collapse" data-target="#products" class="collapsed active ">
+            <a href="#"><i class="fa fa-gift fa-lg"></i><span class="links_name">User Management</span></a>
           </li>
-          <div class="dropdown-menu  dropright" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item  text-center" href="#">Agent</a>
-  
-            <a class="dropdown-item  text-center" href="#">Staff</a>
-            <a class="dropdown-item  text-center" href="#">User</a>
-          </div>
-</div>
+          
+          <ul class="sub-menu collapse" id="products">
+              <li><a href="{% url 'staff' %}" class="links_name">Staff</a></li>
+              <li><a href="{% url 'agent' %}">Agent</a></li>
+              <li><a href="">User</a></li>
+              <li><a href="{% url 'admin_dashboard' %}">Admin</a></li>
+          </ul>
           <li>
             <a href="#" title="Clients">
               <i class='bx bx-user-voice'></i>
@@ -145,9 +141,7 @@
         {% endwith %}
       </div>
 
-
-    
-  {% elif request.user.is_staff|stringformat:"s" == 'False' %}
+  {% comment %} {% elif request.user.is_staff|stringformat:"s" == 'False' %}
       <div class="sidebar">
         <div class="logo-details">
         <img src="{% static 'img/logo.png' %}" style="margin-left:10px;" class="logo">
@@ -155,10 +149,10 @@
         </div>
         {% with request.resolver_match.url_name as url_name %}
         <ul class="nav-links">
-      <li>
+          <li>
             <a href="{% url 'dashboard' %}" class="{% if url_name == 'dashboard' %}bg-success{% endif %}" title="Dashboard">
               <i class="bx bx-grid-alt"></i>
-              <span class="links_name">Dashboard</span>
+              <span class="links_name">Dashboard{{request.user}}</span>
             </a>
           </li>
           <li>
@@ -182,6 +176,59 @@
           </li>
           <li>
             <a href="{% url 'orders' %}" title="Orders" class="{% if url_name == 'orders' %}bg-success{% endif %}">
+              <i class='bx bx-message-square-edit'></i>
+              <span class="links_name">Orders</span>
+            </a>
+          </li>
+        
+          <li>
+            <a href="#" title="Setting">
+              <i class="bx bx-cog"></i>
+              <span class="links_name">Setting</span>
+            </a>
+          </li>
+        
+          
+          
+        </ul>
+        {% endwith %}
+      </div>
+
+  {% comment %} {% elif request.user.is_staff|stringformat:"s" == 'False' %}
+      <div class="sidebar">
+        <div class="logo-details">
+        <img src="{% static 'img/logo.png' %}" style="margin-left:10px;" class="logo">
+        
+        </div>
+        {% with request.resolver_match.url_name as url_name %}
+        <ul class="nav-links">
+          <li>
+            <a href="{% url 'dashboard' %}" class="{% if url_name == 'dashboard' %}bg-success{% endif %}" title="Dashboard">
+              <i class="bx bx-grid-alt"></i>
+              <span class="links_name">Dashboard{{request.user}}</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" title="Clients">
+              <i class='bx bx-user-voice'></i>
+              <span class="links_name">Clients</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'task' %}" title="Tasks" class="{% if url_name == 'task' %}bg-success{% endif %}">
+              <i class='bx bx-task'></i>
+              <span class="links_name">Mytask</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="{% url 'demo_user' %}" title="Users" class="{% if url_name == 'demo_user' %}bg-success{% endif %}">
+              <i class='bx bx-group'></i>
+              <span class="links_name">Users</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url "orders" %}" title="Orders" class="{% if url_name == 'orders' %}bg-success{% endif %}">
               <i class='bx bx-message-square-edit'></i>
               <span class="links_name">Orders</span>
             </a>
@@ -234,11 +281,7 @@
               <span class="links_name">All Services</span>
             </a>
           </li>
-         <!--oreder area-->
-
-<!--oredre area commented-->
-
-        <!--end-->
+        
           <li>
             <a href="#" title="Setting">
               <i class="bx bx-cog"></i>
@@ -249,9 +292,8 @@
         {% endwith %}
       </div>
 
-  {% endif %} 
-
-  
+  {% endif %}  {% endcomment %}
 </body>
+
 
 </html> 

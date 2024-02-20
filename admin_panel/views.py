@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect,get_object_or_404
+from django.shortcuts import render, HttpResponse, redirect,get_object_or_404,reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -13,6 +13,7 @@ import os
 from twilio.rest import Client
 
 
+
 from django.core.mail import EmailMultiAlternatives,get_connection
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -23,11 +24,14 @@ def success(request):
 
 def Login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('username')
+        print(email,'0----------')
         password = request.POST.get('password')
-        user_det = authenticate(request, username=username, password=password)
+        print(password,'0----------')
+        user_det = authenticate(request, email=email, password=password)
+        print(user_det,'----user_det----------')
         if user_det is not None:
-            user = get_object_or_404(User, username=username)
+            user = get_object_or_404(CustomUser, email=email)
             if user.is_authenticated:
 
                 login(request, user_det)
@@ -35,7 +39,7 @@ def Login(request):
                     
                     return redirect('admin:index')  # Redirect to the Django admin page after successful login
                 else:
-                    return redirect('dashboard')
+                    return redirect('/dashboard/')
         else:
             # Handle invalid login credentials
             return render(request, 'admin/main_app/login.html', {'error_message': 'Invalid credentials'})
@@ -45,6 +49,9 @@ def Login(request):
 def Logout(request):
     logout(request)
     return redirect('/')
+
+
+
 
 @login_required(login_url="/")
 def currency(request):
@@ -64,6 +71,7 @@ def currency(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'admin/super_user/currency.html',{'form': frm,'currency_info':page,'field_names': field_names,'cou':cou})
     return render(request,'admin/super_user/currency.html',{'form': frm,'currency_info':page,'field_names': field_names,'cou':cou})
 
 
@@ -114,6 +122,7 @@ def category(request):
     page=page.get_page(page_list)  
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/super_user/category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/super_user/category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names,'cou':cou})
 
 #Delete Category
 def del_category(request,id):
@@ -151,6 +160,7 @@ def country(request):
     else:
         cntry_frm = cntryForm()
         
+        
     model_meta = cntry._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y=cntry.objects.all()
@@ -159,6 +169,7 @@ def country(request):
     page=page.get_page(page_list)    
     #country_info=cntry.objects.all()
     cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'admin/super_user/country.html',{'form': cntry_frm,'country_info':page,'field_names': field_names})
     return render(request,'admin/super_user/country.html',{'form': cntry_frm,'country_info':page,'field_names': field_names})
     
     
@@ -208,6 +219,7 @@ def document(request):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/super_user/document.html',{'form': frm,'document_info':page,'field_names': field_names,'cou':cou})
+    return render(request,'admin/super_user/document.html',{'form': frm,'document_info':page,'field_names': field_names,'cou':cou})
 
 
 #delete document
@@ -246,11 +258,13 @@ def services(request):
             err =srvc_frm.errors
             err=str(err)
             
+            
             try:
                 srvc_frm.usrid = request.user
                 srvc_frm.save()
                 return redirect('services')
             except ValueError as e:
+                return JsonResponse({'success': False,'error_msg': err}) 
                 return JsonResponse({'success': False,'error_msg': err}) 
 
     else:
@@ -262,6 +276,7 @@ def services(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'admin/super_user/services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names,'cou':cou})
     return render(request,'admin/super_user/services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names,'cou':cou})
 
 #Delete Service
@@ -307,6 +322,7 @@ def taxdetails(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'admin/super_user/taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names,'cou':cou})
     return render(request,'admin/super_user/taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names,'cou':cou})
 
 # del taxdetails
@@ -354,6 +370,7 @@ def taxmaster(request):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/super_user/taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names,'cou':cou})
+    #return render(request,'admin/super_user/taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names,'cou':cou})
 
 
 # del tax Master
@@ -383,9 +400,12 @@ def update_taxmaster(request,id):
 
 
 # @login_required(login_url="/")
+# @login_required(login_url="/")
 def dashboard(request):
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     total_order = UserProfile.objects.filter().count()
+    
+    
     
     model_meta = UserProfile._meta    
     field_names = [field.verbose_name for field in model_meta.fields 
@@ -406,6 +426,7 @@ def orders(request,):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/staff/orders.html',{'order_info':page,'field_names': field_names,'cou':cou})
+    
 
 
 #user demo
@@ -418,8 +439,10 @@ def demo_user(request):
     else:
         frm = userForm()
     return render(request,"admin/super_user/user.html",{'form':frm})
+    
 
 
+""" function for listing the selected task """
 """ function for listing the selected task """
 def my_task(request):
     model_meta = UserProfile._meta
@@ -431,7 +454,10 @@ def my_task(request):
     print(messages)
     cou=UserProfile.objects.filter(taken_by=request.user).count()
     return render(request,'admin/staff/task.html',{'task_info':page,'field_names': field_names,'cou':cou})
+    
 
+
+"""function to select task from order list"""
 
 """function to select task from order list"""
 def select_my_task(request,id):
@@ -441,6 +467,9 @@ def select_my_task(request,id):
     instance = UserProfile.objects.get(pk=id)  # Replace 1 with the actual primary key value
     instance.taken_by = request.user.username # Update the values of the fields
     instance.save()   # Save the changes to the database
+    messages.success(request,"sucess") 
+    
+    """code to send mail to user when staff select the particular task """
     messages.success(request,"sucess") 
     
     """code to send mail to user when staff select the particular task """
@@ -454,9 +483,13 @@ def select_my_task(request,id):
     msg = EmailMultiAlternatives("Approval", text_content, "vasudevankarthik9@gmail.com",[instance.email],connection=connection)                                      
     msg.attach_alternative(html_content, "text/html")  
     
+    
     try:    # msg.content_subtype="html"                                                                                                                                                                             
         msg.send()        
+        msg.send()        
     except Exception as e:
+        print(f"==============>>>>>>>>>Error sending email: {e}")   
+         
         print(f"==============>>>>>>>>>Error sending email: {e}")   
          
     connection.close()
@@ -464,15 +497,18 @@ def select_my_task(request,id):
 
 
 """function to view the tasks"""
+"""function to view the tasks"""
 def task_details(request,id):
     task=UserProfile.objects.get(pk=id)
     
     return render(request,"admin/staff/task_details.html",{"task":task})
+    
 
 
 def profile(request):
     return render(request,'profile.html')
 
+""" function to list the total number of orders """
 """ function to list the total number of orders """
 def total_ord(request):
     cou=UserProfile.objects.filter()
@@ -497,6 +533,7 @@ def total_ord(request):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/staff/total_order.html',{'total_info':page,'field_names': field_names,'cou':cou,'sel':sel})
+    
     
 
 
