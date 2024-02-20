@@ -30,6 +30,22 @@
               <span class="links_name">Dashboard</span>
             </a>
           </li>
+
+          <div class="dropdown dropright">
+          <li class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+            <a href="" title="Country" class="" title="User Management">
+            
+              <i class='bx bx-book-reader'></i>
+              <span class="links_name">User management</span>
+            </a>
+          </li>
+          <div class="dropdown-menu  dropright" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item  text-center" href="#">Agent</a>
+  
+            <a class="dropdown-item  text-center" href="#">Staff</a>
+            <a class="dropdown-item  text-center" href="#">User</a>
+          </div>
+</div>
           <li>
             <a href="#" title="Clients">
               <i class='bx bx-user-voice'></i>
@@ -139,7 +155,7 @@
         </div>
         {% with request.resolver_match.url_name as url_name %}
         <ul class="nav-links">
-      
+      <li>
             <a href="{% url 'dashboard' %}" class="{% if url_name == 'dashboard' %}bg-success{% endif %}" title="Dashboard">
               <i class="bx bx-grid-alt"></i>
               <span class="links_name">Dashboard</span>
