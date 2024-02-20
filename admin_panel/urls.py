@@ -5,8 +5,12 @@ from django.conf.urls.static import static
 from .agent_views import *
 from .staff_views import *
 from . import admin_views
+from django.contrib.auth.views import LoginView, LogoutView
+
 
 urlpatterns = [
+    # path('login/', LoginView.as_view(), name='Login'),
+    # path('logout/', LogoutView.as_view(), name='logout'),
     path('login/',views.Login,name='Login'),
     path('dashboard/',views.dashboard,name='dashboard'),
     path('logout/',views.Logout,name='logout'),

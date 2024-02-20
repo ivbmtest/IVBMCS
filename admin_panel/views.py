@@ -33,10 +33,8 @@ def Login(request):
         if user_det is not None:
             user = get_object_or_404(CustomUser, email=email)
             if user.is_authenticated:
-
                 login(request, user_det)
-                if user.is_superuser:
-                    
+                if user.is_superuser:                    
                     return redirect('admin:index')  # Redirect to the Django admin page after successful login
                 else:
                     return redirect('/dashboard/')

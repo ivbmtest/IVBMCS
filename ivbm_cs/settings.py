@@ -193,3 +193,10 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'testnft400@gmail.com'  # Replace with your Gmail email
 EMAIL_HOST_PASSWORD = 'trhx kweb jiia tkpb'
+
+AUTH_USER_MODEL = 'admin_panel.CustomUser'
+AUTHENTICATION_BACKENDS = [
+    'admin_panel.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    
+]
