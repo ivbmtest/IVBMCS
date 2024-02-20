@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .agent_views import *
 from .staff_views import *
-from . import admin_views
+from . import admin_views,agent_views
 
 urlpatterns = [
     path('login/',views.Login,name='Login'),
@@ -17,9 +17,14 @@ urlpatterns = [
     path('staff/del_staff/<int:id>/',del_staff,name='del_staff'),
     path('staff/update_staff/<int:id>/',update_staff,name='update_staff'),
     # agent
-    path('agent/',agent,name='agent'),
+    path('agent/',agent_views.agent,name='agent'),
     path('agent/del_agent/<int:id>/',del_agent,name='del_agent'),
     path('agent/update_agent/<int:id>/',update_agent,name='update_agent'),
+
+    path('age_home/',agent_views.age_home,name="age_home"),
+    path('age_service/',agent_views.age_service,name="age_service"),
+    path('age_notify/',agent_views.age_notify,name="age_notify"),
+
     # user
     # path('user/',views.user,name='user'),
     # path('user/del_user/<int:id>/',views.del_user,name='del_user'),
@@ -29,13 +34,11 @@ urlpatterns = [
     path('admin_dashboard/del_admin/<int:id>/',admin_views.del_admin,name='del_admin'),
     path('admin_dashboard/update_admin/<int:id>/',admin_views.update_admin,name='update_admin'),
     
-
     #currency
     path('currency/',views.currency,name='currency'),
     path('currency/del_currency/<int:id>/',views.del_currency,name='del_currency'),
     path('currency/update_currency/<int:id>/',views.update_currency,name='update_currency'),
-    # path('index/', views.index),
-    
+    # path('index/', views.index), 
     #category
     path('category/',views.category,name='category'),
     path('category/update_category/<int:id>/',views.update_category,name="update_category"),
@@ -61,8 +64,6 @@ urlpatterns = [
     path('document/',views.document,name='document'),
     path('document/del_document/<int:id>/',views.del_document,name='del_document'),
     path('document/update_document/<int:id>/',views.update_document,name="update_document"),
-
-
     
     #Format
     path('format/',views.format,name='format'),
@@ -78,8 +79,7 @@ urlpatterns = [
     path('taxmaster/',views.taxmaster,name='taxmaster'),
     path('taxmaster/update_taxmaster/<int:id>/',views.update_taxmaster,name="update_taxmaster"),
     path('taxmaster/del_taxmaster/<int:id>/',views.delete_taxmaster,name='del_taxmaster'),  
-
-  
+ 
 #Order Details
     path('orders',views.orders,name='orders'),
 #demo user
@@ -89,12 +89,10 @@ urlpatterns = [
     path('task/',views.my_task,name='task'),
     path('select_task/<int:id>/',views.select_my_task,name='select_task'),
     path('task_detail/<int:id>/',views.task_details,name='task_detail'),
-  
     path('profile/',views.profile,name='profile'),  
-
-
     path('total_ord/',views.total_ord,name='total_ord'),    
-  
+
+   
     
 ]
 

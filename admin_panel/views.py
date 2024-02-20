@@ -406,7 +406,6 @@ def dashboard(request):
     total_order = UserProfile.objects.filter().count()
     
     
-    
     model_meta = UserProfile._meta    
     field_names = [field.verbose_name for field in model_meta.fields 
                    if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]

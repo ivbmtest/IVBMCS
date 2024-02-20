@@ -33,14 +33,14 @@
             </a>
           </li>
           <li  data-toggle="collapse" data-target="#products" class="collapsed active ">
-            <a href="#"><i class="fa fa-gift fa-lg"></i><span class="links_name">User Management</span></a>
+            <a href="#"><i class='bx bx-book-reader'></i><span class="links_name">User Management</span></a>
           </li>
           
-          <ul class="sub-menu collapse" id="products">
-              <li><a href="{% url 'staff' %}" class="links_name">Staff</a></li>
-              <li><a href="{% url 'agent' %}">Agent</a></li>
-              <li><a href="">User</a></li>
-              <li><a href="{% url 'admin_dashboard' %}">Admin</a></li>
+          <ul class="sub-menu collapse px-4" id="products">
+              <li><a href="{% url 'staff' %}" ><i class='bx bxs-right-arrow-circle'></i> <span class="links_name">Staff</span></a></li>
+              <li><a href="{% url 'agent' %}"><i class='bx bxs-right-arrow-circle'></i> <span class="links_name">Agent</span></a></li>
+              <li><a href=""><i class='bx bxs-right-arrow-circle'></i> <span class="links_name">User</span></a></li>
+              <li><a href="{% url 'admin_dashboard' %}"><i class='bx bxs-right-arrow-circle'></i> <span class="links_name">Admin</span></a></li>
           </ul>
           <li>
             <a href="#" title="Clients">
@@ -228,7 +228,7 @@
             </a>
           </li>
           <li>
-            <a href="{% url "orders" %}" title="Orders" class="{% if url_name == 'orders' %}bg-success{% endif %}">
+            <a href="{% url 'orders' %}" title="Orders" class="{% if url_name == 'orders' %}bg-success{% endif %}">
               <i class='bx bx-message-square-edit'></i>
               <span class="links_name">Orders</span>
             </a>

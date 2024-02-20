@@ -1,4 +1,4 @@
-{% extends "User/user_dashboard/main_layout.html" %}
+{% extends "Agent/main_layout.html" %}
 {% load static %}   
     
 {% block content %}
@@ -16,7 +16,7 @@
                     <!--end loader-->
 
                     <div class="container m-auto">
-                        <h2 class="ser_head">All Services{{category}}</h2>                            
+                        <h2 class="ser_head">All Services</h2>                            
                     <div class="row m-auto ">       
                         {% for i in category %}
                             <div class="card-con col-md-3">

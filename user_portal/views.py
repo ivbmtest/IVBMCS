@@ -149,7 +149,7 @@ def otp_ver(request):
                     del request.session['username']
                     del request.session['otp']
                     del request.session['validate_otp']
-                login(request,user)
+                #login(request,user)
                    
                 return JsonResponse({'success': True, 'result':"otp verified",'template_name': '/user_home'})
             else:

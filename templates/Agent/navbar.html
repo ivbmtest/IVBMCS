@@ -1,0 +1,29 @@
+<section class="home-section">
+    <nav>
+      <div class="sidebar-button">
+        <i class="bx bx-menu sidebarBtn  d-xl-none"></i>
+        <span class="dashboard">Dashboard</span>
+      </div>
+      {% comment %} <div class="search-box">
+        <input type="text" placeholder="Search..." />
+        <i class="bx bx-search"></i>
+      </div> {% endcomment %}
+      
+      <div class="profile-details">
+        <div class="me-2"><a href="{% url 'orders' %}"><i class='bx bxs-bell ' title="New Order">{{cou}}</i></a></div>
+        
+        <a class="btn border-primary" type="button" data-toggle="dropdown" aria-expanded="false">
+        
+        <img src="https://www.pngitem.com/pimgs/m/516-5167304_transparent-background-white-user-icon-png-png-download.png" alt="" />
+        {% comment %} <span class="admin_name">{{request.user}}</span>   {% endcomment %}
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+          <a class="dropdown-item" href="#">Update</a>
+          <hr>
+          <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+        </div>
+      </div>
+    </nav>
+
+{% comment %} </section> {% endcomment %}

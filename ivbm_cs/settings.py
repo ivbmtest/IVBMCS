@@ -98,7 +98,7 @@ WSGI_APPLICATION = 'ivbm_cs.wsgi.application'
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'ivbmcs_db',
+		'NAME': 'ivbmcs_db2',
 		  'USER': 'root',
 		  'PASSWORD': '1234',
         #'USER': 'admin',
