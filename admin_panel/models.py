@@ -48,7 +48,8 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     def __str__(self):
-        return f"{self.last_name}, {self.first_name}"
+        return self.first_name
+        # return f"{self.last_name}, {self.first_name}"
 
  # Add or change related_name to avoid clashes
     groups = models.ManyToManyField(Group, related_name='customuser_set', blank=True)

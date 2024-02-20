@@ -88,7 +88,7 @@ def update_currency(request,id):
         frm=crncForm(request.POST,instance=currency)
         if frm.is_valid:
             instance = frm.save(commit=False)
-            instance.usrid = request.user
+            instance.usrid = request.user.first_name
             instance.save()
             return redirect('currency')
     else:
