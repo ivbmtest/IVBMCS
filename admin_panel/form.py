@@ -92,12 +92,13 @@ class UserForm(CustomUserForm):
 class crncForm(forms.ModelForm):
     class Meta():
         model = crnc
+        # fields = ['crname', 'crsymbol', 'crdescription', 'crstatus',  'usrid' ]
         fields = "__all__"
 
-class up_crncForm(forms.ModelForm):
-    class Meta():
-        model = crnc
-        fields = "__all__"
+# class up_crncForm(forms.ModelForm):
+#     class Meta():
+#         model = crnc
+#         fields = "__all__"
        
 class cntryForm(forms.ModelForm):
     class Meta():
