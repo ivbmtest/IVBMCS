@@ -58,8 +58,10 @@
                           <td>{{val.date_joined}}</td> 
                           <td>{{val.email}}</td>
                           <td>{{val.user_type}}</td>                         
-                          <td>{{val.gender}}</td>                                       
+                          <td>{{val.gender}}</td> 
+                          {% if profile_pic %}                                      
                           <td><a href = "{{val.profile_pic.url}}"><img src="{{val.profile_pic.url}}" alt="{{val.first_name}}" width="50" height="50" ></a></td>
+                          {% endif %}
                           <td>{{val.address}}</td>
                           <td>{{val.created_at}}</td>
                           <td>{{val.updated_at}}</td>

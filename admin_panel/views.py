@@ -18,6 +18,8 @@ from django.core.mail import EmailMultiAlternatives,get_connection
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
+
+
 def success(request):
     return render(request, 'success_page.html')
 
@@ -35,7 +37,7 @@ def Login(request):
             if user.is_authenticated:
                 login(request, user_det)
                 if user.is_superuser:                    
-                    return redirect('admin:index')  # Redirect to the Django admin page after successful login
+                    return redirect('/dashboard/')  # Redirect to the Django admin page after successful login
                 else:
                     return redirect('/dashboard/')
         else:
@@ -54,10 +56,11 @@ def Logout(request):
 @login_required(login_url="/")
 def currency(request):
     if request.method == 'POST':
+        print('-------------user::',request.user)
         frm = crncForm(request.POST)
         if frm.is_valid:
             instance = frm.save(commit=False)
-            instance.usrid = request.user
+            instance.usrid=request.user
             instance.save()
             return redirect('currency')
     else:
@@ -114,6 +117,7 @@ def category(request):
         
     model_meta = ctgry._meta
     field_names = [field.verbose_name for field in model_meta.fields]
+    print('------------------------',field_names)
     y=ctgry.objects.all()
     page=Paginator(y,5)
     page_list=request.GET.get('page')
