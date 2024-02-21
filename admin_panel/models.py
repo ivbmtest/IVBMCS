@@ -73,7 +73,7 @@ class ctgry(models.Model):
     ctdescription = models.TextField(verbose_name='Description')
     ctimg = models.ImageField(upload_to='images/',verbose_name='Image')
     ctstatus = models.IntegerField(verbose_name='Status')
-    usrid = models.ForeignKey(User,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
+    usrid = models.ForeignKey(CustomUser,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
     dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
     
     class Meta:
@@ -107,7 +107,7 @@ class txmst(models.Model):
     txdescription = models.CharField(max_length=255,verbose_name='Tax Description')
     txisgst = models.BooleanField(default=True,verbose_name='GST')
     txstatus = models.IntegerField(verbose_name='Status')
-    usrid = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
+    usrid = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
     dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
        
     class Meta:
@@ -130,7 +130,7 @@ class txdet(models.Model):
     tdvat = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='VAT Rate')
     tdcess = models.DecimalField(max_digits=5, decimal_places=2,verbose_name='CESS Rate')
     tdstatus = models.IntegerField(verbose_name='Status')
-    usrid = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
+    usrid = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
     dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
     
     

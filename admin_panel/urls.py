@@ -5,8 +5,12 @@ from django.conf.urls.static import static
 from .agent_views import *
 from .staff_views import *
 from . import admin_views,agent_views
+from django.contrib.auth.views import LoginView, LogoutView
+
 
 urlpatterns = [
+    # path('login/', LoginView.as_view(), name='Login'),
+    # path('logout/', LogoutView.as_view(), name='logout'),
     path('login/',views.Login,name='Login'),
     path('dashboard/',views.dashboard,name='dashboard'),
     path('logout/',views.Logout,name='logout'),
@@ -24,6 +28,9 @@ urlpatterns = [
     path('age_home/',agent_views.age_home,name="age_home"),
     path('age_service/',agent_views.age_service,name="age_service"),
     path('age_notify/',agent_views.age_notify,name="age_notify"),
+    path('age_all_services/',agent_views.age_all_service,name="age_all_services"),
+    path('age_payments/',agent_views.age_payments,name="age_payments"),
+    
 
     # user
     # path('user/',views.user,name='user'),

@@ -136,3 +136,12 @@ def age_service(request):
 
 def age_notify(request):
     return render(request,'Agent/notification.html')
+
+def age_all_service(request):
+    return render(request,'Agent/all_service.html')
+
+
+def age_payments(request):
+    return render(request,'Agent/payments.html')
+
+

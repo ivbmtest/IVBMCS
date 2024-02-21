@@ -19,8 +19,12 @@ def user_dash_home(request):
     return render(request,'User/user_dashboard/user_home.html',{'recommended':recom})
 
 
+
 def my_service(request):
-    current_user = request.session['username']
+    #current_user = request.session['username']
+    
+    current_user = request.user
+    print("service : : 25 :::",current_user)
     current_user = get_user_details(current_user) 
     my_ser = user_service_details.objects.filter(user_id=current_user.id)
     print(current_user.email)
@@ -29,18 +33,17 @@ def my_service(request):
 
     return render(request,'User/user_dashboard/my_service.html',{'my_service':my_ser,})
 
-  
 
 def notification(request):
     # notification_data = user_notification.objects.all()
-    print('=================',request.session['username'])
+    print('======== ========',request.session['username'])
     user_detail=get_object_or_404(userdata, email=request.session['username'])
     service_details =  user_service_details.objects.filter(user_id=user_detail)
     user_notifications = user_notification.objects.filter(recepient=user_detail).order_by('-timestamp')
     # notification_detail = 
-    print("------------",user_notifications)
+    print("----- ------",user_notifications)
     for val in service_details:
-        print("------------",val.service)
+        print("------ -----",val.service)
     service_details={'notification_details':user_notifications}
     return render(request,'User/user_dashboard/notification.html',service_details)
 
@@ -55,7 +58,8 @@ def appointment(request):
 
 
 def select_service(request,value=''):
-    current_user =request.session['username']
+    #current_user =request.session['username']
+    current_user = request.user
 
     print("session stroe : ",current_user)
     try:
@@ -77,7 +81,8 @@ def booking(request):
         serv = request.POST['ser']
         msg = request.POST['msg']
         print(name,email,num,serv,msg)
-        u = request.session['username']
+        #u = request.session['username']
+        u = request.user
         service = srvc.objects.get(svname=serv)
         print("booikng session",service)
         user_instance,user_created = userdata.objects.get_or_create(email=email,defaults={'name':name,'email':email,'phone_number':num })
@@ -104,8 +109,9 @@ def booking(request):
 def payment(request):
     if request.method == 'POST':
         pay = request.POST.get('pay')
-        current_user = request.session['username']
-        current_user_id = get_user_details(current_user)
+        #current_user = request.session['username']
+        current_user = request.user
+        #current_user_id = get_user_details(current_user)
         latest_service_details_id=user_service_details.objects.latest('id')
         service_details_id = latest_service_details_id.id
         instance = user_service_details.objects.get(pk = service_details_id)
@@ -114,7 +120,6 @@ def payment(request):
         else:
             instance.payment=False    
         instance.save()
-       
         # print("pay val : ",pay)
         if pay:
             serv = request.session.get('service_id_data', None)

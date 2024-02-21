@@ -133,10 +133,14 @@ def otp_ver(request):
                 
                 if CustomUser.objects.filter(email=request.session['user_data']).exists():
                     print("User alredy exits ")
-                    user = CustomUser.objects.get(username = user_name)
+                    user = CustomUser.objects.get(email = user_name)
+                    u =  authenticate(request, eamil=user_name, password=user.password)
+                    print("user_name ::: 137 ",u)
                     user.set_password(val_otp)
                     user.save()
-                    del request.session['username']
+                    login(request, user,backend='django.contrib.auth.backends.ModelBackend')
+                    print("login",user.email)
+                    request.session['username']
                     del request.session['otp']
                     del request.session['validate_otp'] 
                 else:
@@ -146,10 +150,10 @@ def otp_ver(request):
                     else:
                         user = CustomUser.objects.create_user(password=val_otp)
                     user.save()
-                    del request.session['username']
+                    request.session['username']
                     del request.session['otp']
                     del request.session['validate_otp']
-                #login(request,user)
+                
                    
                 return JsonResponse({'success': True, 'result':"otp verified",'template_name': '/user_home'})
             else:
