@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -193,7 +194,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'testnft400@gmail.com'  # Replace with your Gmail email
 EMAIL_HOST_PASSWORD = 'trhx kweb jiia tkpb'
-
 
 
 AUTH_USER_MODEL = 'admin_panel.CustomUser'

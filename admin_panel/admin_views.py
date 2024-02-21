@@ -82,7 +82,7 @@ def update_admin(request,id):
             # instance.usrid = request.user
             instance.updated_at = datetime.datetime.now()
             instance.save()
-            return redirect('admin')
+            return redirect('admin_dashboard')
     else:
         id = request.GET['id']
         admin=CustomUser.objects.get(pk=id)

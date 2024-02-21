@@ -7,6 +7,9 @@ from django.contrib.auth.hashers import make_password
 from django.db import models
 
 # Create your models here.
+from django.contrib.auth import get_user_model
+
+# User = get_user_model()
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -48,7 +51,8 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     def __str__(self):
-        return f"{self.last_name}, {self.first_name}"
+        return self.first_name
+        # return f"{self.last_name}, {self.first_name}"
 
  # Add or change related_name to avoid clashes
     groups = models.ManyToManyField(Group, related_name='customuser_set', blank=True)
@@ -167,7 +171,8 @@ class crnc(models.Model):
     crsymbol = models.CharField(max_length=10,verbose_name='Symbol')
     crdescription = models.TextField(verbose_name='Description')
     crstatus = models.IntegerField(verbose_name='Status')
-    usrid = models.ForeignKey(CustomUser,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
+    usrid = models.ForeignKey(CustomUser,  on_delete=models.SET_NULL, 
+                              null=True, editable=False,verbose_name="Created By")
     dtupdatd = models.DateTimeField(auto_now_add=True,verbose_name='Created On')
     
     class Meta:
@@ -332,7 +337,7 @@ class clsubsdet(models.Model):
 #     acname = models.CharField(max_length=255,verbose_name="Admin Cat Name",unique=True)
 #     acdescription =  models.CharField(max_length=255,verbose_name="Description")
 #     acisadm =  models.IntegerField(verbose_name= 'admin or user') #NA
-#     usrid = models.ForeignKey(User,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
+#     usrid = models.ForeignKey(CustomUser,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
 #     dtupdatd = models.DateTimeField(auto_now_add=True)
 #     acstatus = models.IntegerField(verbose_name='Status')
 
@@ -343,7 +348,7 @@ class clsubsdet(models.Model):
 #     arid = models.AutoField(primary_key=True, db_column='arid',verbose_name='Admin role ID')
 #     aracid = models.ForeignKey(admcat, on_delete=models.CASCADE,verbose_name='Admin Cat')
 #     arsvid = models.IntegerField(verbose_name= 'Service Id')
-#     usrid = models.ForeignKey(User,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
+#     usrid = models.ForeignKey(CustomUser,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
 #     dtupdatd = models.DateTimeField(auto_now_add=True)
 #     arstatus = models.IntegerField(verbose_name='Status')
 
