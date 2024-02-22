@@ -482,10 +482,11 @@ def task_details(request,id):
     user_data_dict['service']=service_name
     user_data_dict['user_id']=user_detail
     user_data_dict['Name']=user_data_dict.pop('user_id')
+    print('-------------',user_data_dict['documents'])
     filter_key=['id','msg','taken_by','status']
     filtered_user_data_dict = {key: value for key, value in user_data_dict.items() if key not in filter_key}
-          
-    return render(request,"admin/staff/task_details.html",{"task_detail":task_detail,'field_names':field_names,'user_detail':filtered_user_data_dict})
+    print('-------------',filtered_user_data_dict)
+    return render(request,"admin/staff/task_details.html",{"user_detail":user_detail,'field_names':field_names,'task_detail':filtered_user_data_dict})
 
 
 def profile(request):

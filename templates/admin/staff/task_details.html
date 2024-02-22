@@ -65,15 +65,7 @@
               </div>
               <table class="table table-borderless ">
                 <tbody class="mb-4 col-lg-8">
-                    {% comment %} {% for field in field_names  %}
-                    <tr>                        
-                        <td><strong>{{ field }}</strong></td>
-                        <td>:</td>
-                        <td>{{ value }}</td>
-                    </tr>
-                    {% endfor %} {% endcomment %}
-
-                    {% for key,value in user_detail.items  %}
+                    {% for key,value in task_detail.items  %}
                     <tr>
                         <td><strong>{{ key }}</strong></td>
                         <td>:</td>
@@ -96,10 +88,9 @@
                 <div class="col-lg-6">
                   <h3 class="h6">Billing address</h3>
                   <address>
-                    <strong>John Doe</strong><br>
-                    1355 Market St, Suite 900<br>
-                    San Francisco, CA 94103<br>
-                    <abbr title="Phone">P:</abbr> (123) 456-7890
+                    <strong>{{user_detail.name}}</strong><br>
+                    {{user_detail.email}}<br><br>
+                    <abbr title="Phone">P:</abbr> {{user_detail.phone_number}}
                   </address>
                 </div>
               </div>
@@ -117,16 +108,14 @@
           <div class="card mb-4">
             <!-- Shipping information -->
             <div class="card-body">
-              <h3 class="h6">Shipping Information</h3>
-              <strong>FedEx</strong>
-              <span><a href="#" class="text-decoration-underline" target="_blank">FF1234567890</a> <i class="bi bi-box-arrow-up-right"></i> </span>
+              <h3 class="h6">User Information</h3>
               <hr>
-              <h3 class="h6">Address</h3>
+              {% comment %} <h3 class="h6">Address</h3> {% endcomment %}
               <address>
-                <strong>John Doe</strong><br>
-                1355 Market St, Suite 900<br>
-                San Francisco, CA 94103<br>
-                <abbr title="Phone">P:</abbr> (123) 456-7890
+                <strong>{{user_detail.name}}</strong><br>
+                <a href="mailto:{{user_detail.email}}" style='color:black'>{{user_detail.email}}</a><br>
+                <a href="tel:{{user_detail.phone_number}}" style='color:black'>{{user_detail.phone_number}}</a><br><br>
+                {% comment %} <abbr title="Phone"></abbr> {{user_detail.phone_number}} {% endcomment %}
               </address>
             </div>
           </div>
