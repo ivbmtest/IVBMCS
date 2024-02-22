@@ -58,12 +58,15 @@ def login_otp(request):
             print("Phone number found in data.")
             msg = 'otp send your number'
             user_name = user_data
+
+            request.session['user_last_name'] = user_name+"@ivbm"
         if check_email(user_data):
             send_otp_email(request,user_data)
             print("Email address found in data.")
             msg = 'otp send your email'
             user_name =  user_data.split('@')[0]
-            request.session['username'] = user_name
+
+            request.session['user_last_name'] = user_name+"@ivbm"
         print("email user name : ",user_name)
 
         return JsonResponse({'success': True, 'result':msg})
@@ -124,6 +127,7 @@ def otp_ver(request):
         print("user enter otp :",otp)
         user_name = request.session['user_data']
         print('---------------user_data',request.session['user_data'])
+        print('---------------user_last_name',request.session['user_last_name'])
         # otp_secret_key = request.session['otp_secret_key']
         validate_otp = request.session['validate_otp']
         val_otp = request.session['otp']
@@ -138,23 +142,23 @@ def otp_ver(request):
                     print("user_name ::: 137 ",u)
                     user.set_password(val_otp)
                     user.save()
-                    login(request, user,backend='django.contrib.auth.backends.ModelBackend')
+                    
                     print("login",user.email)
-                    request.session['username']
+                    
                     del request.session['otp']
                     del request.session['validate_otp'] 
                 else:
                     print("new user")
                     if '@' in request.session['user_data']:
-                        user = CustomUser.objects.create_user(email=request.session['user_data'],password=val_otp,user_type=4)
+                        user = CustomUser.objects.create_user(email=request.session['user_data'],password=val_otp,user_type=4,last_name=request.session['user_last_name'])
                     else:
                         user = CustomUser.objects.create_user(password=val_otp)
                     user.save()
-                    request.session['username']
+                   
                     del request.session['otp']
                     del request.session['validate_otp']
                 
-                   
+                login(request, user,backend='django.contrib.auth.backends.ModelBackend')   
                 return JsonResponse({'success': True, 'result':"otp verified",'template_name': '/user_home'})
             else:
                 print('----------->>>>>>invalid otp')

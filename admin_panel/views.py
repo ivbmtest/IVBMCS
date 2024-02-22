@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect,get_object_or_404,reverse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout,authenticate
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -11,6 +11,7 @@ from .form import *
 from django.contrib import messages
 import os
 from twilio.rest import Client
+# from .backends import  EmailBackend
 
 
 
@@ -30,7 +31,7 @@ def Login(request):
         print(email,'0----------')
         password = request.POST.get('password')
         print(password,'0----------')
-        user_det = authenticate(request, eamil=email, password=password)
+        user_det = authenticate(request, email=email, password=password)
         print(user_det,'----user_det----------')
         if user_det is not None:
             user = get_object_or_404(CustomUser, email=email)

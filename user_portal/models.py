@@ -35,7 +35,7 @@ class user_service_details(models.Model):
     
     
 class user_notification(models.Model):
-    recepient= models.ForeignKey(userdata,on_delete=models.CASCADE)
+    recepient= models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     service=models.ForeignKey(user_service_details,on_delete=models.CASCADE,default='')
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
