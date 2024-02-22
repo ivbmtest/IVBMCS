@@ -91,7 +91,7 @@ def update_currency(request,id):
         frm=crncForm(request.POST,instance=currency)
         if frm.is_valid:
             instance = frm.save(commit=False)
-            instance.usrid = request.user.first_name
+            instance.usrid = request.user
             instance.save()
             return redirect('currency')
     else:
@@ -510,11 +510,11 @@ def task_details(request,id):
     task=UserProfile.objects.get(pk=id)
     
     return render(request,"admin/staff/task_details.html",{"task":task})
-    return render(request,"admin/staff/task_details.html",{"task":task})
+    # return render(request,"admin/staff/task_details.html",{"task":task})
 
 
 def profile(request):
-    return render(request,'profile.html')
+    return render(request,'admin/main_app/profile.html')
 
 """ function to list the total number of orders """
 """ function to list the total number of orders """

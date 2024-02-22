@@ -20,12 +20,13 @@ def user_dash_home(request):
 
 
 def my_service(request):
-    current_user = request.session['username']
-    current_user = get_user_details(current_user) 
+    # current_user = request.session['username']
+    current_user = request.user
+    # current_user = get_user_details(current_user) 
     my_ser = user_service_details.objects.filter(user_id=current_user.id)
-    print(current_user.email)
-    user_det = authenticate(request, email=current_user.email)
-    print(user_det)
+    # print(current_user.email)
+    # user_det = authenticate(request, email=current_user.email)
+    # print(user_det)
 
     return render(request,'User/user_dashboard/my_service.html',{'my_service':my_ser,})
 
@@ -34,9 +35,10 @@ def my_service(request):
 def notification(request):
     # notification_data = user_notification.objects.all()
     print('=================',request.session['username'])
-    user_detail=get_object_or_404(userdata, email=request.session['username'])
-    service_details =  user_service_details.objects.filter(user_id=user_detail)
-    user_notifications = user_notification.objects.filter(recepient=user_detail).order_by('-timestamp')
+    current_user = request.user
+    # user_detail=get_object_or_404(userdata, email=request.session['username'])
+    service_details =  user_service_details.objects.filter(user_id=current_user.id)
+    user_notifications = user_notification.objects.filter(recepient=current_user).order_by('-timestamp')
     # notification_detail = 
     print("------------",user_notifications)
     for val in service_details:
