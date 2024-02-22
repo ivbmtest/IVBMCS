@@ -34,7 +34,7 @@ def my_service(request):
 
 def notification(request):
     # notification_data = user_notification.objects.all()
-    print('=================',request.session['username'])
+    # print('=================',request.session['username'])
     current_user = request.user
     # user_detail=get_object_or_404(userdata, email=request.session['username'])
     service_details =  user_service_details.objects.filter(user_id=current_user.id)
@@ -57,7 +57,8 @@ def appointment(request):
 
 
 def select_service(request,value=''):
-    current_user =request.session['username']
+    # current_user =request.session['username']
+    current_user =request.user
 
     print("session stroe : ",current_user)
     try:
@@ -106,7 +107,8 @@ def booking(request):
 def payment(request):
     if request.method == 'POST':
         pay = request.POST.get('pay')
-        current_user = request.session['username']
+        # current_user = request.session['username']
+        current_user = request.user
         current_user_id = get_user_details(current_user)
         latest_service_details_id=user_service_details.objects.latest('id')
         service_details_id = latest_service_details_id.id
