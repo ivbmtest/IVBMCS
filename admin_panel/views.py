@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect,get_object_or_404,reverse
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, logout,authenticate
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -11,6 +11,7 @@ from .form import *
 from django.contrib import messages
 import os
 from twilio.rest import Client
+# from .backends import  EmailBackend
 
 
 
@@ -34,11 +35,13 @@ def Login(request):
         print(user_det,'----user_det----------')
         if user_det is not None:
             user = get_object_or_404(CustomUser, email=email)
+            
             if user.is_authenticated:
                 login(request, user_det)
                 if user.is_superuser:                    
                     return redirect('/dashboard/')  # Redirect to the Django admin page after successful login
                 else:
+                    
                     return redirect('/dashboard/')
         else:
             # Handle invalid login credentials
@@ -48,7 +51,7 @@ def Login(request):
 
 def Logout(request):
     logout(request)
-    return redirect('/')
+    return redirect('/login')
 
 
 
@@ -73,7 +76,7 @@ def currency(request):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/super_user/currency.html',{'form': frm,'currency_info':page,'field_names': field_names,'cou':cou})
-    return render(request,'admin/super_user/currency.html',{'form': frm,'currency_info':page,'field_names': field_names,'cou':cou})
+  
 
 
 #delete currency
@@ -106,9 +109,13 @@ def update_currency(request,id):
 @login_required(login_url="/")
 def category(request):
     if request.method == 'POST':
+        
+        
         ctrgy_frm = ctgryForm(request.POST,request.FILES)
         if ctrgy_frm.is_valid:
             instance = ctrgy_frm.save(commit=False)
+          
+          
             instance.usrid = request.user
             instance.save()
             return redirect('category')          
@@ -124,7 +131,7 @@ def category(request):
     page=page.get_page(page_list)  
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/super_user/category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names,'cou':cou})
-    return render(request,'admin/super_user/category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names,'cou':cou})
+   
 
 #Delete Category
 def del_category(request,id):
@@ -172,7 +179,7 @@ def country(request):
     #country_info=cntry.objects.all()
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/super_user/country.html',{'form': cntry_frm,'country_info':page,'field_names': field_names})
-    return render(request,'admin/super_user/country.html',{'form': cntry_frm,'country_info':page,'field_names': field_names})
+  
     
     
 # Delete Country
@@ -221,7 +228,7 @@ def document(request):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/super_user/document.html',{'form': frm,'document_info':page,'field_names': field_names,'cou':cou})
-    return render(request,'admin/super_user/document.html',{'form': frm,'document_info':page,'field_names': field_names,'cou':cou})
+   
 
 
 #delete document
@@ -267,7 +274,7 @@ def services(request):
                 return redirect('services')
             except ValueError as e:
                 return JsonResponse({'success': False,'error_msg': err}) 
-                return JsonResponse({'success': False,'error_msg': err}) 
+               
 
     else:
         srvc_frm = srvcForm()
@@ -279,7 +286,7 @@ def services(request):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/super_user/services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names,'cou':cou})
-    return render(request,'admin/super_user/services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names,'cou':cou})
+   
 
 #Delete Service
 def delete_service(request,id):
@@ -325,7 +332,7 @@ def taxdetails(request):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/super_user/taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names,'cou':cou})
-    return render(request,'admin/super_user/taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names,'cou':cou})
+    
 
 # del taxdetails
 def delete_taxdetails(request,id):
@@ -372,7 +379,7 @@ def taxmaster(request):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/super_user/taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names,'cou':cou})
-    return render(request,'admin/super_user/taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names,'cou':cou})
+   
 
 
 # del tax Master
@@ -401,19 +408,12 @@ def update_taxmaster(request,id):
         return JsonResponse({'success': True, 'form':frm})
 
 
-# @login_required(login_url="/")
+
 # @login_required(login_url="/")
 def dashboard(request):
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     total_order = UserProfile.objects.filter().count()
     
-    model_meta = UserProfile._meta    
-    field_names = [field.verbose_name for field in model_meta.fields 
-                   if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]
-    latest_record = UserProfile.objects.all().order_by('-created_at')[:5]
-    
-    return render(request,'admin/main_app/main_layout.html',{'cou':cou,'total':total_order,
-                                              "latest_data":latest_record,"field_names":field_names})
     
     model_meta = UserProfile._meta    
     field_names = [field.verbose_name for field in model_meta.fields 
@@ -434,7 +434,7 @@ def orders(request,):
     page=page.get_page(page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/staff/orders.html',{'order_info':page,'field_names': field_names,'cou':cou})
-    return render(request,'admin/staff/orders.html',{'order_info':page,'field_names': field_names,'cou':cou})
+    
 
 
 #user demo
@@ -447,11 +447,11 @@ def demo_user(request):
     else:
         frm = userForm()
     return render(request,"admin/super_user/user.html",{'form':frm})
-    return render(request,"admin/super_user/user.html",{'form':frm})
+    
 
 
 """ function for listing the selected task """
-""" function for listing the selected task """
+
 def my_task(request):
     model_meta = UserProfile._meta
     field_names = [field.verbose_name for field in model_meta.fields]
@@ -462,12 +462,12 @@ def my_task(request):
     print(messages)
     cou=UserProfile.objects.filter(taken_by=request.user).count()
     return render(request,'admin/staff/task.html',{'task_info':page,'field_names': field_names,'cou':cou})
-    return render(request,'admin/staff/task.html',{'task_info':page,'field_names': field_names,'cou':cou})
+    
 
 
 """function to select task from order list"""
 
-"""function to select task from order list"""
+
 def select_my_task(request,id):
     model_meta = UserProfile._meta
     field_names = [field.verbose_name for field in model_meta.fields]
@@ -498,25 +498,24 @@ def select_my_task(request,id):
     except Exception as e:
         print(f"==============>>>>>>>>>Error sending email: {e}")   
          
-        print(f"==============>>>>>>>>>Error sending email: {e}")   
+        
          
     connection.close()
     return redirect("task")
 
 
 """function to view the tasks"""
-"""function to view the tasks"""
+
 def task_details(request,id):
     task=UserProfile.objects.get(pk=id)
     
     return render(request,"admin/staff/task_details.html",{"task":task})
-    # return render(request,"admin/staff/task_details.html",{"task":task})
+    
 
 
 def profile(request):
     return render(request,'admin/main_app/profile.html')
 
-""" function to list the total number of orders """
 """ function to list the total number of orders """
 def total_ord(request):
     cou=UserProfile.objects.filter()
@@ -542,10 +541,6 @@ def total_ord(request):
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     return render(request,'admin/staff/total_order.html',{'total_info':page,'field_names': field_names,'cou':cou,'sel':sel})
     
-
-
-
-    return render(request,'admin/staff/total_order.html',{'total_info':page,'field_names': field_names,'cou':cou,'sel':sel})
     
 
 

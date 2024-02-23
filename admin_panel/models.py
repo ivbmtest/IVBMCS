@@ -39,6 +39,7 @@ class CustomUser(AbstractUser):
     
     username = None  # Removed username, using email instead
     email = models.EmailField(unique=True)
+    phone_number=models.IntegerField()
     user_type = models.CharField(default=1, choices=USER_TYPE, max_length=1)
     gender = models.CharField(max_length=1, choices=GENDER)
     profile_pic = models.ImageField(upload_to='images/')
@@ -332,25 +333,25 @@ class clsubsdet(models.Model):
 
     
 
-# class admcat(models.Model):
-#     acid = models.AutoField(primary_key=True, db_column='acid',verbose_name='Admin Cat ID')
-#     acname = models.CharField(max_length=255,verbose_name="Admin Cat Name",unique=True)
-#     acdescription =  models.CharField(max_length=255,verbose_name="Description")
-#     acisadm =  models.IntegerField(verbose_name= 'admin or user') #NA
-#     usrid = models.ForeignKey(CustomUser,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
-#     dtupdatd = models.DateTimeField(auto_now_add=True)
-#     acstatus = models.IntegerField(verbose_name='Status')
+class admcat(models.Model):
+    acid = models.AutoField(primary_key=True, db_column='acid',verbose_name='Admin Cat ID')
+    acname = models.CharField(max_length=255,verbose_name="Admin Cat Name",unique=True)
+    acdescription =  models.CharField(max_length=255,verbose_name="Description")
+    acisadm =  models.IntegerField(verbose_name= 'admin or user') #NA
+    usrid = models.ForeignKey(CustomUser,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
+    dtupdatd = models.DateTimeField(auto_now_add=True)
+    acstatus = models.IntegerField(verbose_name='Status')
 
-#     def __str__(self):
-#         return self.acname
+    def __str__(self):
+        return self.acname
 
-# class admroles(models.Model):
-#     arid = models.AutoField(primary_key=True, db_column='arid',verbose_name='Admin role ID')
-#     aracid = models.ForeignKey(admcat, on_delete=models.CASCADE,verbose_name='Admin Cat')
-#     arsvid = models.IntegerField(verbose_name= 'Service Id')
-#     usrid = models.ForeignKey(CustomUser,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
-#     dtupdatd = models.DateTimeField(auto_now_add=True)
-#     arstatus = models.IntegerField(verbose_name='Status')
+class admroles(models.Model):
+    arid = models.AutoField(primary_key=True, db_column='arid',verbose_name='Admin role ID')
+    aracid = models.ForeignKey(admcat, on_delete=models.CASCADE,verbose_name='Admin Cat')
+    arsvid = models.IntegerField(verbose_name= 'Service Id')
+    usrid = models.ForeignKey(CustomUser,  on_delete=models.SET_NULL, null=True, editable=False,verbose_name="Created By")
+    dtupdatd = models.DateTimeField(auto_now_add=True)
+    arstatus = models.IntegerField(verbose_name='Status')
 
 
     

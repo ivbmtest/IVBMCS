@@ -6,8 +6,7 @@ class EmailBackend(ModelBackend):
         UserModel = get_user_model()
         print('=======UserModel:::::::',UserModel)
         try:
-            print(email,'======================>>>>>>>>>>>>>')
-            
+            print(email,'======================>>>>>>>>>>>>>')            
             user = UserModel.objects.get(email=email)
             print('--------usertry=>>>>>>',user)
             print('=========passwordtry::::',password)

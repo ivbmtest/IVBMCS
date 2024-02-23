@@ -122,3 +122,26 @@ def add_agent(request):
         else:
             messages.error(request, "Could Not Add: ")
     return render(request, 'hod_template/add_student_template.html', context)
+
+
+
+def age_home(request):
+    return render(request,'Agent/age_home.html')
+
+
+def age_service(request):
+    return render(request,'Agent/age_services.html')
+
+
+
+def age_notify(request):
+    return render(request,'Agent/notification.html')
+
+def age_all_service(request):
+    return render(request,'Agent/all_service.html')
+
+
+def age_payments(request):
+    return render(request,'Agent/payments.html')
+
+

@@ -99,9 +99,9 @@ WSGI_APPLICATION = 'ivbm_cs.wsgi.application'
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'ivbmcs_db2',
-		#  'USER': 'root',
-		#  'PASSWORD': '1234',
+		'NAME': 'ivbmcs_db3',
+		#   'USER': 'root',
+		#   'PASSWORD': '1234',
         'USER': 'admin',
 		'PASSWORD': 'admin',
 		'HOST':'localhost',
@@ -197,6 +197,9 @@ EMAIL_HOST_PASSWORD = 'trhx kweb jiia tkpb'
 
 
 AUTH_USER_MODEL = 'admin_panel.CustomUser'
+
+
+
 AUTHENTICATION_BACKENDS = [
     'admin_panel.backends.EmailBackend',
     'django.contrib.auth.backends.ModelBackend',

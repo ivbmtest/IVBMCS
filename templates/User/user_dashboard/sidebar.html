@@ -24,14 +24,22 @@
 
       {% with request.resolver_match.url_name as url_name %}
       <ul class="nav-links" style="padding-left: 0;">
+        
+        <li>
+          <a href="{% url 'user_home' %}" class="{% if url_name == 'user_home' %}bg-success{% endif %}" title="Dashboard">
+            <i class='bx bx-home-smile'></i>
+            <span class="links_name">Home</span>
+          </a>
+        </li>
+
         <li>
           <a href="{% url 'myservice' %}" class="{% if url_name == 'myservice' %}bg-success{% endif %}" title="Dashboard">
-            <i class='bx bx-home-smile'></i>
+            <i class='bx bx-shopping-bag'></i>
             <span class="links_name">My Service</span>
           </a>
         </li>
         <li>
-          <a href="{% url 'notifications' %}" title="Clients" class="{% if url_name == 'notifications' %}bg-success{% endif %}">
+          <a href="{% url 'user_notify' %}" title="Clients" class="{% if url_name == 'user_notify' %}bg-success{% endif %}">
             <i class='bx bxs-bell'></i>
             <span class="links_name">Notifications</span>
           </a>
@@ -50,7 +58,7 @@
           </a>
         </li>
         {% comment %} <li>
-          <a href="{% url "orders" %}" title="Orders" class="{% if url_name == 'orders' %}bg-success{% endif %}">
+          <a href="{% url 'orders' %}" title="Orders" class="{% if url_name == 'orders' %}bg-success{% endif %}">
             <i class='bx bx-message-square-edit'></i>
             <span class="links_name">Orders</span>
           </a>

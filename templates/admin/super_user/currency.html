@@ -14,7 +14,7 @@
                 <div class="col-sm-6 " >
                   <div class="">
                     <a  href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add Currency</span></a>
-                    <a href="#deleteEmployeeModal-{{forloop.counter}}" class="btn btn-danger" data-toggle="modal"><i class='bx bxs-trash'></i> <span>Delete</span></a>
+                    <button onclick="getCheckedValues()" id="okButton" data-target="#deleteEmployeeModal"  class="btn btn-danger" data-toggle="modal" disabled><i class='bx bxs-trash'></i> <span>Delete</span></button>
                   </div>
                   						
                 </div>
@@ -37,7 +37,7 @@
                 <tr>
         <th>
           <span class="custom-checkbox">
-            <input type="checkbox" id="selectAll">
+            <input type="checkbox" id="selectAll" onchange="toggleCheckboxes()">
             <label for="selectAll"></label>
           </span>
         </th>
@@ -52,7 +52,7 @@
                 <tr>
                     <td>
                       <span class="custom-checkbox-{{forloop.counter}}">
-                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                        <input onchange="updateOkButtonState()" type="checkbox" value="{{val.crid}}" class="checkbox">
                         <label for="checkbox1"></label>
                       </span>
                     </td>
@@ -176,6 +176,32 @@
     </div>
     {% endfor %}
 
+
+<!-- delete confirm -->
+
+<div id="deleteEmployeeModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+        <div class="modal-header">						
+          <h4 class="modal-title">Delete Currencys</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form>		
+          <p>Are you sure you want <label id="tot"></label> ?</p>
+          <p class="text-warning"><small>This action cannot be undone.</small></p>
+        </div>
+        <div class="modal-footer">              
+          <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+          <a  onclick="postselectdel()" class="btn btn-danger" >Delete</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
     <script>
       function simulatePageLoad() {
       document.getElementById('loading-screen').style.display = '';
@@ -219,20 +245,7 @@
       });  
 
       </script>
-        <script>
-      document.getElementById('selectAll').addEventListener('change', function() {
-     
-      var mainCheckboxChecked = this.checked;
-
-      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-      checkboxes.forEach(function(checkbox) {
-   
-        if (checkbox !== document.getElementById('selectAll')) {
-          checkbox.checked = mainCheckboxChecked;
-        }
-      });
-    });
-        </script>
+      
  
  
 

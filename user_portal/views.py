@@ -58,12 +58,15 @@ def login_otp(request):
             print("Phone number found in data.")
             msg = 'otp send your number'
             user_name = user_data
+
+            request.session['user_last_name'] = user_name+"@ivbm"
         if check_email(user_data):
             send_otp_email(request,user_data)
             print("Email address found in data.")
             msg = 'otp send your email'
             user_name =  user_data.split('@')[0]
-            request.session['username'] = user_name
+
+            request.session['user_last_name'] = user_name+"@ivbm"
         print("email user name : ",user_name)
 
         return JsonResponse({'success': True, 'result':msg})
@@ -125,6 +128,7 @@ def otp_ver(request):
         print('------------>>>>>>>>>',request.user)
         user_name = request.session['user_data']
         print('---------------user_data',request.session['user_data'])
+        print('---------------user_last_name',request.session['user_last_name'])
         # otp_secret_key = request.session['otp_secret_key']
         validate_otp = request.session['validate_otp']
         val_otp = request.session['otp']
@@ -162,7 +166,40 @@ def otp_ver(request):
         else:
             # del request.session['otp_secret_key']
             del request.session['validate_otp']
-            return JsonResponse({'success': False, 'result':"OTP Expired"})    
+            return JsonResponse({'success': False, 'result':"OTP Expired"}) 
+        # if otp_secret_key and validate_otp is not None:
+        #     validate_until = datetime.fromisoformat(validate_otp)
+        #     if validate_until > datetime.now():
+        #         totp = pyotp.TOTP(otp_secret_key,interval = 60)
+        #         print("=======totp",totp.verify(otp))
+        #         if totp.verify(otp):
+        #             #user = get_object_or_404(User,username=username)
+        #             del request.session['otp_secret_key']
+        #             del request.session['validate_otp']
+
+        #             if userdata.objects.filter(email=username).exists() or userdata.objects.filter(phone_number=username):
+        #                 print("user alredy exits ")
+        #                 pass
+        #             else:
+        #                 print("new user")
+        #                 try:
+        #                     new = userdata(email=username)
+        #                 except:
+        #                     new = userdata(phone_number = username)
+        #                 new.save()
+        #                 request.session['username'] = new.id
+        #             return JsonResponse({'success': True, 'result':"otp verified",'template_name': '/user_dashboard'})
+        #             # return render(request,'admin/main_app/main_layout.html')
+        #         else:
+        #             print('----------->>>>>>invalid otp')
+        #             return JsonResponse({'success': False, 'result':"Invalid OTP"})
+        #             # return render(request,'admin/main_app/main_layout.html')
+        #     else:
+        #         del request.session['otp_secret_key']
+        #         del request.session['validate_otp']
+        #         return JsonResponse({'success': False, 'result':"OTP Expired"})    
+        # else:
+        #     pass    
     else:
         pass    
     return render(request,'otp.html') 
