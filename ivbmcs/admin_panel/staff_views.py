@@ -69,6 +69,12 @@ def staff(request):
     page=page.get_page(page_list)
     print("--------------y",page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
+    for items in y:
+        items.user_type = 'staff'
+        if items.gender=='M':
+            items.gender='Male'
+        elif items.gender=='F':
+            items.gender = 'Female'
     return render(request,'admin/super_user/staff.html',{'form': staff_form,'staff_info':y,'field_names': filtered_field_names,'cou':cou})
 
 #delete agent

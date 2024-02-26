@@ -51,20 +51,22 @@
                               <label for="checkbox1"></label>
                             </span>
                           </td>
-                          <td>{{forloop.counter }}</td>
-                          <td>{{val.first_name}}</td>
-                          <td>{{val.last_name}}</td>
-                          <td>{{val.is_active}}</td> 
-                          <td>{{val.date_joined}}</td> 
-                          <td>{{val.email}}</td>
-                          <td>{{val.user_type}}</td>                         
-                          <td>{{val.gender}}</td> 
-                          {% if profile_pic %}                                      
-                          <td><a href = "{{val.profile_pic.url}}"><img src="{{val.profile_pic.url}}" alt="{{val.first_name}}" width="50" height="50" ></a></td>
+                          <td>{{ forloop.counter }}</td>
+                          <td>{{ val.first_name|default:"N/A" }}</td>
+                          <td>{{ val.last_name|default:"N/A" }}</td>
+                          <td>{{ val.is_active|default:"N/A" }}</td> 
+                          <td>{{ val.date_joined|default:"N/A" }}</td> 
+                          <td>{{ val.email|default:"N/A" }}</td>
+                          <td>{{ val.user_type|default:"N/A" }}</td>
+                          <td>{{ val.gender|default:"N/A" }}</td>                                       
+                          {% if profile_pic %}
+                              <td><a href="{{ val.profile_pic.url }}"><img src="{{ val.profile_pic.url }}" alt="{{ val.first_name }}" width="50" height="50"></a></td>
+                          {% else %}
+                              <td></td>
                           {% endif %}
-                          <td>{{val.address}}</td>
-                          <td>{{val.created_at}}</td>
-                          <td>{{val.updated_at}}</td>
+                          <td>{{ val.address|default:"N/A" }}</td>
+                          <td>{{ val.created_at|default:"N/A" }}</td>
+                          <td>{{ val.updated_at|default:"N/A" }}</td>
                           
                           <td>
                               <a href="#editCategoryModal-{{forloop.counter}}" class="edit" data-item ="{{val.id}}" data-toggle="modal"><i class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>

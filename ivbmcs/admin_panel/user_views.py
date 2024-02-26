@@ -18,30 +18,33 @@ import datetime
 
 
 
-def admin(request):
-    admin_form = AdminForm(request.POST or None, request.FILES or None)
-    context = {'form': admin_form, 'page_title': 'Add Staff'}
+def normal_user(request):
+    user_form = UserForm(request.POST or None, request.FILES or None)
+    context = {'form': user_form, 'page_title': 'Add User'}
     if request.method == 'POST':
-        if admin_form.is_valid():
-            first_name = admin_form.cleaned_data.get('first_name')
-            last_name = admin_form.cleaned_data.get('last_name')
-            address = admin_form.cleaned_data.get('address')
-            email = admin_form.cleaned_data.get('email')
-            gender = admin_form.cleaned_data.get('gender')
-            password = admin_form.cleaned_data.get('password')
+        if user_form.is_valid():
+            first_name = user_form.cleaned_data.get('first_name')
+            last_name = user_form.cleaned_data.get('last_name')
+            address = user_form.cleaned_data.get('address')
+            email = user_form.cleaned_data.get('email')
+            gender = user_form.cleaned_data.get('gender')
+            password = user_form.cleaned_data.get('password')
+            # category = user_form.cleaned_data.get('category')
             passport = request.FILES['profile_pic']
+            print('-------------------',passport)
             # fs = FileSystemStorage()
             # filename = fs.save(passport.name, passport)
             # passport_url = fs.url(filename)
             print('----------before try')
             try:
-                print('--------entered',admin_form.errors)
-                user = CustomUser.objects.create_superuser(
-                    email=email, password=password, user_type=1, first_name=first_name, last_name=last_name, profile_pic=passport)
-                user.gender = gender
-                user.address = address
-                user.updated_at = datetime.datetime.now()
-                user.save()
+                print('--------entered')
+                normal_user = CustomUser.objects.create_user(
+                    email=email, password=password, user_type=4, first_name=first_name, last_name=last_name, profile_pic=passport)
+                normal_user.gender = gender
+                normal_user.address = address
+                normal_user.updated_at = datetime.datetime.now()
+                normal_user.is_staff=0
+                normal_user.save()
                 messages.success(request, "Successfully Added")
                 print('-------------exit')
                 # return redirect(reverse('add_student'))
@@ -51,49 +54,50 @@ def admin(request):
         else:
             messages.error(request, "Could Not Add: ")
     else:
-        admin_form = AdminForm()
+        user_form = UserForm()
     
     model_meta = CustomUser._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     filter_fields=['ID','first name', 'last name', 'active', 'date joined', 
                    'email', 'user type', 'gender', 'profile pic', 'address', 'created at', 'updated at']
     filtered_field_names=[names for names in field_names if names in filter_fields]
-    y=CustomUser.objects.filter(user_type=1)
+    y=CustomUser.objects.filter(user_type=4)
     print("--------------y",filtered_field_names)
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
+    print("--------------y",page_list)
+    cou=UserProfile.objects.filter(taken_by__exact='').count()
     for items in y:
         items.user_type = 'staff'
         if items.gender=='M':
             items.gender='Male'
         elif items.gender=='F':
             items.gender = 'Female'
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/super_user/admin.html',{'form': admin_form,'admin_info':y,'field_names': filtered_field_names,'cou':cou})
+    return render(request,'admin/super_user/normal_user.html',{'form': user_form,'staff_info':y,'field_names': filtered_field_names,'cou':cou})
 
 #delete agent
-def del_admin(request,id):
-    currency = CustomUser.objects.filter(pk=id)
-    currency.delete()
-    return redirect('agent')
+def del_user(request,id):
+    normal_user = CustomUser.objects.filter(pk=id)
+    normal_user.delete()
+    return redirect('user')
 
-def update_admin(request,id):
+def update_user(request,id):
     if request.method == 'POST':
-        admin=CustomUser.objects.get(pk=id)
-        admin_form=AdminForm(request.POST,instance=admin)
-        if admin_form.is_valid:
-            instance = admin_form.save(commit=False)
+        normal_user=CustomUser.objects.get(pk=id)
+        user_form=UserForm(request.POST,instance=normal_user)
+        if user_form.is_valid:
+            instance = user_form.save(commit=False)
             # instance.usrid = request.user
             instance.updated_at = datetime.datetime.now()
             instance.save()
-            return redirect('admin_dashboard')
+            return redirect('user')
     else:
         id = request.GET['id']
-        admin=CustomUser.objects.get(pk=id)
-        admin_form = AdminForm(instance=admin)
-        admin_form = str(admin_form)
-        return JsonResponse({'success': True, 'form':admin_form})
+        normal_user=CustomUser.objects.get(pk=id)
+        user_form = UserForm(instance=normal_user)
+        user_form = str(user_form)
+        return JsonResponse({'success': True, 'form':user_form})
 
 # def add_agent(request):
 #     student_form = AgentForm(request.POST or None, request.FILES or None)

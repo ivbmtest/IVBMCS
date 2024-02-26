@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .agent_views import *
 from .staff_views import *
-from . import admin_views,agent_views
+from . import admin_views,agent_views,user_views
 from django.contrib.auth.views import LoginView, LogoutView
 
 
@@ -33,10 +33,11 @@ urlpatterns = [
     
 
     # user
-    # path('user/',views.user,name='user'),
-    # path('user/del_user/<int:id>/',views.del_user,name='del_user'),
-    # path('user/update_user/<int:id>/',views.update_user,name='update_user'),
+    path('user/',user_views.normal_user,name='user'),
+    path('user/del_user/<int:id>/',user_views.del_user,name='del_user'),
+    path('user/update_user/<int:id>/',user_views.update_user,name='update_user'),
     # # admin
+    
     path('admin_dashboard/',admin_views.admin,name='admin_dashboard'),
     path('admin_dashboard/del_admin/<int:id>/',admin_views.del_admin,name='del_admin'),
     path('admin_dashboard/update_admin/<int:id>/',admin_views.update_admin,name='update_admin'),
