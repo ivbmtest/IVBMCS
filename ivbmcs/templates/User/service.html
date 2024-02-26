@@ -1,0 +1,244 @@
+{% extends "User/user_layout.html"%} 
+{% load static %}
+
+{% block content %}
+
+<!-- preloader -->
+{% include "User/features/preloader.html" %}
+<!-- preloader-end -->
+
+<!-- main-area -->
+<main class="fix">
+
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb-area breadcrumb-bg" data-background="{% static 'assets/img/bg/breadcrumb_bg.jpg' %}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-content"><br><br>
+                        <h2 class="title">Our Services</h2>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Services</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="breadcrumb-shape-wrap">
+            <img src="{% static 'assets/img/images/breadcrumb_shape01.png' %}" alt="">
+            <img src="{% static 'assets/img/images/breadcrumb_shape02.png' %}" alt="">
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+
+
+    <!-- services-area -->
+    <section class="services-area-six">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="section-title-two mb-60">
+                        <span class="sub-title">What We Do For You</span>
+                        <h2 class="title">We can inspire and Offer Different Services</h2>
+                        
+                        {% comment %} =========== Test ============ {% endcomment %}
+                        {% comment %} {% for val in service %}
+                        <p>{{val}}</p>
+
+                        {% endfor %} {% endcomment %}
+                        <p>{{service}}</p>
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="section-top-content mb-30">
+                        <p>Our services are bound to make our clients and stakeholders climb the pillars of success by solving their problems in simple, innovative and implementing ways. We tailor our services and its applicability according to the needs of our clients and work as a partner along with them. </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                    <div class="services-item-two">
+                        <div class="services-thumb-two">
+                            <img src="{% static 'assets/img/services/h2_services_img01.jpg' %}" alt="">
+                            <div class="item-shape">
+                                <img src="{% static 'assets/img/services/services_item_shape.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="services-content-two">
+                            <div class="icon">
+                                <i class="flaticon-briefcase"></i>
+                            </div>
+                            <h2 class="title"><a href="#">Business setup & Corporate PRO Services</a></h2>
+                            <p>Corporate PRO Services Simplified with IVBM.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                    <div class="services-item-two">
+                        <div class="services-thumb-two">
+                            <img src="{% static 'assets/img/services/h2_services_img02.jpg' %}" alt="">
+                            <div class="item-shape">
+                                <img src="{% static 'assets/img/services/services_item_shape.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="services-content-two">
+                            <div class="icon">
+                                <i class="flaticon-calculator"></i>
+                            </div>
+                            <h2 class="title"><a href="#">Auditing</a></h2>
+                            <p>Your Financial Clarity, Our Expertise, Always in Compliance.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                    <div class="services-item-two">
+                        <div class="services-thumb-two">
+                            <img src="{% static 'assets/img/services/h2_services_img03.jpg' %}" alt="">
+                            <div class="item-shape">
+                                <img src="{% static 'assets/img/services/services_item_shape.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="services-content-two">
+                            <div class="icon">
+                                <i class="flaticon-budget"></i>
+                            </div>
+                            <h2 class="title"><a href="#">Accounting & Book Keeping Services</a></h2>
+                            <p>Your Financial Success, Our Commitment to Excellence and Precision.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                    <div class="services-item-two">
+                        <div class="services-thumb-two">
+                            <img src="{% static 'assets/img/services/h2_services_img04.jpg' %}" alt="">
+                            <div class="item-shape">
+                                <img src="{% static 'assets/img/services/services_item_shape.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="services-content-two">
+                            <div class="icon">
+                                <i class="flaticon-mouse-cursor"></i>
+                            </div>
+                            <h2 class="title"><a href="#">Technology & Digital</a></h2>
+                            <p>Empowering Progress with Innovation, Efficiency, and Digital Expertise.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                    <div class="services-item-two">
+                        <div class="services-thumb-two">
+                            <img src="{% static 'assets/img/services/h2_services_img05.jpg' %}" alt="">
+                            <div class="item-shape">
+                                <img src="{% static 'assets/img/services/services_item_shape.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="services-content-two">
+                            <div class="icon">
+                                <i class="flaticon-taxes"></i>
+                            </div>
+                            <h2 class="title"><a href="#">Tax & Regulatory</a></h2>
+                            <p>Navigating Compliance, Minimizing Risks, and Ensuring Financial Security.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                    <div class="services-item-two">
+                        <div class="services-thumb-two">
+                            <img src="{% static 'assets/img/services/h2_services_img06.jpg' %}" alt="">
+                            <div class="item-shape">
+                                <img src="{% static 'assets/img/services/services_item_shape.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="services-content-two">
+                            <div class="icon">
+                                <i class="flaticon-investment"></i>
+                            </div>
+                            <h2 class="title"><a href="#">HR Solutions</a></h2>
+                            <p>Elevating People Management, Efficiency, and Workplace Satisfaction for Your Success.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                    <div class="services-item-two">
+                        <div class="services-thumb-two">
+                            <img src="{% static 'assets/img/services/h2_services_img07.jpg' %}" alt="">
+                            <div class="item-shape">
+                                <img src="{% static 'assets/img/services/services_item_shape.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="services-content-two">
+                            <div class="icon">
+                                <i class="flaticon-handshake"></i>
+                            </div>
+                            <h2 class="title"><a href="#">Virtual CFO</a></h2>
+                            <p>Strategic Financial Guidance Tailored to Your Business Growth and Success.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-8">
+                    <div class="services-item-two">
+                        <div class="services-thumb-two">
+                            <img src="{% static 'assets/img/services/h2_services_img08.jpg' %}" alt="">
+                            <div class="item-shape">
+                                <img src="{% static 'assets/img/services/services_item_shape.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="services-content-two">
+                            <div class="icon">
+                                <i class="flaticon-money"></i>
+                            </div>
+                            <h2 class="title"><a href="#">Finance Planning</a></h2>
+                            <p>Building a Secure Future with Expert Financial Guidance and Precision Strategies.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- services-area-end -->
+
+    <!-- brand-area -->
+    <div class="brand-area-six pt-80 pb-80">
+        <div class="container">
+            <div class="row brand-active">
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img01.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img02.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img03.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img04.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="brand-item">
+                        <img src="{% static 'assets/img/brand/brand_img05.png' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- brand-area-end -->
+
+
+</main>
+<!-- main-area-end -->
+
+
+{% endblock content %}

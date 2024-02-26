@@ -1,0 +1,32 @@
+/* static/admin_styles.css */
+
+
+#header{
+    /*background-color:#008080;*/
+    background-color:#242d6e;
+   
+    border-bottom: 1px  solid black;
+    border-radius: 20px 0 20px 0
+}
+
+#branding  a {
+    font-weight: bold;
+    color: #242d6e;
+}
+
+
+
+
+
+
+#content-related{
+    border-radius: 20px;
+}
+
+.changelink{
+    border: 1px solid rgb(58, 58, 67);
+    border-radius: 12px;
+    padding: 5px;
+    background-color: #ccd0eb;
+   
+}

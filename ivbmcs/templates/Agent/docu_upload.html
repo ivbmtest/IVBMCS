@@ -1,0 +1,36 @@
+{% extends "User/user_dashboard/main_layout.html" %}
+{% load static %}   
+    
+{% block content %}
+<style>
+    form {
+        max-width: 1000px;
+      }
+</style>
+    <div class="home-content">
+        <div class="container-fluid">
+            <form action="{% url 'upload_doc' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <div class="col-sm-7" id="appoin2">
+                        <h2>Upload Documents</h2>
+                        <p>Application for {{head}}</p>
+                        
+                        
+                            {% for i in form %}
+                                <div class="form-group">
+                                    <p style="font-size: 14px;color: brown;float: right;">{{i.Description}} (Max size {{i.MaxFileSize}}kb)</p>
+                                    <label  id="input_key">{{i.DocumentName}} ({{i.Format}}) *</label>
+                                    <input type="hidden" value="{{i.Service}}" name="ser_type">
+                                    <input type="hidden" value="{{userid}}" name="userid">
+                                    <input type="file"  id="input_value" class="fileInput" name="{{i.DocumentName}}" style="border: none;width: 20rem;" required><hr>
+                                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>--> 
+                                </div>
+                            <!--<input type="file" class="fileInput" style="border: none;width: 20rem;"> {{i.Format}}({{i.MaxFileSize}}kb) <br><br>-->
+                                            
+                            {% endfor %}
+                            <button type="submit" class="btn btn-success ">Submit</button>
+                        </form>
+                    </div>                    
+        </div>
+    </div> 
+{% endblock content %}
