@@ -264,7 +264,10 @@
     <div class="offcanvas-overly"></div>
     <!-- offCanvas-menu-end -->
 
+  
+
 </header>
+
 <!-- header-area-end -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="{% static 'assets/js/otp.js' %}"></script>
@@ -347,8 +350,13 @@
                    success: function(data) {
                        if (data.success) {
                         $("#Invalid").html(data.result);
-                           
+                           if (data.template_name == '0'){
+                            alert("ok")
+                            $('#pro_form').modal('show');
+                           }
+                           else{
                             window.location.href = data.template_name;
+                           }
                             //location.reload(true);                          
                           
                        } 

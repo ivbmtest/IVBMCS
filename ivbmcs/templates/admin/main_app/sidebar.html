@@ -12,6 +12,8 @@
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-eSMmLr3J8pTJLlgtQ6wA4Mp6Pj9fOwBwMAtlFyF9XMU/69CCcXM1uSoj5N5DO+5P" crossorigin="anonymous"></script>
+
     <title>Document</title>
     
 </head>
@@ -38,7 +40,8 @@
           
           <ul class="sub-menu collapse px-4" id="products">
               <li><a href="{% url 'staff' %}" ><i class='bx bxs-right-arrow-circle'></i> <span class="links_name">Staff</span></a></li>
-              <li><a href="{% url 'agent' %}"><i class='bx bxs-right-arrow-circle'></i> <span class="links_name">Agent</span></a></li>
+              <!-- <li><a href="{% url 'agent' %}"><i class='bx bxs-right-arrow-circle'></i> <span class="links_name">Agent</span></a></li> -->
+              <li><a href="{% url 'agent' %}" id="agent"><i class='bx bxs-right-arrow-circle'></i> <span class="links_name">Agent</span></a></li>
               <li><a href=""><i class='bx bxs-right-arrow-circle'></i> <span class="links_name">User</span></a></li>
               <li><a href="{% url 'admin_dashboard' %}"><i class='bx bxs-right-arrow-circle'></i> <span class="links_name">Admin</span></a></li>
           </ul>
@@ -94,8 +97,6 @@
     <span class="links_name">Format</span>
   </a>
 </li>
-
-
           <li>
             <a href="{% url 'taxmaster' %}" title="Tax Master" class="{% if url_name == 'taxmaster' %}bg-success{% endif %}">
               <i class='bx bx-briefcase-alt-2'></i>
@@ -299,6 +300,8 @@
   </div> 
 
   {% endif %} 
+
+ 
 </body>
 
 

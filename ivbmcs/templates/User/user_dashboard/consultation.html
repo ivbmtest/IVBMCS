@@ -194,13 +194,13 @@ label.light {
           <fieldset>
               <legend><span class="number">1</span>Your basic details</legend>
               <label for="name">Name*:</label>
-              <input type="text" id="name" name="name" placeholder="Name"  required>
+              <input type="text" id="name" name="name" placeholder="Name" value = "{{request.user.first_name}}" {% if request.user.first_name %} readonly {% endif %} required>
       
               <label for="mail">Email*:</label>
               <input type="email" id="mail" name="email"  placeholder="abc@xyz.com"  value = "{{request.user.email}}" {% if request.user.email %} readonly {% endif %} required>
       
               <label for="tel">Phone Number:</label>
-              <input type="tel" id="tel" placeholder="Include country code" name="num" required>
+              <input type="tel" id="tel" placeholder="Include country code" name="num" value="{{request.user.phone_number}}" {% if request.user.phone_number %} readonly {% endif %} required>
       
               {% comment %} <label for="skype_name">Skype username:</label>
               <input type="text" id="skype_name" name="skype_name" placeholder="@atchyutn" pattern="[a-zA-Z0-9]+"> {% endcomment %}

@@ -11,6 +11,7 @@ from .form import *
 from django.contrib import messages
 import os
 from twilio.rest import Client
+from user_portal.models import *
 # from .backends import  EmailBackend
 
 
@@ -426,14 +427,14 @@ def dashboard(request):
 
 
 def orders(request,):
-    model_meta = UserProfile._meta
+    model_meta =user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    y=UserProfile.objects.filter(taken_by__exact='')
+    y=user_service_details.objects.filter(taken_by__exact='')
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/staff/orders.html',{'order_info':page,'field_names': field_names,'cou':cou})
+    # cou=UserProfile.objects.filter(taken_by__exact='').count()
+    return render(request,'admin/super_user/orders.html',{'order_info':page,'field_names': field_names,})
     
 
 
@@ -455,7 +456,7 @@ def demo_user(request):
 def my_task(request):
     model_meta = UserProfile._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    y=UserProfile.objects.filter(taken_by=request.user)
+    y=user_service_details.objects.filter(taken_by=request.user.id)
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
@@ -469,11 +470,13 @@ def my_task(request):
 
 
 def select_my_task(request,id):
+    print("seleeeeeee")
     model_meta = UserProfile._meta
     field_names = [field.verbose_name for field in model_meta.fields]
    
-    instance = UserProfile.objects.get(pk=id)  # Replace 1 with the actual primary key value
-    instance.taken_by = request.user.username # Update the values of the fields
+    instance = user_service_details.objects.get(pk=id)  # Replace 1 with the actual primary key value
+    
+    instance.taken_by = request.user.id # Update the values of the fields
     instance.save()   # Save the changes to the database
     messages.success(request,"sucess") 
     
@@ -481,7 +484,7 @@ def select_my_task(request,id):
     messages.success(request,"sucess") 
     
     """code to send mail to user when staff select the particular task """
-    context={"user_name":instance.name}
+    context={"user_name":instance.last_name}
     connection = get_connection() # uses SMTP server specified in settings.py
     connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
     print(instance.email)
@@ -492,15 +495,15 @@ def select_my_task(request,id):
     msg.attach_alternative(html_content, "text/html")  
     
     
-    try:    # msg.content_subtype="html"                                                                                                                                                                             
-        msg.send()        
-        msg.send()        
-    except Exception as e:
-        print(f"==============>>>>>>>>>Error sending email: {e}")   
+    #try:    # msg.content_subtype="html"                                                                                                                                                                             
+        #msg.send()        
+        #msg.send()        
+    #except Exception as e:
+        #print(f"==============>>>>>>>>>Error sending email: {e}")   
          
         
          
-    connection.close()
+    #connection.close()
     return redirect("task")
 
 

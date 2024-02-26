@@ -67,7 +67,8 @@ def agent(request):
     page=page.get_page(page_list)
     print("--------------y",page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/super_user/agent.html',{'form': student_form,'agent_info':y,'field_names': filtered_field_names,'cou':cou})
+    #return render(request,'admin/super_user/agent.html',{'form': student_form,'agent_info':y,'field_names': filtered_field_names,'cou':cou})
+    return JsonResponse({'content': render_to_string('admin/super_user/agent.html')})
 
 #delete agent
 def del_agent(request,id):

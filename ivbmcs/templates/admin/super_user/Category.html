@@ -4,8 +4,9 @@
 
       <div class="home-content">
     <body>
-      <div class="container-fluid">
-          <div class="table-wrapper">
+      
+      <div class="container-fluid" >
+          <div class="table-wrapper" id ="agentss">
               <div class="table-title">
                   <div class="row">
                       <div class="col-sm-6">
@@ -229,6 +230,22 @@
       });  
 
       </script>
+       <script>
+        $(document).ready(function () {
+            $('#agent').click(function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+                console.log(url);
+                $.ajax({
+                    url: url,
+                    success: function (data) {
+                        $('#agentss').html(data.content);
+                        console.log(data.content)
+                    }
+                });
+            });
+        });
+    </script>
   </body>
   </html>
 

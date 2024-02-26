@@ -161,8 +161,11 @@ def otp_ver(request):
                     del request.session['otp']
                     del request.session['validate_otp']
                 
-                login(request, user,backend='django.contrib.auth.backends.ModelBackend')   
-                return JsonResponse({'success': True, 'result':"otp verified",'template_name': '/user_home'})
+                login(request, user,backend='django.contrib.auth.backends.ModelBackend')
+                if request.user.first_name and request.user.last_name:
+                    return JsonResponse({'success': True, 'result':"otp verified",'template_name': '/user_home'})
+                else:
+                    return JsonResponse({'success': True, 'result':"otp verified",'template_name': '0'})
             else:
                 print('----------->>>>>>invalid otp')
                 return JsonResponse({'success': False, 'result':"Invalid OTP"})
