@@ -1,6 +1,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
 <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
 <!-- header-area -->
 <header id="sticky-header" class="transparent-header header-style-two">
     <div class="container custom-container">
@@ -56,12 +57,12 @@
                                                     <li class="menu-item-has-children"><a class="dropdown-item">{{cat}} &raquo;</a>                                              
                                                         <ul class="sub-menu dropdown-menu dropdown-submenu">
                                                             {% for service in cat.srvc_set.all %}
-                                                            <li><a class="dropdown-item" href="{% url "service_details" %}?s={{service}}">{{ service }}</a></li>
+                                                            <li><a class="dropdown-item" href="{% url 'service_details' %}?s={{service}}">{{ service }}</a></li>
                                                             {% endfor %}
                                                         </ul>
                                                     </li>
                                                 {% else %}
-                                                <li class="menu-item-has-children"><a class="dropdown-item" href="{% url "service_details" %}?s={{cat}}">{{cat}}</a>
+                                                <li class="menu-item-has-children"><a class="dropdown-item" href="{% url 'service_details' %}?s={{cat}}">{{cat}}</a>
                                                 {% endif %}
                                           
                                     
@@ -261,19 +262,97 @@
             <a href="#"><i class="fab fa-instagram"></i></a>
         </div>-->
     </div>
+  
     <div class="offcanvas-overly"></div>
     <!-- offCanvas-menu-end -->
 
-  
+
 
 </header>
-
+    <!-- user form modal -->
+    <div class="modal fade"  id="pro_form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title m-auto" id="exampleModalLabel">Enter Your Basic Details</h5> 
+              <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button> -->
+            </div>
+        <p class="text-danger text-center" id="errormsg"></p>
+            <div class="modal-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="row d-flex justify-content-around ">
+      
+               <input type="hidden" id="pre_email"/>
+              <input type="text" placeholder="Firstname" class="input col-5 mr-2" id="first" >
+              <input type="text" placeholder="Lastname" class="input col-5" id="last" >
+            </div>
+            <div class="row d-flex justify-content-around mt-3 mb-2">
+              <input type="text" id="number"  class="input col-5 mr-2" {% if request.user.phone_number %} value="{{request.user.phone_number}}"{% else %} placeholder="Your phonenumber" {% endif %} >
+              <input type="email" id="email" placeholder="xyz@gmail.com" class="input col-5" value="{{request.user.email}}">
+            </div>
+            </div>
+            <div class="modal-footer">
+             
+              <button type="button" id="form_finish" class="m-auto w-50 text-white">Finish</button>
+            </div>
+        </form>
+          </div>
+        </div>
+      </div>
+<!-- end modal -->
 <!-- header-area-end -->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="{% static 'assets/js/otp.js' %}"></script>
 
 
 <script>
+
+// user details form
+$(document).ready(function(){
+      $("#form_finish").click(function(){
+       var pre_email = $("#pre_email").val();
+       var first = $('#first').val()
+       var last = $('#last').val()
+       var email = $('#email').val()
+       var number = $('#number').val()
+    
+      
+       var data = {
+              'first' : first ,
+              'last' : last ,
+              'number' : number ,
+              'email' : email,
+              'pre_email': pre_email,
+              'csrfmiddlewaretoken': '{{csrf_token}}',
+          }
+          alert("ok")
+         
+        $.ajax({
+                   url: "{% url 'user_home' %}",
+                   method: 'POST',
+                   data: data,
+                   dataType: 'json',
+                   success: function(data) {
+                      if (data.success){
+                        alert("sucess")
+                        window.location.href = data.template_name
+                      }
+                      else{
+                        alert(data.err)
+                        $('#errormsg').text(data.err)
+                      }
+                     
+
+                   }
+               })
+      });
+    }); 
+
+
+
     $(document).ready(function(){
       $("#otp_btn").click(function(){
        console.log($('#num').val())
@@ -316,11 +395,6 @@
         submitButton.style.color = 'white'
           }
         }, 1000);
-      
-    
-                        // end timer
-
-
                        } 
                    }
                })
@@ -351,7 +425,16 @@
                        if (data.success) {
                         $("#Invalid").html(data.result);
                            if (data.template_name == '0'){
-                            alert("ok")
+
+                            var user_data = $('#num').val()
+                                if ($.isNumeric(user_data.slice(3,-1))){
+                                        $('#number').val(user_data);
+                                }else{
+                                    $('#email').val(user_data);
+                                    $('#pre_email').val(user_data);
+                                        }
+                            //alert($.isNumeric(user_data)); 
+
                             $('#pro_form').modal('show');
                            }
                            else{
@@ -368,7 +451,8 @@
                })
       });
     });  
-
     
+
+
     </script>
 

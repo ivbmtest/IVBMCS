@@ -8,6 +8,28 @@
 	width: 30%;
 }
 
+
+/* user basic details modal form */
+.modal-body input{
+    border: none;
+    border-bottom: 1px solid black;
+  
+    padding: .3rem;
+  }
+
+  .modal-body input:focus {
+    outline: none;
+    border: none; /* Remove default border */
+    border-bottom: 1px double green;
+}
+
+.modal-footer button{
+	padding: .5rem;
+	border-radius: 8px;
+	background-color: #00194C;
+}
+
+
 /* otp six coloum*/
 
 

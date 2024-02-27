@@ -9,6 +9,8 @@ from .utils import *
 from .common_functions import *
 from django.contrib.auth import authenticate, login, logout
 
+
+
 # Create your views here.
 def index(request):
     return render(request,'User/user_layout.html')
@@ -163,6 +165,7 @@ def otp_ver(request):
                 
                 login(request, user,backend='django.contrib.auth.backends.ModelBackend')
                 if request.user.first_name and request.user.last_name:
+                    print("first name :: :: ",request.user.first_name)
                     return JsonResponse({'success': True, 'result':"otp verified",'template_name': '/user_home'})
                 else:
                     return JsonResponse({'success': True, 'result':"otp verified",'template_name': '0'})

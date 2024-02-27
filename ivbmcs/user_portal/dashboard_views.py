@@ -4,25 +4,51 @@ from .models import *
 from .utils import *
 from .common_functions import *
 
-from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
 
+from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
 
 def user_login(request):
     return render(request,'User/user_dashboard/main_layout.html')
 
-def user_dash_home(request):
-    print("first name :: ",request.user.first_name)
-    if request.user.first_name and request.user.last_name:
-        try:
-            user_last = user_service_details.objects.filter(user_id=request.user.id).order_by('-created_at')[0]
-            recom = srvc.objects.filter(svcategory = user_last.service.svcategory)
-        except:
-            recom = srvc.objects.all()
-        print("if >>  ::::: ::: ::")
-        return render(request,'User/user_dashboard/user_home.html',{'recommended':recom})
-    else:
-        return render(request,'User/user_dashboard/user_pro_form.html')
 
+@csrf_exempt
+def user_dash_home(request):
+    
+    try:
+        user_last = user_service_details.objects.filter(user_id=request.user.id).order_by('-created_at')[0]
+        recom = srvc.objects.filter(svcategory = user_last.service.svcategory)
+    except:
+        recom = srvc.objects.all()
+        print("if >>  ::::: ::: ::")
+    if request.method == 'POST':
+        first = request.POST['first']
+        last = request.POST['last']
+        number = request.POST['number']
+        email = request.POST['email']
+        print(first,last,email,number)
+        print("ph ::::::;",request.user.phone_number)
+        if request.POST['pre_email'] != request.user.email:
+            if CustomUser.objects.filter(email=email):
+                return JsonResponse({'success': False, 'err':"email already exists"})
+        elif CustomUser.objects.filter(phone_number=number):
+            return JsonResponse({'success': False, 'err':"Phone number already exists"})
+
+        else:
+            user = CustomUser.objects.get(id=request.user.id)
+            user.first_name=first
+            user.last_name=last
+            user.email=email
+            user.phone_number=number
+            user.save()
+            print(user.first_name)
+            return JsonResponse({'success': True,'template_name': '/user_home'})
+    
+    else:
+
+        return render(request,'User/user_dashboard/user_home.html',{'recommended':recom})
+    
 
 
 def my_service(request):
