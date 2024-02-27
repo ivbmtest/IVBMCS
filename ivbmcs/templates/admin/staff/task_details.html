@@ -11,7 +11,8 @@
     <div class="container-fluid">
         <div class="row col-md-12 text-center">            
             <div class="col-md-2">
-                <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Send Message</span></a>
+                {% comment %} <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Send Message"/> {% endcomment %}
             </div> 
             <div class="col-md-2">
                 <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
@@ -42,7 +43,7 @@
                                 <label>Name</label>
                             </div>
                             <div class="col-md-6">
-                                <p>{{task.name}}</p>
+                                <p>{{user_details.first_name}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -50,7 +51,7 @@
                                 <label>Email</label>
                             </div>
                             <div class="col-md-6">
-                                <p>kshitighelani@gmail.com</p>
+                                <p>{{user_details.email}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -58,7 +59,7 @@
                                 <label>Phone</label>
                             </div>
                             <div class="col-md-6">
-                                <p>123 456 7890</p>
+                                <p>{{user_details.phone_number}}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -70,17 +71,21 @@
                             </div>
 
                             <div class="col-md-6">
-                                <label>document </label>
+                                <label>documents </label>
                             </div>
                             <div class="col-md-6">
-                                <p><a href="{{task.document.url}}">{{task.document|cut:"/"}}</a></p>
+                                {% for key,val in task.documents.items %}
+                                <p>{{key|cut:"/"}} : <a href="val.url">{{val|cut:"/"}}</a></p>                                
+                                {% endfor %}
+                                {% comment %} <p><a href="{{task.documents.url}}">{{task.documents.keys|cut:"/"}}:{{task.documents.values|cut:"/"}}</a></p> {% endcomment %}
                             </div>
-                            <div class="col-md-6">
+
+                            {% comment %} <div class="col-md-6">
                                 <label>image</label>
                             </div>
                             <div class="col-md-6">
                                 <p><a href={{task.image.url}} target="_blank">{{task.image}}</a></p>
-                            </div>
+                            </div> {% endcomment %}
 
                             <div class="col-md-6">
                                 <label>payment</label>
@@ -100,9 +105,43 @@
             </div>
         </div>
     </div>
+
+    <div id="message_box" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">						
+                <h4 class="modal-title">send message</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              </div>
+              <div class="modal-body">
+                <form method="post" action="{% url 'country' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="{{user_details.email}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                  
+                  {% comment %} {{ form.as_p }} {% endcomment %}
+              </div>
+              <div class="modal-footer">
+                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                <input type="submit" class="btn btn-success" value="Add">
+              </div>
+              </form>
+            
+          </div>
+        </div>
+      </div>
 </div>
 <br><br>
 
+            
+        </div>
+    </div>   
 
   {% endblock content %}
     </section>
