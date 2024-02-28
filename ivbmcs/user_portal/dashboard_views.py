@@ -30,6 +30,8 @@ def user_dash_home(request):
         print(first,last,email,number)
         print("ph ::::::;",request.user.phone_number)
         if request.POST['pre_email'] != request.user.email:
+
+            
             if CustomUser.objects.filter(email=email):
                 return JsonResponse({'success': False, 'err':"email already exists"})
         elif CustomUser.objects.filter(phone_number=number):
@@ -184,10 +186,35 @@ def upload_doc(request):
             f1 = request.FILES[i.DocumentName]
             u = docu_all.objects.create(user=user_id,docu_file=f1)
             u.save()"""
-            
+        import os
+        folder_path = os.path.join(os.getcwd(), "static", "docu_img")
+
+        if not os.path.exists(folder_path):
+            try:
+                os.makedirs(folder_path)
+                print(f"Folder '{folder_path}' created successfully.")
+            except OSError as e:
+                print(f"Error creating folder '{folder_path}': {e}")
+        else:
+            print(f"Folder '{folder_path}' already exists.")
+
+        
         documents = {}
+        print(request.FILES.items())
         for document_name, uploaded_file in request.FILES.items():
+            print("upload file",uploaded_file)
             documents[document_name] = uploaded_file.name
+            
+
+                # Set the destination path within the "docu_img" folder
+            destination_path = os.path.join(folder_path, uploaded_file.name)
+
+                # Move the uploaded file to the destination path
+            with open(destination_path, 'wb') as destination_file:
+                for chunk in uploaded_file.chunks():
+                    destination_file.write(chunk)
+            
+        print("documents ::::: ",documents)
       
         latest_service_details_id=user_service_details.objects.latest('id')
         service_details_id = latest_service_details_id.id

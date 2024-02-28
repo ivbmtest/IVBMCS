@@ -310,6 +310,7 @@
 
 <script>
 
+
 // user details form
 $(document).ready(function(){
       $("#form_finish").click(function(){
@@ -319,17 +320,15 @@ $(document).ready(function(){
        var email = $('#email').val()
        var number = $('#number').val()
     
-      
        var data = {
-              'first' : first ,
-              'last' : last ,
-              'number' : number ,
+              'first' : first,
+              'last' : last,
+              'number' : number,
               'email' : email,
               'pre_email': pre_email,
               'csrfmiddlewaretoken': '{{csrf_token}}',
           }
-          alert("ok")
-         
+               
         $.ajax({
                    url: "{% url 'user_home' %}",
                    method: 'POST',
@@ -345,7 +344,6 @@ $(document).ready(function(){
                         $('#errormsg').text(data.err)
                       }
                      
-
                    }
                })
       });
@@ -435,8 +433,7 @@ $(document).ready(function(){
                                     $('#email').attr('readonly', true);
                                     $('#pre_email').val(user_data);
                                         }
-                            //alert($.isNumeric(user_data)); 
-
+                            
                             $('#pro_form').modal('show');
                            }
                            else{
