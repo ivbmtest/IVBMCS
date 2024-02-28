@@ -98,7 +98,8 @@ urlpatterns = [
     path('select_task/<int:id>/',views.select_my_task,name='select_task'),
     path('task_detail/<int:id>/',views.task_details,name='task_detail'),
     path('profile/',views.profile,name='profile'),  
-    path('total_ord/',views.total_ord,name='total_ord'),    
+    path('total_ord/',views.total_ord,name='total_ord'),  
+    path('send_message/<int:id>/',send_message,name='send_message')  
 
    
     

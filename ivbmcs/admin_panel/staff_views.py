@@ -7,6 +7,8 @@ from django.core.paginator import Paginator, EmptyPage
 import logging
 from .models import *
 from .form import *
+from user_portal.models import *
+
 from django.contrib import messages
 import os
 from twilio.rest import Client
@@ -130,3 +132,37 @@ def update_staff(request,id):
 #         else:
 #             messages.error(request, "Could Not Add: ")
 #     return render(request, 'hod_template/add_student_template.html', context)
+
+
+import datetime
+from django.shortcuts import render, redirect
+from admin_panel.models import *
+from user_portal.models import user_service_details, user_notification
+
+# views.py
+from django.shortcuts import render, redirect
+import datetime
+
+def send_message(request, id):
+    task = user_service_details.objects.get(pk=id)
+    user_details = CustomUser.objects.get(pk=task.user_id.id)
+
+    # Assuming YourServiceModel is the correct model for your 'service' field
+    service_instance = srvc.objects.get(pk=task.service.svid)
+
+    # Call the function to get the current timestamp
+    time = datetime.datetime.now()
+
+    message = request.POST.get('message')
+    print('-----message-----', message)
+    print('====service======', service_instance)
+
+    # Ensure 'task.service' is passed as 'service' instead of 'task.service.svid'
+    user_notification.objects.get_or_create(message=message, timestamp=time,
+                                            recepient=user_details, service=service_instance)
+
+    print('-----task-----', task)
+    print('====user_details======', user_details.first_name)
+
+    return redirect('task')
+

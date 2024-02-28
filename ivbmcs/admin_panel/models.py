@@ -55,7 +55,7 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     def __str__(self):
-        return self.first_name +self.email
+        return self.first_name 
         # return f"{self.last_name}, {self.first_name}"
 
  # Add or change related_name to avoid clashes

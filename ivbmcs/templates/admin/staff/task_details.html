@@ -205,7 +205,7 @@ height: 40%;
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               </div>
               <div class="modal-body">
-                <form method="post" action="{% url 'country' %}">
+                <form method="post" action="{% url 'send_message' id=task.id %}">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label">Email address</label>
@@ -213,7 +213,7 @@ height: 40%;
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name='message'></textarea>
                     </div>
                   
                   {% comment %} {{ form.as_p }} {% endcomment %}

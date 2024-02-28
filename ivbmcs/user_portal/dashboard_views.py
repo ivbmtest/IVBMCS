@@ -69,21 +69,21 @@ def my_service(request):
 
 
 def user_notify(request):
-    # notification_data = user_notification.objects.all()
-    # print('======== ========',request.session['username'])
     current_user = request.user
+    print('user:::',current_user)
     user_detail=get_object_or_404(CustomUser, email=request.user.email)
     
     print("user_notify",user_detail.id)
     
     service_details =  user_service_details.objects.filter(user_id=user_detail.id)
-    user_notifications = user_notification.objects.filter(recepient=user_detail).order_by('-timestamp')
+    user_notifications = user_notification.objects.filter(recepient=user_detail.id).order_by('-timestamp')
     # notification_detail = 
-    print("----- ------",user_notifications)
-    for val in service_details:
-        print("------ -----",val.service)
-    service_details={'notification_details':user_notifications}
-    return render(request,'User/user_dashboard/notification.html')
+    # print("----- ------",service_details.user_id.payment)
+    # for val in service_details:
+    #     print("------ -----",val.payment)
+    service_details={'service_details':service_details}
+    return render(request,'User/user_dashboard/notification.html',
+                  {'notification_details':user_notifications})
 
 def all_service(request):
     return render(request,'User/user_dashboard/all_service.html')
