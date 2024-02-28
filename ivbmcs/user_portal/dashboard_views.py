@@ -69,11 +69,12 @@ def my_service(request):
 def user_notify(request):
     # notification_data = user_notification.objects.all()
     # print('======== ========',request.session['username'])
-    user_detail=get_object_or_404(CustomUser, last_name=request.user.last_name)
+    current_user = request.user
+    user_detail=get_object_or_404(CustomUser, email=request.user.email)
     
-    print("user_notify",user_detail.email)
+    print("user_notify",user_detail.id)
     
-    service_details =  user_service_details.objects.filter(user_id=user_detail)
+    service_details =  user_service_details.objects.filter(user_id=user_detail.id)
     user_notifications = user_notification.objects.filter(recepient=user_detail).order_by('-timestamp')
     # notification_detail = 
     print("----- ------",user_notifications)
@@ -159,6 +160,7 @@ def payment(request):
         # print("pay val : ",pay)
         if pay:
             serv = request.session.get('service_id_data', None)
+            print('----------serv-->>',serv)
             service = srvc.objects.get(svname=serv)
             d = DocumentsRequired.objects.filter( Service = service.svid)
             return render(request,'User/user_dashboard/docu_upload.html',{'form':d,'head':serv})

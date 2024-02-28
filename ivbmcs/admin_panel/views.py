@@ -52,7 +52,7 @@ def Login(request):
 
 def Logout(request):
     logout(request)
-    return redirect('/')
+    return redirect('/login')
 
 
 
@@ -484,14 +484,14 @@ def select_my_task(request,id):
     messages.success(request,"sucess") 
     
     """code to send mail to user when staff select the particular task """
-    context={"user_name":instance.last_name}
+    context={"user_name":instance.user_id}
     connection = get_connection() # uses SMTP server specified in settings.py
     connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
-    print(instance.email)
-    print(instance.phone_number)
-    html_content = render_to_string('email_template.html', context)               
+    print('===========>>',instance.user_id.email)
+    # print(instance.phone_number)
+    html_content = render_to_string('admin/super_user/email_template.html', context)               
     text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version                  
-    msg = EmailMultiAlternatives("Approval", text_content, "vasudevankarthik9@gmail.com",[instance.email],connection=connection)                                      
+    msg = EmailMultiAlternatives("Approval", text_content, "vasudevankarthik9@gmail.com",[instance.user_id.email],connection=connection)                                      
     msg.attach_alternative(html_content, "text/html")  
     
     
@@ -510,9 +510,9 @@ def select_my_task(request,id):
 """function to view the tasks"""
 
 def task_details(request,id):
-    task=UserProfile.objects.get(pk=id)
-    
-    return render(request,"admin/staff/task_details.html",{"task":task})
+    task=user_service_details.objects.get(pk=id)
+    user_details=CustomUser.objects.get(pk=task.user_id.id)
+    return render(request,"admin/staff/task_details.html",{"task":task,'user_details':user_details})
     
 
 
