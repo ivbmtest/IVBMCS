@@ -429,8 +429,10 @@ $(document).ready(function(){
                             var user_data = $('#num').val()
                                 if ($.isNumeric(user_data.slice(3,-1))){
                                         $('#number').val(user_data);
+                                        $('#number').attr('readonly', true);
                                 }else{
                                     $('#email').val(user_data);
+                                    $('#email').attr('readonly', true);
                                     $('#pre_email').val(user_data);
                                         }
                             //alert($.isNumeric(user_data)); 
