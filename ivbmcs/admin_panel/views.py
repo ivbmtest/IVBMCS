@@ -13,7 +13,7 @@ import os
 from twilio.rest import Client
 from user_portal.models import *
 # from .backends import  EmailBackend
-
+import datetime
 
 
 from django.core.mail import EmailMultiAlternatives,get_connection
@@ -473,24 +473,35 @@ def select_my_task(request,id):
     print("seleeeeeee")
     model_meta = UserProfile._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-   
-    instance = user_service_details.objects.get(pk=id)  # Replace 1 with the actual primary key value
+    current_user = request.user
+    # notification_instance=user_notification.objects.get(pk=id)
+    # user_details = CustomUser.objects.get(pk=notification_instance.user_id.id)
+    task_instance = user_service_details.objects.get(pk=id)  # Replace 1 with the actual primary key value
+    user_details = CustomUser.objects.get(pk=task_instance.user_id.id)
+    service_instance = srvc.objects.get(pk=task_instance.service.svid)
+    time = datetime.datetime.now()
+    message = f'your request for {task_instance} is taken by {current_user}'
+    user_notification.objects.get_or_create(message=message, timestamp=time,
+                                            recepient=user_details, service=service_instance)
     
-    instance.taken_by = request.user.id # Update the values of the fields
-    instance.save()   # Save the changes to the database
-    messages.success(request,"sucess") 
+    task_instance.taken_by = request.user.id # Update the values of the fields
+    task_instance.save()   # Save the changes to the database
+    messages.success(request,"sucess")
+    
+    
     
     """code to send mail to user when staff select the particular task """
     messages.success(request,"sucess") 
     
     """code to send mail to user when staff select the particular task """
-    context={"user_name":instance.user_id}
-    connection = get_connection() 
-    print('===========>>',instance.user_id.email)
+    context={"user_name":task_instance.user_id}
+    connection = get_connection() # uses SMTP server specified in settings.py
+    connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
+    print('===========>>',task_instance.user_id.email)
     # print(instance.phone_number)
     html_content = render_to_string('admin/super_user/email_template.html', context)               
-    text_content = strip_tags(html_content)          
-    msg = EmailMultiAlternatives("Approval", text_content, "vasudevankarthik9@gmail.com",[instance.user_id.email],connection=connection)                                      
+    text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version                  
+    msg = EmailMultiAlternatives("Approval", text_content, "vasudevankarthik9@gmail.com",[task_instance.user_id.email],connection=connection)                                      
     msg.attach_alternative(html_content, "text/html")  
     
     

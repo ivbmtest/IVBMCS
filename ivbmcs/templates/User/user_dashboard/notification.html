@@ -101,15 +101,15 @@
 <div class="home-content">
     <div class="container-fluid">
       <div class="notification-card">
-        <h3 class="m-b-50 heading-line">Notifications <i class="fa fa-bell text-muted"></i></h3>
+        <h3 class="m-b-50 ">Notifications <i class="text-muted"></i></h3>
         <hr>
         {% for value in notification_details %}
       <div class="notification-list notification-list--unread">
+
         {% comment %} |{{notification_details}}
         {% for val in notification_details %}
         {{val.timestamp}}
         {% endfor %} {% endcomment %}
-
         
           <div class="notification-list_content">
               <div class="notification-list_detail">
@@ -120,13 +120,13 @@
             </div>
             
             <div class="notification-list_feature-img">
-              <p class="text-muted"><small>unpaid</small></p>
+              {% comment %} <p class="text-muted"><small>unpaid</small></p> {% endcomment %}
               <p class="text-muted small mb-0"><i class="far fa-clock"></i>{{ value.timestamp}}</p>
             </div>
-            <div class="notification-list_feature-img">
+            {% comment %} <div class="notification-list_feature-img">
               <p class="text-muted"><small>unpaid</small></p>
               <p class="text-muted small mb-0"><i class="far fa-clock"></i>{{ value.timestamp}}</p>
-            </div>
+            </div> {% endcomment %}
             
         </div>{% endfor %}
       

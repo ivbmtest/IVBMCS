@@ -151,6 +151,7 @@ def update_staff(request,id):
 
 def send_message(request, id):
     task = user_service_details.objects.get(pk=id)
+    print('task::',task)
     user_details = CustomUser.objects.get(pk=task.user_id.id)
 
     # Assuming YourServiceModel is the correct model for your 'service' field

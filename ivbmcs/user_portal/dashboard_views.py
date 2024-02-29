@@ -14,8 +14,7 @@ def user_login(request):
 
 
 @csrf_exempt
-def user_dash_home(request):
-    
+def user_dash_home(request):    
     try:
         user_last = user_service_details.objects.filter(user_id=request.user.id).order_by('-created_at')[0]
         recom = srvc.objects.filter(svcategory = user_last.service.svcategory)
@@ -30,8 +29,7 @@ def user_dash_home(request):
         print(first,last,email,number)
         print("ph ::::::;",request.user.phone_number)
         if request.POST['pre_email'] != request.user.email:
-
-            
+                        
             if CustomUser.objects.filter(email=email):
                 return JsonResponse({'success': False, 'err':"email already exists"})
         elif CustomUser.objects.filter(phone_number=number):
@@ -101,7 +99,7 @@ def select_service(request,value=''):
     #current_user =request.session['username']
     current_user = request.user
 
-    print("session stroe : ",current_user)
+    print("session store : ",current_user)
     # try:
     #     print("ok test data",current_user.phone_number)        
     #     #details={'name':current_user.name,'email':current_user.email,'phone':current_user.phone_number}
