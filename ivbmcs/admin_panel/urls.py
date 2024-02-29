@@ -17,6 +17,7 @@ urlpatterns = [
     
     #user management
     # staff
+    path('staff_dashboard/',staff_dashboard,name='staff_dashboard'),
     path('staff/',staff,name='staff'),
     path('staff/del_staff/<int:id>/',del_staff,name='del_staff'),
     path('staff/update_staff/<int:id>/',update_staff,name='update_staff'),

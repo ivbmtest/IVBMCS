@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, EmptyPage
 import logging
 from .models import *
 from .form import *
-from django.contrib import messages
+
 import os
 from twilio.rest import Client
 from django.core.mail import EmailMultiAlternatives,get_connection
@@ -17,7 +17,7 @@ from django.core.files.storage import FileSystemStorage
 import datetime
 
 
-
+@login_required(login_url="/")
 def agent(request):
     student_form = AgentForm(request.POST or None, request.FILES or None)
     context = {'form': student_form, 'page_title': 'Add Student'}
@@ -130,23 +130,26 @@ def add_agent(request):
     return render(request, 'hod_template/add_student_template.html', context)
 
 
-
+@login_required(login_url="/")
 def age_home(request):
     return render(request,'Agent/age_home.html')
 
-
+@login_required(login_url="/")
 def age_service(request):
     return render(request,'Agent/age_services.html')
 
 
-
+@login_required(login_url="/")
 def age_notify(request):
     return render(request,'Agent/notification.html')
 
+
+
+@login_required(login_url="/")
 def age_all_service(request):
     return render(request,'Agent/all_service.html')
 
-
+@login_required(login_url="/")
 def age_payments(request):
     return render(request,'Agent/payments.html')
 

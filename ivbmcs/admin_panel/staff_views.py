@@ -9,9 +9,9 @@ from .models import *
 from .form import *
 from user_portal.models import *
 
-from django.contrib import messages
+
 import os
-from twilio.rest import Client
+# from twilio.rest import Client
 from django.core.mail import EmailMultiAlternatives,get_connection
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -19,7 +19,20 @@ from django.core.files.storage import FileSystemStorage
 import datetime
 
 
+def staff_dashboard(request):
+    cou=user_service_details.objects.filter(taken_by__exact='').count()
+    total_order = UserProfile.objects.filter().count()
+    print("cou ::: ::",cou)
+    my = user_service_details.objects.filter(user_id=request.user).count()
+   
+    model_meta = user_service_details._meta    
+    field_names = [field.verbose_name for field in model_meta.fields 
+                   if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status','Taken']]
+    latest_record = user_service_details.objects.all().order_by('-created_at')[:5]
+    return render(request,'admin/staff/main_layout.html',{'cou':cou,'take':my,'total':total_order,"latest_data":latest_record,"field_names":field_names})
 
+
+@login_required(login_url="/")
 def staff(request):
     staff_form = StaffForm(request.POST or None, request.FILES or None)
     context = {'form': staff_form, 'page_title': 'Add Staff'}
@@ -134,14 +147,7 @@ def update_staff(request,id):
 #     return render(request, 'hod_template/add_student_template.html', context)
 
 
-import datetime
-from django.shortcuts import render, redirect
-from admin_panel.models import *
-from user_portal.models import user_service_details, user_notification
-
-# views.py
-from django.shortcuts import render, redirect
-import datetime
+@login_required(login_url="/")
 
 def send_message(request, id):
     task = user_service_details.objects.get(pk=id)

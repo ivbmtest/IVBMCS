@@ -49,7 +49,7 @@ height: 40%;
     <div class="container-fluid">
       <h2 class="text-center">User Info</h2>
 
-
+<hr>
         <!--USER DETAILS-->
 <div class="row">
     <div class="col-md-6 mt-3 mr-md-4 ml-md-4 userinfo">
@@ -68,7 +68,7 @@ height: 40%;
 </div>
 
 <div class="info-container">
-    <div class="name">payment : <i class='bx bxs-check-shield text-success'></i></div>
+    <div class="name">Payment : <i class='bx bxs-check-shield text-success'></i></div>
     <div class="datess">Date : {{task.created_at|date:"M. d, Y"}}</div>
   </div>
 
@@ -101,19 +101,19 @@ height: 40%;
 
 
 
-<div class="row col-md-12 text-center mt-4 d-flex justify-content-center">            
-    <div class="col-md-2">
-        <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Send Message</span></a>
+<div class="row text-center mt-4 d-flex justify-content-center">            
+    <div class="col-md-2 mb-4">
+        <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Send Request</span></a>
         {% comment %} <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Send Message"/> {% endcomment %}
     </div> 
-    <div class="col-md-2">
-        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+    <div class="col-md-2 mb-4">
+        <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Edit profile</span></a>
+    </div>
+    <div class="col-md-2 mb-4">
+        <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Edit profile</span></a>
     </div>
     <div class="col-md-2">
-        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
-    </div>
-    <div class="col-md-2">
-        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+        <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Edit profile</span></a>
     </div>
 </div>
 <br><hr>
@@ -201,26 +201,30 @@ height: 40%;
         <div class="modal-dialog">
           <div class="modal-content">
               <div class="modal-header">						
-                <h4 class="modal-title">send message</h4>
+                <h4 class="modal-title">Select Saff</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               </div>
               <div class="modal-body">
                 <form method="post" action="{% url 'send_message' id=task.id %}">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="{{user_details.email}}">
+                        <label for="exampleFormControlInput1" class="form-label">Select Name</label>
+                        <select name="staff_name" id="staf">
+                            {% for i in staff_user %}
+                            <option value="volvo">{{i.first_name}}</option>
+                            {% endfor %}
+                          </select>
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name='message'></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name='message' placeholder="write a reson for request"></textarea>
                     </div>
                   
                   {% comment %} {{ form.as_p }} {% endcomment %}
               </div>
               <div class="modal-footer">
                 <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                <input type="submit" class="btn btn-success" value="Add">
+                <button type="submit" class="btn btn-success">Request</button>
               </div>
               </form>
             

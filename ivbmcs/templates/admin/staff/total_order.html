@@ -45,10 +45,15 @@
                   <thead>
                       <tr>
              
-              {% for field in field_names %}
-                          <th>{{field}}</th>
-                          {% endfor %}
-                          <th>Status</th>
+             <th>no.</th>
+             <th>Name</th>
+             <th>Number</th>
+             <th>Email</th>
+             <th>Service</th>
+             <th>Payment</th>
+             <th>Holder</th>
+             <th>Date & Time</th>
+             <th>Order</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -57,9 +62,9 @@
                       <tr>
                           
                           <td>{{forloop.counter}}</td>
-                          <td><a href="{% url "task_detail" id=val.id %}">{{val.name}}</a></td>
-                          <td>{{val.phone_number}}</td>
-                          <td>{{val.email}}</td>
+                          <td><a href="{% url 'task_detail' id=val.id %}">{{val.user_id.first_name}}</a></td>
+                          <td>{{val.user_id.phone_number}}</td>
+                          <td>{{val.user_id.email}}</td>
                           <td>{{val.service}}</td>
                           <td>{{val.payment}}</td>
                           <td>{{val.taken_by}}</td> 
@@ -76,7 +81,7 @@
                       <tr>
                           
                         <td>{{forloop.counter}}</td>
-                        <td><a href="{% url "task_detail" id=val.id %}">{{val.name}}</a></td>
+                        <td><a href="{% url 'task_detail' id=val.id %}">{{val.name}}</a></td>
                         <td>{{val.phone_number}}</td>
                         <td>{{val.email}}</td>
                      <td>{{val.service}}</td> 

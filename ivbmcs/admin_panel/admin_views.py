@@ -17,7 +17,7 @@ from django.core.files.storage import FileSystemStorage
 import datetime
 
 
-
+@login_required(login_url="/")
 def admin(request):
     admin_form = AdminForm(request.POST or None, request.FILES or None)
     context = {'form': admin_form, 'page_title': 'Add Staff'}

@@ -150,7 +150,7 @@
         {% with request.resolver_match.url_name as url_name %}
         <ul class="nav-links">
           <li>
-            <a href="{% url 'dashboard' %}" class="{% if url_name == 'dashboard' %}bg-success{% endif %}" title="Dashboard">
+            <a href="{% url 'staff_dashboard' %}" class="{% if url_name == 'staff_dashboard' %}bg-success{% endif %}" title="Dashboard">
               <i class="bx bx-grid-alt"></i>
               <span class="links_name">Dashboard</span>
             </a>
@@ -239,7 +239,7 @@
   
          
           {% comment %} <li>
-            <a href="{% url 'orders' %}" title="Orders" class="{% if url_name == 'orders' %}bg-success{% endif %}">
+            <a href="{% url 'orders' %}" title="Orders" c lass="{% if url_name == 'orders' %}bg-success{% endif %}">
               <i class='bx bx-message-square-edit'></i>
               <span class="links_name">Orders</span>
             </a>

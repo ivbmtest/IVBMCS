@@ -43,7 +43,7 @@ def Login(request):
                     return redirect('/dashboard/')  # Redirect to the Django admin page after successful login
                 else:
                     
-                    return redirect('/dashboard/')
+                    return redirect('/staff_dashboard/')
         else:
             # Handle invalid login credentials
             return render(request, 'admin/main_app/login.html', {'error_message': 'Invalid credentials'})
@@ -425,7 +425,7 @@ def dashboard(request):
                                               "latest_data":latest_record,"field_names":field_names})
 
 
-
+@login_required(login_url="/")
 def orders(request,):
     model_meta =user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
@@ -452,7 +452,7 @@ def demo_user(request):
 
 
 """ function for listing the selected task """
-
+@login_required(login_url="/")
 def my_task(request):
     model_meta = UserProfile._meta
     field_names = [field.verbose_name for field in model_meta.fields]
@@ -468,7 +468,7 @@ def my_task(request):
 
 """function to select task from order list"""
 
-
+@login_required(login_url="/")
 def select_my_task(request,id):
     print("seleeeeeee")
     model_meta = UserProfile._meta
@@ -485,12 +485,11 @@ def select_my_task(request,id):
     
     """code to send mail to user when staff select the particular task """
     context={"user_name":instance.user_id}
-    connection = get_connection() # uses SMTP server specified in settings.py
-    connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
+    connection = get_connection() 
     print('===========>>',instance.user_id.email)
     # print(instance.phone_number)
     html_content = render_to_string('admin/super_user/email_template.html', context)               
-    text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version                  
+    text_content = strip_tags(html_content)          
     msg = EmailMultiAlternatives("Approval", text_content, "vasudevankarthik9@gmail.com",[instance.user_id.email],connection=connection)                                      
     msg.attach_alternative(html_content, "text/html")  
     
@@ -509,39 +508,43 @@ def select_my_task(request,id):
 
 """function to view the tasks"""
 
+@login_required(login_url="/")
 def task_details(request,id):
     task=user_service_details.objects.get(pk=id)
     user_details=CustomUser.objects.get(pk=task.user_id.id)
-    return render(request,"admin/staff/task_details.html",{"task":task,'user_details':user_details})
+    staff_user = CustomUser.objects.filter(is_staff=True)
+    
+    return render(request,"admin/staff/task_details.html",{"task":task,'user_details':user_details,'staff_user':staff_user})
     
 
-
+@login_required(login_url="/")
 def profile(request):
     return render(request,'profile.html')
 
 """ function to list the total number of orders """
+
 def total_ord(request):
-    cou=UserProfile.objects.filter()
+    cou=user_service_details.objects.filter()
     sel=''
     if request.method == 'POST':
         sel = request.POST['opt']
         if sel == 'accept':
-            cou=UserProfile.objects.exclude(taken_by='')
+            cou=user_service_details.objects.exclude(taken_by='')
             sel='acc'
             print(cou)
         elif sel == 'pending':
             sel="pen"
-            cou=UserProfile.objects.filter(taken_by__exact='')
+            cou=user_service_details.objects.filter(taken_by__exact='')
         else:
             sel='all'
-            cou=UserProfile.objects.filter()
+            cou=user_service_details.objects.filter()
 
-    model_meta = UserProfile._meta
+    model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]
     page=Paginator(cou,8)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
+    cou=user_service_details.objects.filter(taken_by__exact='').count()
     return render(request,'admin/staff/total_order.html',{'total_info':page,'field_names': field_names,'cou':cou,'sel':sel})
     
     

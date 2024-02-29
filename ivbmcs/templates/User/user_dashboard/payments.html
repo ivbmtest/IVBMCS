@@ -2,18 +2,246 @@
 
 
 {% block content %}
-<body>
-<div class="home-content">
-      <div class="container-fluid">
-                  <div class="row">
-                  </div>
-                      <div class="col-sm-6">
-                        <h2>Payments</b></h2>
-                      </div>
-                  </div>
-              
 
-            </div>
+<style>
+
+  body{
+    height: 100vh;
+  }
+  
+  #body_header
+  {
+  
+      width:auto;
+      margin:0px auto;
+      text-align:center;
+      font-size:20px;
+     
+  }
+  
+  h1 {
+    margin: 0;
+    text-align: center;
+  }
+  
+  
+  #myTabs a  {
+    color: rgb(9, 160, 52);
+    font-size: 14px;
+  }
+  
+  #myTabContent h4{
+  color: rgb(8, 109, 196);
+  }
+  
+  #myTabContent table{
+    background-color: #f4f7f8;
+    font-size: .8rem;
+  }
+  
+  @media (max-width: 767.98px) {
+    #myTabs a{
+      font-size: 12px;
+    }
+  }
+  
+  @media (max-width:576px) {
+    #myTabs a{
+      font-size: 7px;
+    }
+  }
+  
+  </style> 
+<body>
+  <div class="home-content">
+    <div class="container-fluid">
+        <div id="body_header">
+          <!--This is a division tag for body header-->
+          <h1>Payments Details</h1>
+          
+        </div>
+ 
+  <!-- Bootstrap 4 Tabs -->
+  <div class="container mt-4" style="padding: 1rem;border-radius: 10px;background-color: #e8eeef;">
+    <ul class="nav nav-tabs w-100" id="myTabs">
+      <li class="nav-item">
+        <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1">All</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2">Success</a>
+      </li>
+    
+
+      
+      <li class="nav-item">
+        <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3">Pending</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4">Fail</a>
+      </li>
+    </ul>
+
+    <div class="tab-content mt-2"  id="myTabContent">
+      <div class="tab-pane fade show active" id="tab1">
+        <h4>All Payment</h4>
+        <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+   <th>No.</th>
+   <th>Service Name</th>
+   <th>Pay Amount</th>
+   <th>Payment Date</th>
+   <th>Status</th>   
+            </tr>
+        </thead>
+        <tbody>
+          {% for val in pay %}
+            <tr>
+             
+                <td>{{forloop.counter}}</td>
+                <td>{{val.service}}</td>
+                
+              
+                <!-- <td>{{val.msg}}</td> -->
+                <!-- <td>{{val.documents}}</td> -->
+                <!-- <td>{{val.taken_by}}</td>  <i class='bx bx-x-circle'>x</i> <i class='bx bxs-check-circle'></i>-->
+                <td>{{val.service.svcountry.cncrid.crsymbol}} {{val.service.svrate}} /-</td>
+                <td>-- -- ----</td>
+                <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
+                       
+            </tr>
+            {% endfor %}
+       
+              </tbody>
+        </table>
+      </div>
+      </div>
+
+
+      <div class="tab-pane fade" id="tab2">
+        <h4>Success payments</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Service Name</th>
+                <th>Pay Amount</th>
+                <th>Payment Date</th>
+                <th>Status</th>            
+              </tr>
+          </thead>
+          <tbody>
+
+            {% for val in pay %}
+            {% if val.payment %}
+              <tr>
+               
+                <td>{{forloop.counter}}</td>
+                <td>{{val.service}}</td>
+                <td>{{val.service.svcountry.cncrid.crsymbol}} {{val.service.svrate}} /-</td>
+                <td>-- -- ----</td>
+                <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
+                     
+              </tr>
+              {% endif %}
+              {% endfor %}
+              
+                </tbody>
+          </table>
+        </div>
+      </div>
+
+
+      <div class="tab-pane fade" id="tab3">
+        <h4>Pending  paymets</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Service Name</th>
+                <th>Pay Amount</th>
+                <th>Payment Date</th>
+                <th>Status</th>          
+              </tr>
+          </thead>
+          <tbody>
+            {% for val in my_service %}
+            {% if val.status == '2' %}
+              <tr>
+               
+                  <td>{{forloop.counter}}</td>
+                  <td>{{val.service}}</td>
+                  
+                
+                  <!-- <td>{{val.msg}}</td> -->
+                  <!-- <td>{{val.documents}}</td> -->
+                  <!-- <td>{{val.taken_by}}</td> -->
+                
+                  <td>{{val.created_at}}</td>
+                  <td>-- -- ----</td>
+                  
+                  
+              </tr>
+              {% endif %}
+              {% endfor %}
+          
+                </tbody>
+          </table>
+        </div>
+      </div>
+
+
+
+      <div class="tab-pane fade" id="tab4">
+        <h4>Fail Payments</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Service Name</th>
+                <th>Pay Amount</th>
+                <th>Payment Date</th>
+                <th>Status</th>            
+              </tr>
+          </thead>
+          <tbody>
+            {% for val in my_service %}
+
+            {% if val.status == '0' or val.payment == false %}
+              <tr>
+               
+                  <td>{{forloop.counter}}</td>
+                  <td>{{val.service}}</td>
+                  
+                 
+                  <!-- <td>{{val.msg}}</td> -->
+                  <!-- <td>{{val.documents}}</td> -->
+                  <!-- <td>{{val.taken_by}}</td> -->
+                 
+                  <td>{{val.created_at}}</td>
+                  <td>-- -- ----</td>
+                  
+                  
+              </tr>
+              {% endif %}
+              {% endfor %}
+            
+                </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+           
+    </div>
+</div> 
             
 
   </body>

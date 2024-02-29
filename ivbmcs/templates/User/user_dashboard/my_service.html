@@ -74,12 +74,13 @@ color: rgb(8, 109, 196);
       <li class="nav-item">
         <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2">Process</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3">Completed</a>
-      </li>
+    
 
       <li class="nav-item">
         <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4">Pending</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3">Completed</a>
       </li>
     </ul>
 
@@ -92,9 +93,10 @@ color: rgb(8, 109, 196);
             <tr>
    <th>No.</th>
    <th>Service Name</th>
-   <th>Payment</th>
+
    <th>Status</th>
    <th>Apply Date</th>
+   <th>Condact (Service Holder)</th>
    <th>Complete Date</th>          
             </tr>
         </thead>
@@ -105,16 +107,17 @@ color: rgb(8, 109, 196);
                 <td>{{forloop.counter}}</td>
                 <td>{{val.service}}</td>
                 
-                <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
+              
                 <!-- <td>{{val.msg}}</td> -->
                 <!-- <td>{{val.documents}}</td> -->
                 <!-- <td>{{val.taken_by}}</td>  <i class='bx bx-x-circle'>x</i> <i class='bx bxs-check-circle'></i>-->
                 <td>{% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}</td>
                 <td>{{val.created_at}}</td>
+                <td><a href="tel:+1234567890"><i class='bx bxs-phone-outgoing'></i> 8848496707</a></td>
                 <td>-- -- ----</td>                
             </tr>
             {% endfor %}
-            <tr>
+        
               </tbody>
         </table>
       </div>
@@ -156,7 +159,7 @@ color: rgb(8, 109, 196);
               </tr>
               {% endif %}
               {% endfor %}
-              <tr>
+           
                 </tbody>
           </table>
         </div>
@@ -171,7 +174,7 @@ color: rgb(8, 109, 196);
               <tr>
      <th>No.</th>
      <th>Service Name</th>
-     <th>Payment</th>
+   
    
      <th>Apply Date</th>
      <th>Complete Date</th>          
@@ -185,7 +188,7 @@ color: rgb(8, 109, 196);
                   <td>{{forloop.counter}}</td>
                   <td>{{val.service}}</td>
                   
-                  <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
+                
                   <!-- <td>{{val.msg}}</td> -->
                   <!-- <td>{{val.documents}}</td> -->
                   <!-- <td>{{val.taken_by}}</td> -->
@@ -197,13 +200,11 @@ color: rgb(8, 109, 196);
               </tr>
               {% endif %}
               {% endfor %}
-              <tr>
+          
                 </tbody>
           </table>
         </div>
       </div>
-
-
 
       <div class="tab-pane fade" id="tab4">
         <h4>Pending</h4>
@@ -213,33 +214,26 @@ color: rgb(8, 109, 196);
               <tr>
      <th>No.</th>
      <th>Service Name</th>
-     <th>Payment</th>
+   
      <th>Apply Date</th>
      <th>Complete Date</th>          
               </tr>
           </thead>
           <tbody>
             {% for val in my_service %}
-
             {% if val.status == '0' or val.payment == false %}
-              <tr>
-               
+              <tr>            
                   <td>{{forloop.counter}}</td>
-                  <td>{{val.service}}</td>
-                  
-                  <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
-                  <!-- <td>{{val.msg}}</td> -->
-                  <!-- <td>{{val.documents}}</td> -->
-                  <!-- <td>{{val.taken_by}}</td> -->
-                 
+                  <td>{{val.service}}</td>    
+                    <!-- <td>{{val.msg}}</td> -->
+                    <!-- <td>{{val.documents}}</td> --> 
+                    <!-- <td>{{val.taken_by}}</td> -->   
                   <td>{{val.created_at}}</td>
-                  <td>-- -- ----</td>
-                  
-                  
+                  <td>-- -- ----</td>        
               </tr>
               {% endif %}
               {% endfor %}
-              <tr>
+             
                 </tbody>
           </table>
         </div>

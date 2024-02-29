@@ -17,7 +17,7 @@ from django.core.files.storage import FileSystemStorage
 import datetime
 
 
-
+@login_required(login_url="/")
 def normal_user(request):
     user_form = UserForm(request.POST or None, request.FILES or None)
     context = {'form': user_form, 'page_title': 'Add User'}
@@ -47,7 +47,7 @@ def normal_user(request):
                 normal_user.save()
                 messages.success(request, "Successfully Added")
                 print('-------------exit')
-                # return redirect(reverse('add_student'))
+                
             
             except Exception as e:
                 messages.error(request, "Could Not Add: " + str(e))

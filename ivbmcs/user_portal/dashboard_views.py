@@ -89,7 +89,9 @@ def all_service(request):
     return render(request,'User/user_dashboard/all_service.html')
 
 def payments(request):
-    return render(request,'User/user_dashboard/payments.html')
+    pay = user_service_details.objects.filter(user_id=request.user.id)
+
+    return render(request,'User/user_dashboard/payments.html',{'pay':pay})
 
 def appointment(request):
     return render(request,'User/consultation.html')
