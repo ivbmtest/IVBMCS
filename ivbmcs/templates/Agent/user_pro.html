@@ -1,0 +1,163 @@
+{% extends "Agent/main_layout.html" %}
+
+{% load static %}
+
+{% block content %}
+
+
+
+
+<style>
+
+body{
+  height: 100vh;
+}
+
+#body_header
+{
+
+    width:auto;
+    margin:0px auto;
+    text-align:center;
+    font-size:20px;
+   
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+}
+
+
+#myTabs a  {
+  color: rgb(9, 160, 52);
+  font-size: 14px;
+}
+
+#myTabContent h4{
+color: rgb(8, 109, 196);
+}
+
+#myTabContent table{
+  background-color: #f4f7f8;
+  font-size: .8rem;
+}
+
+@media (max-width: 767.98px) {
+  #myTabs a{
+    font-size: 12px;
+  }
+}
+
+@media (max-width:576px) {
+  #myTabs a{
+    font-size: 7px;
+  }
+}
+
+</style> 
+
+<div class="home-content">
+    <div class="container-fluid">
+        <div id="body_header">
+          <!--This is a division tag for body header-->
+          <h1>Client Details</h1>
+          
+        </div>
+    
+
+<!-- user details -->
+<div class="container mt-4" style="padding: 1rem;border-radius: 10px;background-color: white;">
+    <button class="btn btn-success" style="float: right;">Edit user</button>
+<div class="row">
+
+    <div class="col-3"><p>Name  </p></div>:
+ <div class="col-3"><p> {{user_info.first_name}}</p></div>
+
+
+
+</div>
+
+
+<div class="row">
+
+    <div class="col-3"><p>Email   </p></div>:
+ <div class="col-3"><p> {{user_info.email}}</p></div>
+
+
+</div>
+
+<div class="row">
+
+    <div class="col-3"><p>Phone number   </p></div>:
+ <div class="col-3"><p> {{user_info.phone_number}}</p></div></div>
+
+ 
+  <!-- Bootstrap 4 Tabs -->
+  <div class="container mt-4" style="padding: 1rem;border-radius: 10px;background-color: #e8eeef;">
+ 
+    <div class="tab-content mt-2"  id="myTabContent">
+      <div class="tab-pane fade show active" id="tab1">
+        <h4>All Services</h4>
+        <button class="btn btn-primary" style="float: right;">Apply Service</button>
+        <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+   <th>No.</th>
+   <th>Name</th>
+   <th>Service Name</th>
+   <th>Payment</th>
+   <th>Status</th>
+   <th>Owned</th>
+   <th>Apply Date</th>
+   <th>Complete Date</th>          
+            </tr>
+        </thead>
+        <tbody>
+         
+          {% for val in user_info.user_service_details_set.all %}
+
+            <tr>
+             
+                <td>{{forloop.counter}}</td>
+                <td>{{val.user_id.first_name}}  </td>
+                <td>{{val.service}}</td>
+                
+                <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
+                <!-- <td>{{val.msg}}</td> -->
+                <!-- <td>{{val.documents}}</td> -->
+                <!-- <td>{{val.taken_by}}</td>  <i class='bx bx-x-circle'>x</i> <i class='bx bxs-check-circle'></i>-->
+                <td>{% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}</td>
+                <td>{% if val.agent_id == request.user %}Me{% else %}Others{% endif %}</td>
+                <td>{{val.created_at}}</td>
+                <td>-- -- ----</td>                
+            </tr>
+            {% endfor %}
+              </tbody>
+        </table>
+      </div>
+      </div>
+
+
+   
+
+
+
+
+
+     
+    </div>
+  </div>
+
+
+
+           
+    </div>
+</div>   
+
+
+
+
+{% endblock content %}
+</section>

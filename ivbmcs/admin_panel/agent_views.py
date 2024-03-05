@@ -7,6 +7,7 @@ from django.core.paginator import Paginator, EmptyPage
 import logging
 from .models import *
 from .form import *
+from user_portal.models import *
 
 import os
 from twilio.rest import Client
@@ -130,13 +131,92 @@ def add_agent(request):
     return render(request, 'hod_template/add_student_template.html', context)
 
 
+
+
+def age_consulting(request):
+    val = request.GET['val']
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        num = request.POST['num']
+        serv = request.POST['ser']
+        msg = request.POST['msg']
+        print("Full set",name,email,num,serv,msg)
+       
+        service = srvc.objects.get(svname=serv)
+        request.session['service_id_data'] = serv
+
+        if CustomUser.objects.filter(email=email,phone_number=num):
+            user = CustomUser.objects.get(email=email)
+            print("user first---------",user,"enter name --- ",name)
+            if user.first_name != name:
+                print("That user alredy reg. but name  is not same.")
+                return render(request,'Agent/age_consulting.html',{'err':'That user alredy reg. but name  is not same.','value':val})
+            elif user_service_details.objects.filter(user_id=user.id,service=service).exists():
+                print("that service alredy exists")
+                return render(request,'Agent/age_consulting.html',{'err':f'That {val} service alredy applyed','value':val})
+            else:
+                print("Request Approved")
+                
+                apply = user_service_details.objects.create(user_id=user, service=service,msg=msg,agent_id=request.user)
+                apply.save()
+                return render(request,'User/user_dashboard/payment.html')    
+
+        elif CustomUser.objects.filter(email=email).exists():
+            print("email alredy")
+            return render(request,'Agent/age_consulting.html',{'err':'Email Already Registered','value':val})
+        elif CustomUser.objects.filter(phone_number=num).exists():
+            print("phone alredy")
+            return render(request,'Agent/age_consulting.html',{'err':'phone number  already registered','value':val})
+        else:
+            #create accout
+            print("agent user name :",request.user)
+            
+            acc = CustomUser.objects.create_user(email=email,phone_number=num,first_name = name,password=email)
+            acc.save()
+            apply = user_service_details.objects.create(user_id=acc, service=service,msg=msg,agent_id=request.user)
+            apply.save()
+            
+            print("booikng session",service)
+        #u = request.session['username']
+        #print("cusom user",CustomUser.objects.get(email=request.user.email))
+            u = request.user
+            service = srvc.objects.get(svname=serv)
+            print("booikng session",service)
+            return render(request,'User/user_dashboard/payment.html')   
+    else:
+        return render(request,'Agent/age_consulting.html',{'value':val}) 
+        # user_instance,user_created = CustomUser.objects.get_or_create(email=email,defaults={'name':name,'email':email,'phone_number':num })
+        # # userdata = user_service_details
+        # if userdata.objects.filter(email=u).exists() and userdata.objects.filter(phone_number='').exists():
+        #     user_up = userdata.objects.get(email=u)
+        #     user_up.name = name
+        #     user_up.phone_number = num
+        #     user_up.status = 0
+        #     user_up.save()
+        #     print("new userupdate")
+        
+        # if not user_created:
+        #     print('user already exist with email',user_instance.email) 
+        # service_data,service_created = user_service_details.objects.get_or_create(user_id=user_instance,service=service,defaults={'msg':msg},status=1)
+        #request.session['user_id_data'] = user_instance.id     
+             
+
+
+def userpro_agent(request):
+    userid = request.GET['xid']
+    user_info = CustomUser.objects.get(pk=userid)
+    return render(request,'Agent/user_pro.html',{'user_info':user_info})
+
 @login_required(login_url="/")
 def age_home(request):
     return render(request,'Agent/age_home.html')
 
 @login_required(login_url="/")
 def age_service(request):
-    return render(request,'Agent/age_services.html')
+    ser = user_service_details.objects.filter(agent_id = request.user)
+    print(ser)
+    return render(request,'Agent/age_services.html',{'my_service':ser})
 
 
 @login_required(login_url="/")
@@ -148,6 +228,8 @@ def age_notify(request):
 @login_required(login_url="/")
 def age_all_service(request):
     return render(request,'Agent/all_service.html')
+
+
 
 @login_required(login_url="/")
 def age_payments(request):

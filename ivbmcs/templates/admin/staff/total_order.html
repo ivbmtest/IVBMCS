@@ -71,7 +71,7 @@
                           <td>{{val.created_at}}</td>   
                           <td>
                             {% comment %}  {%if forloop.first%}
-                            <a href="{% url "select_task" id=val.id %}" ><i  class='btn btn-success' class="material-icons " data-toggle="tooltip" title="Edit">Select</i></a>
+                            <a href="{% url 'select_task' id=val.id %}" ><i  class='btn btn-success' class="material-icons " data-toggle="tooltip" title="Edit">Select</i></a>
                             {% endif %}  {% endcomment %}
 
                             <p class="text-danger">Pending</p>
@@ -91,7 +91,7 @@
                         <td>{{val.created_at}}</td>   
                         <td>
                             {% comment %}  {%if forloop.first%}
-                            <a href="{% url "select_task" id=val.id %}" ><i  class='btn btn-success' class="material-icons " data-toggle="tooltip" title="Edit">Select</i></a>
+                            <a href="{% url 'select_task' id=val.id %}" ><i  class='btn btn-success' class="material-icons " data-toggle="tooltip" title="Edit">Select</i></a>
                             {% endif %}  {% endcomment %}
                             <p class="text-success">Accepted</p>
                       </td>

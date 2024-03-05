@@ -25,8 +25,11 @@ class user_service_details(models.Model):
     payment = models.BooleanField(verbose_name="Payment",default=False,blank=True)
     msg = models.TextField(verbose_name="user Query",blank=True)
     documents = models.JSONField(verbose_name="Documents",blank=True, default='')
+
+    agent_id = models.ForeignKey(CustomUser,on_delete = models.CASCADE,related_name='agent_id',verbose_name = "agent_id",null=True, blank=True)
+
     taken_by = models.CharField(max_length=255,verbose_name="Taken",blank=True)
-    status = models.CharField(max_length=255,verbose_name="Status",blank=True)
+    status = models.CharField(max_length=255,verbose_name="Status",blank=True,default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

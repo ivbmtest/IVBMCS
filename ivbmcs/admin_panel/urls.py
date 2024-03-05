@@ -23,16 +23,22 @@ urlpatterns = [
     path('staff/update_staff/<int:id>/',update_staff,name='update_staff'),
     # agent
     path('agent/',agent_views.agent,name='agent'),
+    # age consulting
+    #path('age_consulting/<str:value>/',agent_views.age_consulting,name='age_consulting'),
+    path('age_consulting/',agent_views.age_consulting,name='age_consulting'),
+ 
     path('agent/del_agent/<int:id>/',del_agent,name='del_agent'),
     path('agent/update_agent/<int:id>/',update_agent,name='update_agent'),
 
     path('age_home/',agent_views.age_home,name="age_home"),
     path('age_service/',agent_views.age_service,name="age_service"),
     path('age_notify/',agent_views.age_notify,name="age_notify"),
-    path('age_all_services/',agent_views.age_all_service,name="age_all_services"),
-    path('age_payments/',agent_views.age_payments,name="age_payments"),
+    path('age_all_services/',agent_views.age_all_service,name="age_all_services"), 
+    # user profile view in agent
+    path('userpro_agent/',agent_views.userpro_agent,name="userpro_agent"),
     
-
+   
+    path('age_payments/',agent_views.age_payments,name="age_payments"),
     # user
     path('user/',user_views.normal_user,name='user'),
     path('user/del_user/<int:id>/',user_views.del_user,name='del_user'),

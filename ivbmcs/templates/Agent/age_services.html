@@ -91,6 +91,7 @@ color: rgb(8, 109, 196);
           <thead>
             <tr>
    <th>No.</th>
+   <th>Name</th>
    <th>Service Name</th>
    <th>Payment</th>
    <th>Status</th>
@@ -99,10 +100,13 @@ color: rgb(8, 109, 196);
             </tr>
         </thead>
         <tbody>
+          {% if my_service %}
           {% for val in my_service %}
+
             <tr>
              
                 <td>{{forloop.counter}}</td>
+                <td><a href="{% url 'userpro_agent' %}?xid={{val.user_id.id}}" title="View Profile">{{val.user_id.first_name}}</a></td>
                 <td>{{val.service}}</td>
                 
                 <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
@@ -114,7 +118,10 @@ color: rgb(8, 109, 196);
                 <td>-- -- ----</td>                
             </tr>
             {% endfor %}
-            <tr>
+           {% else %}
+          
+           <p class="text-danger text-center">No Services yet</p>
+           {% endif %}
               </tbody>
         </table>
       </div>
@@ -128,6 +135,7 @@ color: rgb(8, 109, 196);
             <thead>
               <tr>
      <th>No.</th>
+     <th>Name</th>
      <th>Service Name</th>
      <th>Payment</th>
    
@@ -142,6 +150,7 @@ color: rgb(8, 109, 196);
               <tr>
                
                   <td>{{forloop.counter}}</td>
+                  <td>{{val.user_id.first_name}}</td>
                   <td>{{val.service}}</td>
                   
                   <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
@@ -154,7 +163,12 @@ color: rgb(8, 109, 196);
                   
                   
               </tr>
+              
+              {% else %}
+<p class="text-danger text-center">No Processing Services yet</p>
               {% endif %}
+
+              
               {% endfor %}
               <tr>
                 </tbody>
@@ -170,6 +184,7 @@ color: rgb(8, 109, 196);
             <thead>
               <tr>
      <th>No.</th>
+     <th>Name</th>
      <th>Service Name</th>
      <th>Payment</th>
    
@@ -183,6 +198,7 @@ color: rgb(8, 109, 196);
               <tr>
                
                   <td>{{forloop.counter}}</td>
+                  <td>{{val.user_id.first_name}}</td>
                   <td>{{val.service}}</td>
                   
                   <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
@@ -195,6 +211,8 @@ color: rgb(8, 109, 196);
                   
                   
               </tr>
+              {% else %}
+              <p class="text-danger text-center">No Completed Services yet</p>
               {% endif %}
               {% endfor %}
               <tr>
@@ -212,6 +230,7 @@ color: rgb(8, 109, 196);
             <thead>
               <tr>
      <th>No.</th>
+     <th>Name</th>
      <th>Service Name</th>
      <th>Payment</th>
      <th>Apply Date</th>
@@ -225,6 +244,7 @@ color: rgb(8, 109, 196);
               <tr>
                
                   <td>{{forloop.counter}}</td>
+                  <td>{{val.user_id.first_name}}</td>
                   <td>{{val.service}}</td>
                   
                   <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
@@ -237,6 +257,8 @@ color: rgb(8, 109, 196);
                   
                   
               </tr>
+              {% else %}
+              <p class="text-danger text-center">No Pending Services yet</p>
               {% endif %}
               {% endfor %}
               <tr>

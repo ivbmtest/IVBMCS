@@ -43,6 +43,8 @@ class CustomUser(AbstractUser):
     gender = models.CharField(max_length=1, choices=GENDER)
     profile_pic = models.ImageField(upload_to='images/')
 
+   
+
     phone_number = models.CharField(max_length=15,unique=True,blank=True,null=True)
     #add=models.IntegerField(blank=True)
     
