@@ -134,6 +134,7 @@ def otp_ver(request):
         # otp_secret_key = request.session['otp_secret_key']
         validate_otp = request.session['validate_otp']
         val_otp = request.session['otp']
+        print('-----------------',validate_otp)
         validate_until = datetime.fromisoformat(validate_otp)
         if validate_until > datetime.now(): 
             if otp != val_otp:

@@ -143,13 +143,13 @@ label.light {
             <p class="text-center text-danger">{{err}}</p>
               <legend><span class="number">1</span>User basic details</legend>
               <label for="name">Client Name*:</label>
-              <input type="text" id="name" name="name" placeholder="Name"  required>
+              <input type="text" id="name" name="name" placeholder="Name" value="{{user_info.first_name}}"  required>
       
               <label for="mail">Client Email*:</label>
-              <input type="email" id="mail" name="email"  placeholder="abc@xyz.com" >
+              <input type="email" id="mail" name="email"  placeholder="abc@xyz.com" value="{{user_info.email}}">
       
               <label for="tel">Client Phone Number:</label>
-              <input type="tel" id="tel" placeholder="Include country code" name="num" >
+              <input type="tel" id="tel" placeholder="Include country code" name="num" value="{{user_info.phone_number}}">
       
             
       
@@ -180,8 +180,6 @@ label.light {
 
     </div>
 </div>   
-{% endblock content %}
-</section>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -194,3 +192,7 @@ $(document).ready(function () {
         });
     });
 </script>
+
+{% endblock content %}
+</section>
+

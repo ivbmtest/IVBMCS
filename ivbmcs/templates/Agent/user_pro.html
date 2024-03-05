@@ -53,12 +53,26 @@ color: rgb(8, 109, 196);
   #myTabs a{
     font-size: 7px;
   }
+  .cli_deta ,.applybtn ,.applybtn,.editbtn,.subopt{
+    font-size: 12px;
+  }
+
+
 }
 
-</style> 
+/* dropdown */
+.oplabel{
+  border-bottom: 1px solid black;
+}
 
-<div class="home-content">
+
+</style> 
+<body onload="myFunction()">
+<div class="home-content" >
     <div class="container-fluid">
+
+      
+
         <div id="body_header">
           <!--This is a division tag for body header-->
           <h1>Client Details</h1>
@@ -66,24 +80,26 @@ color: rgb(8, 109, 196);
         </div>
     
 
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alred" style="display: none;">
+          <strong>This service alredy applyed !</strong> You should check in on some of those fields below.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
 <!-- user details -->
-<div class="container mt-4" style="padding: 1rem;border-radius: 10px;background-color: white;">
-    <button class="btn btn-success" style="float: right;">Edit user</button>
+<div class="container mt-4 cli_deta" style="padding: 1rem;border-radius: 10px;background-color: white;">
+
 <div class="row">
 
     <div class="col-3"><p>Name  </p></div>:
  <div class="col-3"><p> {{user_info.first_name}}</p></div>
 
-
-
 </div>
-
 
 <div class="row">
 
     <div class="col-3"><p>Email   </p></div>:
  <div class="col-3"><p> {{user_info.email}}</p></div>
-
 
 </div>
 
@@ -92,14 +108,48 @@ color: rgb(8, 109, 196);
     <div class="col-3"><p>Phone number   </p></div>:
  <div class="col-3"><p> {{user_info.phone_number}}</p></div></div>
 
- 
-  <!-- Bootstrap 4 Tabs -->
+ <button class="btn btn-primary editbtn" style="float: right;">Edit user</button><br>
+  <!-- Bootstrap 4 Tabs --> 
   <div class="container mt-4" style="padding: 1rem;border-radius: 10px;background-color: #e8eeef;">
  
     <div class="tab-content mt-2"  id="myTabContent">
+     
       <div class="tab-pane fade show active" id="tab1">
         <h4>All Services</h4>
-        <button class="btn btn-primary" style="float: right;">Apply Service</button>
+    
+      <div class="row">
+      
+        <label for="category" class="col-md-2 pt-2">Select a Service:</label>
+        <div class="col-md-4 col-6">
+          <!-- <select class="sel" id="category" name="category">
+            {% for i in category %}
+           
+            <optgroup label="{{i.ctname}}" class="mt-2 oplabel">
+             
+              {% for j in i.srvc_set.all %}
+            <option value="{{j.svname}}" class="subopt">{{j.svname}}</option>
+            {% endfor %}
+            {% endfor %}
+          </select> -->
+          <form action="" method="post" class="p-0">{% csrf_token %}
+          <select class="form-select" aria-label="Default select example" name="sel_ser" id="sel" onchange="getService()">
+            <option selected>Select service</option>
+            {% for i in category %}
+               <optgroup label="* {{i.ctname}}" class="oplabel">
+                <hr>
+            {% for j in i.srvc_set.all %}
+            <option value="{{j.svid}}" class="subopt"> {{forloop.counter}}. {{j.svname}}</option>
+           
+            {% endfor %}
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-4 col-6">
+          <button class="btn btn-success applybtn" style="float:left;" type="submit" id="apybtn" disabled>Apply Service</button>
+        </div>
+      </form>
+      </div>
+   
         <div class="table-responsive">
         <table class="table">
           <thead>
@@ -138,26 +188,36 @@ color: rgb(8, 109, 196);
         </table>
       </div>
       </div>
-
-
-   
-
-
-
-
-
-     
     </div>
-  </div>
-
-
-
-           
+  </div>            
     </div>
 </div>   
 
+<script>
+
+function getService(){
+  var opt =document.getElementById("sel").value;
+   if (isNaN(opt)){
+    document.getElementById('apybtn').disabled = true;
+   }
+   else{
+    document.getElementById('apybtn').disabled = false;
+   }
+}
 
 
+  var err = "{{err}}";
+  function myFunction() {
+ if (err == 1){
+  document.getElementById("alred").style.display = "block";
+ }
+ else{
+  document.getElementById("alred").style.display = "none"
+ }
+}
+</script>
 
 {% endblock content %}
 </section>
+
+</body>

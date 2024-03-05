@@ -31,6 +31,9 @@ class user_service_details(models.Model):
     taken_by = models.CharField(max_length=255,verbose_name="Taken",blank=True)
     status = models.CharField(max_length=255,verbose_name="Status",blank=True,default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    completed_date= models.DateTimeField(blank=True, null=True)
+    call_back_request = models.BooleanField(default=False)
     
     def __str__(self):
         return self.service.svname

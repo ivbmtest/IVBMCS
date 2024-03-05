@@ -206,7 +206,21 @@ def age_consulting(request):
 def userpro_agent(request):
     userid = request.GET['xid']
     user_info = CustomUser.objects.get(pk=userid)
+
+    if request.method == 'POST':
+        ser = request.POST['sel_ser']
+        sel_ser = srvc.objects.get(pk=int(ser))
+        if user_service_details.objects.filter(user_id=user_info,service=sel_ser):
+            return render(request,'Agent/user_pro.html',{'user_info':user_info,'err':1})
+        else:
+            return render(request,'Agent/age_consulting.html',{'value':sel_ser.svname,'user_info':user_info})  
+
+
     return render(request,'Agent/user_pro.html',{'user_info':user_info})
+
+
+
+
 
 @login_required(login_url="/")
 def age_home(request):
