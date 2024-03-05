@@ -16,6 +16,7 @@ urlpatterns = [
     path('allservice/',dashboard_views.all_service,name='allservice'),
     path('myservice/',dashboard_views.my_service,name='myservice'),
     path('user_notify/',dashboard_views.user_notify,name='user_notify'),
+    path('notification_detail/',dashboard_views.notification_detail,name='notification_detail'),
     path('payments/',dashboard_views.payments,name='payments'),
     
     # Consultation urls

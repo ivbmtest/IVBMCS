@@ -75,13 +75,14 @@ def user_notify(request):
     
     service_details =  user_service_details.objects.filter(user_id=user_detail.id)
     user_notifications = user_notification.objects.filter(recepient=user_detail.id).order_by('-timestamp')
-    # notification_detail = 
-    # print("----- ------",service_details.user_id.payment)
-    # for val in service_details:
-    #     print("------ -----",val.payment)
+    
     service_details={'service_details':service_details}
     return render(request,'User/user_dashboard/notification.html',
                   {'notification_details':user_notifications})
+    
+def notification_detail(request):
+    print('usernotifications=============')
+    return render(request,'User/user_dashboard/notification_detail.html')
 
 def all_service(request):
     return render(request,'User/user_dashboard/all_service.html')

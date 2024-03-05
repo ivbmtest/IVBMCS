@@ -1,0 +1,169 @@
+{% extends "User/user_dashboard/main_layout.html" %}
+
+{% block content %}
+
+{% load static %}
+    
+<style>
+
+.userinfo{
+    background-color: white;
+    border-radius: 12px;
+     box-shadow: 5px -5px 5px rgba(0, 0, 0, 0.3);
+}
+.userinfo input{
+border-radius: 8px;
+height: 40%;
+}
+.docu{
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 5px -5px 5px rgba(0, 0, 0, 0.3);
+    
+   
+}
+.date{
+    font-size: .9rem;
+}
+.docu table{
+    border-radius: 8px;
+    width: 100%;
+   
+}
+
+.info-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+     
+    }
+  .datess{
+    color: #555;
+  }  
+</style>
+
+<div class="home-content">
+    <div class="container-fluid">
+      <h2 class="text-center">User Info</h2>
+
+<hr>
+        <!--USER DETAILS-->
+<div class="row">
+    <div class="col-md-6 mt-3 mr-md-4 ml-md-4 userinfo">
+        <h4 class="text-center my-3">User Details </h4>
+        <div class="row d-flex justify-content-center">
+            <div class="col-5">Firstname : <input type="text" value="" readonly></div>
+            <div class="col-5">Lastname : <input type="text" value=""  readonly></div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-5">Email : <input type="text" value=""  readonly></div>
+        <div class="col-5">Ph number : <input type="text" value=""  readonly></div>
+</div>
+<div class="row d-flex justify-content-center">
+    <div class="col-5 text-center">Service  <input type="text" class="text-center" value=""  readonly></div>
+    
+</div>
+
+<div class="info-container">
+    <div class="name">Payment : <i class='bx bxs-check-shield text-success'></i></div>
+    <div class="datess">Date : </div>
+  </div>
+
+    </div>
+    <!--DOCUMENTS-->
+    <div class="col-md-5 mt-3 docu">
+        <h4 class="my-3 text-center">Documents</h4>
+       
+        <table class="m-auto">
+            <tr>
+            <th>Image</th>
+            <th class="w-50">Name</th>
+            <th class="w-100">Date</th>
+            <th>Verify</th>
+        </tr>
+        {% comment %} {% for key,val in task.documents.items %}
+            <tr>
+               <td> <img class="img-fluid" src="{% static 'docu_img' %}/{{val}}"/> </td>
+               <td class="date"> {{key}} </td>
+               <td class="date">  {{task.created_at}} </td>
+               <td class="text-center text-success"> <i class='bx bxs-check-shield'></i> </td>
+            </tr>
+         
+           
+            {% endfor %} {% endcomment %}
+        </table>
+      
+    </div>
+</div>
+
+
+
+<div class="row text-center mt-4 d-flex justify-content-center">            
+    <div class="col-md-2 mb-4">
+        <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Send Request</span></a>
+        {% comment %} <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Send Message"/> {% endcomment %}
+    </div> 
+    <div class="col-md-2 mb-4">
+        <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Edit profile</span></a>
+    </div>
+    <div class="col-md-2 mb-4">
+        <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Edit profile</span></a>
+    </div>
+    <div class="col-md-2">
+        <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Edit profile</span></a>
+    </div>
+</div>
+<br><hr>
+    </div>
+
+    <div id="message_box" class="modal fade">
+        <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">						
+                <h4 class="modal-title">Select Saff</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              </div>
+              <div class="modal-body">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Select Name</label>
+                        <select name="staff_name" id="staf">
+                            {% comment %} {% for i in staff_user %}
+                            <option value="volvo">{{i.first_name}}</option>
+                            {% endfor %} {% endcomment %}
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name='message' placeholder="write a reson for request"></textarea>
+                    </div>
+                  
+                  {% comment %} {{ form.as_p }} {% endcomment %}
+              </div>
+              <div class="modal-footer">
+                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                <button type="submit" class="btn btn-success">Request</button>
+              </div>
+              </form>
+            
+          </div>
+        </div>
+      </div>
+</div>
+<br><br>
+
+            
+        </div>
+    </div>   
+
+  {% endblock content %}
+    </section>
+    
+
+
+
+
+
+
+    

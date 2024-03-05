@@ -46,3 +46,4 @@ class user_notification(models.Model):
     # sender = models.ForeignKey(Staff,on_delete=models.DO_NOTHING)
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    is_viewed = models.BooleanField(default=False)

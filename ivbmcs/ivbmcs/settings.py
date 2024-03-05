@@ -80,10 +80,10 @@ DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'ivbmcs_db3',
-		'USER': 'root',
-		'PASSWORD': '1234',
-        # 'USER': 'admin',
-		# 'PASSWORD': 'admin',
+		# 'USER': 'root',
+		# 'PASSWORD': '1234',
+        'USER': 'admin',
+		'PASSWORD': 'admin',
 		'HOST':'localhost',
 		'PORT':'3306',
 	}

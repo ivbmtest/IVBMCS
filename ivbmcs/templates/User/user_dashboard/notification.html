@@ -104,18 +104,14 @@
         <h3 class="m-b-50 ">Notifications <i class="text-muted"></i></h3>
         <hr>
         {% for value in notification_details %}
-      <div class="notification-list notification-list--unread">
-
-        {% comment %} |{{notification_details}}
-        {% for val in notification_details %}
-        {{val.timestamp}}
-        {% endfor %} {% endcomment %}
+        {% if value.is_viewed == 0 %}
+        <a href={% url "notification_detail" %}>
+      <div class="notification-list notification-list--unread" style="background-color:powderblue;" onclick="notification_details()">
         
           <div class="notification-list_content">
               <div class="notification-list_detail">
                   <p><b>{{value.service}}</b> </p>
-                  <p class="text-muted">{{value.message}}</p>
-                  
+                  <p class="text-muted">{{value.message}}</p>                  
               </div>
             </div>
             
@@ -123,14 +119,36 @@
               {% comment %} <p class="text-muted"><small>unpaid</small></p> {% endcomment %}
               <p class="text-muted small mb-0"><i class="far fa-clock"></i>{{ value.timestamp}}</p>
             </div>
-            {% comment %} <div class="notification-list_feature-img">
-              <p class="text-muted"><small>unpaid</small></p>
-              <p class="text-muted small mb-0"><i class="far fa-clock"></i>{{ value.timestamp}}</p>
-            </div> {% endcomment %}
             
-        </div>{% endfor %}
+        </div>
+        {% else %}
+        <div class="notification-list notification-list--unread" style="background-color:powderblue;">
+
+          {% comment %} |{{notification_details}}
+          {% for val in notification_details %}
+          {{val.timestamp}}
+          {% endfor %} {% endcomment %}
+          
+            <div class="notification-list_content">
+                <div class="notification-list_detail">
+                    <p><b>{{value.service}}</b> </p>
+                    <p class="text-muted">{{value.message}}</p>                  
+                </div>
+              </div>
+              
+              <div class="notification-list_feature-img">
+                {% comment %} <p class="text-muted"><small>unpaid</small></p> {% endcomment %}
+                <p class="text-muted small mb-0"><i class="far fa-clock"></i>{{ value.timestamp}}</p>
+              </div>
+              
+          </div>
+        {% endif %}
+        
+        
+        {% endfor %}
       
     </div>
+  </a>
 
     <div class="text-center">
       <a href="#!" class="dark-link">Load more activity</a>
@@ -143,8 +161,18 @@
         
     </div>
 </div>   
+
+<script>
+  function notification_details(){
+    console.log('page called')
+    window.location.href='{% url "notification_detail" %}'
+  }
+  </script>
 {% endblock content %}
 </section>
+
+
+
 
 
 
