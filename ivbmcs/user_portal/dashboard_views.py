@@ -51,15 +51,15 @@ def user_dash_home(request):
     
 
 
-def my_service(request):
-    #current_user = request.session['username']
+def my_service(request): 
     
     current_user = request.user
     print("user services  ->",user_service_details.objects.all())
     print("service : : 25 :::",current_user.id)
     #current_user = get_user_details(current_user) 
     my_ser = user_service_details.objects.filter(user_id=current_user.id)
-    print(current_user.email)
+    # user_service_instance = user_service_details.objects.get(user_id=current_user.id)
+    # print('===========',user_service_instance.taken_by)
     user_det = authenticate(request, email=current_user.email)
     print(user_det)
 
@@ -95,7 +95,7 @@ def notification_detail(request,id):
 
 
 def callback_request(request):    
-    
+    print('triggered-----------')
     staff_name=request.POST.get('staff_name')
     sender=request.user
     service=request.POST.get('service')

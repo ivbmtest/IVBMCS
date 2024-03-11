@@ -117,7 +117,9 @@
         
           <div class="notification-list_content">
               <div class="notification-list_detail">
-                  <p><b>{{value.service}}</b> </p>
+                <p><b>{{value.sender}}</b> </p>
+                  {% comment %} <p><b>{{value.service}}</b> </p> {% endcomment %}
+                  <p class="text-muted"><b>{{value.service}}</b></p> 
                   <p class="text-muted">{{value.message}}</p>                  
               </div>
             </div>

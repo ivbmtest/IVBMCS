@@ -173,3 +173,10 @@ def send_message(request, id):
 
     return redirect('task')
 
+def staff_notification(request):
+    current_user_id=request.user.id
+    notification_details=user_notification.objects.filter(recepient=current_user_id)
+    # for val in notification_details:
+    print('--------notifi',notification_details)
+    
+    return render(request,'admin/staff/staff_notification.html',{'notification_details':notification_details})

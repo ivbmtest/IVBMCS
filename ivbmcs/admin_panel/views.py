@@ -465,7 +465,7 @@ def demo_user(request):
 def my_task(request):
     model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    y=user_service_details.objects.filter(taken_by=request.user.id)
+    y=user_service_details.objects.filter(taken_by=request.user)
     
     
     page=Paginator(y,5)
@@ -481,13 +481,15 @@ def my_task(request):
 
 @login_required(login_url="/")
 def select_my_task(request,id):
-    print("seleeeeeee")
+    print("seleeeeeee",id)
     model_meta = UserProfile._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     current_user = request.user
     # notification_instance=user_notification.objects.get(pk=id)
     # user_details = CustomUser.objects.get(pk=notification_instance.user_id.id)
     task_instance = user_service_details.objects.get(pk=id)  # Replace 1 with the actual primary key value
+    task_instance.taken_by=str(request.user)
+    task_instance.save()
     user_details = CustomUser.objects.get(pk=task_instance.user_id.id)
     service_instance = srvc.objects.get(pk=task_instance.service.svid)
     time = datetime.datetime.now()
@@ -495,8 +497,8 @@ def select_my_task(request,id):
     user_notification.objects.get_or_create(message=message, timestamp=time,
                                             recepient=user_details, service=service_instance)
     
-    task_instance.taken_by = request.user.id # Update the values of the fields
-    task_instance.save()   # Save the changes to the database
+    # task_instance.taken_by = request.user # Update the values of the fields
+    # task_instance.save()   # Save the changes to the database
     messages.success(request,"sucess")
     
     

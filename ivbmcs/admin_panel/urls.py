@@ -106,7 +106,10 @@ urlpatterns = [
     path('task_detail/<int:id>/',views.task_details,name='task_detail'),
     path('profile/',views.profile,name='profile'),  
     path('total_ord/',views.total_ord,name='total_ord'),  
-    path('send_message/<int:id>/',send_message,name='send_message')  
+    path('send_message/<int:id>/',send_message,name='send_message'), 
+    
+    path('staff_notification/',staff_notification,name='staff_notification')  
+
 
    
     
