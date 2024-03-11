@@ -55,6 +55,13 @@ color: rgb(8, 109, 196);
   }
 }
 
+
+.detas div{
+  margin-bottom: 1rem;
+ 
+
+}
+
 </style> 
 
 <div class="home-content">
@@ -71,14 +78,16 @@ color: rgb(8, 109, 196);
       <li class="nav-item">
         <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1">All</a>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4">Pending</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2">Process</a>
       </li>
     
 
-      <li class="nav-item">
-        <a class="nav-link" id="tab4-tab" data-toggle="tab" href="#tab4">Pending</a>
-      </li>
+     
       <li class="nav-item">
         <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3">Completed</a>
       </li>
@@ -93,10 +102,10 @@ color: rgb(8, 109, 196);
             <tr>
    <th>No.</th>
    <th>Service Name</th>
-
+   <th>Payment</th>
    <th>Status</th>
    <th>Apply Date</th>
-   <th>Condact (Service Holder)</th>
+   <th>Action</th>
    <th>Complete Date</th>          
             </tr>
         </thead>
@@ -107,13 +116,13 @@ color: rgb(8, 109, 196);
                 <td>{{forloop.counter}}</td>
                 <td>{{val.service}}</td>
                 
-              
+                <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
                 <!-- <td>{{val.msg}}</td> -->
                 <!-- <td>{{val.documents}}</td> -->
                 <!-- <td>{{val.taken_by}}</td>  <i class='bx bx-x-circle'>x</i> <i class='bx bxs-check-circle'></i>-->
                 <td>{% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}</td>
-                <td>{{val.created_at}}</td>
-                <td><a href="tel:+1234567890"><i class='bx bxs-phone-outgoing'></i> 8848496707</a></td>
+                <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
+                <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal-{{forloop.counter}}" class='bx bx-link-external text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='bx bxs-user-pin text-success'data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" ></i></td>
                 <td>-- -- ----</td>                
             </tr>
             {% endfor %}
@@ -130,12 +139,13 @@ color: rgb(8, 109, 196);
           <table class="table">
             <thead>
               <tr>
-     <th>No.</th>
-     <th>Service Name</th>
-     <th>Payment</th>
-   
-     <th>Apply Date</th>
-     <th>Complete Date</th>          
+                <th>No.</th>
+                <th>Service Name</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Apply Date</th>
+                <th>Action</th>
+                <th>Complete Date</th>         
               </tr>
           </thead>
           <tbody>
@@ -144,16 +154,17 @@ color: rgb(8, 109, 196);
             {% if val.status == '1' %}
               <tr>
                
-                  <td>{{forloop.counter}}</td>
-                  <td>{{val.service}}</td>
-                  
-                  <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
-                  <!-- <td>{{val.msg}}</td> -->
-                  <!-- <td>{{val.documents}}</td> -->
-                  <!-- <td>{{val.taken_by}}</td> -->
+                <td>{{forloop.counter}}</td>
+                <td>{{val.service}}</td>
                 
-                  <td>{{val.created_at}}</td>
-                  <td>-- -- ----</td>
+                <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
+                <!-- <td>{{val.msg}}</td> -->
+                <!-- <td>{{val.documents}}</td> -->
+                <!-- <td>{{val.taken_by}}</td>  <i class='bx bx-x-circle'>x</i> <i class='bx bxs-check-circle'></i>-->
+                <td>{% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}</td>
+                <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
+                <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal-{{forloop.counter}}" class='bx bx-link-external text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='bx bxs-user-pin text-success'data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" ></i></td>
+                <td>-- -- ----</td>  
                   
                   
               </tr>
@@ -172,29 +183,30 @@ color: rgb(8, 109, 196);
           <table class="table">
             <thead>
               <tr>
-     <th>No.</th>
-     <th>Service Name</th>
-   
-   
-     <th>Apply Date</th>
-     <th>Complete Date</th>          
+                <th>No.</th>
+                <th>Service Name</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Apply Date</th>
+                <th>Action</th>
+                <th>Complete Date</th>           
               </tr>
           </thead>
           <tbody>
             {% for val in my_service %}
             {% if val.status == '2' %}
               <tr>
-               
-                  <td>{{forloop.counter}}</td>
-                  <td>{{val.service}}</td>
-                  
+                <td>{{forloop.counter}}</td>
+                <td>{{val.service}}</td>
                 
-                  <!-- <td>{{val.msg}}</td> -->
-                  <!-- <td>{{val.documents}}</td> -->
-                  <!-- <td>{{val.taken_by}}</td> -->
-                
-                  <td>{{val.created_at}}</td>
-                  <td>-- -- ----</td>
+                <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
+                <!-- <td>{{val.msg}}</td> -->
+                <!-- <td>{{val.documents}}</td> -->
+                <!-- <td>{{val.taken_by}}</td>  <i class='bx bx-x-circle'>x</i> <i class='bx bxs-check-circle'></i>-->
+                <td>{% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}</td>
+                <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
+                <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal2" class='bx bx-link-external text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='bx bxs-user-pin text-success'data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" ></i></td>
+                <td>-- -- ----</td> 
                   
                   
               </tr>
@@ -212,24 +224,30 @@ color: rgb(8, 109, 196);
           <table class="table">
             <thead>
               <tr>
-     <th>No.</th>
-     <th>Service Name</th>
-   
-     <th>Apply Date</th>
-     <th>Complete Date</th>          
+                <th>No.</th>
+                <th>Service Name</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Apply Date</th>
+                <th>Action</th>
+                <th>Complete Date</th>         
               </tr>
           </thead>
           <tbody>
             {% for val in my_service %}
             {% if val.status == '0' or val.payment == false %}
               <tr>            
-                  <td>{{forloop.counter}}</td>
-                  <td>{{val.service}}</td>    
-                    <!-- <td>{{val.msg}}</td> -->
-                    <!-- <td>{{val.documents}}</td> --> 
-                    <!-- <td>{{val.taken_by}}</td> -->   
-                  <td>{{val.created_at}}</td>
-                  <td>-- -- ----</td>        
+                <td>{{forloop.counter}}</td>
+                <td>{{val.service}}</td>
+                
+                <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
+                <!-- <td>{{val.msg}}</td> -->
+                <!-- <td>{{val.documents}}</td> -->
+                <!-- <td>{{val.taken_by}}</td>  <i class='bx bx-x-circle'>x</i> <i class='bx bxs-check-circle'></i>-->
+                <td>{% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}</td>
+                <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
+                <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal2"  class='bx bx-link-external text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='bx bxs-user-pin text-success'data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" ></i></td>
+                <td>-- -- ----</td>   
               </tr>
               {% endif %}
               {% endfor %}
@@ -246,9 +264,71 @@ color: rgb(8, 109, 196);
            
     </div>
 </div>   
+<!-- request form -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Callback Request</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <!-- <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div> -->
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- detail view of service modal -->
+{% for val in my_service %}
+<div class="modal fade" id="exampleModal-{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Details</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="row m-auto detas">
+        
+<div class="col-4">Name</div>: <div class="col-6">{{val.user_id.first_name}}</div>
+<div class="col-4">Email</div>: <div class="col-6">{{val.user_id.email}}</div>
+<div class="col-4">Phone</div>: <div class="col-6">{{val.user_id.phone_number}}</div>
+<div class="col-4">Service name</div>: <div class="col-6">{{val.service}}</div>
+<div class="col-4">Apply on</div>: <div class="col-6">{{val.created_at|date:"d-n-Y H:i"}}</div>
+<div class="col-4">Amount</div>: <div class="col-6">{{val.service.svcountry.cncrid.crsymbol}} {{val.service.svrate}}</div>
+<div class="col-4">Payment</div>: <div class="col-6">{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</div>
+<div class="col-4">Status</div>: <div class="col-6">{% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}</div>
+<div class="col-4">Documents</div>: <div class="col-6">{% for i in val.documents %}{{i}},{% endfor %}</div>
+<div class="col-4">Complete on</div>: <div class="col-6">-- -- ----</div>
 
 
-
-
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
 {% endblock content %}
 </section>

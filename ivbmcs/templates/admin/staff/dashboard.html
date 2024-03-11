@@ -62,10 +62,18 @@
           transform: rotate(360deg);
         }
       }
+      .table-responsive{
+        font-size: 15px;
+      }
+      .table-responsive td{
+        font-size: 13px;
+      }
     </style>
     {% load static %}
 <div class="home-content">
+  <h5 class="ml-4 mb-4">Welcome, {{request.user}}</h5>
     <div class="overview-boxes">
+  
       <div class="box">
         <div class="right-side">
           <div class="box-topic">Profile</div>
@@ -134,17 +142,20 @@
       <div class="recent-sales box w-100">
         <div class="title">Recent Order</div>
         <div class="button ">
-          <a href=>Add</a>
+          <a href="{% url 'user' %}">View all</a>
         </div>
 
         <table class="table table-striped table-responsive">
           <thead>           
             <tr>
               <th>No.</th>
-              <th>Name</th>
+              <th>User Name</th>
               <th>phone number</th>
               <th>email</th>
               <th>Service</th>
+              <th>Total Amount</th>
+              <th>Paid Status</th>
+              <th>Service Taker</th>
               <th>Date & Time</th>
             </tr>            
           </thead>
@@ -157,9 +168,13 @@
                 <td>{{data.user_id.phone_number}}</td>
                 <td>{{data.user_id.email}}</td>
                 <td>{{data.service}}</td>
+                <td>{{data.service.svcountry.cncrid.crsymbol}} {{data.service.svrate}} /-</td>
+               
+                <td>{% if data.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
+                <td>{% if data.taken_by %} Taken  {% else %} No one   {% endif %}</td>      
                 <!-- <td>{{data.payment}}</td> -->
                 <!-- <td>{{data.taken_by}}</td>              -->
-                <td>{{data.created_at}}</td>
+                <td>{{data.created_at|date:"d-n-Y H:i"}}</td>
               </tr>
             {% endfor %}            
           </tbody>

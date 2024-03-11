@@ -144,7 +144,7 @@ color: rgb(8, 109, 196);
               </tr>
           </thead>
           <tbody>
-
+           
             {% for val in my_service %}
             {% if val.status == '1' %}
               <tr>
@@ -156,21 +156,12 @@ color: rgb(8, 109, 196);
                   <td>{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
                   <!-- <td>{{val.msg}}</td> -->
                   <!-- <td>{{val.documents}}</td> -->
-                  <!-- <td>{{val.taken_by}}</td> -->
-                
+                  <!-- <td>{{val.taken_by}}</td> -->           
                   <td>{{val.created_at}}</td>
-                  <td>-- -- ----</td>
-                  
-                  
+                  <td>-- -- ----</td>                 
               </tr>
-              
-              {% else %}
-<p class="text-danger text-center">No Processing Services yet</p>
               {% endif %}
-
-              
               {% endfor %}
-              <tr>
                 </tbody>
           </table>
         </div>
@@ -211,8 +202,7 @@ color: rgb(8, 109, 196);
                   
                   
               </tr>
-              {% else %}
-              <p class="text-danger text-center">No Completed Services yet</p>
+             
               {% endif %}
               {% endfor %}
               <tr>
@@ -257,8 +247,7 @@ color: rgb(8, 109, 196);
                   
                   
               </tr>
-              {% else %}
-              <p class="text-danger text-center">No Pending Services yet</p>
+           
               {% endif %}
               {% endfor %}
               <tr>

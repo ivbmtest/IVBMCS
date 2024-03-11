@@ -482,3 +482,19 @@ nav .profile-details i{
 }
 
 
+.tabfont th{
+  font-size: 15px;
+  text-align: center;
+}
+.tabfont td {
+  text-align: center;
+  font-size: 13px;
+}
+#table-container{
+  border-radius: 12px;
+}
+
+.ad_del {
+  height: min-content;
+
+}
