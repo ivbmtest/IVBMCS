@@ -43,7 +43,7 @@ class user_service_details(models.Model):
 class user_notification(models.Model):
     recepient= models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     service=models.ForeignKey(srvc,on_delete=models.CASCADE,default='')
-    # sender = models.ForeignKey(Staff,on_delete=models.DO_NOTHING)
+    sender = models.CharField(max_length=255,default='')
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     is_viewed = models.BooleanField(default=False)

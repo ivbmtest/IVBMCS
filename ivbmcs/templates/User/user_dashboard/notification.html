@@ -3,6 +3,12 @@
 {% load static %}
 
 {% block content %}
+<!-- Add these lines to include Bootstrap CSS and JS -->
+{% comment %} <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> {% endcomment %}
+
 {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"> {% endcomment %}
 <style>@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap);
 
@@ -105,8 +111,9 @@
         <hr>
         {% for value in notification_details %}
         {% if value.is_viewed == 0 %}
-        <a href={% url "notification_detail" %}>
-      <div class="notification-list notification-list--unread" style="background-color:powderblue;" onclick="notification_details()">
+
+      
+      <div class="notification-list notification-list--unread" style="background-color:powderblue;" id="popup-trigger">
         
           <div class="notification-list_content">
               <div class="notification-list_detail">
@@ -122,33 +129,27 @@
             
         </div>
         {% else %}
-        <div class="notification-list notification-list--unread" style="background-color:powderblue;">
-
-          {% comment %} |{{notification_details}}
-          {% for val in notification_details %}
-          {{val.timestamp}}
-          {% endfor %} {% endcomment %}
-          
-            <div class="notification-list_content">
-                <div class="notification-list_detail">
-                    <p><b>{{value.service}}</b> </p>
-                    <p class="text-muted">{{value.message}}</p>                  
+        
+          <div class="notification-list notification-list--unread" data>
+            
+              <div class="notification-list_content" data-toggle="modal" data-target="#message_box" data-whatever="@mdo">
+                  <div class="notification-list_detail">
+                      <p><b>{{value.service}}</b> </p>
+                      <p class="text-muted">{{value.message}}</p>                  
+                  </div>
                 </div>
-              </div>
-              
-              <div class="notification-list_feature-img">
-                {% comment %} <p class="text-muted"><small>unpaid</small></p> {% endcomment %}
-                <p class="text-muted small mb-0"><i class="far fa-clock"></i>{{ value.timestamp}}</p>
-              </div>
-              
-          </div>
+                
+                <div class="notification-list_feature-img">
+                  {% comment %} <p class="text-muted"><small>unpaid</small></p> {% endcomment %}
+                  <p class="text-muted small mb-0"><i class="far fa-clock"></i>{{ value.timestamp}}</p>
+                </div>
         {% endif %}
         
         
         {% endfor %}
       
     </div>
-  </a>
+  
 
     <div class="text-center">
       <a href="#!" class="dark-link">Load more activity</a>
@@ -162,12 +163,54 @@
     </div>
 </div>   
 
-<script>
+{% comment %} <script>
   function notification_details(){
     console.log('page called')
     window.location.href='{% url "notification_detail" %}'
   }
-  </script>
+  </script> {% endcomment %}
+
+  <div id="message_box" class="modal fade" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">						
+            <h4 class="modal-title">Select Saff</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="{% url "callback" %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {% comment %} <div class="name">Staff Name : <i class='bx bxs-check-shield text-success'></i></div> {% endcomment %}
+                    {% comment %} <div class="datess" name="">Staff Name : {{sender}} </div> {% endcomment %}
+                    <label for="exampleFormControlTextarea1" class="form-label">Staff Name :</label>
+                    <input class="form-control" readonly id="exampleFormControlTextarea1" rows="3"  type="text" name="staff_name" value="{{ sender }}">
+                    
+                    {% comment %} <label for="exampleFormControlTextarea1" class="form-label"placeholder="{{sender}}">Staff Name :</label>
+                    <input type='textbox'>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name='message' placeholder="write a reson for request"></textarea> {% endcomment %}
+                </div>
+
+                <div class="mb-3">
+                  <label for="exampleFormControlTextarea1" class="form-label">Service:</label>
+                    <input class="form-control" readonly id="exampleFormControlTextarea1" rows="3"  type="text" name="service" value="{{ service }}">
+              </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name='message' placeholder="write a reson for request"></textarea>
+                </div>
+          </div>
+          <div class="modal-footer">
+            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+            <button type="submit" class="btn btn-success">Request</button>
+          </div>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+
+
 {% endblock content %}
 </section>
 

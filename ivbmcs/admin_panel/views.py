@@ -463,9 +463,11 @@ def demo_user(request):
 """ function for listing the selected task """
 @login_required(login_url="/")
 def my_task(request):
-    model_meta = UserProfile._meta
+    model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y=user_service_details.objects.filter(taken_by=request.user.id)
+    
+    
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)

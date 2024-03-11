@@ -52,21 +52,21 @@ height: 40%;
     <div class="col-md-6 mt-3 mr-md-4 ml-md-4 userinfo">
         <h4 class="text-center my-3">User Details </h4>
         <div class="row d-flex justify-content-center">
-            <div class="col-5">Firstname : <input type="text" value="" readonly></div>
-            <div class="col-5">Lastname : <input type="text" value=""  readonly></div>
+            <div class="col-5" name='service_name'>Service : <input type="text" value="{{user_service_detail.service}}" readonly></div>
+            <div class="col-5">Taken_by : <input type="text" value="{{user_service_detail.taken_by}}"  readonly></div>
     </div>
     <div class="row d-flex justify-content-center">
         <div class="col-5">Email : <input type="text" value=""  readonly></div>
         <div class="col-5">Ph number : <input type="text" value=""  readonly></div>
 </div>
-<div class="row d-flex justify-content-center">
+{% comment %} <div class="row d-flex justify-content-center">
     <div class="col-5 text-center">Service  <input type="text" class="text-center" value=""  readonly></div>
     
-</div>
+</div> {% endcomment %}
 
 <div class="info-container">
     <div class="name">Payment : <i class='bx bxs-check-shield text-success'></i></div>
-    <div class="datess">Date : </div>
+    <div class="datess">Date : {{user_service_detail.created_at}} </div>
   </div>
 
     </div>
@@ -81,16 +81,16 @@ height: 40%;
             <th class="w-100">Date</th>
             <th>Verify</th>
         </tr>
-        {% comment %} {% for key,val in task.documents.items %}
+        {% for key,val in user_service_detail.documents.items %}
             <tr>
                <td> <img class="img-fluid" src="{% static 'docu_img' %}/{{val}}"/> </td>
                <td class="date"> {{key}} </td>
-               <td class="date">  {{task.created_at}} </td>
+               <td class="date">  {{user_service_detail.created_at}} </td>
                <td class="text-center text-success"> <i class='bx bxs-check-shield'></i> </td>
             </tr>
          
            
-            {% endfor %} {% endcomment %}
+            {% endfor %}
         </table>
       
     </div>
@@ -98,12 +98,14 @@ height: 40%;
 
 
 
-<div class="row text-center mt-4 d-flex justify-content-center">            
+<div class="row text-center mt-4 d-flex justify-content-center">  
+    send a callback request to get call from out staffs:          
     <div class="col-md-2 mb-4">
-        <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Send Request</span></a>
+        
+        <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx'></i> <span>Callback Request</span></a>
         {% comment %} <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Send Message"/> {% endcomment %}
     </div> 
-    <div class="col-md-2 mb-4">
+    {% comment %} <div class="col-md-2 mb-4">
         <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Edit profile</span></a>
     </div>
     <div class="col-md-2 mb-4">
@@ -111,7 +113,7 @@ height: 40%;
     </div>
     <div class="col-md-2">
         <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Edit profile</span></a>
-    </div>
+    </div> {% endcomment %}
 </div>
 <br><hr>
     </div>
@@ -124,15 +126,11 @@ height: 40%;
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               </div>
               <div class="modal-body">
-                <form method="post" action="">
+                <form method="post" action="{% url "callback" %}">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Select Name</label>
-                        <select name="staff_name" id="staf">
-                            {% comment %} {% for i in staff_user %}
-                            <option value="volvo">{{i.first_name}}</option>
-                            {% endfor %} {% endcomment %}
-                          </select>
+                        {% comment %} <div class="name">Staff Name : <i class='bx bxs-check-shield text-success'></i></div> {% endcomment %}
+                        <div class="datess" name="staff_name">Staff Name : {{user_service_detail.taken_by}} </div>
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Message</label>
