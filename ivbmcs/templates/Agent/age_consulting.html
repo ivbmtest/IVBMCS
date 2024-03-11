@@ -142,14 +142,14 @@ label.light {
           <fieldset>
             <p class="text-center text-danger">{{err}}</p>
               <legend><span class="number">1</span>User basic details</legend>
-              <label for="name">Client Name*:</label>
-              <input type="text" id="name" name="name" placeholder="Name" value="{{user_info.first_name}}"  required>
+              <label for="name">Client Name*: <span class="text-danger" id="nam_val"></span></label>
+              <input type="text" id="nam" name="name" placeholder="Name" value="{{user_info.first_name}}" required>
       
-              <label for="mail">Client Email*:</label>
-              <input type="email" id="mail" name="email"  placeholder="abc@xyz.com" value="{{user_info.email}}">
+              <label for="mail">Client Email*: </label>
+              <input type="email" id="mail" name="email"  placeholder="abc@xyz.com" value="{{user_info.email}}" required>
       
-              <label for="tel">Client Phone Number:</label>
-              <input type="tel" id="tel" placeholder="Include country code" name="num" value="{{user_info.phone_number}}">
+              <label for="tel">Client Phone Number*: <span class="text-danger" id="num_val"></span></label>
+              <input type="tel" id="tel" placeholder="Include country code" name="num" value="{{user_info.phone_number}}" required>
       
             
       
@@ -161,36 +161,85 @@ label.light {
               <input   class="form-control" readonly name="ser" id="serviceType" value="{{value}}" required>
             
               <label for="appointment_description">Appointment Description:</label>
-              <textarea id="appointment_description" name="msg" placeholder="I wish to get an appointment to skype for resolving a software problem."></textarea>
-             
-              
-              <label for="duration">Otp verification ? (Email / Phone number)</label>
-              <input type="radio" name="duration" value="em" checked class="choice"> Email
-              <input type="radio" name="duration" value="ph" class="choice"> Phone number
-             <input type="button" class="btn btn-success" value="Get" id="login-button"/>
-             <input type="text"  maxlength="6" style="letter-spacing: 1rem;width: 20%;" class="otp_area">
-
+              <textarea id="appointment_description" name="msg" placeholder="Write your message . . ."></textarea>
 
 
           </fieldset>
-          <button type="submit">Request For Appointment</button>
+<!-- 
+          {% if user_info.first_name == None %}
+          <fieldset>
+            <legend><span class="number">3</span>Contact verification</legend>
+            <label for="exampleInputPassword1">Email / Phone number*</label>
+          
+            <input type="radio" name="duration" value="em" checked class="choice"> Email
+            <input type="radio" name="duration" value="ph" class="choice"> Phone number
+           <input type="button" class="btn btn-success" value="Get" id="login-button" data-toggle="modal" data-target="#exampleModalCenter"/>
+        
+           <input type="text"  maxlength="6" style="letter-spacing: 1rem;width: 20%;" class="otp_area"> 
+         
+        </fieldset>
+        {% endif %} -->
+        {% if user_info.first_name  != None %}
+        <button type="submit"  class="w-50" >Request For Appointment</button>
+        {% else %}
+        <button type="button"  class="w-50" onclick="checksub()">Request For Appointment</button>
+     
+{% endif %}
     </form>   
-
- 
-
     </div>
+    <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Type Your OTP</h5>
+       
+      </div>
+      <div class="modal-body">
+      <center>  <input type="text" class="w-50" maxlength="6"><br>
+        <button type="submit" class="btn btn-success w-25">Submit</button></center>
+      </div>
+      <!-- <div class="modal-footer">
+
+        <button type="button" class="btn btn-danger float-left" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary float-right">Save changes</button>
+
+        </div> -->
+      
+    </div>
+  </div>
+</div>
+
+
 </div>   
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
 
+function checksub(){
+  var name = document.getElementById("nam");
+  var num = document.getElementById('tel');
+ 
+  if (name.value == ''){
+    document.getElementById('nam_val').innerHTML='Please enter the name';
+  }
+else if (num.value=='') {
+  	document.getElementById('num_val').innerHTML= 'Please enter the phone number';
+}
+else{
+  $('#exampleModalCenter').modal('show');
 
-$(document).ready(function () {
-        $('#login-button').on('click', function () {
-           alert("ok")        
-        });
-    });
+}
+}
+// $(document).ready(function () {
+//         $('#login-button').on('click', function () {
+//            alert("ok")        
+//         });
+//     });
 </script>
 
 {% endblock content %}

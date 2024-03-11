@@ -57,17 +57,29 @@ table {
     border-collapse: collapse;
     width: 80%;
     margin-top: 20px;
+    border-radius: 12px;
 }
 
 th, td {
     border: 1px solid #ddd;
     padding: 8px;
-    text-align: left;
+   
 }
 
-th {
-    background-color: #f2f2f2;
-}
-        td a i {
-    color: gray;
-}
+
+.tabfont th{
+    font-size: 15px;
+    text-align: center;
+  }
+  .tabfont td {
+    text-align: center;
+    font-size: 13px;
+  }
+  #table-container{
+    border-radius: 12px;
+  }
+
+  .ad_del {
+    height: min-content;
+
+  }

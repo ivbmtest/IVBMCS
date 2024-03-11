@@ -285,8 +285,8 @@ def services(request):
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/super_user/services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names,'cou':cou})
+   
+    return render(request,'admin/super_user/services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names})
    
 
 #Delete Service
@@ -412,17 +412,26 @@ def update_taxmaster(request,id):
 
 # @login_required(login_url="/")
 def dashboard(request):
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
-    total_order = UserProfile.objects.filter().count()
+    cou=user_service_details.objects.filter(taken_by__exact='').count()
+    total_order = user_service_details.objects.filter().count()
+    take = user_service_details.objects.filter(taken_by__isnull=False).count()
+
+    #staff count
+    sta = CustomUser.objects.filter(user_type=2).count()
+    age = CustomUser.objects.filter(user_type=3).count()
+  
+    model_meta = user_service_details._meta    
+    # field_names = [field.verbose_name for field in model_meta.fields 
+    #                if field.verbose_name not in ['user_id','Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]
+    latest_order = user_service_details.objects.all().order_by('-created_at')[:5]
+    s = user_service_details.objects.all()
     
-    
-    model_meta = UserProfile._meta    
-    field_names = [field.verbose_name for field in model_meta.fields 
-                   if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status']]
-    latest_record = UserProfile.objects.all().order_by('-created_at')[:5]
-    
-    return render(request,'admin/main_app/main_layout.html',{'cou':cou,'total':total_order,
-                                              "latest_data":latest_record,"field_names":field_names})
+    li = [i.created_at.month for i in s if i.user_id.user_type == "4"]
+
+    d = {i: li.count(i) if i in li else 0 for i in range(1, 13)}
+    mon = [d[i] for i in range(1, 13)]
+
+    return render(request,'admin/main_app/main_layout.html',{'cou':cou,'take':take,'total':total_order, "latest_order":latest_order,'data':mon,'sta':sta,'age':age})
 
 
 @login_required(login_url="/")

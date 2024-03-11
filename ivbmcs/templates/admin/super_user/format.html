@@ -12,8 +12,8 @@
                       <div class="col-sm-6">
               <h2>Format <b>Details</b></h2>
             </div>
-            <div class="col-sm-6">
-              <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add Format</span></a>
+            <div class="col-sm-6 d-flex justify-content-end ad_del" >
+              <a href="#addEmployeeModal" class="btn btn-success mr-2" data-toggle="modal"><i class='bx bx-plus'></i> <span>Add Format</span></a>
               <button onclick="getCheckedValues()" id="okButton" data-target="#deleteEmployeeModal"  class="btn btn-danger" data-toggle="modal" disabled><i class='bx bxs-trash'></i> <span>Delete</span></button>
             </div>
                   </div>
@@ -28,8 +28,32 @@
 
              
                 {% if format_info|length != 0 %}
-              <div id="table-container" style="overflow:auto;">
-              <table class="table table-striped table-hover">
+              <div id="table-container" style="overflow:auto;" class="bg-white mt-3 shadow p-3">
+                <div class="row"> 
+
+                  <div class="col-sm-6 mb-2">
+                  
+                      <span class="ml-1"><button class="btn" style="width: min-content; border:none">show</button></span> <select name="cars" id="cars" style="width: min-content;">
+                      <option value="volvo">10</option>
+                      <option value="saab">20</option>
+                      <option value="opel">50</option>
+                      <option value="audi">100</option>
+                    </select>
+                  
+                  </div>
+                  <div class="col-sm-6">
+                              <form class="p-0 serbox" style="float: right;">
+                                <div class="input-group">
+                                  <input type="text" class="form-control" placeholder="Search here.." aria-label="Username" aria-describedby="basic-addon1">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text bg-transparent ml-1" id="basic-addon1"><i class='bx bx-search-alt-2'></i></span>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                            </div> 
+
+              <table class="table table-striped table-hover tabfont">
                     <thead>
                         <tr>
                 <th>
@@ -46,7 +70,7 @@
                     </thead>
                     <tbody>
                       {% for val in format_info %}
-                        <tr>
+                      <tr class="bg-white">
                             <td>
                               <span class="custom-checkbox">
                                 <input  type="checkbox" value="{{val.frid}}" class="checkbox" onchange="updateOkButtonState()">
@@ -59,7 +83,7 @@
                             <td>{{val.frfltr}}</td>
                             <td>{{val.frstatus}}</td>
                             <td>{{val.usrid}}</td>
-                            <td>{{val.dtupdatd}}</td>
+                            <td>{{val.dtupdatd|date:"d-n-Y H:i"}}</td>
                             
                             
                             <td>
@@ -71,7 +95,7 @@
                         <tr>
                     </tbody>
               </table>
-            </div>
+           
          
       <div class="clearfix">
               <div class="hint-text">Showing <b>{{format_info.number}}</b> out of <b>{{format_info.paginator.num_pages}}</b> entries</div>
@@ -94,6 +118,7 @@
                   {% endif %}
               </ul>
           </div>
+        </div>
           {% else%}
             
           <h3 class="text-danger text-center mt-5">No Records Found</h3>
