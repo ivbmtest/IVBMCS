@@ -51,15 +51,15 @@ def user_dash_home(request):
     
 
 
-def my_service(request):
-    #current_user = request.session['username']
+def my_service(request): 
     
     current_user = request.user
     print("user services  ->",user_service_details.objects.all())
     print("service : : 25 :::",current_user.id)
     #current_user = get_user_details(current_user) 
     my_ser = user_service_details.objects.filter(user_id=current_user.id)
-    print(current_user.email)
+    # user_service_instance = user_service_details.objects.get(user_id=current_user.id)
+    # print('===========',user_service_instance.taken_by)
     user_det = authenticate(request, email=current_user.email)
     print(user_det)
 
@@ -75,14 +75,51 @@ def user_notify(request):
     
     service_details =  user_service_details.objects.filter(user_id=user_detail.id)
     user_notifications = user_notification.objects.filter(recepient=user_detail.id).order_by('-timestamp')
-    # notification_detail = 
-    # print("----- ------",service_details.user_id.payment)
-    # for val in service_details:
-    #     print("------ -----",val.payment)
-    service_details={'service_details':service_details}
+    user_notifications_instance = user_notification.objects.get(recepient=user_detail.id)
+    # user_notifications_instance.sender='karthik'
+    # user_notifications_instance.save()
+    sender=user_notifications_instance.sender
+    service=user_notifications_instance.service
+    service_details={'service':service}
+    print('service:::',service)
     return render(request,'User/user_dashboard/notification.html',
-                  {'notification_details':user_notifications})
+                  {'notification_details':user_notifications,'sender':sender,'service':service})
+    
+def notification_detail(request,id):
+    service_detail=srvc.objects.filter(svname=id)
+    user_service_detail= user_service_details.objects.get(service=service_detail[0].svid, user_id=request.user.id)
+    user_notification_instance= user_notification.objects.get(service=service_detail[0].svid, recepient=request.user.id)
+    user_notification_instance.is_viewed =1
+    user_notification_instance.save()
+    return render(request,'User/user_dashboard/notification_detail.html',{'user_service_detail':user_service_detail})
 
+
+def callback_request(request):    
+    print('triggered-----------')
+    staff_name=request.POST.get('staff_name')
+    sender=request.user
+    service=request.POST.get('service')
+    message=request.POST.get('message')
+    timestamp = datetime.now()
+    user_details = CustomUser.objects.get(first_name=staff_name)
+
+    # Assuming YourServiceModel is the correct model for your 'service' field
+    service_instance = srvc.objects.get(svname=service)
+    print('-------',staff_name)
+    print('-------',sender)
+    print('-------',service)
+    print('-------',message)
+    print('-------',timestamp)
+    print('-------',user_details.id)
+    print('-------',service_instance.svid)
+    
+
+    user_notification_instance=user_notification.objects.get_or_create(
+        recepient=user_details,sender=sender,service=service_instance,
+        message=message,timestamp=timestamp,is_viewed=0)
+    
+    return redirect('user_notify')
+    
 def all_service(request):
     return render(request,'User/user_dashboard/all_service.html')
 

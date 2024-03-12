@@ -78,17 +78,27 @@
                               <label for="checkbox1"></label>
                             </span>
                           </td>
+                          {% comment %} <td>{{val.documents}}</td> {% endcomment %}
                           <td>{{forloop.counter}}</td>
-                          <td><a href="{% url 'task_detail' id=val.id %}">{{val.user_id.last_name}}</a></td>
-                          <td>{{val.user_id.phone_number}}</td>
-                          <td>{{val.user_id.email}}</td>
-                          <td>{{val.service}}</td>
-                          <td>{{val.document.name|cut:"/" }}</td>
-                          <td><a href = "{{val.image.url}}" ><img src="{{ val.image.url }}" alt="{{ val.name }}" width="50" height="50"></a>{{val.image}}</td>
+                          <td><a href="{% url 'task_detail' id=val.id %}">{{val.user_id.first_name|default:"N/A"}}</a></td>
+                          <td>{{val.service|default:"N/A"}}</td>
                           <td>{% if val.payment %} Complete {% else %} Pending {% endif %}</td>
-                          <td>own</td> 
-                          <td>{{val.status}}</td>
-                          <td>{{val.created_at}}</td>   
+                          <td>{{val.msg|default:"N/A"}}</td>
+                          <td>
+                            {% for key, value in val.documents.items %}
+                              {{ key }}<br>
+                            {% endfor %}
+                          </td>
+                          {% comment %} <td>{{val.documents|cut:"/" |default:"N/A"}}</td> {% endcomment %}
+                          <td>{{val.agent_id|default:"N/A"}}</td>
+                          <td>{{val.taken_by|default:"N/A"}}</td>
+                          <td>{{val.status|default:"N/A"}}</td>
+                          <td>{{val.created_at|default:"N/A"}}</td> 
+                          <td>{{val.completed_date|default:"N/A"}}</td> 
+                          <td>{{val.call_back_request|default:"N/A"}}</td>
+                          {% comment %} <td>{{val.user_id.phone_number|default:"N/A"}}</td>
+                          <td>{{val.user_id.email|default:"N/A"}}</td> {% endcomment %}                       
+                          {% comment %} <td><a href = "{{val.image.url}}" ><img src="{{ val.image.url }}" alt="{{ val.name }}" width="50" height="50"></a>{{val.image}}</td> {% endcomment %}            
                           <td>
                             {% comment %} <a href="{% url 'task' id=val.id %}" ><i  class='btn btn-success' class="material-icons " data-toggle="tooltip" title="Edit">Select</i></a> {% endcomment %}
                             
