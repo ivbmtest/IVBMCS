@@ -84,6 +84,14 @@ def staff(request):
     page=page.get_page(page_list)
     print("--------------y",page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
+
+    print("s",y)
+
+    for i in y:
+        print(i.staff.category)
+
+
+
     for items in y:
         items.user_type = 'staff'
         if items.gender=='M':
@@ -145,6 +153,19 @@ def update_staff(request,id):
 #         else:
 #             messages.error(request, "Could Not Add: ")
 #     return render(request, 'hod_template/add_student_template.html', context)
+
+def staff_orders(request):
+    model_meta =user_service_details._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+
+
+    #y=user_service_details.objects.filter(taken_by__exact='')
+    sv = srvc.objects.get(svcategory=request.user.staff.category)
+    t = user_service_details.objects.filter(service=sv,taken_by__exact='')
+    page=Paginator(t,5)
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)
+    return render(request,'admin/staff/orders.html',{'order_info':page,'field_names': field_names,})
 
 
 @login_required(login_url="/")
