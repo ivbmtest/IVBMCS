@@ -102,9 +102,13 @@ def callback_request(request):
     message=request.POST.get('message')
     timestamp = datetime.now()
     user_details = CustomUser.objects.get(first_name=staff_name)
+    # user_service_detail= user_service_details.objects.get(service=service, user_id=request.user.id)
 
     # Assuming YourServiceModel is the correct model for your 'service' field
     service_instance = srvc.objects.get(svname=service)
+    user_service_detail_instance= user_service_details.objects.get(service=service_instance, user_id=request.user.id)
+    user_service_detail_instance.call_back_request=1
+    user_service_detail_instance.save()
     print('-------',staff_name)
     print('-------',sender)
     print('-------',service)

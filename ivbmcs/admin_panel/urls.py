@@ -108,7 +108,8 @@ urlpatterns = [
     path('total_ord/',views.total_ord,name='total_ord'),  
     path('send_message/<int:id>/',send_message,name='send_message'), 
     
-    path('staff_notification/',staff_notification,name='staff_notification')  
+    path('staff_notification/',staff_notification,name='staff_notification'),
+    path('staff_tickets/',staff_tickets,name='staff_tickets') , 
 
 
    

@@ -175,8 +175,22 @@ def send_message(request, id):
 
 def staff_notification(request):
     current_user_id=request.user.id
-    notification_details=user_notification.objects.filter(recepient=current_user_id)
+    notification_details=user_notification.objects.filter(recepient=current_user_id).order_by('-timestamp')
     # for val in notification_details:
     print('--------notifi',notification_details)
     
     return render(request,'admin/staff/staff_notification.html',{'notification_details':notification_details})
+
+
+def staff_tickets(request):
+    service_details = user_service_details.objects.filter(call_back_request=1,taken_by=request.user).order_by('-created_at')
+    service_instance = user_service_details.objects.get(call_back_request=1,taken_by=request.user)
+    user_details = CustomUser.objects.get(pk=service_instance.user_id.id)
+    model_meta = user_service_details._meta
+    field_names = [field.verbose_name for field in model_meta.fields]
+    filter_fields=['user_id','Service', 'Documents', 'agent_id','Payment']
+    filtered_field_names=[names for names in field_names if names in filter_fields]
+    return render(request,'admin/staff/tickets.html',{'service_details':service_details,
+                                                      'field_names':filtered_field_names,
+                                                      'phone_number':user_details.phone_number,
+                                                      'email':user_details.email})
