@@ -11,11 +11,12 @@
 
 body{
   height: 100vh;
+
 }
 
 #body_header
 {
-
+  
     width:auto;
     margin:0px auto;
     text-align:left;
@@ -45,12 +46,12 @@ font-size: 18px;
 
 /* recomm */
 .main_recom{
- background-color: white;
+ /* background-color: white; */
  padding-bottom: 1rem;
   padding-top: 1rem;
   width: 95%;
-  border-radius: 20px;
-  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.3);
+  /* border-radius: 20px;
+  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.3); */
 }
 
 
@@ -118,19 +119,20 @@ height: 80%;
 
 .left{
 position: absolute;
-right: 1rem;
-  bottom:18%;
-font-size: 3rem;
+right: .5rem;
+  bottom:16%;
+font-size: 2rem;
 cursor: pointer;
+color: rgba(9, 21, 112, 0.618)
 
 }
 
 .right{
-  
+  color: rgba(9, 21, 112, 0.618);
   position: absolute;
- left: 1rem;
-  bottom:18%;
-  font-size: 3rem;
+ left: .5rem;
+  bottom:16%;
+  font-size: 2rem;
   cursor: pointer;
 }
 
@@ -144,41 +146,98 @@ cursor: pointer;
   }
 }
 
+.dashed{
+  width: 95%;
+ 
+}
+.dashed .col-md-3,.col-md-4{
+ background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.3);
+  height: max-content;
+  margin-top: 1rem;
+
+}
+
+.dashed i{
+  font-size: 3rem;
+}
+.dashed p {
+  font-size: 1.2rem;
+}
 </style> 
 
-<div class="home-content">
+<div class="home-content" style="background-color: rgba(155, 155, 155, 0.261);">
         <div id="body_header">
           <!--This is a division tag for body header-->
          
-          <h4><label>Welcome back ,</label> {{request.user.last_name}}</h4>  
+          <h4><label>Welcome back ,</label> {{request.user.first_name}}</h4>  
           <p style="margin-top: -.9rem;margin-left: 2rem;font-size: 14px;">See your Updates</p>
         </div>
-    
-  <!-- Bootstrap 4 Tabs -->
-  <div class="container update">
-    <h5>  <i class='bx bxs-right-arrow text-warning'></i>  New Release</h5>
-    <marquee direction="up" scrollamount="4">
-  <ul>
-    <li>
-  PAN card will become inoperative from 01st July 2023 if PAN holders do not link it with their Aadhaar card. The IT department has mandated linking PAN-Aadhaar to regulate and curb tax evasion
+
+ <!-- Bootstrap 4 Tabs -->
+ <div class="container update mt-2">
+  <h5>  <i class='bx bxs-right-arrow text-warning'></i>  New Release</h5>
+  <marquee direction="up" scrollamount="4">
+<ul>
+  <li>
+PAN card will become inoperative from 01st July 2023 if PAN holders do not link it with their Aadhaar card. The IT department has mandated linking PAN-Aadhaar to regulate and curb tax evasion
 </li>
 <li>
-  In new passport regulations, the MEA has changed the rule of the requirement of the names of both parents.
+In new passport regulations, the MEA has changed the rule of the requirement of the names of both parents.
 </li>
 <li>
-  Section 2(61) & Section 20: 1) Inclusion of Reverse Charge (RCM) Invoice/ITC under ISD mechanism for distributing ITC. 2) Making ISD mechanism compulsory for distributing ITC by Head Offices
+Section 2(61) & Section 20: 1) Inclusion of Reverse Charge (RCM) Invoice/ITC under ISD mechanism for distributing ITC. 2) Making ISD mechanism compulsory for distributing ITC by Head Offices
 </li>
 </ul>  
 
 </marquee>
-      </div> 
+    </div> 
+
+
+<!--cards-->
+
+    <div class="container dashed mb-3">
+      <div class="row  d-flex justify-content-around ">
+
+
+        <div class="col-md-4 text-center px-5 py-2">
+          <i class='bx bxs-cart text-success'></i>
+          <h6>Total Order</h6>
+          
+          <p>2</p>
+  
+</div>
+
+<div class="col-md-3 text-center px-5 py-2">
+  <i class='bx bx-cog'></i>
+  <h6>Processing</h6>
+  
+  <p>2</p>
+
+</div>
+
+<div class="col-md-4 text-center px-5 py-2">
+  <i class='bx bx-rupee text-warning'></i></i>
+  <h6>Total Spent</h6>
+  
+  <p>₹ 520</p>
+
+</div>
+
+
+    </div>
+
+    
+        </div>
+ 
    
       <!--recomm-->
 <div class="container mt-4 main_recom" style="padding-left: 0;">
   <div class="header-container ml-2">   <h5 class="ml-1"> <i class='bx bxs-down-arrow text-success'></i> Recommended for you </h5><a href="" >View all <i class='bx bxs-chevron-right'></i></a></div>
   
 
-  <div class="scroll-button right" onclick="scrollContainer(-1)"><i class='bx bx-chevron-left text-primary'></i></div>
+  <div class="scroll-button right" onclick="scrollContainer(-1)"><i class='fa fa-chevron-circle-left'></i></div>
   
   <div class="row ml-2 recommended m-auto" id="recomm">
     {% for i in recommended %}
@@ -198,7 +257,7 @@ cursor: pointer;
        
   </div>
   
-  <div class="scroll-button left" onclick="scrollContainer(1)"><i class='bx bx-chevron-right text-primary'></i></div>
+  <div class="scroll-button left" onclick="scrollContainer(1)"><i class='fa fa-chevron-circle-right'></i></div>
 
 </div>
 
