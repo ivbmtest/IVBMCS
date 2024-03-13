@@ -23,7 +23,7 @@ class user_service_details(models.Model):
     user_id = models.ForeignKey(CustomUser,on_delete = models.CASCADE,verbose_name = "user_id")
     service = models.ForeignKey(srvc, verbose_name="Service", on_delete=models.CASCADE)
     payment = models.BooleanField(verbose_name="Payment",default=False,blank=True)
-    msg = models.TextField(verbose_name="user Query",blank=True)
+    msg = models.TextField(verbose_name="Remarks",blank=True)
     documents = models.JSONField(verbose_name="Documents",blank=True, default='')
 
     agent_id = models.ForeignKey(CustomUser,on_delete = models.CASCADE,related_name='agent_id',verbose_name = "agent_id",null=True, blank=True)
@@ -33,7 +33,7 @@ class user_service_details(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     completed_date= models.DateTimeField(blank=True, null=True)
-    call_back_request = models.BooleanField(default=False)
+    call_back_request = models.IntegerField(default=0)
     
     def __str__(self):
         return self.service.svname

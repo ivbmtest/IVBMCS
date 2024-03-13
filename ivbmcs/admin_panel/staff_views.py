@@ -204,14 +204,28 @@ def staff_notification(request):
 
 
 def staff_tickets(request):
-    service_details = user_service_details.objects.filter(call_back_request=1,taken_by=request.user).order_by('-created_at')
-    service_instance = user_service_details.objects.get(call_back_request=1,taken_by=request.user)
+    # try:
+    print(request.user)
+    service_details = user_service_details.objects.filter(taken_by=request.user).order_by('-created_at')
+    service_instance = user_service_details.objects.get(taken_by=request.user)
     user_details = CustomUser.objects.get(pk=service_instance.user_id.id)
     model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     filter_fields=['user_id','Service', 'Documents', 'agent_id','Payment']
     filtered_field_names=[names for names in field_names if names in filter_fields]
+    
     return render(request,'admin/staff/tickets.html',{'service_details':service_details,
-                                                      'field_names':filtered_field_names,
-                                                      'phone_number':user_details.phone_number,
-                                                      'email':user_details.email})
+                                                    'field_names':filtered_field_names,
+                                                    'phone_number':user_details.phone_number,
+                                                    'email':user_details.email})
+    # except:
+    #     print('exeptiosn===========')
+    #     return render(request,'admin/staff/tickets.html',{'service_details':service_details})
+    
+    
+    
+def close_ticket(request,id):
+    user_service_details_instance=user_service_details.objects.get(pk=id)
+    user_service_details_instance.call_back_request=2
+    user_service_details_instance.save()
+    return redirect('staff_tickets')
