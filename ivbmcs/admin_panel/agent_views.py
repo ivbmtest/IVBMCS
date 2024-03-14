@@ -247,6 +247,7 @@ def age_all_service(request):
 
 @login_required(login_url="/")
 def age_payments(request):
-    return render(request,'Agent/payments.html')
+    agent_payment_details = user_service_details.objects.filter(user_id=request.user.id)
+    return render(request,'Agent/payments.html',{'agent_payment_details':agent_payment_details})
 
 

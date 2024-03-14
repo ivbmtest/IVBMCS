@@ -94,8 +94,7 @@ def notification_detail(request,id):
     return render(request,'User/user_dashboard/notification_detail.html',{'user_service_detail':user_service_detail})
 
 
-def callback_request(request):    
-    print('triggered-----------')
+def callback_request(request):  
     staff_name=request.POST.get('staff_name')
     sender=request.user
     service=request.POST.get('service')

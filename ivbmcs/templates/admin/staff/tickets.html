@@ -1,6 +1,21 @@
 {% extends "admin/main_app/main_layout.html" %}
 
     {% block content %}
+    <style>
+      .back_btn {
+      background-color: #242d6e;
+      color: white; /* Text color */
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      }
+
+    .back_btn:hover {
+    background-color: #1c2252; /* Darken the color on hover */
+    color: white;
+    }
+    </style>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <div class="home-content">       
       <div class="container-fluid">
@@ -53,9 +68,7 @@
                             <li class="nav-item">
                               <a class="nav-link text-danger" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Closed</a>
                             </li>
-                            {% comment %} <li class="nav-item">
-                              <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Closed</a>
-                            </li> {% endcomment %}
+                            
                           </ul>
                           <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -91,8 +104,11 @@
                                           <td>{{forloop.counter}}</td>
                                           <td>{{val.user_id.first_name|default:"N/A"}}</td>
                                           <td>{{val.service|default:"N/A"}}</td>
-                                          <td>{% if val.payment %} Complete {% else %} Pending {% endif %}</td>
-                                          <td>
+                                          <td>{% if val.payment %} <span class="badge badge-success">Done</span>
+                                            {% else %} <span class="badge badge-danger">Failed</span>
+                                            {% endif %}</td>
+                                          {% comment %} <td>{{val.msg|default:"N/A"}}</td> {% endcomment %}
+                                          <td>                                          <td>
                                             {% for key, value in val.documents.items %}
                                               {{ key }}<br>
                                             {% endfor %}
@@ -146,7 +162,9 @@
                                             <td>{{forloop.counter}}</td>
                                             <td>{{val.user_id.first_name|default:"N/A"}}</td>
                                             <td>{{val.service|default:"N/A"}}</td>
-                                            <td>{% if val.payment %} Complete {% else %} Pending {% endif %}</td>
+                                            <td>{% if val.payment %} <span class="badge badge-success">Done</span>
+                                              {% else %} <span class="badge badge-danger">Failed</span>
+                                              {% endif %}</td>
                                             {% comment %} <td>{{val.msg|default:"N/A"}}</td> {% endcomment %}
                                             <td>
                                               {% for key, value in val.documents.items %}
@@ -157,7 +175,7 @@
                                             <td>{{val.agent_id|default:"N/A"}}</td>
                                             <td>{{phone_number|default:"N/A"}}</td>
                                             <td>{{email|default:"N/A"}}</td>
-                                            <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" title='view' data-target="#view_detail-{{forloop.counter}}" class='fa fa-eye  text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='fa fa-window-close text-danger'data-toggle="modal" title='close request' data-target="#close_ticket-{{forloop.counter}}" data-whatever="@mdo" ></i></td>
+                                            <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" title='view' data-target="#view_detail-{{forloop.counter}}" class='fa fa-eye  text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;</td>
                                         </tr>
                                       {% endif %}
                                     {% endfor %}
@@ -212,37 +230,38 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Callback Request</h5>
+              {% comment %} <h5 class="modal-title" id="exampleModalLabel">Callback Request</h5> {% endcomment %}
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <form method="post" action="{% url "callback" %}">
-                {% csrf_token %}
-                {{form.errors}}
-                <div class="mb-3">
-                  <label for="exampleFormControlTextarea1" class="form-label">Staff Name :</label>
-                  <input class="form-control" readonly id="exampleFormControlTextarea1" rows="3"  type="text" name="staff_name" value="{{val.taken_by}}">
+              <article class="card">
+                <header class="card-header"> Callback Request</header>
+                <div class="card-body">
+                    <h6>Order ID: {{val.id}}</h6>
+                    <article class="card">
+                        <div class="card-body row">
+                            <div class=""> <strong>Name: </strong>{{ val.user_id.first_name}}</div>
+                            <div class=""> <strong>Contact Details: </strong><i class="fa fa-envelope "></i> {{ val.user_id.email}} | <i class="fa fa-phone"></i> {{ val.user_id.phone_number}} </div>
+                            <div class=""> <strong>Applied Service: </strong>{{ val.service}} </div>
+                            <div class=""> <strong>Applied On:</strong>{{ val.created_at}} </div>
+                        </div>
+                    </article>
+                    <div class="track">
+                      {% if val.payment %}
+                        <div class="step active"> <span class="icon badge badge-success"> <i class="fa fa-check"></i> </span> <span class="text">Payment Completed</span> </div>
+                      {% endif %}<br>
+                        <div class="step active"> <span class="icon badge badge-primary"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by {{val.taken_by}}</span> </div><br>
+                        <div class="step"> <span class="icon badge badge-danger"> <i class="fa fa-phone"></i> </span> <span class="text">Callback Request:closed </span> </div><br>
+                        {% comment %} <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> </div><br> {% endcomment %}
+                    </div>
+                    <hr>
+                    
+                    <hr>
+                    <a href="#" class="back_btn" data-abc="true" data-dismiss="modal"> <i class="fa fa-chevron-left"></i> Back</a>
                 </div>
-                <div class="mb-3">
-                  <label for="exampleFormControlTextarea1" class="form-label">Service:</label>
-                    <input class="form-control" readonly id="exampleFormControlTextarea1" rows="3"  type="text" name="service" value="{{val.service}}">
-                </div>
-                <div class="form-group">
-                  <label for="message-text" class="col-form-label">Message:</label>
-                  <textarea class="form-control" id="message-text" name='message'></textarea>
-                </div>
-                <div class="modal-footer">
-                  <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                  <input type="submit" class="btn btn-success" value="Request"> 
-      
-                  {% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-success">Request</button> {% endcomment %}
-                </div>
-              </form>
-              
-            </div>
+            </article>
             
           </div>
         </div>
