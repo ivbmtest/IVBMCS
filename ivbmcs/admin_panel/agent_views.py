@@ -35,9 +35,7 @@ def agent(request):
             fs = FileSystemStorage()
             filename = fs.save(passport.name, passport)
             passport_url = fs.url(filename)
-            print('----------before try')
             try:
-                print('--------entered')
                 user = CustomUser.objects.create_user(
                     email=email, password=password, user_type=3, first_name=first_name, last_name=last_name, profile_pic=passport_url)
                 user.gender = gender
@@ -46,7 +44,6 @@ def agent(request):
                 user.updated_at = datetime.datetime.now()
                 user.save()
                 messages.success(request, "Successfully Added")
-                print('-------------exit')
                 # return redirect(reverse('add_student'))
             
             except Exception as e:
@@ -62,11 +59,9 @@ def agent(request):
                    'email', 'user type', 'gender', 'profile pic', 'address', 'created at', 'updated at']
     filtered_field_names=[names for names in field_names if names in filter_fields]
     y=CustomUser.objects.filter(user_type=3)
-    print("--------------y",filtered_field_names)
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    print("--------------y",page_list)
     cou=UserProfile.objects.filter(taken_by__exact='').count()
     for items in y:
         items.user_type = 'staff'
@@ -141,48 +136,33 @@ def age_consulting(request):
         num = request.POST['num']
         serv = request.POST['ser']
         msg = request.POST['msg']
-        print("Full set",name,email,num,serv,msg)
        
         service = srvc.objects.get(svname=serv)
         request.session['service_id_data'] = serv
 
         if CustomUser.objects.filter(email=email,phone_number=num):
             user = CustomUser.objects.get(email=email)
-            print("user first---------",user,"enter name --- ",name)
             if user.first_name != name:
-                print("That user alredy reg. but name  is not same.")
                 return render(request,'Agent/age_consulting.html',{'err':'That user alredy reg. but name  is not same.','value':val})
             elif user_service_details.objects.filter(user_id=user.id,service=service).exists():
-                print("that service alredy exists")
                 return render(request,'Agent/age_consulting.html',{'err':f'That {val} service alredy applyed','value':val})
-            else:
-                print("Request Approved")
-                
+            else:               
                 apply = user_service_details.objects.create(user_id=user, service=service,msg=msg,agent_id=request.user)
                 apply.save()
                 return render(request,'User/user_dashboard/payment.html')    
 
         elif CustomUser.objects.filter(email=email).exists():
-            print("email alredy")
             return render(request,'Agent/age_consulting.html',{'err':'Email Already Registered','value':val})
         elif CustomUser.objects.filter(phone_number=num).exists():
-            print("phone alredy")
             return render(request,'Agent/age_consulting.html',{'err':'phone number  already registered','value':val})
         else:
-            #create accout
-            print("agent user name :",request.user)
-            
-            acc = CustomUser.objects.create_user(email=email,phone_number=num,first_name = name,password=email)
+            #create accout           
+            acc = CustomUser.objects.create_user(email=email,phone_number=num,first_name = name,password=email,user_type=4)
             acc.save()
             apply = user_service_details.objects.create(user_id=acc, service=service,msg=msg,agent_id=request.user)
             apply.save()
-            
-            print("booikng session",service)
-        #u = request.session['username']
-        #print("cusom user",CustomUser.objects.get(email=request.user.email))
             u = request.user
             service = srvc.objects.get(svname=serv)
-            print("booikng session",service)
             return render(request,'User/user_dashboard/payment.html')   
     else:
         return render(request,'Agent/age_consulting.html',{'value':val}) 
@@ -219,9 +199,6 @@ def userpro_agent(request):
     return render(request,'Agent/user_pro.html',{'user_info':user_info})
 
 
-
-
-
 @login_required(login_url="/")
 def age_home(request):
     return render(request,'Agent/age_home.html')
@@ -247,7 +224,9 @@ def age_all_service(request):
 
 @login_required(login_url="/")
 def age_payments(request):
-    agent_payment_details = user_service_details.objects.filter(user_id=request.user.id)
+    agent_payment_details = user_service_details.objects.filter(agent_id=request.user.id)
+    for val in agent_payment_details:
+        print(val.payment)
     return render(request,'Agent/payments.html',{'agent_payment_details':agent_payment_details})
 
 

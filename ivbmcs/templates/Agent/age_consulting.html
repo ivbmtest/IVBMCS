@@ -180,8 +180,10 @@ label.light {
         </fieldset>
         {% endif %} -->
         {% if user_info.first_name  != None %}
-        <button type="submit"  class="w-50" >Request For Appointment</button>
+        {% comment %} <button type="submit"  class="w-50" >Request For Appointment</button> {% endcomment %}
+        <button type="button"  class="w-50" onclick="checksub()">Request For Appointment</button>
         {% else %}
+        <button type="submit"  class="w-50" >Request For Appointment</button>
         <button type="button"  class="w-50" onclick="checksub()">Request For Appointment</button>
      
 {% endif %}
