@@ -6,6 +6,10 @@
     form {
         max-width: 1000px;
       }
+      .swal-button--confirm {
+    background-color: #242d6e !important;
+    color: #ffffff !important;
+}
 </style>
     <div class="home-content">
         <div class="container-fluid">
@@ -28,9 +32,38 @@
                             <!--<input type="file" class="fileInput" style="border: none;width: 20rem;"> {{i.Format}}({{i.MaxFileSize}}kb) <br><br>-->
                                             
                             {% endfor %}
-                            <button type="submit" class="btn btn-success ">Submit</button>
+                            <button type="submit" class="btn btn-success" onclick="suss()">Submit</button>
+                            
                         </form>
                     </div>                    
         </div>
     </div> 
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script>
+        window.onload = function() {
+       
+            // Check if the session variable is set
+            if ("{{ request.session.form_submitted }}" === "True") {
+                Swal.fire({
+  title: "successfully  Applyed",
+  text: "Our partner will contact you",
+  icon: "success",
+  confirmButtonText: 'Home',
+  customClass: {
+                        confirmButton: 'swal-button--confirm'
+                    }
+                }).then(() => {
+                    // Redirect to the home page when the user clicks "OK"
+                    window.location.href = "{% url 'user_home' %}";
+                });
+
+            }
+          
+        };
+    </script>
+  
 {% endblock content %}

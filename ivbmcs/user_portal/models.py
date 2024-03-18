@@ -36,7 +36,7 @@ class user_service_details(models.Model):
     call_back_request = models.BooleanField(default=False)
     
     def __str__(self):
-        return self.service.svname
+        return f'{self.user_id.first_name} -- {self.service.svname}'
         # return f'{self.user_id.name} - {self.service}'
     
     

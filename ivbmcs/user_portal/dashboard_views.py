@@ -202,6 +202,7 @@ def payment(request):
             print('----------serv-->>',serv)
             service = srvc.objects.get(svname=serv)
             d = DocumentsRequired.objects.filter( Service = service.svid)
+            request.session['form_submitted'] = False
             return render(request,'User/user_dashboard/docu_upload.html',{'form':d,'head':serv})
         else:
             return  HttpResponse('<center><h1 style="color:red">Payment Failed</h1></center>')
@@ -209,6 +210,7 @@ def payment(request):
         redirect('payment')
 
 def upload_doc(request):
+    
     if request.method == 'POST':
         received_data = request.session.get('user_id_data', None)
         ser_type = request.POST['ser_type']
@@ -260,12 +262,14 @@ def upload_doc(request):
         instance.save()
         # messages.success(request,"File uploaded successfully")
         # return redirect('upload_doc')
-        return HttpResponse("Files uploaded successfully.")
+        request.session['form_submitted'] = True
+        return redirect('upload_doc')
     
     else:
         # messages.error(request,"Failed to upload the file")
         # return redirect('upload_doc')
-        return HttpResponse("Failed to upload file.")
+       
+        return render(request,'User/user_dashboard/docu_upload.html',{'docu_err' :"Error to upload"})
         # return render(request, 'your_template.html')
     # return HttpResponse(f"Key: {key}, Value: {value} received successfully.")
     # return HttpResponse('<center><h1>Thankyou</h1></center>')

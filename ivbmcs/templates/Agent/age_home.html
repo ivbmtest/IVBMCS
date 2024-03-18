@@ -1,71 +1,150 @@
-{% extends "Agent/main_layout.html" %}
+{% extends "admin/main_app/main_layout.html" %}
 
     {% block content %}
-
-
-
-
-
-      <div class="home-content">
-    <body>
-      <div class="container-fluid">
-      
-          <div class="table-wrapper">
-              <div class="table-title">
-                  <div class="row p-3">
-                      <div class="col-sm-6">
-              <h2>Agent <b>Home</b></h2>
-            </div>
-            <table class="table">
-              <thead>
-                <tr>
-       <th>No.</th>
-       <th>Service Name</th>
-       <th>Payment</th>
-       <th>Apply Date</th>
-       <th>Complete Date</th>          
-                </tr>
-            </thead>
-            <tbody>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .shadow{
+            border-radius: 12px;
            
-  
-            
-                <tr>
-                 
-                    <td>1</td>
-                    <td>service</td>
-                    
-                    <td>Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i> </td>
-                    <!-- <td>{{val.msg}}</td> -->
-                    <!-- <td>{{val.documents}}</td> -->
-                    <!-- <td>{{val.taken_by}}</td> -->
-                  
-                    <td>created_at</td>
-                    <td>-- -- ----</td>
-                    
-                    
-                </tr>
-              
-                <tr>
-                  </tbody>
-            </table>
-                  </div>
-              </div>
-
-   <!--loader-->
-
-   <!-- <div class="loading-screen" id="loading-screen">
-    <span class="loader"></span>
-</div> -->
-<!--end loader-->
-
-
-
-
-<!--content-->
-             
+        }
+        .shadow a{
+            color: black;
+        }
         
+
+#pills-pass input{
+ width: 50%;
+ margin: auto;
+}
+
+.dashed{
+  width: 95%;
+ 
+}
+.dashed .col-md-3,.col-md-4{
+ background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.3);
+  height: max-content;
+  margin-top: 1rem;
+
+}
+
+.dashed i{
+  font-size: 3rem;
+}
+.dashed p {
+  font-size: 1.2rem;
+}
+
+
+        @media (max-width: 767.98px) {
+            .shadow a{
+                font-size: .8rem;
+                padding: 6px;
+            }
+            #pills-pass input{
+ width: 100%;
+}
+        }
+        @media (max-width:400px) {
+            .shadow a{
+                font-size: .7rem;
+               
+            }
+            
+        } 
+    </style>
+    <body style="height: 100vh;">
+      <div class="home-content" >   
+    
+<div class="container">
+    <h2>Agent</h2>
+    <div class="row mb-3">
+        <div class="col-md-3 mt-sm-5"> <div class="d-flex flex-column align-items-center text-center p-3 py-5 bg-white mt-3 shadow"><img class="rounded-circle m-auto" style="width: 10rem;height: 10rem;" src="https://www.svgrepo.com/show/408476/user-person-profile-block-account-circle.svg"><span class="font-weight-bold">{{request.user.first_name}} {{request.user.last_name}}</span><span class="text-black-50">{{request.user.email}}</span><span>EMP ID: SN0102 </span></div>
+    </div>
+
+
+        <div class="col-md-9"> 
+            
+            <div class="p-3 py-3  bg-white mt-3 shadow">
+                <canvas id="myLineChart" width="40%" height="20%"></canvas>
+               
+
+        </div></div></div>
+
+
+        <div class="container dashed mb-3">
+            <div class="row  d-flex justify-content-around mb-3">
+      
+      
+              <div class="col-md-4 text-center px-5 py-2">
+                <i class='bx bxs-cart text-success'></i>
+                <h6>Total Order</h6>   
+                <p>2</p>     
       </div>
+      
+      <div class="col-md-3 text-center px-5 py-2">
+        <i class='bx bx-cog'></i>
+        <h6>Processing</h6> 
+        <p>2</p>
+      </div>
+      
+      <div class="col-md-4 text-center px-5 py-2">
+        <i class='bx bx-rupee text-warning'></i></i>
+        <h6>Total Spent</h6> 
+        <p>₹ 520</p>
+      </div>
+          </div>   
+              </div>
+    </div>
+</div>
+
+         
+            
+
+          
+     
+   
+   
+
+   
+
+      <script>
+        // Data for the chart
+        var data = {
+            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September","October"],
+            datasets: [
+                {
+                    label: "Earning",
+                    data: [8,7,12,14,16,20,15,10,11,9],
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                },
+                {
+                    label: "Take service",
+                    data: [5,15,12,18,14,5,18,12,22,12,17,11],
+                    fill: false,
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.1
+                }
+            ]
+        };
+
+        // Configuration for the chart
+        var config = {
+            type: 'line',
+            data: data,
+            options: {}
+        };
+
+        // Create the chart
+        var myChart = new Chart(
+            document.getElementById('myLineChart'),
+            config
+        );
+    </script>
   </body>
   </html>
 
@@ -77,4 +156,13 @@
 
 
 
+
+
+  
+   
+
+
+
     
+
+

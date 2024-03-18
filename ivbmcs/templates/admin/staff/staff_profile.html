@@ -1,0 +1,324 @@
+{% extends "admin/main_app/main_layout.html" %}
+
+    {% block content %}
+    
+    <style>
+        .shadow{
+            border-radius: 12px;
+           
+        }
+        .shadow a{
+            color: black;
+        }
+        
+
+#pills-pass input{
+ width: 50%;
+ margin: auto;
+}
+
+        @media (max-width: 767.98px) {
+            .shadow a{
+                font-size: .8rem;
+                padding: 6px;
+            }
+            #pills-pass input{
+ width: 100%;
+}
+        }
+        @media (max-width:400px) {
+            .shadow a{
+                font-size: .7rem;
+               
+            }
+            
+        } 
+    </style>
+    <body>
+      <div class="home-content">   
+    
+<div class="container">
+    <h2>Employee Profile</h2>
+    <div class="row">
+        <div class="col-md-3"> <div class="d-flex flex-column align-items-center text-center p-3 py-5 bg-white mt-3 shadow"><img class="rounded-circle m-auto" style="width: 10rem;height: 10rem;" src="https://www.svgrepo.com/show/408476/user-person-profile-block-account-circle.svg"><span class="font-weight-bold">{{request.user.first_name}} {{request.user.last_name}}</span><span class="text-black-50">{{request.user.email}}</span><span>EMP ID: SN0102 </span></div>
+    </div>
+
+
+        <div class="col-md-9 mb-2"> 
+            
+            <div class="p-3 py-3  bg-white mt-3 shadow">
+
+                <ul class="nav nav-pills mb-3 d-flex justify-content-end" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="pills-details-tab" data-toggle="pill" href="#pills-details" role="tab" aria-controls="pills-home" aria-selected="true">Personal</a>
+                    </li>
+                   
+                    <li class="nav-item">
+                      <a class="nav-link" id="pills-update-tab" data-toggle="pill" href="#pills-update" role="tab" aria-controls="pills-update" aria-selected="false">Update</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-pass-tab" data-toggle="pill" href="#pills-pass" role="tab" aria-controls="pills-pass" aria-selected="false">Password</a>
+                      </li>
+                  </ul>
+
+                  <div class="tab-content" id="pills-tabContent">
+                    <!-- Personal Information -->
+                    <div class="tab-pane fade show active" id="pills-details" role="tabpanel" aria-labelledby="pills-details-tab">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="text-right">Profile Details</h4>
+            </div>
+
+
+            <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Full Name</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    {{request.user.first_name}} {{request.user.last_name}}
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Email</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    {{request.user.email}}
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Phone</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    {{request.user.phone_number}}
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Mobile</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    (320) 380-4539
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Address</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    Bay Area, San Francisco, CA
+                  </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">
+                      Department</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                     Marketing
+                    </div>
+                  </div>
+                  <hr>
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Designation</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                     BDE
+                    </div>
+                  </div>
+                  <hr>
+               
+              </div>
+         
+
+
+
+
+
+            
+            <!-- <div class="row mt-2">
+                <div class="col-md-6 col-12"><label class="labels font-weight-bold">Full Name</label> : <label class="full ml-5">{{request.user.first_name}} {{request.user.last_name}}</label>
+                </div>
+               
+            </div>
+            <hr>
+
+            <div class="row mt-2">
+                <div class="col-md-6 col-12"><label class="labels font-weight-bold">Email </label> : <label class="full ml-5">{{request.user.email}}</label>
+                </div>
+               
+            </div>
+            <hr>
+
+
+            <div class="row mt-2">
+                <div class="col-md-6"><label class="labels font-weight-bold">Mobile Number</label> : <label class="full">{{request.user.phone_number}}</label></div>
+             
+                <div class="col-md-6"><label class="labels font-weight-bold">Email ID (Personal)</label> : <label class="em">{{request.user.email}}</label></div>
+            </div>
+            <hr>
+
+            <div class="row mt-3">
+                <div class="col-md-4"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="+91123456789" value="{{request.user.phone_number}}"></div>
+                <div class="col-md-4"><label class="labels">Address (Current)</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
+                <div class="col-md-4"><label class="labels">Address (Permanent)</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+               
+                <div class="col-md-4"><label class="labels">Postcode</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                <div class="col-md-4"><label class="labels">State</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                <div class="col-md-4"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
+                
+               
+            </div> -->
+           
+                  </div>
+
+                  <!-- <input type="text" class="form-control"  value="{{request.user.first_name}}" readonly> -->
+
+                <!-- office -->
+                
+               
+                
+                <!-- update -->
+                <div class="tab-pane fade show" id="pills-update" role="tabpanel" aria-labelledby="pills-update-tab">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Update Details</h4>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-4"><label class="labels">First Name</label><input type="text" class="form-control"  value="{{request.user.first_name}}"></div>
+                        <div class="col-md-4"><label class="labels">Last Name</label><input type="text" class="form-control" value="{{request.user.last_name}}"></div>
+                        <div class="col-md-4"><label class="labels">Email ID (Personal)</label><input type="text" class="form-control" placeholder="Personal Mail" value="{{request.user.email}}"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-4"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="+91123456789" value="{{request.user.phone_number}}"></div>
+                        <div class="col-md-4"><label class="labels">Address (Current)</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
+                        <div class="col-md-4"><label class="labels">Address (Permanent)</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                       
+                        <div class="col-md-4"><label class="labels">Postcode</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                        <div class="col-md-4"><label class="labels">State</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                        <div class="col-md-4"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
+                        
+                       
+                    </div>
+                   <button class="btn btn-success">Update</button>
+                          </div>
+
+<!-- password -->
+<div class="tab-pane fade show" id="pills-pass" role="tabpanel" aria-labelledby="pills-pass-tab">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="text-right">Update Password</h4>
+        
+    </div>
+    <p class="text-success text-center" id="succ"></p>
+    <div class="row mt-2 ">
+        <div class="col-12"><label class="labels">Old Password </label> :<span class="text-danger" id="pass_error"></span><input type="text" class="form-control" oninput="upload_btn()" id="oldpass"></div><br>
+        <div class="col-12"><label class="labels">New Password</label> :<input type="text" class="form-control" oninput="upload_btn()" id="newpass"></div><br>
+        <div class="col-12"><label class="labels">Confirm Password</label> :<span class="text-danger" id="re_pass"></span><input type="text" class="form-control" oninput="upload_btn()" id="conpass"></div><br>
+    </div>
+    <div class="row mt-3">
+   <button class="btn btn-success m-auto" type="button" id="upload" disabled>Update</button></div>
+          </div>
+
+
+                </div>
+        </div></div></div>
+    </div>
+</div>
+
+         
+            
+
+          </div>
+      </div>
+   
+   
+
+      <script>
+
+function upload_btn(){
+    var old = document.getElementById("oldpass").value;
+    var newpass = document.getElementById("newpass").value;
+    var conpass = document.getElementById("conpass").value;
+
+   if (old != "" && newpass != "" && conpass != "" ) {
+       document.getElementById("upload").disabled=false;       
+   }else{
+    document.getElementById("upload").disabled=true;
+   }
+}
+
+
+
+        $(document).ready(function () {
+            $('#upload').click(function (e) {
+                e.preventDefault();
+                
+                var old = $( "#oldpass" ).val();
+                var newapp = $( "#newpass" ).val();
+                var re_pass = $( "#conpass" ).val();
+
+
+var data = {
+    'csrfmiddlewaretoken': '{{csrf_token}}',
+    'old' : old,
+    'newpass' : newapp,
+    're_pass' : re_pass
+};
+                if (newapp != re_pass){ 
+$( "#re_pass" ).text("Password not match here");
+
+                }
+                else{
+                $( "#re_pass" ).text("");
+                $.ajax({
+                    url: "{% url 'pass_reset' %}",
+                    method: 'POST',
+                    data: data,
+                    dataType: 'json',
+                    success: function (data) {
+                       if  (data.success) {
+                        console.log(data.result)
+                        $( "#pass_error" ).text("");
+                        $( "#succ" ).text("Password Successfully Changed");
+
+                       }else{
+                        $( "#pass_error" ).text("Old password incorrect");
+                       }
+                    }
+                });
+            }
+            });
+        });
+    </script>
+
+   
+
+  </body>
+  </html>
+
+  {% endblock content %}
+    </section>
+
+
+
+
+
+
+
+
+  
+   
+
+
+
+    
+
+

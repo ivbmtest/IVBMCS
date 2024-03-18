@@ -1,5 +1,6 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
 
 <!-- header-area -->
@@ -12,6 +13,7 @@
                         <ul class="list-wrap">
                             <li><i class="fa-solid fa-location-dot"></i></i>Thykoodam, Vytila, Ernakulam, Kerala</li>
                             <li><i class="fa-regular fa-envelope"></i></i><a href="mailto:info@ivbmcs.com">info@ivbmcs.com</a></li>
+                            <a href="{% url 'age_details' %}"> <li><i class="fa fa-podcast"></i>Connect</li></a>
                         </ul>
                     </div>
                 </div>
@@ -19,6 +21,7 @@
                     <div class="header-top-right">
                         <div class="header-social">
                             <ul class="list-wrap">
+                                
                                 <li><a href="https://www.facebook.com/ivbmofficial"><i class="fab fa-facebook-f"></i></a></li>
                                 <li><a href="https://twitter.com/ivbm_opc_pvtltd"><i class="fab fa-twitter"></i></a></li>
                                 <li><a href="https://www.instagram.com/ivbm_opc_privatelimited/"><i class="fab fa-instagram"></i></a></li>

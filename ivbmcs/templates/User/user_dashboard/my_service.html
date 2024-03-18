@@ -124,7 +124,7 @@ color: rgb(8, 109, 196);
                 <td>{% for i in val.documents%}{{i}},{% endfor %}</td>
                 <td>{% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}</td>
                 <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
-                <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal-{{forloop.counter}}" class='bx bx-link-external text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='bx bxs-user-pin text-success'data-toggle="modal" data-target="#callbackModal-{{forloop.counter}}" data-whatever="@mdo" ></i></td>
+               
                 <td>-- -- ----</td>                
                 <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal-{{forloop.counter}}" class="fa fa-eye text-primary" style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='fa fa-info-circle text-success' data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" ></i></td>
             </tr>
@@ -166,7 +166,7 @@ color: rgb(8, 109, 196);
                 <!-- <td>{{val.taken_by}}</td>  <i class='bx bx-x-circle'>x</i> <i class='bx bxs-check-circle'></i>-->
                 <td>{% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}</td>
                 <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
-                <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal-{{forloop.counter}}" class='bx bx-link-external text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='bx bxs-user-pin text-success'data-toggle="modal" data-target="#callbackModal-{{forloop.counter}}" data-whatever="@mdo" ></i></td>
+              
                 <td>-- -- ----</td>  
                 <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal-{{forloop.counter}}" class="fa fa-eye text-primary" style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='fa fa-info-circle text-success' data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" ></i></td>
                   
@@ -209,7 +209,7 @@ color: rgb(8, 109, 196);
                 <!-- <td>{{val.taken_by}}</td>  <i class='bx bx-x-circle'>x</i> <i class='bx bxs-check-circle'></i>-->
                 <td>{% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}</td>
                 <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
-                <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal2" class='bx bx-link-external text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='bx bxs-user-pin text-success'data-toggle="modal" data-target="#callbackModal-{{forloop.counter}}" data-whatever="@mdo" ></i></td>
+             
                 <td>-- -- ----</td> 
                 <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal2" class="fa fa-eye text-primary" style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='fa fa-info-circle text-success' data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" ></i></td>
                   

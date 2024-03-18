@@ -1,5 +1,6 @@
 
 from admin_panel.models import *
+import datetime
 
 def select_service(request):
     # category=ctgry.objects.all()
@@ -7,3 +8,6 @@ def select_service(request):
     #print(">>>>>>>>>>>>>>>>",category)
     return {'category':category}
 
+def copyright_year(request):
+    current_year = datetime.datetime.now().year
+    return {"copyright_year":current_year}

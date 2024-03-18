@@ -65,6 +65,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                  'user_portal.context_processors.select_service',
+                 'user_portal.context_processors.copyright_year',
             ],
         },
     },
@@ -80,10 +81,10 @@ DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'ivbmcs_db3',
-		# 'USER': 'root',
-		# 'PASSWORD': '1234',
-        'USER': 'admin',
-		'PASSWORD': 'admin',
+		'USER': 'root',
+		'PASSWORD': '1234',
+        # 'USER': 'admin',
+		# 'PASSWORD': 'admin',
 		'HOST':'localhost',
 		'PORT':'3306',
 	}

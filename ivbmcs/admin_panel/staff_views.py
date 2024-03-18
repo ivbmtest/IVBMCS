@@ -8,7 +8,7 @@ import logging
 from .models import *
 from .form import *
 from user_portal.models import *
-
+from django.contrib.auth.hashers import check_password
 
 import os
 # from twilio.rest import Client
@@ -90,7 +90,7 @@ def staff(request):
     for i in y:
         print(i.staff.category)
 
-
+    staff_cat = ctgry.objects.all()
 
     for items in y:
         items.user_type = 'staff'
@@ -98,7 +98,7 @@ def staff(request):
             items.gender='Male'
         elif items.gender=='F':
             items.gender = 'Female'
-    return render(request,'admin/super_user/staff.html',{'form': staff_form,'staff_info':y,'field_names': filtered_field_names,'cou':cou})
+    return render(request,'admin/super_user/staff.html',{'form': staff_form,'staff_info':y,'field_names': filtered_field_names,'cou':cou,'staff_cat':staff_cat})
 
 #delete agent
 def del_staff(request,id):
@@ -199,5 +199,26 @@ def staff_notification(request):
     notification_details=user_notification.objects.filter(recepient=current_user_id)
     # for val in notification_details:
     print('--------notifi',notification_details)
-    
+
     return render(request,'admin/staff/staff_notification.html',{'notification_details':notification_details})
+
+
+
+def staff_profile(request):
+    return render(request,'admin/staff/staff_profile.html')
+
+def staff_password_reset(request):
+    if  request.method == "POST":
+        old = request.POST['old']
+        new = request.POST['newpass']
+        re_pass = request.POST['re_pass']
+        print("new pass:::",new,"current pass :::",request.user.password)
+        if not check_password(old, request.user.password):
+            return JsonResponse({'success': False})
+            
+            
+        else:
+            request.user.set_password(new)
+            request.user.save()
+            return JsonResponse({'success': True, 'result':"Password Successfully Changed"})
+    return render(request,'admin/staff/change_password.html')

@@ -4,7 +4,9 @@
 
       <div class="home-content">
 <style>
- 
+ #myTab a{
+  color: black;
+ }
 </style>
        
     <body>
@@ -28,6 +30,36 @@
     <span class="loader"></span>
 </div>
 <!--end loader-->
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">all</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="personal" aria-selected="false">personal</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#business" role="tab" aria-controls="business" aria-selected="false">business</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#tax" role="tab" aria-controls="tax" aria-selected="false">tax</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#other" role="tab" aria-controls="other" aria-selected="false">other</a>
+  </li>
+</ul>
+
+
+
+  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+</div>
+
+
+
+
+
+
 
               {% if staff_info|length != 0 %}
               <div id="table-container" style="overflow:auto;" class="bg-white mt-3 shadow p-3">
@@ -55,8 +87,10 @@
                               </form>
                             </div>
                             </div> 
-                
+                            <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="home-tab">
               <table class="table table-striped table-hover tabfont">
+                <h6 class="text-center">All Category</h6>
                   <thead>
                       <tr>
               <th>
@@ -94,7 +128,7 @@
                           
                           <td>{{ val.gender|default:"N/A" }}</td>                                       
                           {% if profile_pic %}
-                              <td><a href="{{ val.profile_pic.url }}"><img src="{{ val.profile_pic.url }}" alt="{{ val.first_name }}" width="50" height="50"></a></td>
+                              <td><a href="{{ val.profile_pic.url }}"><img src="{{ val.profile_pic }}" alt="{{ val.first_name }}" width="50" height="50"></a></td>
                           {% else %}
                               <td></td>
                           {% endif %}
@@ -111,6 +145,263 @@
                       <tr>
                   </tbody>
               </table>
+                            </div>
+
+                            <!-- personal -->
+                            <div class="tab-pane fade" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+                              <table class="table table-striped table-hover tabfont">
+                                <h6 class="text-center">Personal Category Staffs</h6>
+                                  <thead>
+                                      <tr>
+                              <th>
+                                <span class="custom-checkbox">
+                                  <input type="checkbox" id="selectAll">
+                                  <label for="selectAll"></label>
+                                </span>
+                              </th>
+                              {% for field in field_names %}
+                                          <th>{{field}}</th>
+                                          {% endfor %}
+                                          <th>Action</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                    {% for val in staff_info %}
+                                 
+                                    {% if val.staff.category.ctname == "Personal Services" %}
+                                      <tr class="bg-white">
+                                          <td>
+                                            <span class="custom-checkbox">
+                                              <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                              <label for="checkbox1"></label>
+                                            </span>
+                                          </td>
+                                          <td>{{ forloop.counter }}</td>
+                                          <td>{{ val.first_name|default:"N/A" }}</td>
+                                          <td>{{ val.last_name|default:"N/A" }}</td>
+                                          <td>{{ val.is_active|default:"N/A" }}</td> 
+                                          <td>{{ val.date_joined|default:"N/A" }}</td> 
+                                          <td>{{ val.email|default:"N/A" }}</td>
+                
+                
+                                          <!-- <td>{{ val.user_type|default:"N/A" }}</td>    -->
+                                          <td>{{val.staff.category}}</td>
+                                          
+                                          
+                                          <td>{{ val.gender|default:"N/A" }}</td>                                       
+                                          {% if profile_pic %}
+                                              <td><a href="{{ val.profile_pic.url }}"><img src="{{ val.profile_pic.url }}" alt="{{ val.first_name }}" width="50" height="50"></a></td>
+                                          {% else %}
+                                              <td></td>
+                                          {% endif %}
+                                          <td>{{ val.address|default:"N/A" }}</td>
+                                          <td>{{ val.created_at|default:"N/A" }}</td>
+                                          <td>{{ val.updated_at|default:"N/A" }}</td>
+                                          
+                                          <td>
+                                              <a href="#editCategoryModal-{{forloop.counter}}" class="edit" data-item ="{{val.id}}" data-toggle="modal"><i class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                              <a href="#deleteCategoryModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class='bx bx-trash text-danger' data-toggle="tooltip" title="Delete"></i></a>
+                                          </td>
+                                        </tr>
+                                        {% endif %}
+                                      {% endfor %}
+                                      <tr>
+                                  </tbody>
+                              </table>
+                                            </div>
+
+                                            <!-- Business -->
+                                            <div class="tab-pane fade" id="business" role="tabpanel" aria-labelledby="business-tab">
+                                              <table class="table table-striped table-hover tabfont">
+                                                <h6 class="text-center">Business Category Staffs</h6>
+                                                  <thead>
+                                                  
+                                                      <tr>
+                                              <th>
+                                                <span class="custom-checkbox">
+                                                  <input type="checkbox" id="selectAll">
+                                                  <label for="selectAll"></label>
+                                                </span>
+                                              </th>
+                                              {% for field in field_names %}
+                                                          <th>{{field}}</th>
+                                                          {% endfor %}
+                                                          <th>Action</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                    {% for val in staff_info %}
+                                                    {% if val.staff.category.ctname == "Business Services" %}
+                                                      <tr class="bg-white">
+                                                          <td>
+                                                            <span class="custom-checkbox">
+                                                              <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                                              <label for="checkbox1"></label>
+                                                            </span>
+                                                          </td>
+                                                          <td>{{ forloop.counter }}</td>
+                                                          <td>{{ val.first_name|default:"N/A" }}</td>
+                                                          <td>{{ val.last_name|default:"N/A" }}</td>
+                                                          <td>{{ val.is_active|default:"N/A" }}</td> 
+                                                          <td>{{ val.date_joined|default:"N/A" }}</td> 
+                                                          <td>{{ val.email|default:"N/A" }}</td>
+                                
+                                
+                                                          <!-- <td>{{ val.user_type|default:"N/A" }}</td>    -->
+                                                          <td>{{val.staff.category}}</td>
+                                                          
+                                                          
+                                                          <td>{{ val.gender|default:"N/A" }}</td>                                       
+                                                          {% if profile_pic %}
+                                                              <td><a href="{{ val.profile_pic.url }}"><img src="{{ val.profile_pic.url }}" alt="{{ val.first_name }}" width="50" height="50"></a></td>
+                                                          {% else %}
+                                                              <td></td>
+                                                          {% endif %}
+                                                          <td>{{ val.address|default:"N/A" }}</td>
+                                                          <td>{{ val.created_at|default:"N/A" }}</td>
+                                                          <td>{{ val.updated_at|default:"N/A" }}</td>
+                                                          
+                                                          <td>
+                                                              <a href="#editCategoryModal-{{forloop.counter}}" class="edit" data-item ="{{val.id}}" data-toggle="modal"><i class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                                              <a href="#deleteCategoryModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class='bx bx-trash text-danger' data-toggle="tooltip" title="Delete"></i></a>
+                                                          </td>
+                                                      </tr>
+                                                      {% endif %}
+                                                      {% endfor %}
+                                                     
+                                                  </tbody>
+                                              </table>
+                                                            </div>
+
+<!-- tax -->
+
+<div class="tab-pane fade" id="tax" role="tabpanel" aria-labelledby="tax-tab">
+  <table class="table table-striped table-hover tabfont">
+    <h6 class="text-center">Tax Category Staffs</h6>
+      <thead>
+       
+          <tr>
+  <th>
+    <span class="custom-checkbox">
+      <input type="checkbox" id="selectAll">
+      <label for="selectAll"></label>
+    </span>
+  </th>
+  {% for field in field_names %}
+              <th>{{field}}</th>
+              {% endfor %}
+              <th>Action</th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for val in staff_info %}
+        {% if val.staff.category.ctname == "Tax Services" %}
+          <tr class="bg-white">
+              <td>
+                <span class="custom-checkbox">
+                  <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                  <label for="checkbox1"></label>
+                </span>
+              </td>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ val.first_name|default:"N/A" }}</td>
+              <td>{{ val.last_name|default:"N/A" }}</td>
+              <td>{{ val.is_active|default:"N/A" }}</td> 
+              <td>{{ val.date_joined|default:"N/A" }}</td> 
+              <td>{{ val.email|default:"N/A" }}</td>
+
+
+              <!-- <td>{{ val.user_type|default:"N/A" }}</td>    -->
+              <td>{{val.staff.category}}</td>
+              
+              
+              <td>{{ val.gender|default:"N/A" }}</td>                                       
+              {% if profile_pic %}
+                  <td><a href="{{ val.profile_pic.url }}"><img src="{{ val.profile_pic.url }}" alt="{{ val.first_name }}" width="50" height="50"></a></td>
+              {% else %}
+                  <td></td>
+              {% endif %}
+              <td>{{ val.address|default:"N/A" }}</td>
+              <td>{{ val.created_at|default:"N/A" }}</td>
+              <td>{{ val.updated_at|default:"N/A" }}</td>
+              
+              <td>
+                  <a href="#editCategoryModal-{{forloop.counter}}" class="edit" data-item ="{{val.id}}" data-toggle="modal"><i class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                  <a href="#deleteCategoryModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class='bx bx-trash text-danger' data-toggle="tooltip" title="Delete"></i></a>
+              </td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+          <tr>
+      </tbody>
+  </table>
+                </div>
+
+                <!-- other -->
+
+                <div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
+                  <table class="table table-striped table-hover tabfont">
+                    <h6 class="text-center">Other Category Staffs</h6>
+                      <thead>
+                     
+                          <tr>
+                  <th>
+                    <span class="custom-checkbox">
+                      <input type="checkbox" id="selectAll">
+                      <label for="selectAll"></label>
+                    </span>
+                  </th>
+                  {% for field in field_names %}
+                              <th>{{field}}</th>
+                              {% endfor %}
+                              <th>Action</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        {% for val in staff_info %}
+                        {% if val.staff.category.ctname == "Other Services" %}
+                          <tr class="bg-white">
+                              <td>
+                                <span class="custom-checkbox">
+                                  <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                  <label for="checkbox1"></label>
+                                </span>
+                              </td>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ val.first_name|default:"N/A" }}</td>
+                              <td>{{ val.last_name|default:"N/A" }}</td>
+                              <td>{{ val.is_active|default:"N/A" }}</td> 
+                              <td>{{ val.date_joined|default:"N/A" }}</td> 
+                              <td>{{ val.email|default:"N/A" }}</td>
+    
+    
+                              <!-- <td>{{ val.user_type|default:"N/A" }}</td>    -->
+                              <td>{{val.staff.category}}</td>
+                              
+                              
+                              <td>{{ val.gender|default:"N/A" }}</td>                                       
+                              {% if profile_pic %}
+                                  <td><a href="{{ val.profile_pic.url }}"><img src="{{ val.profile_pic.url }}" alt="{{ val.first_name }}" width="50" height="50"></a></td>
+                              {% else %}
+                                  <td></td>
+                              {% endif %}
+                              <td>{{ val.address|default:"N/A" }}</td>
+                              <td>{{ val.created_at|default:"N/A" }}</td>
+                              <td>{{ val.updated_at|default:"N/A" }}</td>
+                              
+                              <td>
+                                  <a href="#editCategoryModal-{{forloop.counter}}" class="edit" data-item ="{{val.id}}" data-toggle="modal"><i class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                  <a href="#deleteCategoryModal-{{forloop.counter}}" class="delete" data-toggle="modal"><i class='bx bx-trash text-danger' data-toggle="tooltip" title="Delete"></i></a>
+                              </td>
+                          </tr>
+                          {% endif %}
+                          {% endfor %}
+                          <tr>
+                      </tbody>
+                  </table>
+                                </div>
+
+                                          </div>
             </div>
           
             <div class="clearfix">

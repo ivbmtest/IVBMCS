@@ -133,11 +133,11 @@ label.light {
         <div id="body_header">
           <!--This is a division tag for body header-->
           <h1>Appointment Request Form</h1>
-          <p>Make your appointments from your client</p>          
+          <p>Make your appointments from your clientaa</p>          
         </div>
 
 
-      <form action="{% url 'age_consulting' %}?val={{value}}" method="post">
+      <form action="{% url 'user_consulting_by_agent' %}?val={{value}}" method="post">
           {% csrf_token %}
           <fieldset>
             <p class="text-center text-danger">{{err}}</p>
@@ -179,12 +179,14 @@ label.light {
          
         </fieldset>
         {% endif %} -->
-        {% if user_info.first_name  != None %}
+  {% comment %}      {% if user_info.first_name  != None %}
         <button type="submit"  class="w-50" >Request For Appointment</button>
         {% else %}
         <button type="button"  class="w-50" onclick="checksub()">Request For Appointment</button>
      
-{% endif %}
+{% endif %} {% endcomment %}
+
+<button type="submit"  class="w-50" >Request For Appointment</button>
     </form>   
     </div>
     <!-- Button trigger modal -->

@@ -133,7 +133,7 @@ def add_agent(request):
 
 
 
-def age_consulting(request):
+def user_consulting_by_agent(request):
     val = request.GET['val']
     if request.method == 'POST':
         name = request.POST['name']
@@ -250,3 +250,5 @@ def age_payments(request):
     return render(request,'Agent/payments.html')
 
 
+def age_details(request):
+    return render(request, 'Agent/age_details.html')

@@ -19,8 +19,23 @@
         {% comment %} <span class="admin_name">{{request.user}}</span>   {% endcomment %}
         </a>
         <div class="dropdown-menu">
+
+          {% if request.user.user_type|stringformat:"s" == '1' %}
           <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
-          <a class="dropdown-item" href="#">Update</a>
+
+          {% elif request.user.user_type|stringformat:"s" == '2' %}
+          <a class="dropdown-item" href="{% url 'staff_profile' %}">Profile</a>
+
+          {% elif request.user.user_type|stringformat:"s" == '3' %}
+          <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+
+          {% elif request.user.user_type|stringformat:"s" == '4' %}
+          <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+
+{% endif %}
+
+
+         
           <hr>
           <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
         </div>

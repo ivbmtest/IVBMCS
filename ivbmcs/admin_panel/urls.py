@@ -20,6 +20,10 @@ urlpatterns = [
     path('staff_dashboard/',staff_dashboard,name='staff_dashboard'),
     path('staff/',staff,name='staff'), 
 
+    path('staff_profile/',staff_profile ,name="staff_profile"),
+    path('pass_reset/',staff_password_reset ,name="pass_reset"),
+    
+
     path('staff_orders/',staff_orders,name='staff_orders'),
 
     path('staff/del_staff/<int:id>/',del_staff,name='del_staff'),
@@ -28,8 +32,11 @@ urlpatterns = [
     path('agent/',agent_views.agent,name='agent'),
     # age consulting
     #path('age_consulting/<str:value>/',agent_views.age_consulting,name='age_consulting'),
-    path('age_consulting/',agent_views.age_consulting,name='age_consulting'),
+    path('user_consulting_by_agent/',agent_views.user_consulting_by_agent,name='user_consulting_by_agent'),
+
+    path('age_details/',agent_views.age_details,name='age_details'),
  
+
     path('agent/del_agent/<int:id>/',del_agent,name='del_agent'),
     path('agent/update_agent/<int:id>/',update_agent,name='update_agent'),
 
