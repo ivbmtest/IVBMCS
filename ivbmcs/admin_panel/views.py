@@ -442,18 +442,19 @@ def orders(request,):
     model_meta =user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y=user_service_details.objects.filter(taken_by__exact='')
-    page=Paginator(y,3)
+    count_of_data=3 #indicates the count of data to be shown in one page
+    page=Paginator(y,count_of_data)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     # cou=UserProfile.objects.filter(taken_by__exact='').count()
-    start_index = (page.number - 1) * len(page) + 1
+    start_index = (page.number - 1) * count_of_data + 1
     print('-----page.number--->>>',page.number)
-
+    print('-----page.number - 1--->>>',page.number - 1)
+    print('-----len(page) --->>>',len(page))
     print('-----start_index--->>>',start_index)
     return render(request, 'admin/staff/orders.html', {'order_info': page, 'field_names': field_names, 'start_index': start_index})
-    # return render(request,'admin/super_user/orders.html',{'order_info':page,'field_names': field_names,})
     
-
+4
 
 #user demo
 def demo_user(request):
