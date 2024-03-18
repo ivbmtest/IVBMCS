@@ -88,6 +88,9 @@
 .dashed p {
   font-size: 1.2rem;
 }
+
+
+
     </style>
     {% load static %}
 <div class="home-content">
@@ -117,30 +120,23 @@
 <div class="col-md-4 text-center px-5 py-2">
   <i class='bx bx-bolt-circle text-warning'></i>
   <h6>Total Credits</h6>
-  
   <p>12</p>
-
 </div>
-
-
-    </div>
-
-    
+    </div> 
         </div>
 
-    <!-- chart -->
-    
-    <div class="row px-2 m-auto" >
-      <div class="col-sm-7 bg-white rounded mt-3 shadow">Months Base Service Order<canvas id="myBarChart"></canvas></div>
+    <!-- chart -->  
+    <div class="container">
+    <div class="row d-flex justify-content-center" >
+      <div class="col-sm-6 bg-white rounded mt-3 shadow">Months Base Service Order<canvas id="myBarChart"></canvas>
+      </div>
   
   
-      <div class="col-sm-5 bg-white rounded mt-3 shadow w-50">
-    
+      <div class="col-sm-5 bg-white rounded mt-3 shadow ml-2">
         <canvas id="multilineChart"></canvas>
-      
         </div>
       </div>
-
+    </div>
    <!--loader-->
 
        <div class="loading-screen" id="loading-screen">

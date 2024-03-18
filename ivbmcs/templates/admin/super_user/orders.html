@@ -7,11 +7,11 @@
         <div class="home-content">
           <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         
-          <ul class="messages">
+          <!-- <ul class="messages">
             {% for message in messages %}
                 <li id="myDiv" {% if message.tags %} class="{{ message.tags }}"{% endif %}><div class="row m-auto w-25" style="position: absolute;height: 3rem;padding-top: 1rem;padding-left: 3rem;left: 26rem;background-color: rgba(10, 230, 10, 0.498);"><b>SuccessFully Added</b></div></li>
             {% endfor %}
-          </ul>
+          </ul> -->
 
           <!--loader-->
 
@@ -70,7 +70,7 @@
                               <th>{{field}}</th>
                             {% endfor %} -->
                             <th>No.</th>
-                            <th>username</th>
+                            <th>Fullname</th>
                             <th>Number</th>
                             <th>Email</th>
                             <th>Service</th>
@@ -84,6 +84,8 @@
                         </thead>
                         <tbody>
                           {% for val in order_info %}
+
+                   
                           <tr class="bg-white">
                               <td>
                                 <span class="custom-checkbox-{{forloop.counter}}">
@@ -92,24 +94,21 @@
                                 </span>
                               </td>
                                 <td>{{forloop.counter}}</td>
-                                <td><a href="{% url 'task_detail' id=val.id %}">{{val.user_id.last_name}}</a></td>
+                                <td>{{val.user_id.first_name}} {{val.user_id.last_name}}</td>
                                 <td>{{val.user_id.phone_number}}</td>
                                 <td>{{val.user_id.email}}</td>
                                 <td>{{val.service}}</td>
                                 <!-- <td>{{val.document}}</td> -->
-                                <td><a href="{{val.user_id.image.url}}"><img src="{{ val.image.url }}" alt="{{ val.name }}" width="50" height="50"></a></td>
+                                <td><a href="{{val.user_id.image.url}}"><img src="https://banner2.cleanpng.com/20180329/zue/kisspng-computer-icons-user-profile-person-5abd85306ff7f7.0592226715223698404586.jpg" alt="{{ val.name }}" width="50" height="50"></a></td>
                                 <td>{% if val.payment %} Complete {% else %} Pending {% endif %}</td>
                                 <td>{{val.msg}}</td>
                                 <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
                                
-                               
-
-                                <td>                          
-                                  {%if forloop.first%}
-                                    <a href="{% url 'select_task' id=val.id %}" ><i  class='btn btn-success' class="material-icons " data-toggle="tooltip" title="Edit">Select</i></a>
-                                  {% endif %}
-                                </td>     
+                                <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal-{{forloop.counter}}" class="fa fa-eye text-primary" style="cursor: pointer;"></i>&nbsp;|&nbsp;<a href="{% url 'task_detail' id=val.id %}"><i data-toggle="modal" data-target="#assignModal-{{forloop.counter}}" style="cursor: pointer;" class='fa fa-user-circle text-success'></i></a></td>
+                                
                             </tr>
+
+
                           {% endfor %}
 
                         </tbody>
@@ -140,6 +139,174 @@
                 {% else%}
                   <h3 class="text-danger text-center mt-5">No Records Found</h3>
                 {% endif %}
+
+
+                <!-- detail view of service modal -->
+{% for val in order_info %}
+<div class="modal fade" id="exampleModal-{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Details</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-6">
+              <h6 class="mb-0">Full Name</h6>
+            </div>
+            <div class="col-sm-5 text-secondary">
+              {{val.user_id.first_name}} {{val.user_id.last_name}}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-6">
+              <h6 class="mb-0">Email</h6>
+            </div>
+            <div class="col-sm-5 text-secondary">
+              {{val.user_id.email}}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-6">
+              <h6 class="mb-0">Phone</h6>
+            </div>
+            <div class="col-sm-5 text-secondary">
+              {{val.user_id.phone_number}}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-6">
+              <h6 class="mb-0">Service name</h6>
+            </div>
+            <div class="col-sm-5 text-secondary">
+              {{val.service}}
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-6">
+              <h6 class="mb-0">Apply on</h6>
+            </div>
+            <div class="col-sm-5 text-secondary">
+              {{val.created_at|date:"d-n-Y H:i"}}
+            </div>
+          </div>
+          <hr>
+
+          <div class="row">
+              <div class="col-sm-6">
+                <h6 class="mb-0">
+                  Amount</h6>
+              </div>
+              <div class="col-sm-5 text-secondary">
+                {{val.service.svcountry.cncrid.crsymbol}} {{val.service.svrate}}
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <h6 class="mb-0">Payment</h6>
+              </div>
+              <div class="col-sm-5 text-secondary">
+                {% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <h6 class="mb-0">Documents</h6>
+              </div>
+              <div class="col-sm-5 text-secondary">
+                {% for i in val.documents %}{{i}},{% endfor %}
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <h6 class="mb-0">Documents Apporve</h6>
+              </div>
+              <div class="col-sm-5 text-secondary">
+                Approved<i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <h6 class="mb-0">Status</h6>
+              </div>
+              <div class="col-sm-5 text-secondary">
+                {% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <h6 class="mb-0">Start on</h6>
+              </div>
+              <div class="col-sm-5 text-secondary">
+                -- -- ----
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <h6 class="mb-0">Complete on</h6>
+              </div>
+              <div class="col-sm-5 text-secondary">
+                -- -- ----
+              </div>
+            </div>
+            <hr>
+         
+        </div>
+
+        <!-- <div class="row m-auto detas" style="line-height: 2rem;">
+        
+          <div class="col-4">Name</div>: <div class="col-6">{{val.user_id.first_name}} {{val.user_id.last_name}}</div>
+          <div class="col-4">Email</div>: <div class="col-6">{{val.user_id.email}}</div>
+          <div class="col-4">Phone</div>: <div class="col-6">{{val.user_id.phone_number}}</div>
+          <div class="col-4">Service name</div>: <div class="col-6">{{val.service}}</div>
+          <div class="col-4">Apply on</div>: <div class="col-6">{{val.created_at|date:"d-n-Y H:i"}}</div>
+          <div class="col-4">Amount</div>: <div class="col-6">{{val.service.svcountry.cncrid.crsymbol}} {{val.service.svrate}}</div>
+          <div class="col-4">Payment</div>: <div class="col-6">{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</div>
+          <div class="col-4">Documents</div>: <div class="col-6">{% for i in val.documents %}{{i}},{% endfor %}</div>
+          <div class="col-4">Documents Apporve</div>: <div class="col-6">Approved<i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i> </div>
+          <div class="col-4">Status</div>: <div class="col-6">{% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}</div>
+          <div class="col-4">Start on</div>: <div class="col-6">-- -- ----</div>
+          <div class="col-4">Complete on</div>: <div class="col-6">-- -- ----</div>  
+               </div> -->
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+
+
+
+
             </div>
         </div>
       </div>

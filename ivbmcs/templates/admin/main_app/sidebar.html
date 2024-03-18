@@ -44,12 +44,12 @@
               <li><a href="{% url 'user' %}" class="{% if url_name == 'user' %}bg-success{% endif %}"><i class='bx bxs-right-arrow-circle'></i> <span class="links_name">User</span></a></li>
               <li><a href="{% url 'admin_dashboard' %}" class="{% if url_name == 'admin_dashboard' %}bg-success{% endif %}"><i class='bx bxs-right-arrow-circle'></i> <span class="links_name">Admin</span></a></li>
           </ul>
-          <li>
+          <!-- <li>
             <a href="#" title="Clients">
               <i class='bx bx-user-voice'></i>
               <span class="links_name">Clients</span>
             </a>
-          </li>
+          </li> -->
           <li>
             <a href="{% url 'currency' %}" title="Currency" class="{% if url_name == 'currency' %}bg-success{% endif %}">
               <i class='bx bx-rupee'></i>
@@ -128,12 +128,12 @@
             </a>
           </li>
         
-          <li>
+          {% comment %}<li>
             <a href="#" title="Setting">
               <i class="bx bx-cog"></i>
               <span class="links_name">Setting</span>
             </a>
-          </li> 
+          </li> {% endcomment %} 
         </ul>
         
         <ul><li style="list-style-type: none;color: white;font-size: .6rem;margin-left: 5px;">Copyright {{copyright_year}} © ivbmcs | All Rights Reserved</li></ul>
@@ -154,12 +154,12 @@
               <span class="links_name">Dashboard</span>
             </a>
           </li>
-          <li>
+          <!-- <li>
             <a href="#" title="Clients">
               <i class='bx bx-user-voice'></i>
               <span class="links_name">Clients</span>
             </a>
-          </li>
+          </li> -->
           <li>
             <a href="{% url 'staff_notification' %}" title="Notifications" class="{% if url_name == 'staff_notification' %}bg-success{% endif %}">
               <i class='bx bxs-bell'></i>
@@ -195,12 +195,12 @@
             </a>
           </li>
         
-          <li>
+     {% comment %}<li>
             <a href="#" title="Setting">
               <i class="bx bx-cog"></i>
               <span class="links_name">Setting</span>
             </a>
-          </li>
+          </li> {% endcomment %}
         
           
           
@@ -260,12 +260,12 @@
             </a>
           </li> {% endcomment %}
         
-          <li>
+          {% comment %}<li>
             <a href="#" title="Setting">
               <i class="bx bx-cog"></i>
               <span class="links_name">Setting</span>
             </a>
-          </li>               
+          </li> {% endcomment %}            
         </ul>
         <ul style="position: absolute;bottom: 0;left: 0;"><li style="list-style-type: none;color: white;font-size: .6rem;margin-left: 5px;">Copyright {{copyright_year}} © ivbmcs | All Rights Reserved</li></ul>
         {% endwith %}
@@ -312,12 +312,12 @@
         </a>
       </li> {% endcomment %}
     
-      <li>
+      {% comment %}<li>
         <a href="#" title="Setting">
           <i class="bx bx-cog"></i>
           <span class="links_name">Setting</span>
         </a>
-      </li>               
+      </li> {% endcomment %}              
     </ul>
 
     <ul style="position: absolute;bottom: 0;left: 0;"><li style="list-style-type: none;color: white;font-size: .6rem;margin-left: -20px;">Copyright {{copyright_year}} © ivbmcs | All Rights Reserved</li></ul>

@@ -443,7 +443,10 @@ def orders(request,):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     # cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/super_user/orders.html',{'order_info':page,'field_names': field_names,})
+
+    staff = Staff.objects.all()
+    
+    return render(request,'admin/super_user/orders.html',{'order_info':page,'field_names': field_names,'staff':staff})
     
 
 
@@ -536,9 +539,11 @@ def select_my_task(request,id):
 def task_details(request,id):
     task=user_service_details.objects.get(pk=id)
     user_details=CustomUser.objects.get(pk=task.user_id.id)
-    staff_user = CustomUser.objects.filter(is_staff=True)
+    # staff_user = CustomUser.objects.filter(is_staff=True)
     
-    return render(request,"admin/staff/task_details.html",{"task":task,'user_details':user_details,'staff_user':staff_user})
+    staff = Staff.objects.all()
+
+    return render(request,"admin/staff/task_details.html",{"task":task,'user_details':user_details,'staff':staff})
     
 
 @login_required(login_url="/")
