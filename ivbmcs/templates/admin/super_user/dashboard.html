@@ -159,9 +159,11 @@
               <th>No.</th>
               <th>Service Name</th>
               <th>Applicant Name</th>
+              <th>Phone number</th>
+              <th>email</th>
               <th>Total Amount</th>
               <th>Paid Status</th>
-              <th>Service Taker</th>
+              <th>Assigned Staff</th>
               <th>Date of apply</th>
             </tr>            
           </thead>
@@ -172,6 +174,8 @@
                 <th scope="row">{{forloop.counter}}</th>
                 <td>{{data.service}}</td>
                 <td>{{data.user_id.first_name}}</td>
+                <td>{{data.user_id.phone_number}}</td>
+                <td>{{data.user_id.email}}</td>
                 <td>{{data.service.svcountry.cncrid.crsymbol}} {{data.service.svrate}} /-</td>
                
               <td>{% if data.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</td>
@@ -184,11 +188,7 @@
 
       </div>      
     </div> 
-    
-</div>
-
-
-
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!--bar chart-->

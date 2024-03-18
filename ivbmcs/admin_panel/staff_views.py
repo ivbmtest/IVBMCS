@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect,reverse
+from django.shortcuts import render, HttpResponse, redirect,reverse,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -154,22 +154,24 @@ def update_staff(request,id):
 #             messages.error(request, "Could Not Add: ")
 #     return render(request, 'hod_template/add_student_template.html', context)
 
+@login_required(login_url="/")
 def staff_orders(request):
-    model_meta =user_service_details._meta
+    model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
 
+    # Retrieve service objects related to the current staff user's category
+    sv = srvc.objects.filter(svcategory=request.user.staff.category)
 
-    #y=user_service_details.objects.filter(taken_by__exact='')
-    sv = srvc.objects.get(svcategory=request.user.staff.category)
-    t = user_service_details.objects.filter(service=sv,taken_by__exact='')
-    page=Paginator(t,5)
-    page_list=request.GET.get('page')
-    page=page.get_page(page_list)
-    return render(request,'admin/staff/orders.html',{'order_info':page,'field_names': field_names,})
+    # Retrieve orders related to the filtered services and not yet taken by anyone
+    orders = user_service_details.objects.filter(service__in=sv, taken_by='')
 
+    # Paginate the orders
+    paginator = Paginator(orders, 5)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+    return render(request, 'admin/staff/orders.html', {'order_info': page, 'field_names': field_names})
 
 @login_required(login_url="/")
-
 def send_message(request, id):
     task = user_service_details.objects.get(pk=id)
     print('task::',task)

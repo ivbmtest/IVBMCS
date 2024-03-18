@@ -74,11 +74,9 @@
                             <th>Number</th>
                             <th>Email</th>
                             <th>Service</th>
-                            <th>User Image</th>
                             <th>Payment</th>
                             <th>User Query</th>
-                            <th>Start date</th>
-                           
+                            <th>Applied at</th>                           
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -90,26 +88,23 @@
                                   <input type="checkbox" id="checkbox1" name="options[]" value="1">
                                   <label for="checkbox1"></label>
                                 </span>
-                              </td>
-                                <td>{{forloop.counter}}</td>
+                              </td>     
+                              <td>{{start_index }}</td>                         
+                                {% comment %} <td>{{ page.start_index|add:forloop.counter0 }}</td> {% endcomment %}
                                 <td><a href="{% url 'task_detail' id=val.id %}">{{val.user_id.first_name}}</a></td>
                                 <td>{{val.user_id.phone_number}}</td>
                                 <td>{{val.user_id.email}}</td>
                                 <td>{{val.service}}</td>
-                                <!-- <td>{{val.document}}</td> -->
-                                <td><a href="{{val.user_id.image.url}}"><img src="{{ val.image.url }}" alt="{{ val.name }}" width="50" height="50"></a></td>
                                 <td>{% if val.payment %} Complete {% else %} Pending {% endif %}</td>
                                 <td>{{val.msg}}</td>
-                                <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
-                               
-                               
-
+                                <td>{{val.created_at|date:"d-n-Y H:i"}}</td> 
                                 <td>                          
                                   {%if forloop.first%}
                                     <a href="{% url 'select_task' id=val.id %}" ><i  class='btn btn-success' class="material-icons " data-toggle="tooltip" title="Edit">Select</i></a>
                                   {% endif %}
                                 </td>     
                             </tr>
+
                           {% endfor %}
 
                         </tbody>

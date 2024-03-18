@@ -29,21 +29,18 @@ def success(request):
 def Login(request):
     if request.method == 'POST':
         email = request.POST.get('username')
-        print(email,'0----------')
         password = request.POST.get('password')
-        print(password,'0----------')
         user_det = authenticate(request, email=email, password=password)
-        print(user_det,'----user_det----------')
         if user_det is not None:
-            user = get_object_or_404(CustomUser, email=email)
-            
+            user = get_object_or_404(CustomUser, email=email)            
             if user.is_authenticated:
                 login(request, user_det)
-                if user.is_superuser:                    
-                    return redirect('/dashboard/')  # Redirect to the Django admin page after successful login
-                else:
-                    
-                    return redirect('/staff_dashboard/')
+                if user.user_type=='1':                    
+                    return redirect('/dashboard/')  # Redirect to the admin Dashboard after successful login
+                elif user.user_type == '2':  
+                    return redirect('/staff_dashboard/') # Redirect to the Staff Dashboard page after successful login
+                elif user.user_type == '3':  
+                    return redirect('/age_home') # Redirect to the Agent Dashboard after successful login
         else:
             # Handle invalid login credentials
             return render(request, 'admin/main_app/login.html', {'error_message': 'Invalid credentials'})
@@ -51,8 +48,14 @@ def Login(request):
 
 
 def Logout(request):
-    logout(request)
-    return redirect('/login')
+    user = request.user
+    user = get_object_or_404(CustomUser, first_name=user)
+    if user.user_type == '4':
+        logout(request)
+        return redirect('/')
+    else:
+        logout(request)
+        return redirect('/login')
 
 
 
@@ -439,11 +442,16 @@ def orders(request,):
     model_meta =user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y=user_service_details.objects.filter(taken_by__exact='')
-    page=Paginator(y,5)
+    page=Paginator(y,3)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     # cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/super_user/orders.html',{'order_info':page,'field_names': field_names,})
+    start_index = (page.number - 1) * len(page) + 1
+    print('-----page.number--->>>',page.number)
+
+    print('-----start_index--->>>',start_index)
+    return render(request, 'admin/staff/orders.html', {'order_info': page, 'field_names': field_names, 'start_index': start_index})
+    # return render(request,'admin/super_user/orders.html',{'order_info':page,'field_names': field_names,})
     
 
 
