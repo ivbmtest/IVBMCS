@@ -20,14 +20,11 @@ def user_dash_home(request):
         recom = srvc.objects.filter(svcategory = user_last.service.svcategory)
     except:
         recom = srvc.objects.all()
-        print("if >>  ::::: ::: ::")
     if request.method == 'POST':
         first = request.POST['first']
         last = request.POST['last']
         number = request.POST['number']
         email = request.POST['email']
-        print(first,last,email,number)
-        print("ph ::::::;",request.user.phone_number)
         if request.POST['pre_email'] != request.user.email:
                         
             if CustomUser.objects.filter(email=email):
@@ -54,34 +51,20 @@ def user_dash_home(request):
 def my_service(request): 
     
     current_user = request.user
-    print("user services  ->",user_service_details.objects.all())
-    print("service : : 25 :::",current_user.id)
-    #current_user = get_user_details(current_user) 
     my_ser = user_service_details.objects.filter(user_id=current_user.id)
-    # user_service_instance = user_service_details.objects.get(user_id=current_user.id)
-    # print('===========',user_service_instance.taken_by)
     user_det = authenticate(request, email=current_user.email)
-    print(user_det)
-
     return render(request,'User/user_dashboard/my_service.html',{'my_service':my_ser,})
 
 
 def user_notify(request):
     current_user = request.user
-    print('user:::',current_user)
-    user_detail=get_object_or_404(CustomUser, email=request.user.email)
-    
-    print("user_notify",user_detail.id)
-    
+    user_detail=get_object_or_404(CustomUser, email=request.user.email)   
     service_details =  user_service_details.objects.filter(user_id=user_detail.id)
     user_notifications = user_notification.objects.filter(recepient=user_detail.id).order_by('-timestamp')
     user_notifications_instance = user_notification.objects.get(recepient=user_detail.id)
-    # user_notifications_instance.sender='karthik'
-    # user_notifications_instance.save()
     sender=user_notifications_instance.sender
     service=user_notifications_instance.service
     service_details={'service':service}
-    print('service:::',service)
     return render(request,'User/user_dashboard/notification.html',
                   {'notification_details':user_notifications,'sender':sender,'service':service})
     
@@ -94,26 +77,17 @@ def notification_detail(request,id):
     return render(request,'User/user_dashboard/notification_detail.html',{'user_service_detail':user_service_detail})
 
 
-def callback_request(request):    
-    print('triggered-----------')
+def callback_request(request):  
     staff_name=request.POST.get('staff_name')
     sender=request.user
     service=request.POST.get('service')
     message=request.POST.get('message')
     timestamp = datetime.now()
     user_details = CustomUser.objects.get(first_name=staff_name)
-
-    # Assuming YourServiceModel is the correct model for your 'service' field
     service_instance = srvc.objects.get(svname=service)
-    print('-------',staff_name)
-    print('-------',sender)
-    print('-------',service)
-    print('-------',message)
-    print('-------',timestamp)
-    print('-------',user_details.id)
-    print('-------',service_instance.svid)
-    
-
+    user_service_detail_instance= user_service_details.objects.get(service=service_instance, user_id=request.user.id)
+    user_service_detail_instance.call_back_request=1
+    user_service_detail_instance.save()
     user_notification_instance=user_notification.objects.get_or_create(
         recepient=user_details,sender=sender,service=service_instance,
         message=message,timestamp=timestamp,is_viewed=0)
@@ -133,18 +107,7 @@ def appointment(request):
 
 
 def select_service(request,value=''):
-    #current_user =request.session['username']
     current_user = request.user
-
-    print("session store : ",current_user)
-    # try:
-    #     print("ok test data",current_user.phone_number)        
-    #     #details={'name':current_user.name,'email':current_user.email,'phone':current_user.phone_number}
-    #     print("phone :: :: ::",current_user.name)
-
-    #     return render(request,'User/user_dashboard/consultation.html')
-    # except:
-    #     print("except : ")
     return render(request,'User/user_dashboard/consultation.html',{'value':value})
     
 
@@ -155,21 +118,15 @@ def booking(request):
         num = request.POST['num']
         serv = request.POST['ser']
         msg = request.POST['msg']
-        print(name,email,num,serv,msg)
-        #u = request.session['username']
-        print("cusom user",CustomUser.objects.get(email=request.user.email))
         u = request.user
         service = srvc.objects.get(svname=serv)
-        print("booikng session",service)
         user_instance,user_created = CustomUser.objects.get_or_create(email=email,defaults={'name':name,'email':email,'phone_number':num })
-        # userdata = user_service_details
         if userdata.objects.filter(email=u).exists() and userdata.objects.filter(phone_number='').exists():
             user_up = userdata.objects.get(email=u)
             user_up.name = name
             user_up.phone_number = num
             user_up.status = 0
             user_up.save()
-            print("new userupdate")
         
         if not user_created:
             print('user already exist with email',user_instance.email) 
@@ -185,9 +142,7 @@ def booking(request):
 def payment(request):
     if request.method == 'POST':
         pay = request.POST.get('pay')
-        #current_user = request.session['username']
         current_user = request.user
-        #current_user_id = get_user_details(current_user)
         latest_service_details_id=user_service_details.objects.latest('id')
         service_details_id = latest_service_details_id.id
         instance = user_service_details.objects.get(pk = service_details_id)
@@ -196,10 +151,8 @@ def payment(request):
         else:
             instance.payment=False    
         instance.save()
-        # print("pay val : ",pay)
         if pay:
             serv = request.session.get('service_id_data', None)
-            print('----------serv-->>',serv)
             service = srvc.objects.get(svname=serv)
             d = DocumentsRequired.objects.filter( Service = service.svid)
             request.session['form_submitted'] = False
@@ -214,12 +167,9 @@ def upload_doc(request):
     if request.method == 'POST':
         received_data = request.session.get('user_id_data', None)
         ser_type = request.POST['ser_type']
-        # print("type :::: ",ser_type)
         userid = request.POST['userid']
-        # print("userid :::",userid)
         serid = srvc.objects.get(svname=ser_type)
         ser_count = DocumentsRequired.objects.filter(Service=serid)
-        # print("type count :::: ",ser_count)
         """user_id = userdata.objects.get(id=userid)
         for i in ser_count:
             f1 = request.FILES[i.DocumentName]
@@ -241,7 +191,6 @@ def upload_doc(request):
         documents = {}
         print(request.FILES.items())
         for document_name, uploaded_file in request.FILES.items():
-            print("upload file",uploaded_file)
             documents[document_name] = uploaded_file.name
             
 
@@ -252,9 +201,7 @@ def upload_doc(request):
             with open(destination_path, 'wb') as destination_file:
                 for chunk in uploaded_file.chunks():
                     destination_file.write(chunk)
-            
-        print("documents ::::: ",documents)
-      
+                  
         latest_service_details_id=user_service_details.objects.latest('id')
         service_details_id = latest_service_details_id.id
         instance = user_service_details.objects.get(pk = service_details_id)

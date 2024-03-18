@@ -161,11 +161,20 @@
             </a>
           </li>
           <li>
-            <a href="{% url 'staff_notification' %}" title="Clients" class="{% if url_name == 'staff_notification' %}bg-success{% endif %}">
+            <a href="{% url 'staff_notification' %}" title="Notifications" class="{% if url_name == 'staff_notification' %}bg-success{% endif %}">
               <i class='bx bxs-bell'></i>
               <span class="links_name">Notifications</span>
             </a>
           </li>
+
+
+          <li>
+            <a href="{% url 'staff_tickets' %}" title="Tickets" class="{% if url_name == 'staff_tickets' %}bg-success{% endif %}">
+              <i class='fa fa-ticket'></i>
+              <span class="links_name">Tickets</span>
+            </a>
+          </li>
+
           <li>
             <a href="{% url 'task' %}" title="Tasks" class="{% if url_name == 'task' %}bg-success{% endif %}">
               <i class='bx bx-task'></i>
