@@ -203,7 +203,6 @@ def staff_notification(request):
     return render(request,'admin/staff/staff_notification.html',{'notification_details':notification_details})
 
 
-<<<<<<< HEAD
 
 def staff_profile(request):
     return render(request,'admin/staff/staff_profile.html')
@@ -223,7 +222,7 @@ def staff_password_reset(request):
             request.user.save()
             return JsonResponse({'success': True, 'result':"Password Successfully Changed"})
     return render(request,'admin/staff/change_password.html')
-=======
+
 def staff_tickets(request):
     # try:
     print(request.user)
@@ -250,4 +249,3 @@ def close_ticket(request,id):
     user_service_details_instance.call_back_request=2
     user_service_details_instance.save()
     return redirect('staff_tickets')
->>>>>>> b1e9a3dab11e9d914cb03caf163fd1f055374fbd
