@@ -203,7 +203,6 @@ def staff_notification(request):
     return render(request,'admin/staff/staff_notification.html',{'notification_details':notification_details})
 
 
-<<<<<<< HEAD
 
 def staff_profile(request):
     return render(request,'admin/staff/staff_profile.html')
@@ -223,31 +222,3 @@ def staff_password_reset(request):
             request.user.save()
             return JsonResponse({'success': True, 'result':"Password Successfully Changed"})
     return render(request,'admin/staff/change_password.html')
-=======
-def staff_tickets(request):
-    # try:
-    print(request.user)
-    service_details = user_service_details.objects.filter(taken_by=request.user).order_by('-created_at')
-    service_instance = user_service_details.objects.get(taken_by=request.user)
-    user_details = CustomUser.objects.get(pk=service_instance.user_id.id)
-    model_meta = user_service_details._meta
-    field_names = [field.verbose_name for field in model_meta.fields]
-    filter_fields=['user_id','Service', 'Documents', 'agent_id','Payment']
-    filtered_field_names=[names for names in field_names if names in filter_fields]
-    
-    return render(request,'admin/staff/tickets.html',{'service_details':service_details,
-                                                    'field_names':filtered_field_names,
-                                                    'phone_number':user_details.phone_number,
-                                                    'email':user_details.email})
-    # except:
-    #     print('exeptiosn===========')
-    #     return render(request,'admin/staff/tickets.html',{'service_details':service_details})
-    
-    
-    
-def close_ticket(request,id):
-    user_service_details_instance=user_service_details.objects.get(pk=id)
-    user_service_details_instance.call_back_request=2
-    user_service_details_instance.save()
-    return redirect('staff_tickets')
->>>>>>> b1e9a3dab11e9d914cb03caf163fd1f055374fbd

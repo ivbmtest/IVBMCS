@@ -119,8 +119,8 @@ urlpatterns = [
     path('send_message/<int:id>/',send_message,name='send_message'), 
     
     path('staff_notification/',staff_notification,name='staff_notification'),
-    path('staff_tickets/',staff_tickets,name='staff_tickets') , 
-    path('close_tickets/<int:id>/',close_ticket,name='close_tickets') ,
+    #path('staff_tickets/',staff_tickets,name='staff_tickets') , 
+    #path('close_tickets/<int:id>/',close_ticket,name='close_tickets') ,
 
 
    
