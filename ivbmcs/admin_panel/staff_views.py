@@ -78,12 +78,31 @@ def staff(request):
                    'email', 'user type', 'gender', 'profile pic', 'address', 'created at', 'updated at']
     filtered_field_names=[names for names in field_names if names in filter_fields]
     y=CustomUser.objects.filter(user_type=2)
-    print("--------------y",filtered_field_names)
-    page=Paginator(y,5)
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
+
+    if paginate_by is None:
+        page=Paginator(y,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(y,paginate_by)
+    
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    print("--------------y",page_list)
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
+    
+    # page=Paginator(y,5)
+    # page_list=request.GET.get('page')
+    # page=page.get_page(page_list)
+    # print("--------------y",page_list)
+    # cou=UserProfile.objects.filter(taken_by__exact='').count()
 
     print("s",y)
 
@@ -98,7 +117,11 @@ def staff(request):
             items.gender='Male'
         elif items.gender=='F':
             items.gender = 'Female'
-    return render(request,'admin/super_user/staff.html',{'form': staff_form,'staff_info':y,'field_names': filtered_field_names,'cou':cou,'staff_cat':staff_cat})
+    return render(request, 'admin/super_user/staff.html', {
+        'form': staff_form,'staff_info':y,'field_names': filtered_field_names,'staff_cat':staff_cat,
+        'start_index': start_index,"page_parameter": page_parameter,
+        "paginate_parameter": paginate_parameter})
+    # return render(request,'admin/super_user/staff.html',{'form': staff_form,'staff_info':y,'field_names': filtered_field_names,'cou':cou,'staff_cat':staff_cat})
 
 #delete agent
 def del_staff(request,id):
@@ -233,8 +256,10 @@ def staff_tickets(request):
     user_details = CustomUser.objects.get(pk=service_instance.user_id.id)
     model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    filter_fields=['user_id','Service', 'Documents', 'agent_id','Payment']
+    filter_fields=['Service', 'Documents', 'agent_id','Payment']
     filtered_field_names=[names for names in field_names if names in filter_fields]
+    print('======',filtered_field_names)
+    print('====service_details==',service_details)
     
     return render(request,'admin/staff/tickets.html',{'service_details':service_details,
                                                     'field_names':filtered_field_names,

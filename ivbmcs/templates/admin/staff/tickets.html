@@ -83,9 +83,11 @@
                               </span>
                             </th>
                             <th>#</th>
+                            <th>Name</th>
                             {% for field in field_names %}
                                         <th>{{field}}</th>
                                         {% endfor %}
+                                        
                                         <th>Phone Number</th>
                                         <th>Email</th>
                                         <th>Action</th>
@@ -107,14 +109,13 @@
                                           <td>{% if val.payment %} <span class="badge badge-success">Done</span>
                                             {% else %} <span class="badge badge-danger">Failed</span>
                                             {% endif %}</td>
-                                          {% comment %} <td>{{val.msg|default:"N/A"}}</td> {% endcomment %}
-                                          <td>                                          <td>
+                                          <td>
                                             {% for key, value in val.documents.items %}
-                                              {{ key }}<br>
+                                              {{ key|default:"N/A" }}<br>
                                             {% endfor %}
                                           </td>
                                           <td>{{val.agent_id|default:"N/A"}}</td>
-                                          <td>{{phone_number|default:"N/A"}}</td>
+                                          <td>{{phone_number|default:"N/A"}}</td>                                          
                                           <td>{{email|default:"N/A"}}</td>
                                           <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" title='view' data-target="#view_detail-{{forloop.counter}}" class='fa fa-eye  text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='fa fa-window-close text-danger'data-toggle="modal" title='close request' data-target="#close_ticket-{{forloop.counter}}" data-whatever="@mdo" ></i></td>
                 
@@ -139,6 +140,7 @@
                               </span>
                             </th>
                             <th>#</th>
+                            <th>Name</th>
                             {% for field in field_names %}
                                         <th>{{field}}</th>
                                         {% endfor %}
