@@ -28,7 +28,7 @@ class user_service_details(models.Model):
 
     agent_id = models.ForeignKey(CustomUser,on_delete = models.CASCADE,related_name='agent_id',verbose_name = "agent_id",null=True, blank=True)
 
-    taken_by = models.CharField(max_length=255,verbose_name="Taken",blank=True)
+    taken_by = models.ForeignKey(Staff,verbose_name="Taken",blank=True,on_delete = models.CASCADE,null=True)
     status = models.CharField(max_length=255,verbose_name="Status",blank=True,default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 

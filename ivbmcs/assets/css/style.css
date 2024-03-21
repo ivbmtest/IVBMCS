@@ -4,19 +4,19 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif; 
 }
 .sidebar{
   position: fixed;
   height: 100%;
-  width: 100vh;
+  width: 16rem;
   background:#242d6e;
   transition: all 0.5s ease;
   overflow-y: auto;
 }
 
 .logo{
-  width: 32%;
+  width: 12rem;
 }
 
 .sidebar.active{
@@ -156,29 +156,29 @@ nav .search-box .bx-search{
 .home-section nav .profile-details{
   display: flex;
   align-items: center;
-  background: #F5F6FA;
-  border: 2px solid #EFEEF1;
-  border-radius: 6px;
+  background: #fcfdfd;
+  /* border: 2px solid #EFEEF1;
+  border-radius: 6px; */
   height: 50px;
   min-width: 190px;
   padding: 0 15px 0 2px;
 }
 
-.home-section nav .profile-details:hover{
+/* .home-section nav .profile-details:hover{
 background-color:#b6eeab;
 transition: .5s;
-}
+} */
 nav .profile-details img{
   height: 40px;
   width: 40px;
-  border-radius: 6px;
+  /* border-radius: 6px; */
   object-fit: cover;
 }
 nav .profile-details .admin_name{
   font-size: 15px;
   font-weight: 500;
   color: #333;
-  margin: 0 10px;
+  /* margin: 0 10px; */
   white-space: nowrap;
 }
 nav .profile-details i{
@@ -284,7 +284,7 @@ nav .profile-details i{
 
 /* left box */
 .home-content .sales-boxes .recent-sales{
-  width: 65%;
+  width: 10%;
   background: #fff;
   padding: 20px 30px;
   margin: 0 20px;
@@ -312,14 +312,14 @@ nav .profile-details i{
 }
 
 /* Right box */
-.home-content .sales-boxes .top-sales{
+/* .home-content .sales-boxes .top-sales{
   width: 35%;
   background: #fff;
   padding: 20px 30px;
   margin: 0 20px 0 0;
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
+} */
 
 
 
@@ -366,9 +366,9 @@ nav .profile-details i{
     overflow-x: scroll;
     margin-bottom: 30px;
   }
-  .home-content .sales-boxes .top-sales{
+  /* .home-content .sales-boxes .top-sales{
     margin: 0;
-  }
+  } */
 }
 @media (max-width: 1000px) {
   .overview-boxes .box{
@@ -426,45 +426,75 @@ nav .profile-details i{
 
 
 
-
-
-.circle-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-left:4rem;
+/*loader*/
+ :root{
+  --spinner-size: 150px; /* change the size of the spinner */
+  --loading-screen-background: rgba(255, 255, 255, 0.692); /* change the background color of the loading screen */
+  --font-family: 'Red Hat Display', sans-serif; /* change the font used for the bottom text of the loading screen */
+  --text-color: white; /* change the color used for the bottom text of the loading screen */
 }
 
-.circless {
-  display: flex;
-  align-items: center;
- 
-  
-}
-
-.circless i {
-  padding: 1.5rem;
-  width: 20px;
-  height: 20px;
- background-color:#00194C;
-  color: #fff;
-  border-radius: 50%;
+.loading-screen{
+  background-color: var(--loading-screen-background, #1C1C1C);
   display: flex;
   align-items: center;
   justify-content: center;
- 
+  flex-direction: column;
+  position: fixed;
+  top:0;
+  right:0;
+  left:0;
+  bottom:0;
+  z-index: 500;
+  cursor: none;
 }
 
-.line {
-  width: 2px;
-  height: 20px;
-  background-color: #65a51b;
-  margin-left: 1.4rem; /* Adjust the margin to align lines with circles */
+.loader {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 6px solid #54e237;
+  border-right: 4px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.loader::after {
+  content: '';  
+  box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border-left: 6px solid #242d6e;
+  border-bottom: 4px solid transparent;
+  animation: rotation 0.5s linear infinite reverse;
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-.process-name {
-  margin-left: 10px;
-  font-size: 18px; /* Adjust the font size as needed */
-  color: #333;
-  margin-right: 10px;
+
+.tabfont th{
+  font-size: 15px;
+  text-align: center;
+}
+.tabfont td {
+  text-align: center;
+  font-size: 13px;
+}
+#table-container{
+  border-radius: 12px;
+}
+
+.ad_del {
+  height: min-content;
+
 }

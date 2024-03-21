@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect,reverse
+from django.shortcuts import render, HttpResponse, redirect,reverse,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -20,8 +20,8 @@ import datetime
 
 
 def staff_dashboard(request):
-    cou=user_service_details.objects.filter(taken_by__exact='').count()
-    total_order = UserProfile.objects.filter().count()
+    cou=user_service_details.objects.filter(taken_by__isnull=True).count()
+    staff_ord = user_service_details.objects.filter(taken_by=request.user.staff).count()
     print("cou ::: ::",cou)
     my = user_service_details.objects.filter(user_id=request.user).count()
    
@@ -29,7 +29,7 @@ def staff_dashboard(request):
     field_names = [field.verbose_name for field in model_meta.fields 
                    if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status','Taken']]
     latest_record = user_service_details.objects.all().order_by('-created_at')[:5]
-    return render(request,'admin/staff/main_layout.html',{'cou':cou,'take':my,'total':total_order,"latest_data":latest_record,"field_names":field_names})
+    return render(request,'admin/staff/main_layout.html',{'cou':cou,'take':my,'staff_accept_ord':staff_ord,"latest_data":latest_record,"field_names":field_names})
 
 
 @login_required(login_url="/")
@@ -83,7 +83,7 @@ def staff(request):
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     print("--------------y",page_list)
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
+    cou=UserProfile.objects.filter(taken_by__isnull=True).count()
 
     print("s",y)
 
@@ -154,23 +154,24 @@ def update_staff(request,id):
 #             messages.error(request, "Could Not Add: ")
 #     return render(request, 'hod_template/add_student_template.html', context)
 
+@login_required(login_url="/")
 def staff_orders(request):
-    model_meta =user_service_details._meta
+    model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
 
+    # Retrieve service objects related to the current staff user's category
+    sv = srvc.objects.filter(svcategory=request.user.staff.category)
+    print("sssv",sv)
+    # Retrieve orders related to the filtered services and not yet taken by anyone
+    orders = user_service_details.objects.filter(service__in=sv, taken_by__isnull=True)
 
-    #y=user_service_details.objects.filter(taken_by__exact='')
-    sv = srvc.objects.get(svcategory=request.user.staff.category)
-    
-    t = user_service_details.objects.filter(service=sv,taken_by__exact='')
-    page=Paginator(t,5)
-    page_list=request.GET.get('page')
-    page=page.get_page(page_list)
-    return render(request,'admin/staff/orders.html',{'order_info':page,'field_names': field_names,})
-
+    # Paginate the orders
+    paginator = Paginator(orders, 5)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+    return render(request, 'admin/staff/orders.html', {'order_info': page, 'field_names': field_names})
 
 @login_required(login_url="/")
-
 def send_message(request, id):
     task = user_service_details.objects.get(pk=id)
     print('task::',task)
@@ -227,8 +228,8 @@ def staff_password_reset(request):
 def staff_tickets(request):
     # try:
     print(request.user)
-    service_details = user_service_details.objects.filter(taken_by=request.user).order_by('-created_at')
-    service_instance = user_service_details.objects.get(taken_by=request.user)
+    service_details = user_service_details.objects.filter(taken_by=request.user.staff.id).order_by('-created_at')
+    service_instance = user_service_details.objects.get(taken_by=request.user.staff.id)
     user_details = CustomUser.objects.get(pk=service_instance.user_id.id)
     model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]

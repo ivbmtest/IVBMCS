@@ -1,6 +1,6 @@
    
    <div class="0">
-    ...........................................
+
     
    </div><!-- templates/emails/request_accepted_template.html -->
 
@@ -133,30 +133,22 @@
     </div>
     <div class="content">
         <div class="centered-text">
-            <p>Dear <strong>{{user_name}},</strong></p>
+            <p>Dear <strong>{{username.recepient.first_name}},</strong></p>
             {% comment %} <p>We are pleased to inform you that your leave request has been approved.</p>
             <p>If you have any questions or need further assistance, please feel free to contact us.</p>
             <p>Thank you for your understanding.</p> {% endcomment %}
 
-            <p>We are pleased to inform you that your request for {{details.service}} has been accepted by {{request.id.username}}.</p>
+            <p>We are pleased to inform you that your request for {{username.service.svname}} has been accepted our team.</p>
             <p>If you have any questions or need further assistance, please feel free to contact us.</p>
             <p>Thank you for your understanding.</p>
-            {% comment %} <p> Here are the details:</p>
-                
-                <ul class="centered-text">
-                    <li>Service: {{ details.service }}</li>
-                    <li>Request Date: {{ details.request_date }}</li>
-                    <li>Document:<a href="{{details.document.url}}">{{details.document}}</a></li>
-                    <li>Image: <a href={{details.image.url}} target="_blank">{{details.image}}</a></li>
-                    <li>Taken_by: {{ details.taken_by }}</li>
-                    <!-- Add more details as needed -->
-                </ul> {% endcomment %}
+           
         </div>
     </div>
     <div class="footer">
         <p>
             This is an automated notification. Please do not reply to this email.
             <div class="footer-links">
+                <img src="https://ivbmcs.com/assets/img/logo/logo.png" style="width: 10rem;" ><br>
                 <a href="">Terms and Conditions</a>
             </div>
         </p>

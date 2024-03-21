@@ -17,6 +17,7 @@ from django.utils.html import strip_tags
 from django.core.files.storage import FileSystemStorage
 import datetime
 
+  
 
 @login_required(login_url="/")
 def agent(request):

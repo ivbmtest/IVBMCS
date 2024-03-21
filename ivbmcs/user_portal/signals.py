@@ -2,6 +2,11 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import *
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
+from django.template.loader import render_to_string
+
 # Signal handler for post_save on user_service_details
 @receiver(post_save, sender=user_service_details)
 def update_notifications(sender, instance, created, **kwargs):
@@ -22,3 +27,20 @@ def update_notifications(sender, instance, created, **kwargs):
         if notification:
             notification.message = f"Service status changed to '{instance.status}' and taken by '{instance.taken_by}'."
             notification.save()
+
+
+@receiver(post_save, sender=user_notification)
+def send_notification(sender, instance, created, **kwargs):
+    print("Signal is  working:",instance.recepient.first_name)
+    if created:
+        subject = 'Your Sevice has started'
+        html_content = render_to_string('admin/super_user/user_email_template.html', {'username': instance})
+        text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version
+        sender_email = 'your@email.com'  # Replace with your email
+        recipient_email = [instance.recepient.email]
+        print("ready to send----",recipient_email)
+        send_mail(subject, '', "testnft400@gmail.com", recipient_email, html_message=html_content)
+        print("sucess")
+        # msg = EmailMultiAlternatives(subject, text_content, sender_email, [recipient_email])
+        # msg.attach_alternative(html_content, "text/html")
+        # msg.send()

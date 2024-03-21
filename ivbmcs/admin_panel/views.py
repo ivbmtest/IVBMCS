@@ -29,21 +29,18 @@ def success(request):
 def Login(request):
     if request.method == 'POST':
         email = request.POST.get('username')
-        print(email,'0----------')
         password = request.POST.get('password')
-        print(password,'0----------')
         user_det = authenticate(request, email=email, password=password)
-        print(user_det,'----user_det----------')
         if user_det is not None:
-            user = get_object_or_404(CustomUser, email=email)
-            
+            user = get_object_or_404(CustomUser, email=email)            
             if user.is_authenticated:
                 login(request, user_det)
-                if user.is_superuser:                    
-                    return redirect('/dashboard/')  # Redirect to the Django admin page after successful login
-                else:
-                    
-                    return redirect('/staff_dashboard/')
+                if user.user_type=='1':                    
+                    return redirect('/dashboard/')  # Redirect to the admin Dashboard after successful login
+                elif user.user_type == '2':  
+                    return redirect('/staff_dashboard/') # Redirect to the Staff Dashboard page after successful login
+                elif user.user_type == '3':  
+                    return redirect('/age_home') # Redirect to the Agent Dashboard after successful login
         else:
             # Handle invalid login credentials
             return render(request, 'admin/main_app/login.html', {'error_message': 'Invalid credentials'})
@@ -51,8 +48,14 @@ def Login(request):
 
 
 def Logout(request):
-    logout(request)
-    return redirect('/login')
+    user = request.user.email
+    user = get_object_or_404(CustomUser, email=user)
+    if user.user_type == '4':
+        logout(request)
+        return redirect('/')
+    else:
+        logout(request)
+        return redirect('/login')
 
 
 
@@ -109,9 +112,7 @@ def update_currency(request,id):
 # category
 @login_required(login_url="/")
 def category(request):
-    if request.method == 'POST':
-        
-        
+    if request.method == 'POST': 
         ctrgy_frm = ctgryForm(request.POST,request.FILES)
         if ctrgy_frm.is_valid:
             instance = ctrgy_frm.save(commit=False)
@@ -412,7 +413,8 @@ def update_taxmaster(request,id):
 
 # @login_required(login_url="/")
 def dashboard(request):
-    cou=user_service_details.objects.filter(taken_by__exact='').count()
+   
+    cou=user_service_details.objects.filter(taken_by__isnull=True).count()
     total_order = user_service_details.objects.filter().count()
     take = user_service_details.objects.filter(taken_by__isnull=False).count()
 
@@ -438,15 +440,19 @@ def dashboard(request):
 def orders(request,):
     model_meta =user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    y=user_service_details.objects.filter(taken_by__exact='')
+    y=user_service_details.objects.filter(taken_by__isnull=True)
     page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
     # cou=UserProfile.objects.filter(taken_by__exact='').count()
+    start_index = (page.number - 1) * len(page) + 1
+    print('-----page.number--->>>',page.number)
 
-    staff = Staff.objects.all()
-    
-    return render(request,'admin/super_user/orders.html',{'order_info':page,'field_names': field_names,'staff':staff})
+    print('-----start_index--->>>',start_index)
+    if request.user.user_type == 2:
+        return render(request, 'admin/staff/orders.html', {'order_info': page, 'field_names': field_names, 'start_index': start_index})
+    else:
+        return render(request,'admin/super_user/orders.html',{'order_info':page,'field_names': field_names,})
     
 
 
@@ -468,7 +474,8 @@ def demo_user(request):
 def my_task(request):
     model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    y=user_service_details.objects.filter(taken_by=request.user)
+    
+    y=user_service_details.objects.filter(taken_by=request.user.staff.id)
     
     
     page=Paginator(y,5)
@@ -483,6 +490,8 @@ def my_task(request):
 """function to select task from order list"""
 
 @login_required(login_url="/")
+
+# when staff select a task send mail and admin assign staff send a mail both are here
 def select_my_task(request,id):
     print("seleeeeeee",id)
     model_meta = UserProfile._meta
@@ -491,45 +500,30 @@ def select_my_task(request,id):
     # notification_instance=user_notification.objects.get(pk=id)
     # user_details = CustomUser.objects.get(pk=notification_instance.user_id.id)
     task_instance = user_service_details.objects.get(pk=id)  # Replace 1 with the actual primary key value
-    task_instance.taken_by=str(request.user)
+    #admin assign
+    if request.method == 'POST':
+        staff_id = request.POST['staff']
+        task_instance.taken_by=str(staff_id)
+        print("staff_id",staff_id)
+    else:
+        task_instance.taken_by=request.user.staff
     task_instance.save()
     user_details = CustomUser.objects.get(pk=task_instance.user_id.id)
     service_instance = srvc.objects.get(pk=task_instance.service.svid)
     time = datetime.datetime.now()
     message = f'your request for {task_instance} is taken by {current_user}'
-    user_notification.objects.get_or_create(message=message, timestamp=time,
-                                            recepient=user_details, service=service_instance)
+    user_notification.objects.get_or_create(message=message, timestamp=time,recepient=user_details, service=service_instance)
     
     # task_instance.taken_by = request.user # Update the values of the fields
     # task_instance.save()   # Save the changes to the database
-    messages.success(request,"sucess")
-    
-    
     
     """code to send mail to user when staff select the particular task """
-    messages.success(request,"sucess") 
-    
+ 
     """code to send mail to user when staff select the particular task """
     context={"user_name":task_instance.user_id}
-    connection = get_connection() # uses SMTP server specified in settings.py
-    connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
+    #connection = get_connection() # uses SMTP server specified in settings.py
+    #connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
     print('===========>>',task_instance.user_id.email)
-    # print(instance.phone_number)
-    html_content = render_to_string('admin/super_user/email_template.html', context)               
-    text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version                  
-    msg = EmailMultiAlternatives("Approval", text_content, "vasudevankarthik9@gmail.com",[task_instance.user_id.email],connection=connection)                                      
-    msg.attach_alternative(html_content, "text/html")  
-    
-    
-    #try:    # msg.content_subtype="html"                                                                                                                                                                             
-        #msg.send()        
-        #msg.send()        
-    #except Exception as e:
-        #print(f"==============>>>>>>>>>Error sending email: {e}")   
-         
-        
-         
-    #connection.close()
     return redirect("task")
 
 
@@ -680,3 +674,4 @@ def del_format(request,id):
     state = formt.objects.filter(pk=id)
     state.delete()
     return redirect('format')
+

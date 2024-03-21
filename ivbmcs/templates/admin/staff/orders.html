@@ -7,11 +7,11 @@
         <div class="home-content"  style="height: max-content;">
           <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         
-          <ul class="messages">
+    {% comment %}      <ul class="messages">
             {% for message in messages %}
                 <li id="myDiv" {% if message.tags %} class="{{ message.tags }}"{% endif %}><div class="row m-auto w-25" style="position: absolute;height: 3rem;padding-top: 1rem;padding-left: 3rem;left: 26rem;background-color: rgba(10, 230, 10, 0.498);"><b>SuccessFully Added</b></div></li>
             {% endfor %}
-          </ul>
+          </ul> {%  endcomment %}
 
           <!--loader-->
 
@@ -74,11 +74,9 @@
                             <th>Number</th>
                             <th>Email</th>
                             <th>Service</th>
-                            <th>User Image</th>
                             <th>Payment</th>
                             <th>User Query</th>
-                            <th>Start date</th>
-                           
+                            <th>Applied at</th>                           
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -90,14 +88,13 @@
                                   <input type="checkbox" id="checkbox1" name="options[]" value="1">
                                   <label for="checkbox1"></label>
                                 </span>
-                              </td>
-                                <td>{{forloop.counter}}</td>
+                              </td>     
+                              <td>{{start_index }}</td>                         
+                                {% comment %} <td>{{ page.start_index|add:forloop.counter0 }}</td> {% endcomment %}
                                 <td><a href="{% url 'task_detail' id=val.id %}">{{val.user_id.first_name}}</a></td>
                                 <td>{{val.user_id.phone_number}}</td>
                                 <td>{{val.user_id.email}}</td>
                                 <td>{{val.service}}</td>
-                                <!-- <td>{{val.document}}</td> -->
-                                <td><a href="{{val.user_id.image.url}}"><img src="{{ val.image.url }}" alt="{{ val.name }}" width="50" height="50"></a></td>
                                 <td>{% if val.payment %} Complete {% else %} Pending {% endif %}</td>
                                 <td>{{val.msg}}</td>
                                 <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
@@ -109,6 +106,7 @@
                                   {% endif %}
                                 </td>     
                             </tr>
+
                           {% endfor %}
 
                         </tbody>

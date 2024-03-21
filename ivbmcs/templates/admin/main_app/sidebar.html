@@ -89,13 +89,13 @@
             </a>
           </li>
 
-<!-- format -->
-<li>
-  <a href="{% url 'format' %}" title="Documents" class="{% if url_name == 'format' %}bg-success{% endif %}">
-    <i class='bx bxs-file-export'></i>
-    <span class="links_name">Format</span>
-  </a>
-</li>
+          <!-- format -->
+          <li>
+            <a href="{% url 'format' %}" title="Documents" class="{% if url_name == 'format' %}bg-success{% endif %}">
+              <i class='bx bxs-file-export'></i>
+              <span class="links_name">Format</span>
+            </a>
+          </li>
           <li>
             <a href="{% url 'taxmaster' %}" title="Tax Master" class="{% if url_name == 'taxmaster' %}bg-success{% endif %}">
               <i class='bx bx-briefcase-alt-2'></i>
@@ -166,8 +166,6 @@
               <span class="links_name">Notifications</span>
             </a>
           </li>
-
-
           <li>
             <a href="{% url 'staff_tickets' %}" title="Tickets" class="{% if url_name == 'staff_tickets' %}bg-success{% endif %}">
               <i class='fa fa-ticket'></i>
@@ -181,7 +179,6 @@
               <span class="links_name">Mytask</span>
             </a>
           </li>
-
           <li>
             <a href="{% url 'demo_user' %}" title="Users" class="{% if url_name == 'demo_user' %}bg-success{% endif %}">
               <i class='bx bx-group'></i>

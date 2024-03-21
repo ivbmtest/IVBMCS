@@ -79,11 +79,13 @@ def notification_detail(request,id):
 
 def callback_request(request):  
     staff_name=request.POST.get('staff_name')
+    print('---------',staff_name)
     sender=request.user
     service=request.POST.get('service')
     message=request.POST.get('message')
     timestamp = datetime.now()
     user_details = CustomUser.objects.get(first_name=staff_name)
+    print('------user_details----',user_details)
     service_instance = srvc.objects.get(svname=service)
     user_service_detail_instance= user_service_details.objects.get(service=service_instance, user_id=request.user.id)
     user_service_detail_instance.call_back_request=1
