@@ -61,7 +61,7 @@ def user_notify(request):
     user_detail=get_object_or_404(CustomUser, email=request.user.email)   
     service_details =  user_service_details.objects.filter(user_id=user_detail.id)
     user_notifications = user_notification.objects.filter(recepient=user_detail.id).order_by('-timestamp')
-    user_notifications_instance = user_notification.objects.get(recepient=user_detail.id)
+    user_notifications_instance = user_notification.objects.filter(recepient=user_detail.id)
     sender=user_notifications_instance.sender
     service=user_notifications_instance.service
     service_details={'service':service}
@@ -94,7 +94,7 @@ def callback_request(request):
         recepient=user_details,sender=sender,service=service_instance,
         message=message,timestamp=timestamp,is_viewed=0)
     
-    return redirect('user_notify')
+    return redirect('myservice')
     
 def all_service(request):
     return render(request,'User/user_dashboard/all_service.html')

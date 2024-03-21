@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.core.paginator import Paginator, EmptyPage
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import logging
 from .models import *
 from .form import *
@@ -14,7 +14,6 @@ from twilio.rest import Client
 from user_portal.models import *
 # from .backends import  EmailBackend
 import datetime
-
 
 from django.core.mail import EmailMultiAlternatives,get_connection
 from django.template.loader import render_to_string
@@ -75,11 +74,35 @@ def currency(request):
     model_meta = crnc._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y=crnc.objects.all()
-    page=Paginator(y,5)
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
+
+    if paginate_by is None:
+        page=Paginator(y,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(y,paginate_by)
+    
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
     cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/super_user/currency.html',{'form': frm,'currency_info':page,'field_names': field_names,'cou':cou})
+    return render(request, 'admin/super_user/currency.html', {
+        'form': frm,'currency_info':page,'field_names': field_names,'cou':cou,
+        'start_index': start_index,"page_parameter": page_parameter,
+        "paginate_parameter": paginate_parameter})
+    # page=Paginator(y,5)
+    # page_list=request.GET.get('page')
+    # page=page.get_page(page_list)
+    # cou=UserProfile.objects.filter(taken_by__exact='').count()
+    # return render(request,'admin/super_user/currency.html',{'form': frm,'currency_info':page,'field_names': field_names,'cou':cou})
   
 
 
@@ -126,13 +149,35 @@ def category(request):
         
     model_meta = ctgry._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    print('------------------------',field_names)
     y=ctgry.objects.all()
-    page=Paginator(y,5)
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
+
+    if paginate_by is None:
+        page=Paginator(y,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(y,paginate_by)
+    
     page_list=request.GET.get('page')
-    page=page.get_page(page_list)  
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/super_user/category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names,'cou':cou})
+    page=page.get_page(page_list)
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
+    return render(request, 'admin/super_user/category.html', {
+        'form': ctrgy_frm,'category_info':page,'field_names': field_names,
+        'start_index': start_index,"page_parameter": page_parameter,
+        "paginate_parameter": paginate_parameter})
+    # page=Paginator(y,5)
+    # page_list=request.GET.get('page')
+    # page=page.get_page(page_list)  
+    # cou=UserProfile.objects.filter(taken_by__exact='').count()
+    # return render(request,'admin/super_user/category.html',{'form': ctrgy_frm,'category_info':page,'field_names': field_names,'cou':cou})
    
 
 #Delete Category
@@ -174,13 +219,36 @@ def country(request):
         
     model_meta = cntry._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    y=cntry.objects.all()
-    page=Paginator(y,5)
+    y=cntry.objects.all()    
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
+
+    if paginate_by is None:
+        page=Paginator(y,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(y,paginate_by)
+    
     page_list=request.GET.get('page')
-    page=page.get_page(page_list)    
-    #country_info=cntry.objects.all()
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/super_user/country.html',{'form': cntry_frm,'country_info':page,'field_names': field_names})
+    page=page.get_page(page_list)
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
+    return render(request, 'admin/super_user/country.html', {
+        'form': cntry_frm,'country_info':page,'field_names': field_names,
+        'start_index': start_index,"page_parameter": page_parameter,
+        "paginate_parameter": paginate_parameter})
+    # page=Paginator(y,5)
+    # page_list=request.GET.get('page')
+    # page=page.get_page(page_list)    
+    # #country_info=cntry.objects.all()
+    # cou=UserProfile.objects.filter(taken_by__exact='').count()
+    # return render(request,'admin/super_user/country.html',{'form': cntry_frm,'country_info':page,'field_names': field_names})
   
     
     
@@ -225,11 +293,34 @@ def document(request):
     model_meta = DocumentsRequired._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y=DocumentsRequired.objects.all()
-    page=Paginator(y,5)
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
+
+    if paginate_by is None:
+        page=Paginator(y,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(y,paginate_by)
+    
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/super_user/document.html',{'form': frm,'document_info':page,'field_names': field_names,'cou':cou})
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
+    return render(request, 'admin/super_user/document.html', {
+        'form': frm,'document_info':page,'field_names': field_names,
+        'start_index': start_index,"page_parameter": page_parameter,
+        "paginate_parameter": paginate_parameter})
+    # page=Paginator(y,5)
+    # page_list=request.GET.get('page')
+    # page=page.get_page(page_list)
+    # cou=UserProfile.objects.filter(taken_by__exact='').count()
+    # return render(request,'admin/super_user/document.html',{'form': frm,'document_info':page,'field_names': field_names,'cou':cou})
    
 
 
@@ -283,11 +374,34 @@ def services(request):
     model_meta = srvc._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y=srvc.objects.all()
-    page=Paginator(y,5)
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
+
+    if paginate_by is None:
+        page=Paginator(y,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(y,paginate_by)
+    
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
+    return render(request, 'admin/super_user/services.html', {
+        'form': srvc_frm,'service_info':page,'field_names': field_names,
+        'start_index': start_index,"page_parameter": page_parameter,
+        "paginate_parameter": paginate_parameter})
+    # page=Paginator(y,5)
+    # page_list=request.GET.get('page')
+    # page=page.get_page(page_list)
    
-    return render(request,'admin/super_user/services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names})
+    # return render(request,'admin/super_user/services.html',{'form': srvc_frm,'service_info':page,'field_names': field_names})
    
 
 #Delete Service
@@ -329,11 +443,34 @@ def taxdetails(request):
     model_meta = txdet._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y=txdet.objects.all()
-    page=Paginator(y,5)
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
+
+    if paginate_by is None:
+        page=Paginator(y,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(y,paginate_by)
+    
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/super_user/taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names,'cou':cou})
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
+    return render(request,'admin/super_user/taxdetails.html', {
+        'form': frm,'taxdetail_info':page,'field_names': field_names,
+        'start_index': start_index,"page_parameter": page_parameter,
+        "paginate_parameter": paginate_parameter})
+    # page=Paginator(y,5)
+    # page_list=request.GET.get('page')
+    # page=page.get_page(page_list)
+    # cou=UserProfile.objects.filter(taken_by__exact='').count()
+    # return render(request,'admin/super_user/taxdetails.html',{'form': frm,'taxdetail_info':page,'field_names': field_names,'cou':cou})
     
 
 # del taxdetails
@@ -376,11 +513,34 @@ def taxmaster(request):
     model_meta = txmst._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y=txmst.objects.all()
-    page=Paginator(y,5)
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
+
+    if paginate_by is None:
+        page=Paginator(y,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(y,paginate_by)
+    
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/super_user/taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names,'cou':cou})
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
+    return render(request, 'admin/super_user/taxmaster.html', {
+        'form': frm,'tax_info':page,'field_names': field_names,
+        'start_index': start_index,"page_parameter": page_parameter,
+        "paginate_parameter": paginate_parameter})
+    # page=Paginator(y,5)
+    # page_list=request.GET.get('page')
+    # page=page.get_page(page_list)
+    # cou=UserProfile.objects.filter(taken_by__exact='').count()
+    # return render(request,'admin/super_user/taxmaster.html',{'form': frm,'tax_info':page,'field_names': field_names,'cou':cou})
    
 
 
@@ -437,23 +597,101 @@ def dashboard(request):
 
 
 @login_required(login_url="/")
-def orders(request,):
-    model_meta =user_service_details._meta
+def orders(request):
+    model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    y=user_service_details.objects.filter(taken_by__isnull=True)
-    page=Paginator(y,5)
+    y = user_service_details.objects.filter(taken_by__exact='')    
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
+
+    if paginate_by is None:
+        page=Paginator(y,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(y,paginate_by)
+    
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    # cou=UserProfile.objects.filter(taken_by__exact='').count()
-    start_index = (page.number - 1) * len(page) + 1
-    print('-----page.number--->>>',page.number)
+    # try:
+    #     page = paginator.page(page)
+    # except PageNotAnInteger:
+    #     page = paginator.page(1)
+    # except EmptyPage:
+    #     page = paginator.page(paginator.num_pages)
 
-    print('-----start_index--->>>',start_index)
-    if request.user.user_type == 2:
-        return render(request, 'admin/staff/orders.html', {'order_info': page, 'field_names': field_names, 'start_index': start_index})
-    else:
-        return render(request,'admin/super_user/orders.html',{'order_info':page,'field_names': field_names,})
-    
+     # if you do not add this code then if you are on page 2
+     # and you select paginate by 7 then ?page=2 will be removed
+     # from URL and you left with only ?paginate_by=2
+     # so if you want something like this ?paginate_by=5&page=2 and 
+     # add the following code
+
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
+    return render(request, 'admin/staff/orders.html', {
+        'order_info': page, 'field_names': field_names, 'start_index': start_index,
+        "page_parameter": page_parameter,
+        "paginate_parameter": paginate_parameter})
+        
+
+   
+
+    # return render(request, 'admin/staff/orders.html', {'order_info': page, 'field_names': field_names, 'start_index': start_index})
+
+# def orders(request,):
+#     model_meta =user_service_details._meta
+#     field_names = [field.verbose_name for field in model_meta.fields]
+#     y=user_service_details.objects.filter(taken_by__exact='')
+#     # selected_value = request.POST.get('cars')
+#     # print('---------selected val',selected_value)
+#     # Update the data variable based on the selected value
+#     # For example:
+#     count_of_data=2
+#     # if request.method == 'POST':
+#     selected_value = request.POST.get('selected_value')  # 'cars' matches the name attribute of the <select> tag
+#     print('---------selected val',selected_value)
+#     # count_of_data=0
+#     if selected_value is not None:
+#         print('-------entered!!!')
+#         try:
+#             print('-------entered try!!!')
+#             count_of_data = int(selected_value)
+#             print('---------count_of_data',count_of_data)
+#             page=Paginator(y,count_of_data)
+#             page_list=request.GET.get('page')
+#             page=page.get_page(page_list)
+#             # cou=UserProfile.objects.filter(taken_by__exact='').count()
+#             start_index = (page.number - 1) * count_of_data + 1
+#             # print('-----page.number--->>>',page.number)
+#             # print('-----page.number - 1--->>>',page.number - 1)
+#             # print('-----len(page) --->>>',len(page))
+#             # print('-----start_index--->>>',start_index)
+#             return render(request, 'admin/staff/orders.html', {'order_info': page, 'field_names': field_names, 'start_index': start_index})
+#             # You can perform any necessary actions with the updated data here
+#             # return JsonResponse({'success': True, 'data': count_of_data})
+#         except ValueError:
+#             return JsonResponse({'success': False, 'error': 'Invalid value'})
+#     else:
+#     #     return JsonResponse({'success': False, 'error': 'No value selected'})
+#     # count_of_data = int(selected_value)
+#     # count_of_data=3 #indicates the count of data to be shown in one page
+#         print('---------count_of_data',count_of_data)
+#         page=Paginator(y,count_of_data)
+#         page_list=request.GET.get('page')
+#         page=page.get_page(page_list)
+#         # cou=UserProfile.objects.filter(taken_by__exact='').count()
+#         start_index = (page.number - 1) * count_of_data + 1
+#         print('-----page.number--->>>',page.number)
+#         print('-----page.number - 1--->>>',page.number - 1)
+#         print('-----len(page) --->>>',len(page))
+#         print('-----start_index--->>>',start_index)
+#         return render(request, 'admin/staff/orders.html', {'order_info': page, 'field_names': field_names, 'start_index': start_index})
+        
 
 
 #user demo
@@ -643,12 +881,35 @@ def format(request):
     model_meta = formt._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y=formt.objects.all()
-    page=Paginator(y,5)
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
+
+    if paginate_by is None:
+        page=Paginator(y,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(y,paginate_by)
+    
     page_list=request.GET.get('page')
-    page=page.get_page(page_list)    
-    #country_info=cntry.objects.all()
-    #cou=UserProfile.objects.filter(taken_by__exact='').count()
-    return render(request,'admin/super_user/format.html',{'form': format_frm,'format_info':page,'field_names': field_names})
+    page=page.get_page(page_list)
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
+    return render(request, 'admin/super_user/format.html', {
+        'form': format_frm,'format_info':page,'field_names': field_names,
+        'start_index': start_index,"page_parameter": page_parameter,
+        "paginate_parameter": paginate_parameter})
+    # page=Paginator(y,5)    
+    # page_list=request.GET.get('page')
+    # page=page.get_page(page_list)    
+    # #country_info=cntry.objects.all()
+    # #cou=UserProfile.objects.filter(taken_by__exact='').count()
+    # return render(request,'admin/super_user/format.html',{'form': format_frm,'format_info':page,'field_names': field_names})
 
 
 #update currency
