@@ -16,188 +16,165 @@
     color: white;
     }
     </style>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <div class="home-content">       
+    {% comment %} <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> {% endcomment %}
+    <div class="home-content">
       <div class="container-fluid">
         <div class="table-wrapper">
           <div class="table-title">
-              <div class="row">
-                <div class="col-sm-4">
-                  <h2>My <b>Tickets</b></h2>
-                </div>        
-                <div class="col-sm-6 d-flex justify-content-end" >                
-                </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <h2>My <b>Tickets</b></h2>
               </div>
+              {% comment %} <div class="col-sm-6 d-flex justify-content-end" >
+                
+              </div> {% endcomment %}
             </div>
-
-              <!--loader-->
-
-              <div class="loading-screen" id="loading-screen">
-                <span class="loader"></span>
+          </div>
+          <!--loader-->
+          <div class="loading-screen" id="loading-screen">
+            <span class="loader"></span>
+          </div>
+          <!--end loader-->
+          {% if service_details|length != 0 %}
+          <div id="table-container" style="overflow:auto;" class="bg-white mt-3 shadow p-3">
+            <div class="row">
+              <div class="col-sm-6 mb-2">
+                <span class="ml-1"><button class="btn" style="width: min-content; border:none">show</button></span>
+                <select name="cars" id="cars" style="width: min-content;">
+                  <option value="volvo">10</option>
+                  <option value="saab">20</option>
+                  <option value="opel">50</option>
+                  <option value="audi">100</option>
+                </select>
+              </div>
+              <div class="col-sm-6">
+                <form class="p-0 serbox" style="float: right;">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search here.." aria-label="Username" aria-describedby="basic-addon1">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text bg-transparent ml-1" id="basic-addon1"><i class='bx bx-search-alt-2'></i></span>
+                      </div>
+                    </div>
+                  </form>
                 </div>
-              <!--end loader-->
-
-              {% if service_details|length != 0 %}
-                <div id="table-container" style="overflow:auto;" class="bg-white mt-3 shadow p-3">
-                  <div class="row">
-                    <div class="col-sm-6 mb-2">
-                      <span class="ml-1"><button class="btn" style="width: min-content; border:none">show</button></span> 
-                      <select name="cars" id="cars" style="width: min-content;">
-                        <option value="volvo">10</option>
-                        <option value="saab">20</option>
-                        <option value="opel">50</option>
-                        <option value="audi">100</option>
-                      </select>
-                    </div>
-                    <div class="col-sm-6">
-                      <form class="p-0 serbox" style="float: right;">
-                        <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Search here.." aria-label="Username" aria-describedby="basic-addon1">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text bg-transparent ml-1" id="basic-addon1"><i class='bx bx-search-alt-2'></i></span>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                   </div> <br>
-
-                          <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                              <a class="nav-link active text-success" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Open</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link text-danger" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Closed</a>
-                            </li>
-                            
-                          </ul>
-                          <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                              <table class="table table-striped table-hover tabfont">
-                
-                                <thead>
-                                    <tr>
-                            <th>
-                              <span class="custom-checkbox">
-                                <input type="checkbox" id="selectAll">
-                                <label for="selectAll"></label>
+              </div><br>
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active text-success" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Open</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-danger" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Closed</a>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <table class="table table-striped table-hover tabfont">
+                    <thead>
+                      <tr>
+                        <th>
+                          <span class="custom-checkbox">
+                            <input type="checkbox" id="selectAll">
+                            <label for="selectAll"></label>
+                          </span>
+                        </th>
+                        <th>#</th>
+                        <th>Name</th>
+                        {% for field in field_names %}
+                        <th>{{field}}</th>
+                        {% endfor %}
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for val in service_details %}
+                      {% if val.call_back_request == 1 %}
+                      <tr class="bg-white">
+                        <td>
+                          <span class="custom-checkbox-{{forloop.counter}}">
+                            <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                            <label for="checkbox1"></label>
+                          </span>
+                        </td>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{val.user_id.first_name|default:"N/A"}}</td>
+                        <td>{{val.service|default:"N/A"}}</td>
+                        <td>{% if val.payment %} <span class="badge badge-success">Done</span>
+                          {% else %} <span class="badge badge-danger">Failed</span>
+                          {% endif %}</td>
+                        <td>
+                          {% for key, value in val.documents.items %}
+                            {{ key|default:"N/A" }}<br>
+                          {% endfor %}
+                        </td>
+                        <td>{{val.agent_id|default:"N/A"}}</td>
+                        <td>{{phone_number|default:"N/A"}}</td>                                          
+                        <td>{{email|default:"N/A"}}</td>
+                        <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" title='view' data-target="#view_detail-{{forloop.counter}}" class='fa fa-eye  text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='fa fa-window-close text-danger' data-toggle="modal" title='close_ticket' data-target="#close_request-{{forloop.counter}}" data-whatever="@mdo" ></i></td>
+                      </tr>
+                      {% endif %}
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                  <table class="table table-striped table-hover tabfont">
+                    <thead>
+                      <tr>
+                        <th>
+                          <span class="custom-checkbox">
+                            <input type="checkbox" id="selectAll">
+                            <label for="selectAll"></label>
+                          </span>
+                        </th>
+                        <th>#</th>
+                        <th>Name</th>
+                        {% for field in field_names %}
+                        <th>{{field}}</th>
+                        {% endfor %}
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for val in service_details %}
+                        {% if val.call_back_request == 2 %}
+                          <tr class="bg-white">
+                            <td>
+                              <span class="custom-checkbox-{{forloop.counter}}">
+                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                                <label for="checkbox1"></label>
                               </span>
-                            </th>
-                            <th>#</th>
-                            <th>Name</th>
-                            {% for field in field_names %}
-                                        <th>{{field}}</th>
-                                        {% endfor %}
-                                        
-                                        <th>Phone Number</th>
-                                        <th>Email</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                  {% for val in service_details %}
-                                    {% if val.call_back_request == 1 %}
-                                    <tr class="bg-white">
-                                          <td>
-                                            <span class="custom-checkbox-{{forloop.counter}}">
-                                              <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                              <label for="checkbox1"></label>
-                                            </span>
-                                          </td>
-                                          <td>{{forloop.counter}}</td>
-                                          <td>{{val.user_id.first_name|default:"N/A"}}</td>
-                                          <td>{{val.service|default:"N/A"}}</td>
-                                          <td>{% if val.payment %} <span class="badge badge-success">Done</span>
-                                            {% else %} <span class="badge badge-danger">Failed</span>
-                                            {% endif %}</td>
-                                          <td>
-                                            {% for key, value in val.documents.items %}
-                                              {{ key|default:"N/A" }}<br>
-                                            {% endfor %}
-                                          </td>
-                                          <td>{{val.agent_id|default:"N/A"}}</td>
-                                          <td>{{phone_number|default:"N/A"}}</td>                                          
-                                          <td>{{email|default:"N/A"}}</td>
-                                          <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" title='view' data-target="#view_detail-{{forloop.counter}}" class='fa fa-eye  text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='fa fa-window-close text-danger'data-toggle="modal" title='close request' data-target="#close_ticket-{{forloop.counter}}" data-whatever="@mdo" ></i></td>
-                
-                                      </tr>
-                                      {% endif %}
-                                    {% endfor %}
-                                    <tr>
-                                </tbody>
-                            </table>
-
-                            </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                              
-                              <table class="table table-striped table-hover tabfont">
-                
-                                <thead>
-                                    <tr>
-                            <th>
-                              <span class="custom-checkbox">
-                                <input type="checkbox" id="selectAll">
-                                <label for="selectAll"></label>
-                              </span>
-                            </th>
-                            <th>#</th>
-                            <th>Name</th>
-                            {% for field in field_names %}
-                                        <th>{{field}}</th>
-                                        {% endfor %}
-                                        <th>Phone Number</th>
-                                        <th>Email</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                  {% for val in service_details %}
-                                  
-                                    {% if val.call_back_request == 2 %}
-                                      <tr class="bg-white">
-                                            <td>
-                                              <span class="custom-checkbox-{{forloop.counter}}">
-                                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                                <label for="checkbox1"></label>
-                                              </span>
-                                            </td>
-                                            {% comment %} <td>{{val.documents}}</td> {% endcomment %}
-                                            <td>{{forloop.counter}}</td>
-                                            <td>{{val.user_id.first_name|default:"N/A"}}</td>
-                                            <td>{{val.service|default:"N/A"}}</td>
-                                            <td>{% if val.payment %} <span class="badge badge-success">Done</span>
-                                              {% else %} <span class="badge badge-danger">Failed</span>
-                                              {% endif %}</td>
-                                            {% comment %} <td>{{val.msg|default:"N/A"}}</td> {% endcomment %}
-                                            <td>
-                                              {% for key, value in val.documents.items %}
-                                                {{ key }}<br>
-                                              {% endfor %}
-                                            </td>
-                                            {% comment %} <td>{{val.documents|cut:"/" |default:"N/A"}}</td> {% endcomment %}
-                                            <td>{{val.agent_id|default:"N/A"}}</td>
-                                            <td>{{phone_number|default:"N/A"}}</td>
-                                            <td>{{email|default:"N/A"}}</td>
-                                            <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" title='view' data-target="#view_detail-{{forloop.counter}}" class='fa fa-eye  text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;</td>
-                                        </tr>
-                                      {% endif %}
-                                    {% endfor %}
-                                    <tr>
-                                </tbody>
-                            </table>
-
-                            </div>
-                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                              
-                              
-                            </div>
-                          </div>
-
-                          
-
-              
+                            </td>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{val.user_id.first_name|default:"N/A"}}</td>
+                            <td>{{val.service|default:"N/A"}}</td>
+                            <td>{% if val.payment %} <span class="badge badge-success">Done</span>
+                              {% else %} <span class="badge badge-danger">Failed</span>
+                              {% endif %}</td>
+                            <td>
+                              {% for key, value in val.documents.items %}
+                                {{ key }}<br>
+                              {% endfor %}
+                            </td>
+                            <td>{{val.agent_id|default:"N/A"}}</td>
+                            <td>{{phone_number|default:"N/A"}}</td>
+                            <td>{{email|default:"N/A"}}</td>
+                            <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" title='view' data-target="#view_detail-{{forloop.counter}}" class='fa fa-eye  text-primary' style="cursor: pointer;"></i>&nbsp;&nbsp;</td>
+                          </tr>
+                        {% endif %}
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                {% comment %} <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                  
+                </div> {% endcomment %}
+              </div>
             
-          
-            <div class="clearfix">
+              <div class="clearfix">
               <div class="hint-text">Showing <b>{{order_info.number}}</b> out of <b>{{order_info.paginator.num_pages}}</b> entries</div>
                 <ul class="pagination">
                   {% if order_info.has_previous %}
@@ -228,7 +205,7 @@
       </div>
 
       {% for val in service_details %}
-      <div class="modal fade" id="view_detail-{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="view_detail-{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="view_detail" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -241,51 +218,53 @@
               <article class="card">
                 <header class="card-header"> Callback Request</header>
                 <div class="card-body">
-                    <h6>Order ID: {{val.id}}</h6>
-                    <article class="card">
-                        <div class="card-body row">
-                            <div class=""> <strong>Name: </strong>{{ val.user_id.first_name}}</div>
-                            <div class=""> <strong>Contact Details: </strong><i class="fa fa-envelope "></i> {{ val.user_id.email}} | <i class="fa fa-phone"></i> {{ val.user_id.phone_number}} </div>
-                            <div class=""> <strong>Applied Service: </strong>{{ val.service}} </div>
-                            <div class=""> <strong>Applied On:</strong>{{ val.created_at}} </div>
-                        </div>
-                    </article>
-                    <div class="track">
-                      {% if val.payment %}
-                        <div class="step active"> <span class="icon badge badge-success"> <i class="fa fa-check"></i> </span> <span class="text">Payment Completed</span> </div>
-                      {% endif %}<br>
-                        <div class="step active"> <span class="icon badge badge-primary"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by {{val.taken_by}}</span> </div><br>
-                        <div class="step"> <span class="icon badge badge-danger"> <i class="fa fa-phone"></i> </span> <span class="text">Callback Request:closed </span> </div><br>
-                        {% comment %} <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> </div><br> {% endcomment %}
+                  <h6>Order ID: {{val.id}}</h6>
+                  <article class="card">
+                    <div class="card-body row">
+                        <div class=""> <strong>Name: </strong>{{ val.user_id.first_name}}</div>
+                        <div class=""> <strong>Contact Details: </strong><i class="fa fa-envelope "></i> {{ val.user_id.email}} | <i class="fa fa-phone"></i> {{ val.user_id.phone_number}} </div>
+                        <div class=""> <strong>Applied Service: </strong>{{ val.service}} </div>
+                        <div class=""> <strong>Applied On:</strong>{{ val.created_at}} </div>
                     </div>
-                    <hr>
-                    
-                    <hr>
-                    <a href="#" class="back_btn" data-abc="true" data-dismiss="modal"> <i class="fa fa-chevron-left"></i> Back</a>
+                  </article>
+                  <div class="track">
+                    {% if val.payment %}
+                      <div class="step active"> <span class="icon badge badge-success"> <i class="fa fa-check"></i> </span> <span class="text">Payment Completed</span> </div>
+                    {% endif %}<br>
+                      <div class="step active"> <span class="icon badge badge-primary"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by {{val.taken_by}}</span> </div><br>
+                    {% if val.call_back_request == 1 %}
+                      <div class="step"> <span class="icon badge badge-success"> <i class="fa fa-phone"></i> </span> <span class="text">Callback Request:Open </span> </div><br>
+                    {% elif val.call_back_request == 2 %}
+                    <div class="step"> <span class="icon badge badge-danger"> <i class="fa fa-phone"></i> </span> <span class="text">Callback Request:Closed </span> </div><br>
+                    {% endif %}   
+                      {% comment %} <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> </div><br> {% endcomment %}
+                  </div>
+                  <hr>
+                  <hr>
+                  <a href="#" class="back_btn" data-abc="true" data-dismiss="modal"> <i class="fa fa-chevron-left"></i> Back</a>
                 </div>
-            </article>
-            
+              </article>
+            </div>
           </div>
         </div>
       </div>
       {% endfor %}
 
-
       {% for val in service_details %}
-      <div class="modal fade" id="close_ticket-{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              
-                <div class="modal-header">						
-                  <h4 class="modal-title">Close Ticket</h4>
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <form>		
+      <div class="modal fade" id="close_request-{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="close_request" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Close Ticket</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div>
                   <p>Are you sure you want to close this ticket ?</p>
                   <p class="text-warning"><small>This action cannot be undone.</small></p>
                 </div>
-                <div class="modal-footer">              
+                <div class="modal-footer">
                   <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                   <a href="{% url "close_tickets" id=val.id%}" class="btn btn-danger" >Close Ticket</a>
                 </div>
@@ -293,6 +272,7 @@
             </div>
           </div>
         </div>
+      </div>
       {% endfor %}
     
     </body>  
