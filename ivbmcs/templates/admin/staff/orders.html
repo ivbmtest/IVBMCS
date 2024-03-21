@@ -6,11 +6,7 @@
     <body>
         <div class="home-content"  style="height: max-content;">
         
-    {% comment %}      <ul class="messages">
-            {% for message in messages %}
-                <li id="myDiv" {% if message.tags %} class="{{ message.tags }}"{% endif %}><div class="row m-auto w-25" style="position: absolute;height: 3rem;padding-top: 1rem;padding-left: 3rem;left: 26rem;background-color: rgba(10, 230, 10, 0.498);"><b>SuccessFully Added</b></div></li>
-            {% endfor %}
-          </ul>
+   
 
           <!--loader-->
 
@@ -101,7 +97,7 @@
                               <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
                                
                                
-                              <td>                          
+                              <td>                   
                                 {% if start_index|add:forloop.counter0 == 1 %}
                                   <a href="{% url 'select_task' id=val.id %}" ><i  class='btn btn-success' class="material-icons " data-toggle="tooltip" title="Edit">Select</i></a>
                                 {% endif %}

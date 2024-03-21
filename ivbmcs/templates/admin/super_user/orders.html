@@ -3,15 +3,9 @@
 {% block content %}
 
   <html>
-    <body>
-        <div class="home-content">
-          <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <body >
+        <div class="home-content"  style="height: max-content;">
         
-          <!-- <ul class="messages">
-            {% for message in messages %}
-                <li id="myDiv" {% if message.tags %} class="{{ message.tags }}"{% endif %}><div class="row m-auto w-25" style="position: absolute;height: 3rem;padding-top: 1rem;padding-left: 3rem;left: 26rem;background-color: rgba(10, 230, 10, 0.498);"><b>SuccessFully Added</b></div></li>
-            {% endfor %}
-          </ul> -->
 
           <!--loader-->
 
@@ -21,8 +15,8 @@
           <!--end loader-->
 
           <!--<div class="row m-auto bg-success w-25" style="position: absolute;height: 3rem;padding-top: 1rem;padding-left: 3rem;left: 26rem;"><b>SuccessFully Added</b></div>-->
-          <div class="container-fluid" style="height: 100vh;">
-            <div class="table-wrapper">
+          <div class="container-fluid" >
+            <div class="table-wrapper" style="overflow-y: auto; max-height: 1000px;">
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-4">
@@ -30,19 +24,20 @@
                         </div>
                     </div>
                 </div>
-                {% if order_info|length != 0 %}
+           
                   <div id="table-container" style="overflow:auto;" class="bg-white mt-3 shadow p-3">
-
                     <div class="row"> 
-
-                      <div class="col-sm-6 mb-2">
-                      
-                          <span class="ml-1"><button class="btn" style="width: min-content; border:none">show</button></span> <select name="cars" id="cars" style="width: min-content;">
-                          <option value="volvo">10</option>
-                          <option value="saab">20</option>
-                          <option value="opel">50</option>
-                          <option value="audi">100</option>
-                        </select>
+                      <div class="col-sm-6 mb-2"> 
+                        <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Show {{ request.GET.paginate_by }}
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="?paginate_by=2&{{paginate_parameter}}">2</a>
+                            <a class="dropdown-item" href="?paginate_by=3&{{paginate_parameter}}">3</a>
+                            <a class="dropdown-item" href="?paginate_by=10&{{paginate_parameter}}">10</a>
+                          </div>
+                        </div>
                       
                       </div>
                       <div class="col-sm-6">
@@ -60,21 +55,20 @@
                     <table class="table table-striped table-hover tabfont">
                         <thead>
                           <tr>
-                            <th>
+                            {% comment %} <th>
                               <span class="custom-checkbox">
                                 <input type="checkbox" id="selectAll">
                                 <label for="selectAll"></label>
                               </span>
-                            </th>
+                            </th> {% endcomment %}
                             <!-- {% for field in field_names %}
                               <th>{{field}}</th>
                             {% endfor %} -->
                             <th>No.</th>
-                            <th>Fullname</th>
+                            <th>username</th>
                             <th>Number</th>
                             <th>Email</th>
                             <th>Service</th>
-                            <th>Image</th>
                             <th>Payment</th>
                             <th>User Query</th>
                             <th>Applied at</th>                           
@@ -83,64 +77,97 @@
                         </thead>
                         <tbody>
                           {% for val in order_info %}
-
-                   
                           <tr class="bg-white">
-                              <td>
+                              {% comment %} <td>
                                 <span class="custom-checkbox-{{forloop.counter}}">
                                   <input type="checkbox" id="checkbox1" name="options[]" value="1">
                                   <label for="checkbox1"></label>
                                 </span>
-                              </td>
-                                <td>{{forloop.counter}}</td>
-                                <td>{{val.user_id.first_name}} {{val.user_id.last_name}}</td>
-                                <td>{{val.user_id.phone_number}}</td>
-                                <td>{{val.user_id.email}}</td>
-                                <td>{{val.service}}</td>
-                                <!-- <td>{{val.document}}</td> -->
-                                <td><a href="{{val.user_id.image.url}}"><img src="https://banner2.cleanpng.com/20180329/zue/kisspng-computer-icons-user-profile-person-5abd85306ff7f7.0592226715223698404586.jpg" alt="{{ val.name }}" width="50" height="50"></a></td>
-                                <td>{% if val.payment %} Complete {% else %} Pending {% endif %}</td>
-                                <td>{{val.msg}}</td>
-                                <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
+                              </td>      {% endcomment %}
+                              <td>{{ start_index|add:forloop.counter0 }}</td>                         
+                              <td>{{val.user_id.first_name|capfirst}}</td>
+                              <td>{{val.user_id.phone_number}}</td>
+                              <td>{{val.user_id.email}}</td>
+                              <td>{{val.service}}</td>
+                              <td>{% if val.payment %} Complete {% else %} Pending {% endif %}</td>
+                              <td>{{val.msg}}</td>
+                              <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
                                
-                                <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal-{{forloop.counter}}" class="fa fa-eye text-primary" style="cursor: pointer;"></i>&nbsp;|&nbsp;<a href="{% url 'task_detail' id=val.id %}"><i data-toggle="modal" data-target="#assignModal-{{forloop.counter}}" style="cursor: pointer;" class='fa fa-user-circle text-success'></i></a></td>
-                                
+                               
+                              <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal-{{forloop.counter}}" class="fa fa-eye text-primary" style="cursor: pointer;"></i>&nbsp;|&nbsp;<a href="{% url 'task_detail' id=val.id %}"><i data-toggle="modal" data-target="#assignModal-{{forloop.counter}}" style="cursor: pointer;" class='fa fa-user-circle text-success'></i></a></td>   
                             </tr>
-
 
                           {% endfor %}
 
                         </tbody>
                       </table>
-       
-            
+
+                  <!-- pagination starts -->  
+
                   <div class="clearfix">
-                    <div class="hint-text">Showing <b>{{order_info.number}}</b> out of <b>{{order_info.paginator.num_pages}}</b> entries</div>
-                    <ul class="pagination">
-                      {% if order_info.has_previous %}
-                        <li class="page-item"><a class="page-link" href="{% url 'orders' %}?page={{order_info.previous_page_number}}">Previous</a></li>
-                      {% endif %}
-                
+                    <div class="hint-text">Showing <b>{{order_info.number}}</b> out of <b>{{order_info.paginator.num_pages}}</b> Pages</div>
+                    <ul class="pagination flex-wrap ">
+                      <li class="page-item disabled">
+                        {% if order_info.has_previous %}
+                          <li class="page-item">
+                            <a class="page-link" href="{{ request.path }}?page={{ order_info.previous_page_number }}&{{page_parameter}}">⇇</a>
+                          </li>
+                        {% endif %}
+                        {% if order_info.number > 3 %}
+                          <li class="page-item">
+                            <a class="page-link" href="{{ request.path }}?page=1&{{page_parameter}}">1</a>
+                          </li>
+                        {% endif %}
+                        {% if order_info.number > 4 %}
+                            <li class="page-item">
+                            <span class="page-link">....</span>
+                            </li>
+                        {% endif %}
+                      </li>
+        
                       {% for i in order_info.paginator.page_range %}
                         {% if order_info.number == i %}
-                          <li class="page-item active"><a class="page-link" id="pa" href="{% url 'orders' %}?page={{i}}">{{i}}</a></li>
-                        {% else %}
-                          <li class="page-item "><a class="page-link" href="{% url 'orders' %}?page={{i}}">{{i}}</a></li>
+                          <li class="page-item active">
+                            <span class="page-link">
+                              {{ i }}
+                              <span class="sr-only"></span>
+                            </span>
+                          </li>
+                          {% elif i > order_info.number|add:'-3' and i < order_info.number|add:'3' %}
+                            <li class="page-item">
+                              <a class="page-link" href="{{ request.path }}?page={{ i }}&{{page_parameter}}">{{ i }}</a>
+                            </li>
                         {% endif %}
                       {% endfor %}
-
+        
                       {% if order_info.has_next %}
-                        <li class="page-item"><a class="page-link" href="{% url 'orders' %}?page={{order_info.next_page_number}}">Next</a></li>
+                        {% if order_info.number < order_info.paginator.num_pages|add:'-3' %}
+                            <li class="page-item">
+                                <span class="page-link">....</span>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ order_info.paginator.num_pages }}&{{page_parameter}}">{{ order_info.paginator.num_pages }}</a>
+                            </li>
+                        {% elif order_info.number < order_info.paginator.num_pages|add:'-2' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ order_info.paginator.num_pages }}&{{page_parameter}}">{{ order_info.paginator.num_pages }}</a>
+                            </li>
+                        {% endif %}  
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ order_info.next_page_number }}&{{page_parameter}}"> ⇉</a>
+                        </li>
                       {% endif %}
                     </ul>
                   </div>
+                  <!-- pagination end -->
+
                 </div>
-                {% else%}
-                  <h3 class="text-danger text-center mt-5">No Records Found</h3>
-                {% endif %}
-
-
-                <!-- detail view of service modal -->
+                
+            </div>
+        </div>
+      </div> 
+      
+                      <!-- detail view of service modal -->
 {% for val in order_info %}
 <div class="modal fade" id="exampleModal-{{forloop.counter}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -158,7 +185,7 @@
               <h6 class="mb-0">Full Name</h6>
             </div>
             <div class="col-sm-5 text-secondary">
-              {{val.user_id.first_name}} {{val.user_id.last_name}}
+              {{val.user_id.first_name|capfirst}} {{val.user_id.last_name}}
             </div>
           </div>
           <hr>
@@ -271,26 +298,6 @@
             <hr>
          
         </div>
-
-        <!-- <div class="row m-auto detas" style="line-height: 2rem;">
-        
-          <div class="col-4">Name</div>: <div class="col-6">{{val.user_id.first_name}} {{val.user_id.last_name}}</div>
-          <div class="col-4">Email</div>: <div class="col-6">{{val.user_id.email}}</div>
-          <div class="col-4">Phone</div>: <div class="col-6">{{val.user_id.phone_number}}</div>
-          <div class="col-4">Service name</div>: <div class="col-6">{{val.service}}</div>
-          <div class="col-4">Apply on</div>: <div class="col-6">{{val.created_at|date:"d-n-Y H:i"}}</div>
-          <div class="col-4">Amount</div>: <div class="col-6">{{val.service.svcountry.cncrid.crsymbol}} {{val.service.svrate}}</div>
-          <div class="col-4">Payment</div>: <div class="col-6">{% if val.payment %} Success <i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i>  {% else %} Pending <i class='bx bx-error-alt text-danger'></i>  {% endif %}</div>
-          <div class="col-4">Documents</div>: <div class="col-6">{% for i in val.documents %}{{i}},{% endfor %}</div>
-          <div class="col-4">Documents Apporve</div>: <div class="col-6">Approved<i class='bx bx-check-shield text-success' style="font-size: 1rem;"></i> </div>
-          <div class="col-4">Status</div>: <div class="col-6">{% if val.status == '0' %}Not Ready <i class='bx bx-x-circle text-danger'></i>{% elif val.status == '1'%}Process<i class='bx bx-loader text-warning'></i>{% else %}Complete<i class='bx bxs-check-circle text-success'></i>{% endif %}</div>
-          <div class="col-4">Start on</div>: <div class="col-6">-- -- ----</div>
-          <div class="col-4">Complete on</div>: <div class="col-6">-- -- ----</div>  
-               </div> -->
-
-
-
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -302,20 +309,9 @@
 {% endfor %}
 
 
-
-
-
-
-            </div>
-        </div>
-      </div>
-        
-
-      
-      
     </body>
   </html>
- 
+
   {% endblock content %}
     
 

@@ -598,9 +598,11 @@ def dashboard(request):
 
 @login_required(login_url="/")
 def orders(request):
+
+    
     model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
-    y = user_service_details.objects.filter(taken_by__exact='')    
+    y = user_service_details.objects.filter(taken_by__isnull=True)    
     paginate_by = request.GET.get('paginate_by',5)
     try:
         paginate_by = int(paginate_by)
@@ -627,16 +629,25 @@ def orders(request):
      # from URL and you left with only ?paginate_by=2
      # so if you want something like this ?paginate_by=5&page=2 and 
      # add the following code
-
+    
     _request_copy_1 = request.GET.copy()
     _request_copy_2 = request.GET.copy()
     page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
     paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
     start_index = (page.number - 1) * int(paginate_by) + 1
-    return render(request, 'admin/staff/orders.html', {
-        'order_info': page, 'field_names': field_names, 'start_index': start_index,
-        "page_parameter": page_parameter,
-        "paginate_parameter": paginate_parameter})
+    print(start_index)
+    if request.user.user_type == str(1):
+        
+        return render(request, 'admin/super_user/orders.html', {
+            'order_info': page, 'field_names': field_names, 'start_index': start_index,
+            "page_parameter": page_parameter,
+            "paginate_parameter": paginate_parameter})
+    else:
+        
+        return render(request, 'admin/staff/orders.html', {
+            'order_info': page, 'field_names': field_names, 'start_index': start_index,
+            "page_parameter": page_parameter,
+            "paginate_parameter": paginate_parameter})
         
 
    

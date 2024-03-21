@@ -192,6 +192,7 @@ def staff_orders(request):
     paginator = Paginator(orders, 5)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
+    print(page)
     return render(request, 'admin/staff/orders.html', {'order_info': page, 'field_names': field_names})
 
 @login_required(login_url="/")
