@@ -10,8 +10,11 @@ urlpatterns = [
     path('contact/',views.contact,name='contact'),
     path('service_details/',views.service_details,name='service_details'),
     path('consulting/',views.consulting,name='consulting'),
+   
     
     # Dashboard
+    #profile
+    path('user_profile/',dashboard_views.user_profile,name='user_profile'),
     path('user_home/',dashboard_views.user_dash_home,name='user_home'),
     path('allservice/',dashboard_views.all_service,name='allservice'),
     path('myservice/',dashboard_views.my_service,name='myservice'),

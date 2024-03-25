@@ -21,7 +21,7 @@
         <div class="dropdown-menu">
 
           {% if request.user.user_type|stringformat:"s" == '1' %}
-          <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+          <a class="dropdown-item" href="{% url 'admin_profile' %}">Profile</a>
 
           {% elif request.user.user_type|stringformat:"s" == '2' %}
           <a class="dropdown-item" href="{% url 'staff_profile' %}">Profile</a>

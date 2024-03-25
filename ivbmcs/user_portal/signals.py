@@ -30,7 +30,7 @@ def update_notifications(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=user_notification)
-def send_notification(sender, instance, created, **kwargs):
+def send_notification(sender, instance ,created,**kwargs):
     print("Signal is  working:",instance.recepient.first_name)
     if created:
         subject = 'Your Sevice has started'
@@ -40,7 +40,20 @@ def send_notification(sender, instance, created, **kwargs):
         recipient_email = [instance.recepient.email]
         print("ready to send----",recipient_email)
         send_mail(subject, '', "testnft400@gmail.com", recipient_email, html_message=html_content)
-        print("sucess")
+        print("sucess send user")
+        print("instance id ",instance.sender)
+        #a = user_service_details.objects.filter(user=instance.recepient,service)
+        
+        if instance.sender != '':
+            print("sending staff")
+            subject = 'Your Task Was Assigned'
+            html_content = render_to_string('admin/super_user/staff_email_template.html', {'username': instance})
+            text_content = strip_tags(html_content)  # Strip HTML tags for the plain text version
+            sender_email = 'your@email.com'  # Replace with your email
+            recipient_email = [instance.sender]
+            print("ready to send----",recipient_email)
+            send_mail(subject, '', "testnft400@gmail.com", recipient_email, html_message=html_content)
+            print("sucess send staff")
         # msg = EmailMultiAlternatives(subject, text_content, sender_email, [recipient_email])
         # msg.attach_alternative(html_content, "text/html")
         # msg.send()

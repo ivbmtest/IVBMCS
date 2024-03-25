@@ -38,9 +38,9 @@
       <div class="home-content">   
     
 <div class="container">
-    <h2>Employee Profile</h2>
+    <h2>Profile</h2>
     <div class="row">
-        <div class="col-md-3"> <div class="d-flex flex-column align-items-center text-center p-3 py-5 bg-white mt-3 shadow"><img class="rounded-circle m-auto" style="width: 10rem;height: 10rem;" src="{{request.user.profile_pic.url}}"><span class="font-weight-bold">{{request.user.first_name}} {{request.user.last_name}}</span><span class="text-black-50">{{request.user.email}}</span><span>EMP ID: SN0102 </span></div>
+        <div class="col-md-3"> <div class="d-flex flex-column align-items-center text-center p-3 py-5 bg-white mt-3 shadow"><img class="rounded-circle m-auto" style="width: 10rem;height: 10rem;" src="https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png"><span class="font-weight-bold">{{request.user.first_name}} {{request.user.last_name}}</span><span class="text-black-50">{{request.user.email}}</span><span>ADMIN : 01</span></div>
     </div>
 
 
@@ -116,26 +116,13 @@
                 </div>
                 <hr>
 
-                <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">
-                      Department</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                     Marketing
-                    </div>
-                  </div>
-                  <hr>
+              
 
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Designation</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                     BDE
-                    </div>
-                  </div>
-                  <hr>
+                  
+
+                
+
+
                
               </div>
          
@@ -190,19 +177,16 @@
                 
                 <!-- update -->
                 <div class="tab-pane fade show" id="pills-update" role="tabpanel" aria-labelledby="pills-update-tab">
-                    <form style="max-width: max-content" method="post" action="{% url 'staff_own_update' %}">
-                      {% csrf_token %}
-                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="text-right">Update Details</h4>
                     </div>
-                
                     <div class="row mt-2">
-                        <div class="col-md-4"><label class="labels">First Name</label><input type="text" name="first" class="form-control"  value="{{request.user.first_name}}" placeholder="First name" required></div>
-                        <div class="col-md-4"><label class="labels">Last Name</label><input type="text" name="last" class="form-control" value="{{request.user.last_name}}" placeholder="Last name" required></div>
-                        <div class="col-md-4"><label class="labels">Email ID (Personal)</label><input type="email" name="email"  class="form-control" placeholder="Personal Mail" value="{{request.user.email}}" required></div>
+                        <div class="col-md-4"><label class="labels">First Name</label><input type="text" class="form-control"  value="{{request.user.first_name}}"></div>
+                        <div class="col-md-4"><label class="labels">Last Name</label><input type="text" class="form-control" value="{{request.user.last_name}}"></div>
+                        <div class="col-md-4"><label class="labels">Email ID (Personal)</label><input type="text" class="form-control" placeholder="Personal Mail" value="{{request.user.email}}"></div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-4"><label class="labels">Mobile Number</label><input type="text" name="phone" class="form-control" placeholder="+91123456789" value="{{request.user.phone_number}}" required></div>
+                        <div class="col-md-4"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="+91123456789" value="{{request.user.phone_number}}"></div>
                         <div class="col-md-4"><label class="labels">Address (Current)</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
                         <div class="col-md-4"><label class="labels">Address (Permanent)</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
                        
@@ -210,10 +194,10 @@
                         <div class="col-md-4"><label class="labels">State</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
                         <div class="col-md-4"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country" value=""></div>
                         
+                        
                        
                     </div>
-                   <button class="btn btn-success" type="submit">Update</button>
-                  </form>
+                   <button class="btn btn-success">Update</button>
                           </div>
 
 <!-- password -->
@@ -229,7 +213,7 @@
         <div class="col-12"><label class="labels">Confirm Password</label> :<span class="text-danger" id="re_pass"></span><input type="text" class="form-control" oninput="upload_btn()" id="conpass"></div><br>
     </div>
     <div class="row mt-3">
-   <button class="btn btn-success m-auto" type="button" id="upload" disabled>Update</button></div>
+   <button class="btn btn-success m-auto w-50" type="button" id="upload" disabled>Update</button></div>
           </div>
 
 
@@ -284,7 +268,7 @@ $( "#re_pass" ).text("Password not match here");
                 else{
                 $( "#re_pass" ).text("");
                 $.ajax({
-                    url: "{% url 'pass_reset' %}",
+                    url: "{% url 'admin_password_reset' %}",
                     method: 'POST',
                     data: data,
                     dataType: 'json',

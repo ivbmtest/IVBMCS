@@ -22,6 +22,8 @@ urlpatterns = [
 
     path('staff_profile/',staff_profile ,name="staff_profile"),
     path('pass_reset/',staff_password_reset ,name="pass_reset"),
+    path('staff_own_update/',staff_own_update ,name="staff_own_update"),
+    
     
 
     path('staff_orders/',staff_orders,name='staff_orders'),
@@ -36,7 +38,9 @@ urlpatterns = [
 
     path('age_details/',agent_views.age_details,name='age_details'),
  
+    path('agent_password_reset/',agent_views.agent_password_reset,name='agent_password_reset'),
 
+    path('agent_profile/',agent_views.agent_profile,name='agent_profile'),
     path('agent/del_agent/<int:id>/',del_agent,name='del_agent'),
     path('agent/update_agent/<int:id>/',update_agent,name='update_agent'),
 
@@ -56,8 +60,11 @@ urlpatterns = [
     # # admin
     
     path('admin_dashboard/',admin_views.admin,name='admin_dashboard'),
+    path('admin_profile/',admin_views.admin_profile,name='admin_profile'),
     path('admin_dashboard/del_admin/<int:id>/',admin_views.del_admin,name='del_admin'),
     path('admin_dashboard/update_admin/<int:id>/',admin_views.update_admin,name='update_admin'),
+
+    path('admin_password_reset',admin_views.admin_password_reset,name='admin_password_reset'),
     
     #currency
     path('currency/',views.currency,name='currency'),

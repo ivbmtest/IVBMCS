@@ -108,8 +108,8 @@
                       <!-- <td>{{ val.user_type|default:"N/A" }}</td>    -->
                       <td>{{val.staff.category}}</td>
                       <td>{{ val.gender|default:"N/A" }}</td>
-                      {% if profile_pic %}
-                        <td><a href="{{ val.profile_pic.url }}"><img src="{{ val.profile_pic }}" alt="{{ val.first_name }}" width="50" height="50"></a></td>
+                      {% if val.profile_pic %}
+                        <td><a href="{{ val.profile_pic.url }}"><img src="{{ val.profile_pic.url }}" alt="{{ val.first_name }}" width="50" height="50"></a></td>
                       {% else %}
                         <td></td>
                       {% endif %}
@@ -163,10 +163,6 @@
                           <!-- <td>{{ val.user_type|default:"N/A" }}</td>    -->
                           <td>{{val.staff.category}}</td>
                           <td>{{ val.gender|default:"N/A" }}</td>                                       
-<<<<<<< HEAD
-                          {% if val.profile_pic %}
-                              <td><a href="{{ val.profile_pic.url }}"><img src="{{val.profile_pic.url}}" alt="{{ val.first_name }}" width="50" height="50"></a></td>
-=======
                           {% if profile_pic %}
                             <td><a href="{{ val.profile_pic.url }}"><img src="{{ val.profile_pic.url }}" alt="{{ val.first_name }}" width="50" height="50"></a></td>
                           {% else %}
@@ -334,7 +330,6 @@
                           <td>{{ val.gender|default:"N/A" }}</td>                                       
                           {% if profile_pic %}
                               <td><a href="{{ val.profile_pic.url }}"><img src="{{ val.profile_pic.url }}" alt="{{ val.first_name }}" width="50" height="50"></a></td>
->>>>>>> e3cc18e43dabfcb67a278c92d517b54a429ca342
                           {% else %}
                           <td><img src="https://banner2.cleanpng.com/20180329/zue/kisspng-computer-icons-user-profile-person-5abd85306ff7f7.0592226715223698404586.jpg" alt="{{ val.first_name }}" width="50" height="50"></td>
                           {% endif %}

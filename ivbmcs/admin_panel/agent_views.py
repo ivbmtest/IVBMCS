@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect,reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage
 import logging
@@ -16,7 +17,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.files.storage import FileSystemStorage
 import datetime
-
+from django.contrib.auth.hashers import check_password
   
 
 @login_required(login_url="/")
@@ -210,6 +211,9 @@ def age_service(request):
     print(ser)
     return render(request,'Agent/age_services.html',{'my_service':ser})
 
+@login_required(login_url="/")
+def agent_profile(request):
+    return render(request,'Agent/agent_profile.html')
 
 @login_required(login_url="/")
 def age_notify(request):
@@ -233,3 +237,21 @@ def age_payments(request):
 
 def age_details(request):
     return render(request, 'Agent/age_details.html')
+
+
+def agent_password_reset(request):
+    if  request.method == "POST":
+        old = request.POST['old']
+        new = request.POST['newpass']
+        re_pass = request.POST['re_pass']
+        print("new pass:::",new,"current pass :::",request.user.password)
+        if not check_password(old, request.user.password):
+            return JsonResponse({'success': False})
+            
+            
+        else:
+            request.user.set_password(new)
+            request.user.save()
+            update_session_auth_hash(request, request.user)
+            return JsonResponse({'success': True, 'result':"Password Successfully Changed"})
+    #return render(request,'admin/staff/change_password.html')

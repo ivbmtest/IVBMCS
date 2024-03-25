@@ -1,4 +1,4 @@
-{% extends "admin/main_app/main_layout.html" %}
+{% extends "User/user_dashboard/main_layout.html" %}
 
     {% block content %}
     
@@ -38,9 +38,9 @@
       <div class="home-content">   
     
 <div class="container">
-    <h2>Employee Profile</h2>
+    <h2>Profile</h2>
     <div class="row">
-        <div class="col-md-3"> <div class="d-flex flex-column align-items-center text-center p-3 py-5 bg-white mt-3 shadow"><img class="rounded-circle m-auto" style="width: 10rem;height: 10rem;" src="{{request.user.profile_pic.url}}"><span class="font-weight-bold">{{request.user.first_name}} {{request.user.last_name}}</span><span class="text-black-50">{{request.user.email}}</span><span>EMP ID: SN0102 </span></div>
+        <div class="col-md-3"> <div class="d-flex flex-column align-items-center text-center p-3 py-5 bg-white mt-3 shadow"><img class="rounded-circle m-auto" style="width: 10rem;height: 10rem;" src="https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png"><span class="font-weight-bold">{{request.user.first_name}} {{request.user.last_name}}</span><span class="text-black-50">{{request.user.email}}</span><span>USER CODE: UE103 </span></div>
     </div>
 
 
@@ -56,9 +56,9 @@
                     <li class="nav-item">
                       <a class="nav-link" id="pills-update-tab" data-toggle="pill" href="#pills-update" role="tab" aria-controls="pills-update" aria-selected="false">Update</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" id="pills-pass-tab" data-toggle="pill" href="#pills-pass" role="tab" aria-controls="pills-pass" aria-selected="false">Password</a>
-                      </li>
+                      </li> -->
                   </ul>
 
                   <div class="tab-content" id="pills-tabContent">
@@ -115,27 +115,6 @@
                   </div>
                 </div>
                 <hr>
-
-                <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">
-                      Department</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                     Marketing
-                    </div>
-                  </div>
-                  <hr>
-
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Designation</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                     BDE
-                    </div>
-                  </div>
-                  <hr>
                
               </div>
          
@@ -190,19 +169,16 @@
                 
                 <!-- update -->
                 <div class="tab-pane fade show" id="pills-update" role="tabpanel" aria-labelledby="pills-update-tab">
-                    <form style="max-width: max-content" method="post" action="{% url 'staff_own_update' %}">
-                      {% csrf_token %}
-                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="text-right">Update Details</h4>
                     </div>
-                
                     <div class="row mt-2">
-                        <div class="col-md-4"><label class="labels">First Name</label><input type="text" name="first" class="form-control"  value="{{request.user.first_name}}" placeholder="First name" required></div>
-                        <div class="col-md-4"><label class="labels">Last Name</label><input type="text" name="last" class="form-control" value="{{request.user.last_name}}" placeholder="Last name" required></div>
-                        <div class="col-md-4"><label class="labels">Email ID (Personal)</label><input type="email" name="email"  class="form-control" placeholder="Personal Mail" value="{{request.user.email}}" required></div>
+                        <div class="col-md-4"><label class="labels">First Name</label><input type="text" class="form-control"  value="{{request.user.first_name}}"></div>
+                        <div class="col-md-4"><label class="labels">Last Name</label><input type="text" class="form-control" value="{{request.user.last_name}}"></div>
+                        <div class="col-md-4"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="Personal Mail" value="{{request.user.email}}"></div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-4"><label class="labels">Mobile Number</label><input type="text" name="phone" class="form-control" placeholder="+91123456789" value="{{request.user.phone_number}}" required></div>
+                        <div class="col-md-4"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="+91123456789" value="{{request.user.phone_number}}"></div>
                         <div class="col-md-4"><label class="labels">Address (Current)</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
                         <div class="col-md-4"><label class="labels">Address (Permanent)</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
                        
@@ -212,8 +188,7 @@
                         
                        
                     </div>
-                   <button class="btn btn-success" type="submit">Update</button>
-                  </form>
+                   <button class="btn btn-success">Update</button>
                           </div>
 
 <!-- password -->
@@ -246,63 +221,6 @@
    
    
 
-      <script>
-
-function upload_btn(){
-    var old = document.getElementById("oldpass").value;
-    var newpass = document.getElementById("newpass").value;
-    var conpass = document.getElementById("conpass").value;
-
-   if (old != "" && newpass != "" && conpass != "" ) {
-       document.getElementById("upload").disabled=false;       
-   }else{
-    document.getElementById("upload").disabled=true;
-   }
-}
-
-
-
-        $(document).ready(function () {
-            $('#upload').click(function (e) {
-                e.preventDefault();
-                
-                var old = $( "#oldpass" ).val();
-                var newapp = $( "#newpass" ).val();
-                var re_pass = $( "#conpass" ).val();
-
-
-var data = {
-    'csrfmiddlewaretoken': '{{csrf_token}}',
-    'old' : old,
-    'newpass' : newapp,
-    're_pass' : re_pass
-};
-                if (newapp != re_pass){ 
-$( "#re_pass" ).text("Password not match here");
-
-                }
-                else{
-                $( "#re_pass" ).text("");
-                $.ajax({
-                    url: "{% url 'pass_reset' %}",
-                    method: 'POST',
-                    data: data,
-                    dataType: 'json',
-                    success: function (data) {
-                       if  (data.success) {
-                        console.log(data.result)
-                        $( "#pass_error" ).text("");
-                        $( "#succ" ).text("Password Successfully Changed");
-
-                       }else{
-                        $( "#pass_error" ).text("Old password incorrect");
-                       }
-                    }
-                });
-            }
-            });
-        });
-    </script>
 
    
 

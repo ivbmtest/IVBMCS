@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect,reverse,get_object_o
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage
 import logging
@@ -23,13 +24,15 @@ def staff_dashboard(request):
     cou=user_service_details.objects.filter(taken_by__isnull=True).count()
     staff_ord = user_service_details.objects.filter(taken_by=request.user.staff).count()
     print("cou ::: ::",cou)
-    my = user_service_details.objects.filter(user_id=request.user).count()
-   
+    my_order_count = user_service_details.objects.filter(user_id=request.user).count()
+    
+    print(my_order_count)
     model_meta = user_service_details._meta    
     field_names = [field.verbose_name for field in model_meta.fields 
                    if field.verbose_name not in ['Upload Document(.pdf)','Upload Image(.jpg/.jpeg)','Status','Taken']]
+    
     latest_record = user_service_details.objects.all().order_by('-created_at')[:5]
-    return render(request,'admin/staff/main_layout.html',{'cou':cou,'take':my,'staff_accept_ord':staff_ord,"latest_data":latest_record,"field_names":field_names})
+    return render(request,'admin/staff/main_layout.html',{'cou':cou,'take':my_order_count,'staff_accept_ord':staff_ord,"latest_data":latest_record,"field_names":field_names})
 
 
 @login_required(login_url="/")
@@ -246,6 +249,7 @@ def staff_password_reset(request):
         else:
             request.user.set_password(new)
             request.user.save()
+            update_session_auth_hash(request, request.user)
             return JsonResponse({'success': True, 'result':"Password Successfully Changed"})
     return render(request,'admin/staff/change_password.html')
 
@@ -277,3 +281,17 @@ def close_ticket(request,id):
     user_service_details_instance.call_back_request=2
     user_service_details_instance.save()
     return redirect('staff_tickets')
+
+def staff_own_update(request):
+    if request.method == 'POST':
+        first = request.POST['first']
+        last  = request.POST['last']
+        email = request.POST['email']
+        phone = request.POST['phone']
+        user = CustomUser.objects.get(email=request.user.email)
+        user.first_name = first
+        user.last_name = last
+        user.email = email
+        user.phone_number = phone
+        user.save()
+        return render(request,'admin/staff/staff_profile.html')

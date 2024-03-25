@@ -578,7 +578,8 @@ def dashboard(request):
     total_order = user_service_details.objects.filter().count()
     take = user_service_details.objects.filter(taken_by__isnull=False).count()
 
-    #staff count
+    #user count
+    admin = CustomUser.objects.filter(user_type=1).count()
     sta = CustomUser.objects.filter(user_type=2).count()
     age = CustomUser.objects.filter(user_type=3).count()
   
@@ -593,7 +594,7 @@ def dashboard(request):
     d = {i: li.count(i) if i in li else 0 for i in range(1, 13)}
     mon = [d[i] for i in range(1, 13)]
 
-    return render(request,'admin/main_app/main_layout.html',{'cou':cou,'take':take,'total':total_order, "latest_order":latest_order,'data':mon,'sta':sta,'age':age})
+    return render(request,'admin/main_app/main_layout.html',{'cou':cou,'take':take,'total':total_order, "latest_order":latest_order,'data':mon,'sta':sta,'age':age,'admin':admin})
 
 
 @login_required(login_url="/")
@@ -742,6 +743,7 @@ def my_task(request):
 
 # when staff select a task send mail and admin assign staff send a mail both are here
 def select_my_task(request,id):
+    
     print("seleeeeeee",id)
     model_meta = UserProfile._meta
     field_names = [field.verbose_name for field in model_meta.fields]
@@ -750,30 +752,48 @@ def select_my_task(request,id):
     # user_details = CustomUser.objects.get(pk=notification_instance.user_id.id)
     task_instance = user_service_details.objects.get(pk=id)  # Replace 1 with the actual primary key value
     #admin assign
+    request.session['staff_assigned'] = False
+    
     if request.method == 'POST':
         staff_id = request.POST['staff']
-        task_instance.taken_by=str(staff_id)
-        print("staff_id",staff_id)
+        _staff = Staff.objects.get(pk=staff_id)
+        task_instance.taken_by=_staff
+        
+        print("staff____",_staff.id)
+        staff_taken = _staff.admin.id
+        taken_mail = _staff.admin.email
+        print("user_id",id)
+        request.session['staff_assigned'] = True
+        
     else:
+        staff_taken = request.user.staff.id
+        print("else")
+        taken_mail  = request.user.staff.email
+        
         task_instance.taken_by=request.user.staff
+    
+    print('taken_mail',taken_mail)
     task_instance.save()
     user_details = CustomUser.objects.get(pk=task_instance.user_id.id)
     service_instance = srvc.objects.get(pk=task_instance.service.svid)
     time = datetime.datetime.now()
     message = f'your request for {task_instance} is taken by {current_user}'
-    user_notification.objects.get_or_create(message=message, timestamp=time,recepient=user_details, service=service_instance)
+    user_notification.objects.get_or_create(message=message, timestamp=time,recepient=user_details, service=service_instance,sender=taken_mail)
+    # Update the values of the fields
     
-    # task_instance.taken_by = request.user # Update the values of the fields
-    # task_instance.save()   # Save the changes to the database
+    task_instance.save()   # Save the changes to the database
     
     """code to send mail to user when staff select the particular task """
  
     """code to send mail to user when staff select the particular task """
     context={"user_name":task_instance.user_id}
+    
     #connection = get_connection() # uses SMTP server specified in settings.py
     #connection.open() # If you don't open the connection manually, Django will automatically open, then tear down the connection in msg.send()
     print('===========>>',task_instance.user_id.email)
-    return redirect("task")
+    
+    
+    return redirect('task_detail', id=id)
 
 
 """function to view the tasks"""
@@ -785,7 +805,7 @@ def task_details(request,id):
     # staff_user = CustomUser.objects.filter(is_staff=True)
     
     staff = Staff.objects.all()
-
+    
     return render(request,"admin/staff/task_details.html",{"task":task,'user_details':user_details,'staff':staff})
     
 

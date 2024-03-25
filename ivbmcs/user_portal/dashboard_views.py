@@ -13,6 +13,9 @@ def user_login(request):
     return render(request,'User/user_dashboard/main_layout.html')
 
 
+def user_profile(request):
+    return render(request,'User/user_dashboard/user_profile.html')
+
 @csrf_exempt
 def user_dash_home(request):    
     try:
@@ -43,8 +46,15 @@ def user_dash_home(request):
             return JsonResponse({'success': True,'template_name': '/user_home'})
     
     else:
-
-        return render(request,'User/user_dashboard/user_home.html',{'recommended':recom})
+        all_servie_by_user = user_service_details.objects.filter(user_id=request.user)
+        print(all_servie_by_user)
+        tot_spend=0
+        for i in all_servie_by_user:
+            print(i.service.svrate)
+            tot_spend =  tot_spend+i.service.svrate
+        print(tot_spend)
+        
+        return render(request,'User/user_dashboard/user_home.html',{'recommended':recom,'tot_spend':tot_spend})
     
 
 

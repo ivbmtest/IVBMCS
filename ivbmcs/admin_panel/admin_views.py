@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect,reverse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage
 import logging
@@ -15,6 +16,8 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.files.storage import FileSystemStorage
 import datetime
+
+from django.contrib.auth.hashers import check_password
 
 
 @login_required(login_url="/")
@@ -94,6 +97,30 @@ def update_admin(request,id):
         admin_form = AdminForm(instance=admin)
         admin_form = str(admin_form)
         return JsonResponse({'success': True, 'form':admin_form})
+
+
+def admin_profile(request):
+    return render(request,'admin/super_user/admin_profile.html')
+
+def admin_password_reset(request):
+    if  request.method == "POST":
+        print("admin_password")
+        old = request.POST['old']
+        new = request.POST['newpass']
+        re_pass = request.POST['re_pass']
+        print("new pass:::",new,"current pass :::",request.user.password)
+        if not check_password(old, request.user.password):
+            return JsonResponse({'success': False})
+            
+            
+        else:
+            
+            request.user.set_password(new)
+            request.user.save()
+            update_session_auth_hash(request, request.user)
+            return JsonResponse({'success': True, 'result':"Password Successfully Changed"})
+    #return render(request,'admin/staff/change_password.html')
+
 
 # def add_agent(request):
 #     student_form = AgentForm(request.POST or None, request.FILES or None)

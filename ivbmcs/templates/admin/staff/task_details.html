@@ -112,7 +112,7 @@ height: 40%;
    
 
     </div> 
-    <div class="col-md-2 mb-4">
+    <!-- <div class="col-md-2 mb-4">
         <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Edit profile</span></a>
     </div>
     <div class="col-md-2 mb-4">
@@ -120,7 +120,7 @@ height: 40%;
     </div>
     <div class="col-md-2">
         <a href="#message_box" class="btn btn-success" data-toggle="modal"><i class='bx bx-plus'></i> <span>Edit profile</span></a>
-    </div>
+    </div> -->
 </div>
 <br><hr>
         <!-- <div class="row">            
@@ -290,7 +290,7 @@ height: 40%;
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success" id="assign_btn" disabled>Assigned</button>
+              <button type="submit" class="btn btn-success" id="assign_btn" disabled onclick="msg()">Assigned</button>
             </div>
         </form>
           </div>
@@ -299,11 +299,7 @@ height: 40%;
 </div>
 <br><br>
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
-      <!-- Default theme -->
-      <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
-   
-      <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
    .alertify-notifier.ajs-center .ajs-message.ajs-visible { color: #f6f7f8;  background-color: #242d6e;  border-color: #f4f7f9; }
 </style>
@@ -320,6 +316,43 @@ function btn_active(){
             alertify.set('notifier','position', 'top-center');
             alertify.success('Successfully Assigned');
         }
+
+
+//         window.onload = function() {
+       
+//        // Check if the session variable is set
+//        if ("{{ request.session.staff_assigned }}" === "True"){
+            
+//         Swal.fire({
+//   title: "Successfully  Assigned",
+//   text: "Sended the Mail User and Staff",
+//   icon: "success",
+//   confirmButtonText: 'OK',
+//   customClass: {
+//                         confirmButton: 'swal-button--confirm'
+//                     }
+//                 }).then(() => {
+//                     // Redirect to the home page when the user clicks "OK"
+//                     window.location.href = "{% url 'orders' %}";
+//                 });
+//        }
+       
+//     }
+
+function msg(){
+    Swal.fire({
+  title: "Successfully  Assigned",
+  text: "Sended the Mail User and Staff",
+  icon: "success",
+  confirmButtonText: 'OK',
+  customClass: {
+                        confirmButton: 'swal-button--confirm'
+                    }
+                }).then(() => {
+                    // Redirect to the home page when the user clicks "OK"
+                    window.location.href = "{% url 'orders' %}";
+                });
+}
       </script>
 
             
