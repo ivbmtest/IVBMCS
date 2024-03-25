@@ -85,7 +85,7 @@
             <td>{{val.crsymbol}}</td>
             <td>{{val.crdescription}}</td>
             <td>{{val.crstatus}}</td>
-            <td>{{val.usrid}}Own</td>
+            <td>{{val.id|default:'admin'}}</td>
             <td>{{val.dtupdatd|date:"d-n-Y H:i"}}</td>  
             <td>
               <a href="#editEmployeeModal-{{forloop.counter}}" class="edit" data-item ="{{val.crid}}" data-toggle="modal"><i  class='bx bxs-edit-alt text-primary' class="material-icons " data-toggle="tooltip" title="Edit">&#xE254;</i></a>

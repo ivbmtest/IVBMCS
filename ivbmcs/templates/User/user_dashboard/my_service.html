@@ -127,7 +127,6 @@ color: rgb(8, 109, 196);
                
                 <td>-- -- ----</td>                
                 <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal-{{forloop.counter}}" class="fa fa-eye text-primary" style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='fa fa-info-circle text-success' data-toggle="modal" data-target="#callbackModal-{{forloop.counter}}" data-whatever="@mdo" ></i></td>
-                <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal-{{forloop.counter}}" class="fa fa-eye text-primary" style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='fa fa-info-circle text-success' data-toggle="modal" data-target="#callbackModal-{{forloop.counter}}" data-whatever="@mdo" ></i></td>
             </tr>
             {% endfor %}
         
@@ -169,7 +168,6 @@ color: rgb(8, 109, 196);
                 <td>{{val.created_at|date:"d-n-Y H:i"}}</td>
               
                 <td>-- -- ----</td>  
-                <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal-{{forloop.counter}}" class="fa fa-eye text-primary" style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='fa fa-info-circle text-success' data-toggle="modal" data-target="#callbackModal-{{forloop.counter}}" data-whatever="@mdo" ></i></td>
                 <td class="text-center" style="font-size: 1rem;"><i data-toggle="modal" data-target="#exampleModal-{{forloop.counter}}" class="fa fa-eye text-primary" style="cursor: pointer;"></i>&nbsp;&nbsp;|&nbsp;&nbsp;<i style="cursor: pointer;" class='fa fa-info-circle text-success' data-toggle="modal" data-target="#callbackModal-{{forloop.counter}}" data-whatever="@mdo" ></i></td>
                   
                   
@@ -300,10 +298,7 @@ color: rgb(8, 109, 196);
           </div>
           <div class="modal-footer">
             <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-            <input type="submit" class="btn btn-success" value="Request"> 
-
-            {% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-success">Request</button> {% endcomment %}
+            <input type="submit" class="btn btn-success" value="Request">
           </div>
         </form>
         

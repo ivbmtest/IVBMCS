@@ -66,7 +66,7 @@ def currency(request):
         frm = crncForm(request.POST)
         if frm.is_valid:
             instance = frm.save(commit=False)
-            instance.usrid=request.user
+            instance.id=request.user
             instance.save()
             return redirect('currency')
     else:
@@ -121,7 +121,8 @@ def update_currency(request,id):
         frm=crncForm(request.POST,instance=currency)
         if frm.is_valid:
             instance = frm.save(commit=False)
-            instance.usrid = request.user.first_name
+            instance.id = request.user.first_name
+            print('------>',request.user)
             instance.save()
             return redirect('currency')
     else:
@@ -141,7 +142,7 @@ def category(request):
             instance = ctrgy_frm.save(commit=False)
           
           
-            instance.usrid = request.user
+            instance.id = request.user
             instance.save()
             return redirect('category')          
     else:        
@@ -194,7 +195,7 @@ def update_category(request,id):
         ctgry_frm= ctgryForm(request.POST,request.FILES,instance=updt_category)
         if ctgry_frm.is_valid:
             instance=ctgry_frm.save(commit=False)
-            instance.usrid=request.user
+            instance.id=request.user
             instance.save()
             return redirect('category')
     else:
@@ -210,7 +211,7 @@ def country(request):
         cntry_frm = cntryForm(request.POST)
         if cntry_frm.is_valid:
             instance = cntry_frm.save(commit=False)
-            instance.usrid = request.user
+            instance.id = request.user
             instance.save()
             return redirect('country')
     else:
@@ -266,7 +267,7 @@ def update_country(request,id):
         cntry_frm = cntryForm(request.POST,instance=updt_country)
         if cntry_frm.is_valid:
             instance=cntry_frm.save(commit=False)
-            instance.usrid=request.user
+            instance.id=request.user
             instance.save()
             return redirect('country')
     else:
@@ -285,7 +286,7 @@ def document(request):
         frm = DocumentForm(request.POST)
         if frm.is_valid:
             instance = frm.save(commit=False)
-            instance.usrid = request.user
+            instance.id = request.user
             instance.save()
             return redirect('document')
     else:
@@ -338,7 +339,7 @@ def update_document(request,id):
         srvc_frm = DocumentForm(request.POST,instance=updt_service)
         if srvc_frm.is_valid:
             instance=srvc_frm.save(commit=False)
-            instance.usrid=request.user
+            instance.id=request.user
             instance.save()
             return redirect('document')
     else:
@@ -362,7 +363,7 @@ def services(request):
             
             
             try:
-                srvc_frm.usrid = request.user
+                srvc_frm.id = request.user
                 srvc_frm.save()
                 return redirect('services')
             except ValueError as e:
@@ -418,7 +419,7 @@ def Update_service(request,id):
         if srvc_frm.is_valid:
             srvc_frm = srvcForm(request.POST,instance=updt_service)
             instance=srvc_frm.save(commit=False)
-            instance.usrid=request.user
+            instance.id=request.user
             instance.save()
             return redirect('services')
     else:
@@ -435,7 +436,7 @@ def taxdetails(request):
         frm = TaxdeailsForm(request.POST)
         if frm.is_valid:
             instance=frm.save(commit=False)
-            instance.usrid=request.user
+            instance.id=request.user
             instance.save()
             return redirect('taxdetails')
     else:
@@ -486,7 +487,7 @@ def update_taxdetails(request,id):
         srvc_frm = TaxdeailsForm(request.POST,instance=updt_service)
         if srvc_frm.is_valid:
             instance=srvc_frm.save(commit=False)
-            instance.usrid=request.user
+            instance.id=request.user
             instance.save()
             return redirect('taxdetails')
     else:
@@ -505,7 +506,7 @@ def taxmaster(request):
         frm = Tax_masterForm(request.POST)
         if frm.is_valid:
             instance=frm.save(commit=False)
-            instance.usrid=request.user
+            instance.id=request.user
             instance.save()
             return redirect('taxmaster')
     else:
@@ -558,7 +559,7 @@ def update_taxmaster(request,id):
         srvc_frm = Tax_masterForm(request.POST,instance=updt_service)
         if srvc_frm.is_valid:
             instance=srvc_frm.save(commit=False)
-            instance.usrid=request.user
+            instance.id=request.user
             instance.save()
             return redirect('taxmaster')
     else:
@@ -598,9 +599,7 @@ def dashboard(request):
 
 
 @login_required(login_url="/")
-def orders(request):
-
-    
+def orders(request):    
     model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     y = user_service_details.objects.filter(taken_by__isnull=True)    
@@ -617,38 +616,29 @@ def orders(request):
         page=Paginator(y,paginate_by)
     
     page_list=request.GET.get('page')
-    page=page.get_page(page_list)
-    # try:
-    #     page = paginator.page(page)
-    # except PageNotAnInteger:
-    #     page = paginator.page(1)
-    # except EmptyPage:
-    #     page = paginator.page(paginator.num_pages)
-
-     # if you do not add this code then if you are on page 2
-     # and you select paginate by 7 then ?page=2 will be removed
-     # from URL and you left with only ?paginate_by=2
-     # so if you want something like this ?paginate_by=5&page=2 and 
-     # add the following code
-    
+    page=page.get_page(page_list)   
     _request_copy_1 = request.GET.copy()
     _request_copy_2 = request.GET.copy()
     page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
     paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
     start_index = (page.number - 1) * int(paginate_by) + 1
     print(start_index)
-    if request.user.user_type == str(1):
-        
-        return render(request, 'admin/super_user/orders.html', {
+    return render(request, 'admin/super_user/orders.html', {
             'order_info': page, 'field_names': field_names, 'start_index': start_index,
             "page_parameter": page_parameter,
             "paginate_parameter": paginate_parameter})
-    else:
+    # if request.user.user_type == str(1):
         
-        return render(request, 'admin/staff/orders.html', {
-            'order_info': page, 'field_names': field_names, 'start_index': start_index,
-            "page_parameter": page_parameter,
-            "paginate_parameter": paginate_parameter})
+    #     return render(request, 'admin/super_user/orders.html', {
+    #         'order_info': page, 'field_names': field_names, 'start_index': start_index,
+    #         "page_parameter": page_parameter,
+    #         "paginate_parameter": paginate_parameter})
+    # else:
+        
+    #     return render(request, 'admin/staff/orders.html', {
+    #         'order_info': page, 'field_names': field_names, 'start_index': start_index,
+    #         "page_parameter": page_parameter,
+    #         "paginate_parameter": paginate_parameter})
         
 
    
@@ -727,13 +717,30 @@ def my_task(request):
     
     y=user_service_details.objects.filter(taken_by=request.user.staff.id)
     
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
+
+    if paginate_by is None:
+        page=Paginator(y,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(y,paginate_by)
     
-    page=Paginator(y,5)
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    print(messages)
-    cou=UserProfile.objects.filter(taken_by=request.user).count()
-    return render(request,'admin/staff/task.html',{'task_info':page,'field_names': field_names,'cou':cou})
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
+    return render(request, 'admin/staff/task.html', {
+        'task_info':page,'field_names': field_names,
+        'start_index': start_index,"page_parameter": page_parameter,
+        "paginate_parameter": paginate_parameter})
+    # return render(request,'admin/staff/task.html',{'task_info':page,'field_names': field_names,'cou':cou})
     
 
 
@@ -746,6 +753,7 @@ def select_my_task(request,id):
     
     print("seleeeeeee",id)
     model_meta = UserProfile._meta
+    model_meta = CustomUser._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     current_user = request.user
     # notification_instance=user_notification.objects.get(pk=id)
@@ -765,6 +773,11 @@ def select_my_task(request,id):
         print("user_id",id)
         request.session['staff_assigned'] = True
         
+        staff_instance=Staff.objects.get(pk=staff_id)
+        print("staff_instance",staff_instance.id)
+        task_instance.taken_by=staff_instance
+        print("staff_id",staff_id)
+        message = f'your request for {task_instance.service} is assigned to {staff_instance}'
     else:
         staff_taken = request.user.staff.id
         print("else")
@@ -849,7 +862,7 @@ def state(request):
         sta_frm = stateForm(request.POST)
         if sta_frm.is_valid:
             instance = sta_frm.save(commit=False)
-            # instance.usrid = request.user
+            # instance.id = request.user
             instance.save()
             return redirect('state')
         else:
@@ -875,7 +888,7 @@ def update_state(request,id):
         frm=stateForm(request.POST,instance=state)
         if frm.is_valid:
             instance = frm.save(commit=False)
-            # instance.usrid = request.user
+            # instance.id = request.user
             instance.save()
             return redirect('state')
     else:
@@ -901,7 +914,7 @@ def format(request):
         format_frm = Format_Form(request.POST)
         if format_frm.is_valid:
             instance = format_frm.save(commit=False)
-            # instance.usrid = request.user
+            # instance.id = request.user
             instance.save()
             return redirect('format')
         else:
@@ -950,7 +963,7 @@ def update_format(request,id):
         frm=Format_Form(request.POST,instance=state)
         if frm.is_valid:
             instance = frm.save(commit=False)
-            # instance.usrid = request.user
+            # instance.id = request.user
             instance.save()
             return redirect('format')
     else:

@@ -50,9 +50,6 @@ def staff(request):
             category = staff_form.cleaned_data.get('category')
             passport = request.FILES['profile_pic']
             print('-------------------',passport)
-            # fs = FileSystemStorage()
-            # filename = fs.save(passport.name, passport)
-            # passport_url = fs.url(filename)
             print('----------before try')
             try:
                 print('--------entered')
@@ -138,7 +135,8 @@ def update_staff(request,id):
         staff_form=StaffForm(request.POST,instance=staff)
         if staff_form.is_valid:
             instance = staff_form.save(commit=False)
-            # instance.usrid = request.user
+            if 'password' in request.POST and request.POST['password']:
+                instance.set_password(request.POST['password']) 
             instance.updated_at = datetime.datetime.now()
             instance.save()
             return redirect('staff')
@@ -149,36 +147,7 @@ def update_staff(request,id):
         staff_form = str(staff_form)
         return JsonResponse({'success': True, 'form':staff_form})
 
-# def add_agent(request):
-#     student_form = AgentForm(request.POST or None, request.FILES or None)
-#     context = {'form': student_form, 'page_title': 'Add Student'}
-#     if request.method == 'POST':
-#         if student_form.is_valid():
-#             first_name = student_form.cleaned_data.get('first_name')
-#             last_name = student_form.cleaned_data.get('last_name')
-#             address = student_form.cleaned_data.get('address')
-#             email = student_form.cleaned_data.get('email')
-#             gender = student_form.cleaned_data.get('gender')
-#             password = student_form.cleaned_data.get('password')
-#             agent_id = student_form.cleaned_data.get('agent_id')
-#             passport = request.FILES['profile_pic']
-#             fs = FileSystemStorage()
-#             filename = fs.save(passport.name, passport)
-#             passport_url = fs.url(filename)
-#             try:
-#                 user = CustomUser.objects.create_user(
-#                     email=email, password=password, user_type=3, first_name=first_name, last_name=last_name, profile_pic=passport_url)
-#                 user.gender = gender
-#                 user.address = address
-#                 user.student.course = agent_id
-#                 user.save()
-#                 messages.success(request, "Successfully Added")
-#                 return redirect(reverse('add_student'))
-#             except Exception as e:
-#                 messages.error(request, "Could Not Add: " + str(e))
-#         else:
-#             messages.error(request, "Could Not Add: ")
-#     return render(request, 'hod_template/add_student_template.html', context)
+
 
 @login_required(login_url="/")
 def staff_orders(request):
@@ -190,13 +159,38 @@ def staff_orders(request):
     print("sssv",sv)
     # Retrieve orders related to the filtered services and not yet taken by anyone
     orders = user_service_details.objects.filter(service__in=sv, taken_by__isnull=True)
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
 
+    if paginate_by is None:
+        page=Paginator(orders,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(orders,paginate_by)
+    
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
+    print('----------start index----------',start_index)
+    print('----------paginate_parameter----------',paginate_parameter)
+    print('----------page_parameter----------',page_parameter)
+    return render(request, 'admin/staff/orders.html', 
+                  {'order_info': page, 'field_names': field_names,
+                   'start_index': start_index,"page_parameter": page_parameter,
+                   "paginate_parameter": paginate_parameter})
     # Paginate the orders
-    paginator = Paginator(orders, 5)
-    page_number = request.GET.get('page')
-    page = paginator.get_page(page_number)
-    print(page)
-    return render(request, 'admin/staff/orders.html', {'order_info': page, 'field_names': field_names})
+    # paginator = Paginator(orders, 5)
+    # page_number = request.GET.get('page')
+    # page = paginator.get_page(page_number)
+    # print(page)
+    # return render(request, 'admin/staff/orders.html', {'order_info': page, 'field_names': field_names})
 
 @login_required(login_url="/")
 def send_message(request, id):
@@ -228,9 +222,7 @@ def staff_notification(request):
     notification_details=user_notification.objects.filter(recepient=current_user_id).order_by('-timestamp')
     # for val in notification_details:
     print('--------notifi',notification_details)
-
     return render(request,'admin/staff/staff_notification.html',{'notification_details':notification_details})
-
 
 
 def staff_profile(request):
@@ -263,13 +255,40 @@ def staff_tickets(request):
     field_names = [field.verbose_name for field in model_meta.fields]
     filter_fields=['Service', 'Documents', 'agent_id','Payment']
     filtered_field_names=[names for names in field_names if names in filter_fields]
-    print('======',filtered_field_names)
-    print('====service_details==',service_details)
     
-    return render(request,'admin/staff/tickets.html',{'service_details':service_details,
-                                                    'field_names':filtered_field_names,
-                                                    'phone_number':user_details.phone_number,
-                                                    'email':user_details.email})
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
+
+    if paginate_by is None:
+        page=Paginator(service_details,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(service_details,paginate_by)
+    
+    page_list=request.GET.get('page')
+    page=page.get_page(page_list)
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
+    print('----------start index----------',start_index)
+    print('----------paginate_parameter----------',paginate_parameter)
+    print('----------page_parameter----------',page_parameter)
+    return render(request, 'admin/staff/tickets.html',
+                  {
+                      'service_details':service_details,'field_names':filtered_field_names,
+                      'phone_number':user_details.phone_number,'email':user_details.email,
+                      'start_index': start_index,"page_parameter": page_parameter,
+                      "paginate_parameter": paginate_parameter})
+    
+    # return render(request,'admin/staff/tickets.html',{'service_details':service_details,
+    #                                                 'field_names':filtered_field_names,
+    #                                                 'phone_number':user_details.phone_number,
+    #                                                 'email':user_details.email})
     # except:
     #     print('exeptiosn===========')
     #     return render(request,'admin/staff/tickets.html',{'service_details':service_details})
