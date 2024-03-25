@@ -62,11 +62,12 @@ def user_notify(request):
     service_details =  user_service_details.objects.filter(user_id=user_detail.id)
     user_notifications = user_notification.objects.filter(recepient=user_detail.id).order_by('-timestamp')
     user_notifications_instance = user_notification.objects.filter(recepient=user_detail.id)
-    sender=user_notifications_instance.sender
-    service=user_notifications_instance.service
-    service_details={'service':service}
+    print('user_notifications_instance--------:::',user_notifications_instance)
+    # sender=user_notifications_instance.sender
+    # service=user_notifications_instance.service
+    # service_details={'service':service}
     return render(request,'User/user_dashboard/notification.html',
-                  {'notification_details':user_notifications,'sender':sender,'service':service})
+                  {'notification_details':user_notifications})
     
 def notification_detail(request,id):
     service_detail=srvc.objects.filter(svname=id)
@@ -79,39 +80,45 @@ def notification_detail(request,id):
 
 def callback_request(request):  
     staff_name=request.POST.get('staff_name')
-    print('---------',staff_name)
+    print("-------staffname==>>>>",type(staff_name))
     sender=request.user
     service=request.POST.get('service')
     message=request.POST.get('message')
     timestamp = datetime.now()
-    user_details = CustomUser.objects.get(first_name=staff_name)
-    print('------user_details----',user_details)
     service_instance = srvc.objects.get(svname=service)
     user_service_detail_instance= user_service_details.objects.get(service=service_instance, user_id=request.user.id)
     user_service_detail_instance.call_back_request=1
     user_service_detail_instance.save()
-    user_notification_instance=user_notification.objects.get_or_create(
-        recepient=user_details,sender=sender,service=service_instance,
-        message=message,timestamp=timestamp,is_viewed=0)
-    
+    if staff_name == 'None':
+        user_details = CustomUser.objects.filter(user_type=1)        
+        for recepient in user_details:
+            user_notification.objects.get_or_create(
+                recepient=recepient,sender=sender,service=service_instance,
+                message=message,timestamp=timestamp,is_viewed=0)
+    else:
+        staff_name=request.POST.get('staff_name')
+        print("-------user_service_detail_instance.taken_by",user_service_detail_instance.taken_by)
+        recepient = Staff.objects.filter(id=user_service_detail_instance.taken_by)
+        print("-------recepient",recepient)
+        user_notification.objects.get_or_create(
+            recepient=recepient,sender=sender,service=service_instance,
+            message=message,timestamp=timestamp,is_viewed=0)
+        
     return redirect('myservice')
-    
+
 def all_service(request):
     return render(request,'User/user_dashboard/all_service.html')
 
 def payments(request):
     pay = user_service_details.objects.filter(user_id=request.user.id)
-
     return render(request,'User/user_dashboard/payments.html',{'pay':pay})
 
 def appointment(request):
     return render(request,'User/consultation.html')
 
-
 def select_service(request,value=''):
     current_user = request.user
-    return render(request,'User/user_dashboard/consultation.html',{'value':value})
-    
+    return render(request,'User/user_dashboard/consultation.html',{'value':value})    
 
 def booking(request):
     if request.method == 'POST':
@@ -134,8 +141,7 @@ def booking(request):
             print('user already exist with email',user_instance.email) 
         service_data,service_created = user_service_details.objects.get_or_create(user_id=user_instance,service=service,defaults={'msg':msg},status=1)
         request.session['user_id_data'] = user_instance.id
-        request.session['service_id_data'] = serv
-        
+        request.session['service_id_data'] = serv        
         return render(request,'User/user_dashboard/payment.html')    
     else:
         return render(request,'User/user_dashboard/booking.html')
@@ -164,8 +170,7 @@ def payment(request):
     else:
         redirect('payment')
 
-def upload_doc(request):
-    
+def upload_doc(request):    
     if request.method == 'POST':
         received_data = request.session.get('user_id_data', None)
         ser_type = request.POST['ser_type']
@@ -189,17 +194,13 @@ def upload_doc(request):
         else:
             print(f"Folder '{folder_path}' already exists.")
 
-        
         documents = {}
         print(request.FILES.items())
         for document_name, uploaded_file in request.FILES.items():
             documents[document_name] = uploaded_file.name
-            
-
-                # Set the destination path within the "docu_img" folder
+            # Set the destination path within the "docu_img" folder
             destination_path = os.path.join(folder_path, uploaded_file.name)
-
-                # Move the uploaded file to the destination path
+            # Move the uploaded file to the destination path
             with open(destination_path, 'wb') as destination_file:
                 for chunk in uploaded_file.chunks():
                     destination_file.write(chunk)

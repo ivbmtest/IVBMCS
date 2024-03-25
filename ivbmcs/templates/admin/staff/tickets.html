@@ -43,14 +43,18 @@
           {% if service_details|length != 0 %}
           <div id="table-container" style="overflow:auto;" class="bg-white mt-3 shadow p-3">
             <div class="row">
+
               <div class="col-sm-6 mb-2">
-                <span class="ml-1"><button class="btn" style="width: min-content; border:none">show</button></span>
-                <select name="cars" id="cars" style="width: min-content;">
-                  <option value="volvo">10</option>
-                  <option value="saab">20</option>
-                  <option value="opel">50</option>
-                  <option value="audi">100</option>
-                </select>
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Show {{ request.GET.paginate_by }}
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="?paginate_by=2&{{paginate_parameter}}">2</a>
+                    <a class="dropdown-item" href="?paginate_by=3&{{paginate_parameter}}">3</a>
+                    <a class="dropdown-item" href="?paginate_by=10&{{paginate_parameter}}">10</a>
+                  </div>
+                </div>
               </div>
               <div class="col-sm-6">
                 <form class="p-0 serbox" style="float: right;">
@@ -76,12 +80,6 @@
                   <table class="table table-striped table-hover tabfont">
                     <thead>
                       <tr>
-                        <th>
-                          <span class="custom-checkbox">
-                            <input type="checkbox" id="selectAll">
-                            <label for="selectAll"></label>
-                          </span>
-                        </th>
                         <th>#</th>
                         <th>Name</th>
                         {% for field in field_names %}
@@ -96,13 +94,7 @@
                       {% for val in service_details %}
                       {% if val.call_back_request == 1 %}
                       <tr class="bg-white">
-                        <td>
-                          <span class="custom-checkbox-{{forloop.counter}}">
-                            <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                            <label for="checkbox1"></label>
-                          </span>
-                        </td>
-                        <td>{{forloop.counter}}</td>
+                        <td>{{ start_index|add:forloop.counter0 }}</td>
                         <td>{{val.user_id.first_name|default:"N/A"}}</td>
                         <td>{{val.service|default:"N/A"}}</td>
                         <td>{% if val.payment %} <span class="badge badge-success">Done</span>
@@ -127,11 +119,6 @@
                   <table class="table table-striped table-hover tabfont">
                     <thead>
                       <tr>
-                        <th>
-                          <span class="custom-checkbox">
-                            <input type="checkbox" id="selectAll">
-                            <label for="selectAll"></label>
-                          </span>
                         </th>
                         <th>#</th>
                         <th>Name</th>
@@ -147,13 +134,7 @@
                       {% for val in service_details %}
                         {% if val.call_back_request == 2 %}
                           <tr class="bg-white">
-                            <td>
-                              <span class="custom-checkbox-{{forloop.counter}}">
-                                <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                <label for="checkbox1"></label>
-                              </span>
-                            </td>
-                            <td>{{forloop.counter}}</td>
+                            <td>{{ start_index|add:forloop.counter0 }}</td>
                             <td>{{val.user_id.first_name|default:"N/A"}}</td>
                             <td>{{val.service|default:"N/A"}}</td>
                             <td>{% if val.payment %} <span class="badge badge-success">Done</span>
@@ -179,27 +160,63 @@
                 </div> {% endcomment %}
               </div>
             
-              <div class="clearfix">
-              <div class="hint-text">Showing <b>{{order_info.number}}</b> out of <b>{{order_info.paginator.num_pages}}</b> entries</div>
-                <ul class="pagination">
-                  {% if order_info.has_previous %}
-                    <li class="page-item"><a class="page-link" href="{% url 'currency' %}?page={{order_info.previous_page_number}}">Previous</a></li>
-                      {% endif %}
-            
-                      {% for i in order_info.paginator.page_range %}
-                      {% if order_info.number == i %}
+              <!-- pagination starts -->
+          <div class="clearfix">
+            <div class="hint-text">Showing <b>{{service_details.number}}</b> out of <b>{{service_details.paginator.num_pages}}</b> Pages</div>
+            <ul class="pagination flex-wrap ">
+              <li class="page-item disabled">
+                {% if service_details.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link" href="{{ request.path }}?page={{ service_details.previous_page_number }}&{{page_parameter}}">⇇</a>
+                  </li>
+                {% endif %}
+                {% if service_details.number > 3 %}
+                  <li class="page-item">
+                    <a class="page-link" href="{{ request.path }}?page=1&{{page_parameter}}">1</a>
+                  </li>
+                {% endif %}
+                {% if service_details.number > 4 %}
+                    <li class="page-item">
+                    <span class="page-link">....</span>
+                    </li>
+                {% endif %}
+              </li>
 
-                    <li class="page-item active"><a class="page-link" id="pa" href="{% url 'orders' %}?page={{i}}">{{i}}</a></li>
-                    {% else %}
-                  <li class="page-item "><a class="page-link" href="{% url 'orders' %}?page={{i}}">{{i}}</a></li>
-                    {% endif %}
-                    {% endfor %}
+              {% for i in service_details.paginator.page_range %}
+                {% if service_details.number == i %}
+                  <li class="page-item active">
+                    <span class="page-link">
+                      {{ i }}
+                      <span class="sr-only"></span>
+                    </span>
+                  </li>
+                  {% elif i > service_details.number|add:'-3' and i < service_details.number|add:'3' %}
+                    <li class="page-item">
+                      <a class="page-link" href="{{ request.path }}?page={{ i }}&{{page_parameter}}">{{ i }}</a>
+                    </li>
+                {% endif %}
+              {% endfor %}
 
-                  {% if order_info.has_next %}
-                  <li class="page-item"><a class="page-link" href="{% url 'orders' %}?page={{order_info.next_page_number}}">Next</a></li>
-                  {% endif %}
-              </ul> 
+              {% if service_details.has_next %}
+                {% if service_details.number < service_details.paginator.num_pages|add:'-3' %}
+                    <li class="page-item">
+                        <span class="page-link">....</span>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ service_details.paginator.num_pages }}&{{page_parameter}}">{{ service_details.paginator.num_pages }}</a>
+                    </li>
+                {% elif service_details.number < service_details.paginator.num_pages|add:'-2' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ service_details.paginator.num_pages }}&{{page_parameter}}">{{ service_details.paginator.num_pages }}</a>
+                    </li>
+                {% endif %}  
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ service_details.next_page_number }}&{{page_parameter}}"> ⇉</a>
+                </li>
+              {% endif %}
+            </ul>
           </div>
+          <!-- pagination end -->
         </div>
           {% else%}
             

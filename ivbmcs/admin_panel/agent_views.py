@@ -60,17 +60,41 @@ def agent(request):
                    'email', 'user type', 'gender', 'profile pic', 'address', 'created at', 'updated at']
     filtered_field_names=[names for names in field_names if names in filter_fields]
     y=CustomUser.objects.filter(user_type=3)
-    page=Paginator(y,5)
+    paginate_by = request.GET.get('paginate_by',5)
+    try:
+        paginate_by = int(paginate_by)
+    except (ValueError, TypeError):
+        # Return an error response if paginate_by cannot be converted to an integer
+        return JsonResponse({'success': False, 'error': 'Invalid value for paginate_by'})
+
+    if paginate_by is None:
+        page=Paginator(y,paginate_by)  # paginate_by 5
+    else:
+        page=Paginator(y,paginate_by)
+    
     page_list=request.GET.get('page')
     page=page.get_page(page_list)
-    cou=UserProfile.objects.filter(taken_by__exact='').count()
+    _request_copy_1 = request.GET.copy()
+    _request_copy_2 = request.GET.copy()
+    page_parameter = _request_copy_1.pop('page', True) and _request_copy_1.urlencode()
+    paginate_parameter = _request_copy_2.pop('paginate_by', True) and _request_copy_2.urlencode()
+    start_index = (page.number - 1) * int(paginate_by) + 1
+    # page=Paginator(y,5)
+    # page_list=request.GET.get('page')
+    # page=page.get_page(page_list)
+    # cou=UserProfile.objects.filter(taken_by__exact='').count()
     for items in y:
         items.user_type = 'staff'
         if items.gender=='M':
             items.gender='Male'
         elif items.gender=='F':
             items.gender = 'Female'
-    return render(request,'admin/super_user/agent.html',{'form': student_form,'agent_info':y,'field_names': filtered_field_names,'cou':cou})
+    
+    return render(request, 'admin/super_user/agent.html', {
+        'form': student_form,'agent_info':y,'field_names': filtered_field_names,
+        'start_index': start_index,"page_parameter": page_parameter,
+        "paginate_parameter": paginate_parameter})
+    # return render(request,'admin/super_user/agent.html',{'form': student_form,'agent_info':y,'field_names': filtered_field_names,'cou':cou})
 
 #delete agent
 def del_agent(request,id):
@@ -85,6 +109,8 @@ def update_agent(request,id):
         if agent_form.is_valid:
             instance = agent_form.save(commit=False)
             # instance.usrid = request.user
+            if 'password' in request.POST and request.POST['password']:
+                instance.set_password(request.POST['password']) 
             agent.updated_at = datetime.datetime.now()
             instance.save()
             return redirect('agent')
@@ -207,7 +233,6 @@ def age_home(request):
 @login_required(login_url="/")
 def age_service(request):
     ser = user_service_details.objects.filter(agent_id = request.user)
-    print(ser)
     return render(request,'Agent/age_services.html',{'my_service':ser})
 
 
