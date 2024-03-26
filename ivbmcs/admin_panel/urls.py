@@ -37,7 +37,8 @@ urlpatterns = [
     path('user_consulting_by_agent/',agent_views.user_consulting_by_agent,name='user_consulting_by_agent'),
 
     path('age_details/',agent_views.age_details,name='age_details'),
- 
+    path('agent_registration/',agent_views.agent_registration,name='agent_registration'),
+    
     path('agent_password_reset/',agent_views.agent_password_reset,name='agent_password_reset'),
 
     path('agent_profile/',agent_views.agent_profile,name='agent_profile'),

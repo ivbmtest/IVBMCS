@@ -249,8 +249,10 @@ def staff_tickets(request):
     # try:
     print(request.user)
     service_details = user_service_details.objects.filter(taken_by=request.user.staff.id).order_by('-created_at')
-    service_instance = user_service_details.objects.get(taken_by=request.user.staff.id)
-    user_details = CustomUser.objects.get(pk=service_instance.user_id.id)
+    service_instance = user_service_details.objects.filter(taken_by=request.user.staff.id)
+    for val in service_instance:
+        print('----------service_instance',val.user_id.id)
+        user_details = CustomUser.objects.filter(pk=val.user_id.id)
     model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     filter_fields=['Service', 'Documents', 'agent_id','Payment']

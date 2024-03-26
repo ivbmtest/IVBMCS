@@ -280,3 +280,15 @@ def agent_password_reset(request):
             update_session_auth_hash(request, request.user)
             return JsonResponse({'success': True, 'result':"Password Successfully Changed"})
     #return render(request,'admin/staff/change_password.html')
+    
+    
+def agent_registration(request):
+    if request.method == 'POST':
+        user_photo = request.FILES.get('user_photo')
+        adhaar = request.FILES.get('adhaar')
+        pancard = request.FILES.get('pancard')
+        gst = request.FILES.get('gst')
+        license = request.FILES.get('license')
+        Individual.objects.create(agent_photo=user_photo,aadhar=adhaar,
+                                  pancard=pancard,gst_certificate=gst,liscence=license)
+        return redirect('age_details')
