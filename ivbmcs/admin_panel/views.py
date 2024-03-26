@@ -781,7 +781,8 @@ def select_my_task(request,id):
     else:
         staff_taken = request.user.staff.id
         print("else")
-        taken_mail  = request.user.staff.email
+        print(request.user.email)
+        taken_mail  = request.user.email
         
         task_instance.taken_by=request.user.staff
     

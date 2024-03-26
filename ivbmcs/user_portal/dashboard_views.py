@@ -107,9 +107,10 @@ def callback_request(request):
                 message=message,timestamp=timestamp,is_viewed=0)
     else:
         staff_name=request.POST.get('staff_name')
-        print("-------user_service_detail_instance.taken_by",user_service_detail_instance.taken_by)
-        recepient = Staff.objects.filter(id=user_service_detail_instance.taken_by)
+        print("-------user_service_detail_instance.taken_by",user_service_detail_instance.taken_by.admin.id )
+        recepient = CustomUser.objects.get(id=user_service_detail_instance.taken_by.admin.id)
         print("-------recepient",recepient)
+        print(recepient,sender,service_instance,message,timestamp)
         user_notification.objects.get_or_create(
             recepient=recepient,sender=sender,service=service_instance,
             message=message,timestamp=timestamp,is_viewed=0)

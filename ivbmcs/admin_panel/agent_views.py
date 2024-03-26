@@ -229,7 +229,14 @@ def userpro_agent(request):
 
 @login_required(login_url="/")
 def age_home(request):
-    return render(request,'Agent/age_home.html')
+    s = user_service_details.objects.all()
+    tot_ord = user_service_details.objects.filter()
+    li = [i.created_at.month for i in s if i.user_id.user_type == "4"]
+
+    d = {i: li.count(i) if i in li else 0 for i in range(1, 13)}
+    mon_base_ord = [d[i] for i in range(1, 13)]
+    
+    return render(request,'Agent/age_home.html',{'mon_base_ord':mon_base_ord})
 
 @login_required(login_url="/")
 def age_service(request):

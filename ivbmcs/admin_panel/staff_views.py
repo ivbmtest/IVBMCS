@@ -247,10 +247,14 @@ def staff_password_reset(request):
 
 def staff_tickets(request):
     # try:
-    print(request.user)
+
     service_details = user_service_details.objects.filter(taken_by=request.user.staff.id).order_by('-created_at')
-    service_instance = user_service_details.objects.get(taken_by=request.user.staff.id)
-    user_details = CustomUser.objects.get(pk=service_instance.user_id.id)
+    
+    #service_instance = user_service_details.objects.get(taken_by=request.user.staff.id)
+    service_instance = user_service_details.objects.filter(taken_by=request.user.staff.id)
+    print("service instance",service_instance)
+    #user_details = CustomUser.objects.get(pk=service_instance.user_id.id)
+    
     model_meta = user_service_details._meta
     field_names = [field.verbose_name for field in model_meta.fields]
     filter_fields=['Service', 'Documents', 'agent_id','Payment']
@@ -281,7 +285,7 @@ def staff_tickets(request):
     return render(request, 'admin/staff/tickets.html',
                   {
                       'service_details':service_details,'field_names':filtered_field_names,
-                      'phone_number':user_details.phone_number,'email':user_details.email,
+                    #   'phone_number':user_details.phone_number,'email':user_details.email,
                       'start_index': start_index,"page_parameter": page_parameter,
                       "paginate_parameter": paginate_parameter})
     
