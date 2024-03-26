@@ -13,53 +13,127 @@
 
 <style>
 
-body{
-  height: 100vh;
-}
-
-#body_header
-{
-
-    width:auto;
-    margin:0px auto;
-    text-align:center;
-    font-size:20px;
-   
-}
-
-h1 {
-  margin: 0;
-  text-align: center;
-}
-
-
-#myTabs a  {
-  color: rgb(9, 160, 52);
-  font-size: 14px;
-}
-
-#myTabContent h4,h5{
-color: rgb(8, 109, 196);
-}
-
-#myTabContent table{
-  background-color: #f4f7f8;
-  font-size: .8rem;
-}
-
-@media (max-width: 767.98px) {
-  #myTabs a{
-    font-size: 12px;
+  body{
+    height: 100vh;
   }
-}
-
-@media (max-width:576px) {
-  #myTabs a{
-    font-size: 7px;
+  
+  #body_header
+  {
+  
+      width:auto;
+      margin:0px auto;
+      text-align:center;
+      font-size:25px;
+     
   }
-}
-
-</style> 
+  form {
+    max-width: 300px;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background: #f4f7f8;
+    border-radius: 8px;
+  }
+  
+  h1 {
+    margin: 0 0 30px 0;
+    text-align: center;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  input[type="date"],
+  input[type="datetime"],
+  input[type="email"],
+  input[type="number"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="time"],
+  input[type="url"],
+  textarea,
+  select {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    font-size: 16px;
+    height: auto;
+    margin: auto;
+    outline: 0;
+    padding: 8px;
+    width: 100%;
+    background-color: #e8eeef;
+    color: black;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+    margin-bottom: 30px;
+  }
+  
+  input[type="radio"],
+  input[type="checkbox"]
+  
+  {
+    margin: 0 4px 8px 0;
+  }
+  
+  select {
+    padding: 6px;
+    height: 32px;
+    border-radius: 2px;
+  }
+  
+  button {
+    padding: 10px 10px 10px 10px;
+    color: #FFF;
+    background-color: #4bc970;
+    font-size: 18px;
+    text-align: center;
+    font-style: normal;
+    border-radius: 5px;
+    width: 100%;
+    border: 1px solid #3ac162;
+    border-width: 1px 1px 3px;
+    box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+    margin-bottom: 10px;
+  }
+  
+  fieldset {
+    margin-bottom: 30px;
+    border: none;
+  }
+  
+  legend {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  label.light {
+    font-weight: 300;
+    display: inline;
+  }
+  
+  .number {
+    background-color: #5fcf80;
+    color: #fff;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    font-size: 0.8em;
+    margin-right: 4px;
+    line-height: 30px;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+    border-radius: 100%;
+  }
+  
+  
+  
+    form {
+      max-width: 980px;
+    }
+  
+  </style>  
 
 
     <div class="container-fluid">
@@ -89,31 +163,30 @@ color: rgb(8, 109, 196);
         <h4 class="mt-3">Complete your Information (opc)</h4><br/>
      
        <!--opc-->
-       <h5 >&nbsp;&nbsp;1. Basic</h5>
-<div class="row mt-2">
+
+       <form action="{% url "agent_registration" %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <h5>&nbsp;&nbsp;1. Basic</h5>
+            <div class="col-sm-4">First Name : <input type="text" name="first_name" /></div>
+            <div class="col-sm-4">Last Name : <input type="text" name="last_name" /></div>
+            <div class="col-sm-4">Phone : <input type="text" name="phone" /></div>
+            <div class="col-sm-4">Email : <input type="text" name="email" /></div>
     
-    <div class="col-sm-4">Name<span class="text-danger">*</span> : <input type="text" /></div>
-    <div class="col-sm-4">Phone<span class="text-danger">*</span> : <input type="text" /></div>
-    <div class="col-sm-4">Email<span class="text-danger">*</span> : <input type="text" /></div>
-
-
-    <div class="col-sm-4">Address<span class="text-danger">*</span> : <input type="text" /></div>
-    <div class="col-sm-4">Pincode<span class="text-danger">*</span> : <input type="text" /></div>
-<hr>
-</div>
-<h5>&nbsp;&nbsp;2. Bank Details</h5>
-<div class="row mt-3">
-    <div class="col-sm-4">Account holder name<span class="text-danger">*</span> : <input type="text" /></div>
-    <div class="col-sm-4">Account Number<span class="text-danger">*</span> : <input type="text" /></div>
-    <div class="col-sm-4">IFSC code<span class="text-danger">*</span> : <input type="text" /></div>
-
-    <hr>
-  </div>
-<h5>&nbsp;&nbsp;3. Upload Documents</h5>
-<div class="row mt-3">
-    <div class="col-sm-4 mb-4">User Photo (jpg/jpeg)<span class="text-danger">*</span> : <input type="file" /></div>
-    <div class="col-sm-4 mb-4">Adhaar (pdf)<span class="text-danger">*</span> : <input type="file" /></div>
-    <div class="col-sm-4 mb-4">Pancard (pdf)<span class="text-danger">*</span> : <input type="file" /></div>
+            {% comment %} <div class="col-sm-4">Gst No : <input type="text" name="gst_no" /></div> {% endcomment %}
+            <div class="col-sm-4">Address : <input type="text" name="address" /></div>
+            <div class="col-sm-4">Pincode : <input type="text" name="pincode" /></div>
+            <hr>
+            <h5>&nbsp;&nbsp;2. Bank Details</h5>
+            <div class="col-sm-4">Account holder name : <input type="text" name="account_holder_name" /></div>
+            <div class="col-sm-4">Account Number : <input type="text" name="account_number" /></div>
+            <div class="col-sm-4">IFSC code : <input type="text" name="ifsc_code" /></div>
+    
+            <hr>
+            <h5>&nbsp;&nbsp;3. Upload Documents</h5>
+            <div class="col-sm-4 mb-4">User Photo (jpg/jpeg) : <input type="file" name='user_photo' /></div>
+            <div class="col-sm-4 mb-4">Adhaar (pdf) : <input type="file" name='adhaar' /></div>
+            <div class="col-sm-4 mb-4">Pancard (pdf) : <input type="file" name='pancard' /></div>
     
   </div>
   <div class="row mt-3">
