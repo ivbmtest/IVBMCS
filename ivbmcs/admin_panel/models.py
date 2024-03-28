@@ -67,10 +67,22 @@ class Admin(models.Model):
 class Agent(models.Model):
     agent_id=models.TextField(default='')
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE, default=' ')
-
+    is_verified = models.BooleanField(default=False)
     def __str__(self):
         # return self.admin.id
         return self.admin.last_name + ", " + self.admin.first_name
+
+class IndividualAgent(models.Model):
+    individual_agent = models.OneToOneField(Agent, on_delete=models.CASCADE, related_name='individualssss')
+    agent_photo = models.ImageField(upload_to='individual_photos/')
+    aadhar = models.ImageField(upload_to='individual_documents/')
+    pancard = models.ImageField(upload_to='individual_documents/')
+    gst_certificate = models.ImageField(upload_to='individual_documents/')
+    license = models.ImageField(upload_to='individual_documents/')
+
+    def __str__(self):
+        # return self.admin.id
+        return self.individual_agent.admin.first_name + ", " + self.individual_agent.admin.last_name
 
 class Individual(Agent):
     agent_photo = models.FileField(upload_to='documents/')
@@ -79,11 +91,33 @@ class Individual(Agent):
     gst_certificate = models.FileField(upload_to='documents/')
     liscence = models.FileField(upload_to='documents/')
 
-class Company(Agent):
-    company_gst = models.FileField(upload_to='documents/')
-    incorporation_certificate = models.FileField(upload_to='documents/')
-    article_of_association = models.FileField(upload_to='documents/')
-    company_pancard = models.FileField(upload_to='documents/')
+class Company_details(models.Model):
+    agents = models.OneToOneField(Agent,on_delete=models.CASCADE,null=True,related_name="company")
+    tin_num = models.CharField(max_length=100,null=True)
+    com_address = models.TextField(default='',null=True)
+    pincode = models.CharField(max_length=10,null=True)
+    company_gst = models.FileField(upload_to='com_docs/',null=True)
+    incorporation_certificate = models.FileField(upload_to='com_docs/',null=True)
+    article_of_association = models.FileField(upload_to='com_docs/',null=True)
+    company_pancard = models.FileField(upload_to='com_docs/',null=True)
+
+class bank_accound_details(models.Model):
+    company_name = models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
+    acc_holder_name = models.CharField(max_length=50,null=True)
+    acc_number = models.CharField(max_length=50)
+    ifsc_code = models.CharField(max_length=50)
+
+
+class com_directors(models.Model):
+    company = models.ForeignKey(Company_details,on_delete=models.CASCADE,related_name="com_dir")
+    director_name = models.CharField(max_length=256)
+    director_postion = models.CharField(max_length=256, null=False,blank=True)
+    director_email = models.EmailField()
+    director_phone_number = models.CharField(max_length=14)
+    director_img = models.ImageField(upload_to='com_dir/')
+    director_adhar = models.ImageField(upload_to='com_dir/')
+    director_pancard = models.FileField(upload_to='com_dir/')
+
     
 class ctgry(models.Model):
     ctid = models.AutoField(primary_key=True, db_column='tdid',verbose_name='Id')

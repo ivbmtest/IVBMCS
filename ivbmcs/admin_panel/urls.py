@@ -38,6 +38,8 @@ urlpatterns = [
 
     path('age_details/',agent_views.age_details,name='age_details'),
     path('agent_registration/',agent_views.agent_registration,name='agent_registration'),
+    #company registration
+    path('company_registration/',agent_views.company_registration,name='company_registration'),
     
     path('agent_password_reset/',agent_views.agent_password_reset,name='agent_password_reset'),
 

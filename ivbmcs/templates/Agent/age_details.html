@@ -27,7 +27,7 @@
      
   }
   form {
-    max-width: 300px;
+    
     margin: 10px auto;
     padding: 10px 20px;
     background: #f4f7f8;
@@ -164,26 +164,26 @@
      
        <!--opc-->
 
-       <form action="{% url "agent_registration" %}" method="post" enctype="multipart/form-data">
+       <form action="{% url 'agent_registration' %}" method="post" enctype="multipart/form-data" style="max-width: 90rem;">
         {% csrf_token %}
         <div class="row">
-            <h5>&nbsp;&nbsp;1. Basic</h5>
-            <div class="col-sm-4">First Name : <input type="text" name="first_name" /></div>
-            <div class="col-sm-4">Last Name : <input type="text" name="last_name" /></div>
-            <div class="col-sm-4">Phone : <input type="text" name="phone" /></div>
-            <div class="col-sm-4">Email : <input type="text" name="email" /></div>
+            <h5 class="text-primary">&nbsp;&nbsp;1. Basic</h5>
+            <div class="col-sm-4">First Name : <input type="text" name="first_name" required/></div>
+            <div class="col-sm-4">Last Name : <input type="text" name="last_name" required/></div>
+            <div class="col-sm-4">Phone : <input type="text" name="phone" required/></div>
+            <div class="col-sm-4">Email : <input type="text" name="email" required/></div>
     
-            {% comment %} <div class="col-sm-4">Gst No : <input type="text" name="gst_no" /></div> {% endcomment %}
-            <div class="col-sm-4">Address : <input type="text" name="address" /></div>
-            <div class="col-sm-4">Pincode : <input type="text" name="pincode" /></div>
+            {% comment %} <div class="col-sm-4">Gst No : <input type="text" name="gst_no" required/></div> {% endcomment %}
+            <div class="col-sm-4">Address : <input type="text" name="address" required/></div>
+            <div class="col-sm-4">Pincode : <input type="text" name="pincode" required/></div>
             <hr>
-            <h5>&nbsp;&nbsp;2. Bank Details</h5>
-            <div class="col-sm-4">Account holder name : <input type="text" name="account_holder_name" /></div>
-            <div class="col-sm-4">Account Number : <input type="text" name="account_number" /></div>
-            <div class="col-sm-4">IFSC code : <input type="text" name="ifsc_code" /></div>
+            <h5 class="text-primary">&nbsp;&nbsp;2. Bank Details</h5>
+            <div class="col-sm-4">Account holder name : <input type="text" name="account_holder_name" required/></div>
+            <div class="col-sm-4">Account Number : <input type="text" name="account_number" required/></div>
+            <div class="col-sm-4">IFSC code : <input type="text" name="ifsc_code" required/></div>
     
             <hr>
-            <h5>&nbsp;&nbsp;3. Upload Documents</h5>
+            <h5 class="text-primary">&nbsp;&nbsp;3. Upload Documents</h5>
             <div class="col-sm-4 mb-4">User Photo (jpg/jpeg) : <input type="file" name='user_photo' /></div>
             <div class="col-sm-4 mb-4">Adhaar (pdf) : <input type="file" name='adhaar' /></div>
             <div class="col-sm-4 mb-4">Pancard (pdf) : <input type="file" name='pancard' /></div>
@@ -194,66 +194,71 @@
     <div class="col-sm-4 mb-4">License (pdf)<span class="text-danger">*</span> : <input type="file" /></div>
 
   </div>
-    <div class="mt-3"><center><button class="btn btn-success px-5" onclick="msg()">Submit</button></center></div>
-   
-
-
-
-
-      </div>
-      
-
-
-      <div class="tab-pane fade " id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+    <div class="mt-3"><center><button class="btn btn-success px-5 w-25" type="submit">Submit</button></center></div>
+  </div>
+</form>
+  
+      <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <h4 class="mt-3">Complete your Company  Information</h4>
-      
+
+        <p class="text-danger">{{msg_com}}</p>
+
+        <form action="{% url 'company_registration' %}" method="post" enctype="multipart/form-data" style="max-width: 90rem;"> 
+          {% csrf_token %}
         <!-- company -->
         <div class="row">
-            <h5 class="mt-2">&nbsp;&nbsp;1 . Basic</h5>
-            <div class="col-sm-4">Company Name<span class="text-danger">*</span> : <input type="text" /></div>
-            <div class="col-sm-4">Company PhoneNumber<span class="text-danger">*</span> : <input type="text" /></div>
-            <div class="col-sm-4">Company Email<span class="text-danger">*</span> : <input type="text" /></div>
+            <h5 class="mt-2 text-primary">&nbsp;&nbsp;1 . Basic</h5>
+            <div class="col-sm-4">Company Name<span class="text-danger">*</span> : <input type="text" name="company_name" required/></div>
+            <div class="col-sm-4">Company PhoneNumber<span class="text-danger">*</span> : <input type="text" name="com_number" required/></div>
+            <div class="col-sm-4">Company Email<span class="text-danger">*</span> : <input type="text" name="com_email" required/></div>
         
-            <div class="col-sm-4">Tin No<span class="text-danger">*</span> : <input type="text" /></div>
-            <div class="col-sm-4">Address<span class="text-danger">*</span> : <input type="text" /></div>
-            <div class="col-sm-4">Pincode<span class="text-danger">*</span> : <input type="text" /></div>
+            <div class="col-sm-4">Tin No<span class="text-danger">*</span> : <input type="text" name="tin_num" required/></div>
+            <div class="col-sm-4">Address<span class="text-danger">*</span> : <input type="text" name="com_address" required/></div>
+            <div class="col-sm-4">Pincode<span class="text-danger">*</span> : <input type="text" name="com_pincode" required/></div>
         <hr>
-        <h5>&nbsp;&nbsp;2 . Bank Details</h5>
-            <div class="col-sm-4">Account holder name<span class="text-danger">*</span> : <input type="text" /></div>
-            <div class="col-sm-4">Account Number<span class="text-danger">*</span> : <input type="text" /></div>
-            <div class="col-sm-4">IFSC code<span class="text-danger">*</span> : <input type="text" /></div>
+        <h5 class="text-primary">&nbsp;&nbsp;2 . Bank Details</h5>
+            <div class="col-sm-4">Account holder name<span class="text-danger">*</span> : <input type="text" name="com_acc_name" required/></div>
+            <div class="col-sm-4">Account Number<span class="text-danger">*</span> : <input type="text" name="com_acc_number" required/></div>
+            <div class="col-sm-4">IFSC code<span class="text-danger">*</span> : <input type="text" name="com_ifsc_number" required/></div>
         
             <hr>
-        <h5 class="mb-3">&nbsp;3 . Upload Company Documents (pdf only)</h5>
-            <div class="col-sm-4 mb-4">Incorporation certificate<span class="text-danger">*</span> : <input type="file" /></div>
-            <div class="col-sm-4 mb-4">Articles of association<span class="text-danger">*</span> : <input type="file" /></div>
-            <div class="col-sm-4 mb-4">Company Pancard<span class="text-danger">*</span> : <input type="file" /></div>
+        <h5 class="mb-3 text-primary">&nbsp;3 . Upload Company Documents (pdf only)</h5>
+            <div class="col-sm-4 mb-4">Incorporation certificate<span class="text-danger">*</span> : <input type="file" name="in_corporate" required/></div>
+            <div class="col-sm-4 mb-4">Articles of association<span class="text-danger">*</span> : <input type="file" name="art_associate" required/></div>
+            <div class="col-sm-4 mb-4">Company Pancard<span class="text-danger">*</span> : <input type="file" name="com_pan" required/></div>
             <hr>
-            <h5 class="mb-3">&nbsp;4 . Details of directors</h5> 
-            <div class="col-sm-4">Name<span class="text-danger">*</span> : <input type="text" /></div>
-            <div class="col-sm-4">Postion<span class="text-danger">*</span> : <input type="text" /></div>
-            <div class="col-sm-4">Phone number<span class="text-danger">*</span> : <input type="text" /></div>
+            <h5 class="mb-3 text-primary">&nbsp;4 . Details of directors</h5> 
 
-            <div class="col-sm-4">Email<span class="text-danger">*</span> : <input type="text" /></div>
+            <p class="text-danger">{{msg_dir}}</p>
+
+            <div class="col-sm-4">Name<span class="text-danger">*</span> : <input type="text" name="com_dir_name" required/></div>
+            <div class="col-sm-4">Postion<span class="text-danger">*</span> : <input type="text" name="com_dir_postion" required/></div>
+            <div class="col-sm-4">Phone number<span class="text-danger">*</span> : <input type="text" name="com_dir_number" required/></div>
+
+            <div class="col-sm-4">Email<span class="text-danger">*</span> : <input type="text" name="com_dir_email" required/></div>
            
         <hr>
-            <h5 class="mb-3">&nbsp;5 . Details of Employee(optional)</h5> 
+        <h5 class="mb-3 text-primary">&nbsp;5 . Documents of Directors</h5>  
+        <div class="col-sm-4 mb-4">Image of Directors (jpg/jpeg)<span class="text-danger">*</span> : <input type="file" name="dir_image" required/></div>
+        <div class="col-sm-4 mb-4">Adhaar (pdf)<span class="text-danger">*</span> : <input type="file" name="dir_adhar" required/></div>
+        <div class="col-sm-4 mb-4">Pancard (pdf)<span class="text-danger">*</span> : <input type="file" name="dir_pan" required/></div>
+        <hr>
+
+            <h5 class="mb-3 text-primary">&nbsp;6 . Details of Employee(optional) <i class='bx bxs-plus-square text-light btn bg-success p-0' id="add_opt" style="font-size: 1.5rem;"></i></h5> 
+            <div class="row" id="emp_opt" style="display: none;">
             <div class="col-sm-4">Name : <input type="text" /></div>
             <div class="col-sm-4">Postion  : <input type="text" /></div>
             <div class="col-sm-4">Phone number  : <input type="text" /></div>
-            <div class="col-sm-4">Email : <input type="text" /></div>
+            <div class="col-sm-4">Email : <input type="text" /></div>        
+<hr>
+</div>
 
-            <h5 class="mb-3">&nbsp;5 . Documents of Directors</h5>  
-            <div class="col-sm-4 mb-4">Image of Directors (jpg/jpeg)<span class="text-danger">*</span> : <input type="file" /></div>
-            <div class="col-sm-4 mb-4">Adhaar (pdf)<span class="text-danger">*</span> : <input type="file" /></div>
-            <div class="col-sm-4 mb-4">Pancard (pdf)<span class="text-danger">*</span> : <input type="file" /></div>
-
-            <div class="mt-3"><center><button class="btn btn-success px-5" onclick="msg()">Submit</button></center></div>
+            <div class="mt-3"><center><button class="btn btn-success px-5 w-25" type="submit" >Submit</button></center></div>
            
         
         </div>
       
-
+</form>
         
       </div>
     </div>
@@ -262,6 +267,43 @@
   
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script><i class='bx bxs-minus-square'></i>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    window.onload = function() {
+      if ("{{ popup }}" === "True"){
+        Swal.fire({
+  title: "Successfully  Applyed",
+  text: "Sended the Mail User and Staff",
+  icon: "success",
+  confirmButtonText: 'OK',
+  customClass: {
+                        confirmButton: 'swal-button--confirm'
+                    }
+                }).then(() => {
+                    // Redirect to the home page when the user clicks "OK"
+                    window.location.href = "{% url 'index' %}";
+                });
+    }}
+</script>
+
+<script>
+  $(document).ready(function(){
+      $("#add_opt").click(function(){
+        $("#emp_opt").slideToggle(function(){
+          // Toggle icon and button style based on slideToggle complete event
+          if ($(this).is(":visible")) {
+            $("#add_opt").removeClass('bx bxs-plus-square').addClass('bx bxs-minus-square');
+            $("#add_opt").removeClass('bg-success').addClass('bg-warning');
+          } else {
+            $("#add_opt").removeClass('bx bxs-minus-square').addClass('bx bxs-plus-square');
+            $("#add_opt").removeClass('bg-warning').addClass('bg-success');
+          }
+        });
+      });
+    });
+  </script>
+
 <script>
   function msg(){
     Swal.fire({

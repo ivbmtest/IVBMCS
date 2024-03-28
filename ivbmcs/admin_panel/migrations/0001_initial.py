@@ -75,14 +75,14 @@ class Migration(migrations.Migration):
                 ('usrid', models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='Created By')),
             ],
         ),
-        migrations.CreateModel(
-            name='Agent',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('agent_id', models.TextField(default='')),
-                ('admin', models.OneToOneField(default=' ', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
+        # migrations.CreateModel(
+        #     name='Agent',
+        #     fields=[
+        #         ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+        #         ('agent_id', models.TextField(default='')),
+        #         ('admin', models.OneToOneField(default=' ', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+        #     ],
+        # ),
         migrations.CreateModel(
             name='cntry',
             fields=[

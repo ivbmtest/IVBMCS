@@ -291,11 +291,114 @@ def agent_password_reset(request):
     
 def agent_registration(request):
     if request.method == 'POST':
+        a=False
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        phone_number = request.POST.get('phone')
         user_photo = request.FILES.get('user_photo')
+        address = request.POST.get('address')
         adhaar = request.FILES.get('adhaar')
         pancard = request.FILES.get('pancard')
         gst = request.FILES.get('gst')
         license = request.FILES.get('license')
-        Individual.objects.create(agent_photo=user_photo,aadhar=adhaar,
-                                  pancard=pancard,gst_certificate=gst,liscence=license)
-        return redirect('age_details')
+
+        # Check if user with the given email already exists
+        existing_user = CustomUser.objects.filter(email=email).first()
+        if existing_user:
+            print('-------------existing user ----->>>')
+            # User already exists, handle accordingly (e.g., show error message)
+            return redirect('error_page')  # Redirect to an error page or handle appropriately
+
+        # Create a new user
+        user = CustomUser.objects.create_user(
+            email=email, password='', user_type=3, first_name=first_name,
+            last_name=last_name, profile_pic=user_photo, phone_number=phone_number)
+        user.gender = ''
+        user.address = address
+        user.updated_at = datetime.datetime.now()
+        user.save()
+
+        # Retrieve the associated Agent object
+        agent = Agent.objects.get(admin=user.id)
+        print('--------agent>>',agent)
+        print('--------agentid >>',agent.id)
+        # Check if agent exists
+        if agent is None:
+            # Handle the case where agent does not exist
+            # Redirect or show error message as needed
+            return redirect('error_page')  # Redirect to an error page or handle appropriately
+
+        # Create associated Individual entry
+        IndividualAgent.objects.create(individual_agent = agent,agent_photo=user_photo, aadhar=adhaar,
+                                  pancard=pancard, gst_certificate=gst, license=license)
+
+        # Redirect to a success page or next step
+        a=True
+        return render(request, 'Agent/age_details.html',{'popup':a})
+    else:
+        return render(request, 'agent_registration.html')
+    
+def company_registration(request):
+    if request.method == 'POST':
+        com_name = request.POST['company_name']
+        com_number = request.POST['com_number']
+        com_email = request.POST['com_email']
+        tin_num = request.POST['tin_num']
+        address = request.POST['com_address']
+        pin = request.POST['com_pincode']
+        com_acc_name = request.POST['com_acc_name']
+        com_acc_number = request.POST['com_acc_number']
+        com_ifsc_code = request.POST['com_ifsc_number']
+        
+        com_gst=request.FILES.get("com_gst")
+        in_corporate = request.FILES.get('in_corporate')
+        art_associate = request.FILES.get('art_associate')
+        com_pancard = request.FILES.get('com_pan')
+
+        com_dir_name = request.POST['com_dir_name']
+        com_dir_postion = request.POST['com_dir_postion']
+        com_dir_number = request.POST['com_dir_number']
+        com_dir_email = request.POST['com_dir_email']
+        
+        dir_image = request.FILES.get('dir_image')
+        dir_adhar = request.FILES.get('dir_adhar')
+        dir_pancard = request.FILES.get('dir_pan')
+        print("work")
+        a=False
+        if CustomUser.objects.filter(email=com_email).exists():
+            return render(request,'Agent/age_details.html',{'msg_com':'Company Email already exists'})
+            
+        elif CustomUser.objects.filter(phone_number=com_number).exists():
+            return render(request,'Agent/age_details.html',{'msg_com':'Company phone number already exists'})
+
+        elif com_directors.objects.filter(director_email=com_dir_email).exists():
+            return render(request,'Agent/age_details.html',{'msg_dir':'Company director Email already exists'})
+        
+        elif com_directors.objects.filter(director_phone_number=com_dir_number).exists():
+            return render(request,'Agent/age_details.html',{'msg_dir':'Company director phonenumber already exists'})
+        
+        else:
+            
+            new_comp = CustomUser.objects.create_user(email=com_email,phone_number=com_number,first_name=com_name,user_type=3)
+            new_comp.save()
+            print("new - comp",new_comp.agent.id)
+            age = Agent.objects.get(id=new_comp.agent.id)
+            print("age",age)
+            company_details = Company_details.objects.create(agents=age,tin_num=tin_num,com_address=address,pincode=pin,company_gst=com_gst,
+                                                     incorporation_certificate=in_corporate,article_of_association=art_associate,
+                                                      company_pancard=com_pancard)
+            company_details.save()
+           
+            
+            bank_acc = bank_accound_details.objects.create(company_name=new_comp,acc_holder_name=com_acc_name,acc_number=com_acc_number,
+                                                           ifsc_code=com_ifsc_code)
+            bank_acc.save()
+            com_dir = com_directors.objects.create(company=company_details, director_name=com_dir_name, director_postion=com_dir_postion,
+                                                    director_email=com_dir_email,director_phone_number=com_dir_number,director_img=dir_image,
+                                                    director_adhar=dir_adhar,director_pancard=dir_pancard)
+            com_dir.save()
+            # send notification
+            
+            a=True
+            return render(request, 'Agent/age_details.html',{'popup':a})

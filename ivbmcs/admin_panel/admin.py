@@ -13,6 +13,12 @@ admin.site.register(CustomUser,UserModel)
 admin.site.register(Staff)
 admin.site.register(Agent)
 admin.site.register(Users)
+admin.site.register(IndividualAgent)
+admin.site.register(Company_details)
+admin.site.register(bank_accound_details)
+admin.site.register(com_directors)
+
+
 admin.site.site_header = 'SuperAdmin Dashboard'
 admin.site.site_title = 'Admin'
 
